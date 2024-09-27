@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('discount');
             $table->integer('stock_quantity');
             $table->integer('category_id');
+            $table->integer('status');
             $table->timestamps();
         });
     }
