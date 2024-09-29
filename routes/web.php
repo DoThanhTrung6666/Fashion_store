@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\admin\thongkeController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +19,9 @@ Route::get('/', function () {
 });
 
 Route::get('/admin',[thongkeController::class,'index']);
+
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('banners', BannerController::class);
+});
+
