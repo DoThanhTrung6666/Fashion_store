@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\thongkeController;
+use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin',[thongkeController::class,'index']);
+Route::get('/admin', [thongkeController::class, 'index']);
+Route::resource('brands', BrandController::class);
