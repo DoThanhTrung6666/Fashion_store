@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->decimal('discount');
             $table->integer('stock_quantity');
+            $table->foreignIdFor(Brand::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
             $table->integer('status');
             $table->timestamps();
