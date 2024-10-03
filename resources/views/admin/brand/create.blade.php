@@ -40,6 +40,10 @@
                     <label for="exampleInputEmail1">Country</label>
                     <input type="text" class="form-control" placeholder="Nhập địa chỉ" name="country">
                   </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Website url</label>
+                    <input type="text" class="form-control" placeholder="Nhập địa chỉ url" name="website_url">
+                  </div>
                 </div>
                 <div class="box-footer">
                   <button type="submit" class="btn btn-primary">Thêm mới brand</button>

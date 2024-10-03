@@ -11,7 +11,7 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
     type="text/css" />
   <!-- Ionicons -->
-  {{-- <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" /> --}}
+  <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
   <!-- Morris chart -->
   <link href="{{asset('plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
   <!-- jvectormap -->
@@ -340,7 +340,7 @@
 {{-- kết thúc quản lí banner  --}}
 {{-- quản lí brand --}}
 <li class="treeview">
-    <a href="#">
+    <a href="{{route("brands.index")}}">
         <i class="nav-icon fas fa-image"></i>
     <span>Brand</span>
     <i class="fa fa-angle-left pull-right"></i>

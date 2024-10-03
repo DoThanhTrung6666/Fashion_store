@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -34,7 +35,9 @@ class BrandController extends Controller
             'logo' => 'required', // Chú ý sửa 'logobrand' thành 'logo'
             'description' => 'nullable|string', // Xác thực trường description
             'country' => 'nullable|string', // Xác thực trường address
+            'website_url' => 'required',
         ]);
+        $data['slug'] = Str::slug($data['name'], '-');
         $path_logo = $request->file('logo')->store('images');
         $data['logo'] = $path_logo;
         Brand::query()->create($data);
@@ -65,14 +68,16 @@ class BrandController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255', // Xác thực trường name
-            'logo' => 'required', // Chú ý sửa 'logobrand' thành 'logo'
+            'logo' => 'nullable|image', // Chú ý sửa 'logobrand' thành 'logo'
             'description' => 'nullable|string', // Xác thực trường description
             'country' => 'nullable|string', // Xác thực trường address
+            'website_url' => 'required',
         ]);
+        $data['slug'] = Str::slug($data['name'], '-');
         $data['logo'] = $brand->logo;
         if ($request->hasFile('logo')) {
-            if (file_exists('storage' . $brand->logo)) {
-                unlink('storage' . $brand->logo);
+            if (file_exists('storage/' . $brand->logo)) {
+                unlink('storage/' . $brand->logo);
             }
             $path_logo = $request->file('logo')->store('images');
             $data['logo'] = $path_logo;

@@ -4,7 +4,7 @@
 <div class="content-wrapper">
       <section class="content-header">
         <h1>
-          Sửa danh mục <a href="" class="btn btn-primary">Danh sách danh mục</a>
+          Sửa danh mục
         </h1>
       </section>
       <section class="content">
@@ -26,11 +26,15 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Description</label>
-                    <textarea class="form-control" rows="3" placeholder="Nhập nội dung..." name="description">{{$brand->name}}</textarea>
+                    <textarea class="form-control" rows="3" placeholder="Nhập nội dung..." name="description">{{$brand->description}}</textarea>
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Country</label>
                     <input type="text" class="form-control" placeholder="Nhập địa chỉ" name="country" value="{{$brand->country}}">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Website url</label>
+                    <input type="text" class="form-control" placeholder="Nhập địa chỉ url" name="website_url" value="{{$brand->website_url}}" >
                   </div>
                 </div>
                 <div class="box-footer">
