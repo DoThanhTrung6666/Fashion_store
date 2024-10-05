@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\thongkeController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,4 @@ Route::get('/', function () {
 });
 
 Route::get('/admin',[thongkeController::class,'index']);
+Route::resource('products', ProductController::class);
