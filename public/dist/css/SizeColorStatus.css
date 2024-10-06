@@ -1,0 +1,94 @@
+.color-options {
+    display: flex;
+    gap: 10px;
+}
+
+.color-radio {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.color-radio input:checked+.color-radio {
+    border: 2px solid black;
+}
+
+.color-radio:hover {
+    border: 2px solid gray;
+}
+
+.size-options {
+    display: flex;
+    gap: 10px;
+    /* Khoảng cách giữa các ô */
+}
+
+.size-option {
+    position: relative;
+    display: inline-block;
+}
+
+.size-option input[type="radio"] {
+    display: none;
+    /* Ẩn input radio */
+}
+
+.size-option span {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.size-option span:hover {
+    background-color: #f0f0f0;
+}
+
+.size-option input[type="radio"]:checked+span {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+
+/* trạng thái  */
+
+.status-options {
+    display: flex;
+    gap: 10px;
+}
+
+.status-option {
+    position: relative;
+}
+
+.status-option input[type="radio"] {
+    display: none;
+    /* Ẩn input radio */
+}
+
+.status-option span {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.status-option span:hover {
+    background-color: #f0f0f0;
+}
+
+.status-option input[type="radio"]:checked+span {
+    background-color: #28a745;
+    /* Màu cho trạng thái "Kích hoạt" */
+    color: white;
+    border-color: #28a745;
+}
