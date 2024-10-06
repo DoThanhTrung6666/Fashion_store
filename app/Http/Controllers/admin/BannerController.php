@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Storage;
 class BannerController extends Controller
 {
     public function index() {
-        $banners = Banner::all();
+
+        $banners = Banner::query()->latest('id')->paginate(10);
         return view('admin.banners.index', compact('banners'));
+       
     }
 
     public function create() {
@@ -18,54 +20,60 @@ class BannerController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        $data = $request->validate([
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'image_path' => 'required|max:255',  // Assuming it's a string representing the file path
+            'link' => 'nullable|url|max:255',
+            'position' => 'integer|min:0',
+            'start_date' => 'nullable|date|after_or_equal:today',  // Must be today or later
+            'end_date' => 'nullable|date|after:start_date',  // Must be after start date
+            'is_active' => 'boolean',
         ]);
 
-        $imagePath = $request->file('image')->store('banners', 'public');
+        $path_image = $request->file('image_path')->store('images');
+        $data['image_path'] = $path_image;
+        Banner::query()->create($data);
 
-        Banner::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image_path' => $imagePath,
-            'is_active' => $request->has('is_active'),
-        ]);
-
-        return redirect()->route('admin.banners.index')->with('success', 'Banner created successfully.');
+        return redirect()->route('banners.index')->with('success', 'Banner created successfully.');
     }
 
     public function edit(Banner $banner) {
-        return view('admin.banners.edit', compact('banner'));
+        return view('admin.banners.update', compact('banner'));
     }
 
     public function update(Request $request, Banner $banner) {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        $data = $request->validate([
+            'title' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            
+            'link' => 'nullable|url|max:255',
+            'position' => 'integer|min:0',
+            'start_date' => 'nullable|date|after_or_equal:today',  // Must be today or later
+            'end_date' => 'nullable|date|after:start_date',  // Must be after start date
+            'is_active' => 'boolean',
         ]);
 
-        if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($banner->image_path);
-            $imagePath = $request->file('image')->store('banners', 'public');
-        } else {
-            $imagePath = $banner->image_path;
+        $data['image_path'] = $banner->image_path;
+        if ($request->hasFile('image_path')) {
+            if (file_exists('storage/' . $banner->image_path)) {
+                unlink('storage/' . $banner->image_path);
+            }
+            $path_image = $request->file('image_path')->store('images');
+            $data['image_path'] = $path_image;
         }
+        $banner->update($data);
 
-        $banner->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image_path' => $imagePath,
-            'is_active' => $request->has('is_active'),
-        ]);
-
-        return redirect()->route('admin.banners.index')->with('success', 'Banner updated successfully.');
+        return redirect()->route('banners.index')->with('success', 'Banner updated successfully.');
     }
 
     public function destroy(Banner $banner) {
-        Storage::disk('public')->delete($banner->image_path);
+
+        if (file_exists('storage/' . $banner->image_path)) {
+            unlink('storage/' . $banner->image_path);
+        }
         $banner->delete();
 
-        return redirect()->route('admin.banners.index')->with('success', 'Banner deleted successfully.');
+        return redirect()->route('banners.index')->with('success', 'Banner deleted successfully.');
     }
 }

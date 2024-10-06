@@ -22,6 +22,7 @@ Route::get('/admin',[thongkeController::class,'index']);
 
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('banners', BannerController::class);
+    
 });
+Route::resource('banners', BannerController::class);
 

@@ -8,9 +8,13 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('banners', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Tiêu đề banner, cho phép rỗng
-            $table->text('description')->nullable(); // Mô tả banner, có thể không cần
-            $table->string('image_path'); // Đường dẫn hình ảnh
+            $table->string('title')->nullable();  // Tiêu đề banner, cho phép rỗng
+            $table->text('description')->nullable();  // Mô tả banner, có thể không cần
+            $table->string('image_path');  // Đường dẫn hình ảnh
+            $table->string('link')->nullable();  // Link banner sẽ điều hướng tới
+            $table->integer('position')->default(0);  // Vị trí hiển thị
+            $table->dateTime('start_date')->nullable();  // Ngày bắt đầu hiển thị
+            $table->dateTime('end_date')->nullable();  // Ngày kết thúc hiển thị
             $table->boolean('is_active')->default(true);  // Trạng thái hoạt động
             $table->timestamps();
         });
