@@ -31,6 +31,8 @@ class BannerController extends Controller
             'is_active' => 'boolean',
         ]);
 
+        $data['is_active'] = $request->has('is_active');
+
         $path_image = $request->file('image_path')->store('images');
         $data['image_path'] = $path_image;
         Banner::query()->create($data);
@@ -53,6 +55,8 @@ class BannerController extends Controller
             'end_date' => 'nullable|date|after:start_date',  // Must be after start date
             'is_active' => 'boolean',
         ]);
+
+        $data['is_active'] = $request->has('is_active');
 
         $data['image_path'] = $banner->image_path;
         if ($request->hasFile('image_path')) {
