@@ -13,7 +13,7 @@
     
     <section class="content-header">
         <h1>
-            Danh sách danh mục
+            Danh sách banner
         </h1>
     </section>
     <div class="mb-6">
