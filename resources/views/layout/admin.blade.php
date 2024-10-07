@@ -6,22 +6,25 @@
   <title>AdminLTE 2 | Dashboard</title>
   <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
   <!-- Bootstrap 3.3.2 -->
-  <link href="{{ asset('bootstrap/css/bootstrap.css')}}" rel="stylesheet" type="text/css" />
+
+  <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
   <!-- Font Awesome Icons -->
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
     type="text/css" />
   <!-- Ionicons -->
-  {{-- <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" /> --}}
+  <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
   <!-- Morris chart -->
-  <link href="{{ asset('plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
+
+  <link href="{{asset('plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
   <!-- jvectormap -->
-  <link href="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css" />
   <!-- Daterange picker -->
-  <link href="{{ asset('plugins/daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('plugins/daterangepicker/daterangepicker-bs3.css')}}" rel="stylesheet" type="text/css" />
   <!-- Theme style -->
-  <link href="{{ asset('dist/css/AdminLTE.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('dist/css/AdminLTE.min.css')}}" rel="stylesheet" type="text/css" />
   <link href="{{ asset('dist/css/SizeColorStatus.css')}}" rel="stylesheet" type="text/css" />
-  <link href="{{ asset('dist/css/skins/_all-skins.min.css')}}" rel="stylesheet" type="text/css" />
+  <link href="{{asset('dist/css/skins/_all-skins.min.css')}}" rel="stylesheet" type="text/css" />
+
   <!-- Font Awesome Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
@@ -333,8 +336,21 @@
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="views/admin/category/index"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="pages/forms/them_ban_tin.html"><i class="fa fa-circle-o"></i>Thêm </a></li>
+    <li><a href="{{route('banners.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route('banners.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+    </ul>
+</li>
+{{-- kết thúc quản lí banner  --}}
+{{-- quản lí sản phẩm --}}
+<li class="treeview">
+    <a href="#">
+        <i class="fas fa-box"></i>
+    <span>Product</span>
+    <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+    <li><a href="#"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="#"><i class="fa fa-circle-o"></i>Thêm </a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
@@ -351,6 +367,7 @@
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
+
 {{-- quản lí Size --}}
 <li class="treeview">
   <a href="{{route('sizes.index')}}">
@@ -377,6 +394,21 @@
   </ul>
 </li>
 {{-- kết thúc quản lí Size  --}}
+
+{{-- quản lí brand --}}
+<li class="treeview">
+    <a href="{{route("brands.index")}}">
+        <i class="nav-icon fas fa-image"></i>
+    <span>Brand</span>
+    <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+    <li><a href="{{route("brands.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route("brands.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
+    </ul>
+</li>
+{{-- kết thúc quản lí brand  --}}
+
           <li class="treeview">
             <a href="#">
               <i class="fa fa-group"></i>

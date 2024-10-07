@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Tên thương hiệu
-            $table->string('slug')->unique(); // Slug để tạo URL thân thiện, phải duy nhất
+            $table->string('slug')->unique()->nullable(); // Slug để tạo URL thân thiện, phải duy nhất
             $table->text('description')->nullable(); // Mô tả thương hiệu, cho phép giá trị null
             $table->string('logo')->nullable(); // Đường dẫn logo thương hiệu, cho phép null
             $table->tinyInteger('status')->default(1); // Trạng thái thương hiệu, 1: kích hoạt, 0: không kích hoạt
