@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\admin\ColorController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +23,6 @@ Route::get('/', function () {
 
 Route::get('/admin',[thongkeController::class,'index']);
 Route::resource('products', ProductController::class);
+Route::resource('sizes', SizeController::class);
+Route::resource('colors', ColorController::class);
+
