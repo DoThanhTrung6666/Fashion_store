@@ -1,5 +1,6 @@
 @extends('layout.admin')
 @section('content')
+<div class="content-wrapper">
     <section class="content-header">
         <h1>
             Danh sách brand
@@ -46,4 +47,5 @@
             </div>
         </div>
     </section>
+</div>
 @endsection

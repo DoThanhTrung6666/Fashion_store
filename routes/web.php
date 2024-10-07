@@ -1,5 +1,12 @@
 <?php
 
+
+use App\Http\Controllers\admin\ColorController;
+
+use App\Http\Controllers\Admin\BannerController;
+
+use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +26,13 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::resource('banners', BannerController::class);
 Route::get('/admin', [thongkeController::class, 'index']);
+Route::resource('products', ProductController::class);
+
+Route::resource('sizes', SizeController::class);
+Route::resource('colors', ColorController::class);
+
 Route::resource('brands', BrandController::class);
 Route::resource('categories', CategoryController::class);
 Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
