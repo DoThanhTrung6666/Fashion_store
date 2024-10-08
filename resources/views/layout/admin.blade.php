@@ -323,8 +323,8 @@
             <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-            <li><a href="views/admin/category/index"> <i class="nav-icon fas fa-circle fa-xs"></i>Danh sách</a></li>
-            <li><a href="pages/forms/them_ban_tin.html"><i class="nav-icon far fa-circle"></i>Thêm tin tức</a></li>
+              <li><a href="{{route("categories.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route("categories.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
             </ul>
         </li>
 {{-- kết thúc category  --}}
@@ -367,6 +367,34 @@
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
+
+{{-- quản lí Size --}}
+<li class="treeview">
+  <a href="{{route('sizes.index')}}">
+      <i class="fas fa-box"></i>
+  <span>Size</span>
+  <i class="fa fa-angle-left pull-right"></i>
+  </a>
+  <ul class="treeview-menu">
+  <li><a href="{{route('sizes.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+  <li><a href="{{route('sizes.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+  </ul>
+</li>
+{{-- kết thúc quản lí Size  --}}
+{{-- quản lí Color --}}
+<li class="treeview">
+  <a href="{{route('colors.index')}}">
+      <i class="fas fa-box"></i>
+  <span>Color</span>
+  <i class="fa fa-angle-left pull-right"></i>
+  </a>
+  <ul class="treeview-menu">
+  <li><a href="{{route('colors.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+  <li><a href="{{route('colors.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+  </ul>
+</li>
+{{-- kết thúc quản lí Size  --}}
+
 {{-- quản lí brand --}}
 <li class="treeview">
     <a href="{{route("brands.index")}}">
@@ -380,6 +408,7 @@
     </ul>
 </li>
 {{-- kết thúc quản lí brand  --}}
+
           <li class="treeview">
             <a href="#">
               <i class="fa fa-group"></i>

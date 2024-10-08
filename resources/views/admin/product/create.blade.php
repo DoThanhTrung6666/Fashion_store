@@ -85,7 +85,7 @@
                                 <label for="variant[0][color_id]">Màu sắc</label>
                                 <div class="color-options">
                                     @foreach($colors as $color)
-                                        <label class="color-radio" style="background-color: {{ $color->name }};">
+                                        <label class="color-radio" style="background-color: {{$color->name}};">
                                             <input type="radio" name="variant[0][color_id]" value="{{ $color->id }}" style="display: none;">
                                         </label>
                                     @endforeach
