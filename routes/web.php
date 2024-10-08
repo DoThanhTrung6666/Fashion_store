@@ -10,6 +10,7 @@ use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,5 +34,6 @@ Route::resource('sizes', SizeController::class);
 Route::resource('colors', ColorController::class);
 
 Route::resource('brands', BrandController::class);
-
-
+Route::resource('categories', CategoryController::class);
+Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
