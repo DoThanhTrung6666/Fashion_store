@@ -92,3 +92,32 @@
     color: white;
     border-color: #28a745;
 }
+
+
+/* trang chi tiết */
+
+.color-options {
+    display: flex;
+    gap: 10px;
+}
+
+.color-radio {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    /* Đường viền cho ô màu */
+    cursor: pointer;
+    transition: border 0.3s ease;
+}
+
+.color-radio:hover {
+    border-color: #333;
+    /* Đổi màu đường viền khi hover */
+}
+
+.color-radio input[type="radio"]:checked+label {
+    border-color: #000;
+    /* Đổi màu đường viền khi được chọn */
+}
