@@ -11,6 +11,8 @@ use App\Http\Controllers\admin\thongkeController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\client\DetailController;
+use App\Http\Controllers\client\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,8 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// bên admin
 Route::resource('banners', BannerController::class);
 Route::get('/admin', [thongkeController::class, 'index']);
 Route::resource('products', ProductController::class);
@@ -37,3 +41,7 @@ Route::resource('brands', BrandController::class);
 Route::resource('categories', CategoryController::class);
 Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
 Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
+// bên client
+Route::get('/home',[HomeController::class,'getProductHome'])->name('home');
+Route::get('detail/{id}',[DetailController::class,'show'])->name('detail.show');
