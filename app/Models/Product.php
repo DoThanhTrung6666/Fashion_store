@@ -14,4 +14,8 @@ class Product extends Model
     {
         return $this->hasMany(ProductVariant::class);
     }
+
+    public function categoryHome(){
+        return $this->belongsTo(Category::class);
+    }
 }
