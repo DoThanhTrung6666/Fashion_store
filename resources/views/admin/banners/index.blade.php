@@ -10,7 +10,7 @@
     @endif
 
 
-    
+
     <section class="content-header">
         <h1>
             Danh sách banner
@@ -20,16 +20,16 @@
         <a href="{{ route('banners.create') }}" class="btn btn-primary">Create New Banner</a>
     </div>
     <section class="content">
-       
+
         <div class="row container-fluid">
             <div class="col-md-11">
                 <div class="box box-primary">
-                   
-                   
+
+
 
                     <table class="table">
                         <tr>
-                            
+
                             <th scope="col" class="col-3">Title</th>
                             <th scope="col" class="col-4">Description</th>
                             <th scope="col" class="col-2">Image</th>
@@ -47,8 +47,8 @@
                             <td>{{ $banner->position }}</td>
                             <td>{{ $banner->is_active ? 'Yes' : 'No' }}</td>
                             <td>
-                                <a href="{{ route('banners.edit', $banner->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('banners.destroy', $banner->id) }}" method="POST" style="display:inline-block;">
+                                <a href="{{ route('admin.banners.edit', $banner->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('admin.banners.destroy', $banner->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('ban co chac muon xoa khong?')">Delete</button>
@@ -61,5 +61,5 @@
             </div>
         </div>
     </section>
-    
+
 @endsection

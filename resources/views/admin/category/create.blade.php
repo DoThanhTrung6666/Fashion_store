@@ -11,7 +11,7 @@
         <div class="row container-fluid">
             <div class="col-md-11">
                 <div class="box box-primary">
-                    <form action="{{ route('categories.store') }}" method="POST">
+                    <form action="{{ route('admin.categories.store') }}" method="POST">
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
