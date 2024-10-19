@@ -11,7 +11,7 @@
         <div class="row container-fluid">
           <div class="col-md-11">
             <div class="box box-primary">
-              <form role="form" method="post" action="{{route('admin.brands.update', $brand)}}" enctype="multipart/form-data">
+              <form role="form" method="post" action="{{route('brands.update', $brand)}}" enctype="multipart/form-data">
               @csrf
               @method('PUT')
                 <div class="box-body">

@@ -199,28 +199,11 @@
 										<i class="lni lni-search-alt"></i>
 									</a>
 								</li>
-                                @if(empty(Auth::check()))
-                                <li>
-									<a href="{{ route('login')}}">
+								<li>
+									<a href="#" data-toggle="modal" data-target="#login">
 										<i class="lni lni-user"></i>
 									</a>
 								</li>
-                                @else
-                                <li><a href="#">Hello - {{Auth::user()->name}}</a>
-									<ul class="nav-dropdown nav-submenu">
-                                        @if(Auth::user()->role_id==1)
-										<li><a href="{{route('admin.')}}">Vào trang quản trị</a></li>
-                                        <li><a href="index.html">Sửa tài khoản</a></li>
-                                        <li><a href="index.html">Đăng xuất</a></li>
-                                        <li><a href="index.html">Đơn hàng</a></li>
-                                        @else
-                                        <li><a href="index.html">Sửa tài khoản</a></li>
-                                        <li><a href="index.html">Đăng xuất</a></li>
-                                        <li><a href="index.html">Đơn hàng</a></li>
-                                        @endif
-									</ul>
-								</li>
-                                @endif
 								<li>
 									<a href="#" onclick="openWishlist()">
 										<i class="lni lni-heart"></i><span class="dn-counter">2</span>
