@@ -88,7 +88,7 @@ class ProductController extends Controller
                 'stock_quantity' => $variant['stock_quantity'],
             ]);
         }
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
+        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
 
     /**

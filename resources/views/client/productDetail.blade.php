@@ -24,6 +24,8 @@
 <!-- ======================= Top Breadcrubms ======================== -->
 
 <!-- ======================= Product Detail ======================== -->
+<form action="{{route('cart.add')}}" method="POST">
+    @csrf
 <section class="middle">
     <div class="container">
         <div class="row">
@@ -66,7 +68,9 @@
                     <div class="prt_04 mb-4">
                         <p class="d-flex align-items-center mb-1">Category:<strong class="fs-sm text-dark ft-medium ml-1">Salwar Suit, Women's</strong></p>
                         <p class="d-flex align-items-center mb-0">SKU:<strong class="fs-sm text-dark ft-medium ml-1">KUMO42568</strong></p>
+
                     </div>
+
 {{-- dành cho size và color  --}}
 <div class="product-options">
     <!-- Chọn màu sắc -->
@@ -100,7 +104,7 @@
 
 
 </div>
-
+<input type="hidden" name="product_variant_id" id="product_variant_id">
 {{-- dành cho size và color  --}}
                     <div class="prt_05 mb-4">
                         <div class="form-row mb-7">
@@ -146,9 +150,12 @@
 
                 </div>
             </div>
+
         </div>
     </div>
+
 </section>
+</form>
 <!-- ======================= Product Detail End ======================== -->
 
 <!-- ======================= Product Description ======================= -->
@@ -563,4 +570,32 @@
     </div>
 </section>
 <!-- ======================= Similar Products Start ============================ -->
+<script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const colorRadios = document.querySelectorAll('input[name="variant[0][color_id]"]');
+    const sizeRadios = document.querySelectorAll('input[name="variant[0][size_id]"]');
+
+    colorRadios.forEach((colorRadio) => {
+        colorRadio.addEventListener('change', updateProductVariantId);
+    });
+
+    sizeRadios.forEach((sizeRadio) => {
+        sizeRadio.addEventListener('change', updateProductVariantId);
+    });
+
+    function updateProductVariantId() {
+        const selectedColorId = document.querySelector('input[name="variant[0][color_id]"]:checked')?.value;
+        const selectedSizeId = document.querySelector('input[name="variant[0][size_id]"]:checked')?.value;
+
+        if (selectedColorId && selectedSizeId) {
+            const variants = @json($detail->variants);
+            const variant = variants.find(v => v.color_id == selectedColorId && v.size_id == selectedSizeId);
+            document.getElementById('product_variant_id').value = variant ? variant.id : '';
+        }
+    }
+});
+</script>
+</script>
 @endsection
+
