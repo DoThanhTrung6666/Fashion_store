@@ -63,5 +63,6 @@ Route::get('register', [AuthenticationController::class, 'showFormRegister'])->n
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
+Route::get('/danhmucsp', [AuthenticationController::class, 'danhmucsp'])->name('danhmucsp');
 
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');

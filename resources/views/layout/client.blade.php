@@ -160,7 +160,7 @@
 												<li><a href="complete-order.html">Order Complete</a></li>
 											</ul>
 										</li>
-										<li><a href="shop-style-1.html">Shop Style 01</a></li>
+										<li><a href="{{ route('danhmucsp') }}">Shop Style 01</a></li>
 										<li><a href="shop-style-2.html">Shop Style 02</a></li>
 										<li><a href="shop-style-3.html">Shop Style 03</a></li>
 										<li><a href="shop-style-4.html">Shop Style 04</a></li>
