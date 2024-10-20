@@ -17,6 +17,27 @@ class BrandController extends Controller
         return view('admin.brand.index', compact('brands'));
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $brand = Brand::findOrFail($id);
+
+        // Xác thực giá trị status
+        $data = $request->validate([
+            'status' => 'required|in:1,2',
+        ]);
+
+        // Cập nhật trạng thái
+        $brand->status = $data['status'];
+        $brand->save();
+
+        // Chuyển hướng sau khi cập nhật thành công
+        return redirect()->route('admin.brands.index')->with('success', 'Cập nhật trạng thái thành công!');
+    }
+
+
+
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -38,10 +59,11 @@ class BrandController extends Controller
             'website_url' => 'required',
         ]);
         $data['slug'] = Str::slug($data['name'], '-');
+        $data['status'] = 1;
         $path_logo = $request->file('logo')->store('images');
         $data['logo'] = $path_logo;
         Brand::query()->create($data);
-        return redirect()->route('brands.index');
+        return redirect()->route('admin.brands.index');
         // dd($request->all());
     }
 
@@ -83,7 +105,7 @@ class BrandController extends Controller
             $data['logo'] = $path_logo;
         }
         $brand->update($data);
-        return redirect()->route('brands.index');
+        return redirect()->route('admin.brands.index');
     }
 
     /**
@@ -99,6 +121,6 @@ class BrandController extends Controller
         // Xóa bản ghi Brand
         $brand->delete();
 
-        return redirect()->route('brands.index');
+        return redirect()->route('admin.brands.index');
     }
 }
