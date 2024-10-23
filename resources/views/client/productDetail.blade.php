@@ -78,9 +78,12 @@
     <div class="form-group">
         <label for="color">Màu sắc</label>
         <div class="color-options">
-            @foreach($detail->variants as $color)
-                <label class="color-radio" style="background-color:{{ $color->color->name }};">
-                    <input type="radio" name="variant[0][color_id]" value="{{ $color->color->id }}" style="display: none;">
+            @foreach($groupByColor as $colorName=>$variants)
+                <label class="color-radio" style="background-color:{{ $colorName }};">
+                    {{-- @foreach($variants as $variant)
+                        <input type="radio" name="variant[0][color_id]" value="{{ $variant->color->id }}" style="display: none;">
+                    @endforeach --}}
+                    <input type="radio" name="color_id" value="{{ $variants->first()->color->id }}" />
                 </label>
             @endforeach
         </div>
@@ -93,15 +96,18 @@
     <div class="form-group">
         <label for="size">Kích thước</label>
         <div class="size-options">
-            @foreach($detail->variants as $size)
+            @foreach($groupBySize as $sizeName=>$variants)
                 <label class="size-option">
-                    <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}">
-                    <span>{{ $size->size->name }}</span>
+
+                    <input type="radio" name="size_id" value="{{ $variants->first()->size->id }}" />
+                    {{-- <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}"> --}}
+                    <span>{{ $sizeName }}</span>
                 </label>
             @endforeach
         </div>
     </div>
-
+{{-- thêm product_id để so sánh  --}}
+    <input type="hidden" name="product_id" value="{{ $detail->id }}">
 
 </div>
 <input type="hidden" name="product_variant_id" id="product_variant_id">
