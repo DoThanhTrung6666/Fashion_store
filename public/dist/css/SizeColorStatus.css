@@ -245,3 +245,30 @@
     border-radius: 12px;
     overflow: hidden;
 }
+
+.quantity-input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+    appearance: none;
+    /* Để ẩn các mũi tên mặc định của input number */
+}
+
+
+/* Tùy chọn để thêm mũi tên tùy chỉnh (nếu cần) */
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input:focus {
+    border-color: #007bff;
+    /* Thêm màu nổi bật khi focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}

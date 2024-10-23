@@ -127,18 +127,9 @@
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
 
-								<li><a href="#">Home</a>
+								<li><a href="{{route('home')}}">Home</a>
 									<ul class="nav-dropdown nav-submenu">
 										<li><a href="index.html">Home 1</a></li>
-										<li><a href="home-2.html">Home 2</a></li>
-										<li><a href="home-3.html">Home 3</a></li>
-										<li><a href="home-4.html">Home 4</a></li>
-										<li><a href="home-5.html">Home 5</a></li>
-										<li><a href="home-6.html">Home 6</a></li>
-										<li><a href="home-7.html">Home 7</a></li>
-										<li><a href="home-8.html">Home 8</a></li>
-										<li><a href="home-9.html">Home 9</a></li>
-										<li><a href="home-10.html">Home 10</a></li>
 									</ul>
 								</li>
 
@@ -227,7 +218,7 @@
 									</a>
 								</li>
 								<li>
-									<a href="#" onclick="openCart()">
+									<a href="{{route('cart.load')}}" onclick="openCart()">
 										<i class="lni lni-shopping-basket"></i><span class="dn-counter theme-bg">3</span>
 									</a>
 								</li>

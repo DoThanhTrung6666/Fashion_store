@@ -14,4 +14,12 @@ class CartItem extends Model
         'quantity',
         // Các thuộc tính khác của giỏ hàng
     ];
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
+    public function productVariant()
+    {
+        return $this->belongsTo(ProductVariant::class); // Giả sử bạn có model ProductVariant
+    }
 }
