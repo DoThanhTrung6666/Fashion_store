@@ -66,13 +66,16 @@
 									<form action="{{ route('danhmucsp') }}" method="GET">
 										<select class="custom-select simple" name="sort_by" onchange="this.form.submit()">
 											<option value="1" {{ request('sort_by') == 1 ? 'selected' : '' }}>Default Sorting</option>
-											<option value="2" {{ request('sort_by') == 2 ? 'selected' : '' }}>Sort by price: Low price</option>
-											<option value="3" {{ request('sort_by') == 3 ? 'selected' : '' }}>Sort by price: High price</option>
-											{{-- <option value="4" {{ request('sort_by') == 4 ? 'selected' : '' }}>Sort by rating</option>
-											<option value="5" {{ request('sort_by') == 5 ? 'selected' : '' }}>Sort by trending</option> --}}
+											<option value="2" {{ request('sort_by') == 2 ? 'selected' : '' }}>Low price</option>
+											<option value="3" {{ request('sort_by') == 3 ? 'selected' : '' }}>High price</option>
+											<option value="price_below_100" {{ request('sort_by') == 'price_below_100' ? 'selected' : '' }}>Dưới 100.000 VNĐ</option>
+											<option value="price_100_500" {{ request('sort_by') == 'price_100_500' ? 'selected' : '' }}>100.000 - 500.000 VNĐ</option>
+											<option value="price_500_1000" {{ request('sort_by') == 'price_500_1000' ? 'selected' : '' }}>500.000 - 1.000.000 VNĐ</option>
+											<option value="price_above_1000" {{ request('sort_by') == 'price_above_1000' ? 'selected' : '' }}>Trên 1.000.000 VNĐ</option>
 										</select>
 									</form>
 								</div>
+
 								<div class="single_fitres">
 									<a href="shop-style-4.html" class="simple-button mr-1"><i class="ti-layout-grid3"></i></a>
 									<a href="shop-grid-3.html" class="simple-button mr-1"><i class="ti-layout-grid2"></i></a>
