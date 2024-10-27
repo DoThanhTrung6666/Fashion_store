@@ -21,7 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'phone',
+        'address',
+        'city',
+        'zip_code'
     ];
 
     /**
@@ -49,4 +53,14 @@ class User extends Authenticatable
     public function isUser(){
         return $this->role_id == 2;
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function getNameRole()
+    {
+        return $this->role->name ?? 'No Role Assigned';
+    }
+
 }
