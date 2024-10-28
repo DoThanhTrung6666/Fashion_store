@@ -43,7 +43,7 @@ class AuthenticationController extends Controller
     // }
     public function danhmucsp(Request $request)
     {
-        // Lấy sản phẩm từ DB, bạn có thể thêm các điều kiện lọc ở đây nếu cần
+        // Lấy sản phẩm từ DB
         $query = Product::query();
 
         // Kiểm tra xem có điều kiện lọc theo giá hay không
@@ -55,12 +55,18 @@ class AuthenticationController extends Controller
                 case 3:
                     $query->orderBy('price', 'desc'); // Sắp xếp theo giá cao đến thấp
                     break;
-                    // case 4:
-                    //     $query->orderBy('rating', 'desc'); // Sắp xếp theo đánh giá
-                    //     break;
-                    // case 5:
-                    //     $query->orderBy('trending', 'desc'); // Sắp xếp theo độ phổ biến
-                    //     break;
+                case 'price_below_100':
+                    $query->where('price', '<', 100000); // Lọc giá dưới 100.000 VNĐ
+                    break;
+                case 'price_100_500':
+                    $query->whereBetween('price', [100000, 500000]); // Lọc giá từ 100.000 đến 500.000 VNĐ
+                    break;
+                case 'price_500_1000':
+                    $query->whereBetween('price', [500000, 1000000]); // Lọc giá từ 500.000 đến 1.000.000 VNĐ
+                    break;
+                case 'price_above_1000':
+                    $query->where('price', '>', 1000000); // Lọc giá trên 1.000.000 VNĐ
+                    break;
                 default:
                     $query->latest(); // Mặc định sắp xếp mới nhất
                     break;
