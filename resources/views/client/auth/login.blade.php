@@ -38,7 +38,7 @@
 
                     <div class="forgot">
                         <a href="#">Quên mật khẩu?</a>
-                        <a href="#">Đăng ký tài khoản</a>
+                        <a href="{{route('register')}}">Đăng ký tài khoản</a>
                     </div>
                 </form>
 
