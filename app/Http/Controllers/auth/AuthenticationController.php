@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
@@ -77,5 +78,17 @@ class AuthenticationController extends Controller
         $products = $query->paginate(12); // Giả sử mỗi trang có 12 sản phẩm
 
         return view('client.danhmucsp', compact('products')); // Truyền dữ liệu sản phẩm vào view
+    }
+
+    public function showFormRegister(){
+        return view('client.auth.register');
+    }
+    public function register(Request $request){
+        User::create([
+            'name' => $request->name,
+            'email' =>$request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        return view('client.auth.login');
     }
 }
