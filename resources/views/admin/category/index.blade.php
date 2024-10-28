@@ -28,8 +28,8 @@
                                 <td>{{$cate->updated_at}}</td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <a href="{{route('categories.edit', $cate)}}" class="btn btn-success">Edit</a>
-                                        <form action="{{route('categories.destroy', $cate)}}" method="post">
+                                        <a href="{{route('admin.categories.edit', $cate)}}" class="btn btn-success">Edit</a>
+                                        <form action="{{route('admin.categories.destroy', $cate)}}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" onclick="return confirm('Bạn muốn xóa không?')" class="btn btn-danger">Delete</button>

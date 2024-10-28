@@ -127,18 +127,9 @@
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
 
-								<li><a href="#">Home</a>
+								<li><a href="{{route('home')}}">Home</a>
 									<ul class="nav-dropdown nav-submenu">
 										<li><a href="index.html">Home 1</a></li>
-										<li><a href="home-2.html">Home 2</a></li>
-										<li><a href="home-3.html">Home 3</a></li>
-										<li><a href="home-4.html">Home 4</a></li>
-										<li><a href="home-5.html">Home 5</a></li>
-										<li><a href="home-6.html">Home 6</a></li>
-										<li><a href="home-7.html">Home 7</a></li>
-										<li><a href="home-8.html">Home 8</a></li>
-										<li><a href="home-9.html">Home 9</a></li>
-										<li><a href="home-10.html">Home 10</a></li>
 									</ul>
 								</li>
 
@@ -160,7 +151,7 @@
 												<li><a href="complete-order.html">Order Complete</a></li>
 											</ul>
 										</li>
-										<li><a href="shop-style-1.html">Shop Style 01</a></li>
+										<li><a href="{{ route('danhmucsp') }}">Shop Style 01</a></li>
 										<li><a href="shop-style-2.html">Shop Style 02</a></li>
 										<li><a href="shop-style-3.html">Shop Style 03</a></li>
 										<li><a href="shop-style-4.html">Shop Style 04</a></li>
@@ -199,18 +190,35 @@
 										<i class="lni lni-search-alt"></i>
 									</a>
 								</li>
-								<li>
-									<a href="#" data-toggle="modal" data-target="#login">
+                                @if(empty(Auth::check()))
+                                <li>
+									<a href="{{ route('login')}}">
 										<i class="lni lni-user"></i>
 									</a>
 								</li>
+                                @else
+                                <li><a href="#">Hello - {{Auth::user()->name}}</a>
+									<ul class="nav-dropdown nav-submenu">
+                                        @if(Auth::user()->role_id==1)
+										<li><a href="{{route('admin.')}}">Vào trang quản trị</a></li>
+                                        <li><a href="index.html">Sửa tài khoản</a></li>
+                                        <li><a href="index.html">Đăng xuất</a></li>
+                                        <li><a href="index.html">Đơn hàng</a></li>
+                                        @else
+                                        <li><a href="index.html">Sửa tài khoản</a></li>
+                                        <li><a href="index.html">Đăng xuất</a></li>
+                                        <li><a href="index.html">Đơn hàng</a></li>
+                                        @endif
+									</ul>
+								</li>
+                                @endif
 								<li>
 									<a href="#" onclick="openWishlist()">
 										<i class="lni lni-heart"></i><span class="dn-counter">2</span>
 									</a>
 								</li>
 								<li>
-									<a href="#" onclick="openCart()">
+									<a href="{{route('cart.load')}}" onclick="openCart()">
 										<i class="lni lni-shopping-basket"></i><span class="dn-counter theme-bg">3</span>
 									</a>
 								</li>

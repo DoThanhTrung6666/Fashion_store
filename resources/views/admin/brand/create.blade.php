@@ -1,6 +1,7 @@
 @extends('layout.admin')
 
 @section('content')
+
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
@@ -13,6 +14,7 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+
                 </div>
             @endif
 
@@ -21,7 +23,7 @@
             <div class="row container-fluid">
                 <div class="col-md-11">
                     <div class="box box-primary">
-                        <form role="form" method="post" action="{{ route('brands.store') }}" enctype="multipart/form-data">
+                        <form role="form" method="post" action="{{ route('admin.brands.store') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="box-body">
                                 <div class="form-group">
@@ -53,7 +55,15 @@
                     </div>
                 </div>
             </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
         </section>
     </div>
     </div>
+
 @endsection

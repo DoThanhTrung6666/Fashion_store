@@ -33,33 +33,39 @@ Route::get('/', function () {
 
 // bên admin
 Route::prefix('admin')
-->as('admin.')
-->group(function(){
-    Route::get('/', [thongkeController::class, 'index']);
-    Route::resource('banners', BannerController::class);
-    // Route::get('/admin', [thongkeController::class, 'index']);
-    Route::resource('products', ProductController::class);
 
-    Route::resource('sizes', SizeController::class);
-    Route::resource('colors', ColorController::class);
+    ->as('admin.')
+    ->group(function () {
+        Route::get('/', [thongkeController::class, 'index']);
+        Route::resource('banners', BannerController::class);
+        // Route::get('/admin', [thongkeController::class, 'index']);
+        Route::resource('products', ProductController::class);
 
-    Route::resource('brands', BrandController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-})->middleware(['auth','admin']);
+        Route::resource('sizes', SizeController::class);
+        Route::resource('colors', ColorController::class);
+
+        Route::resource('brands', BrandController::class);
+        Route::put('brands/{brand}/update-status', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
+
+        Route::resource('categories', CategoryController::class);
+        Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    })->middleware(['auth', 'admin']);
 
 
 // bên client
-Route::get('/home',[HomeController::class,'getProductHome'])->name('home');
-Route::get('detail/{id}',[DetailController::class,'show'])->name('detail.show');
+Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
+Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
 
 
-Route::get('login',[AuthenticationController::class,'showFormLogin'])->name('login');
-Route::post('login',[AuthenticationController::class,'login']);
-Route::get('register',[AuthenticationController::class,'showFormRegister'])->name('register');
-Route::post('register',[AuthenticationController::class,'register']);
-Route::post('logout',[AuthenticationController::class,'logout'])->name('logout');
+Route::get('login', [AuthenticationController::class, 'showFormLogin'])->name('login');
+Route::post('login', [AuthenticationController::class, 'login']);
+Route::get('register', [AuthenticationController::class, 'showFormRegister'])->name('register');
+Route::post('register', [AuthenticationController::class, 'register']);
+Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
+Route::get('/danhmucsp', [AuthenticationController::class, 'danhmucsp'])->name('danhmucsp');
 
-Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart',[CartController::class,'index'])->name('cart.load');
+Route::delete('cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');

@@ -24,6 +24,8 @@
 <!-- ======================= Top Breadcrubms ======================== -->
 
 <!-- ======================= Product Detail ======================== -->
+<form action="{{route('cart.add')}}" method="POST">
+    @csrf
 <section class="middle">
     <div class="container">
         <div class="row">
@@ -66,7 +68,9 @@
                     <div class="prt_04 mb-4">
                         <p class="d-flex align-items-center mb-1">Category:<strong class="fs-sm text-dark ft-medium ml-1">Salwar Suit, Women's</strong></p>
                         <p class="d-flex align-items-center mb-0">SKU:<strong class="fs-sm text-dark ft-medium ml-1">KUMO42568</strong></p>
+
                     </div>
+
 {{-- dành cho size và color  --}}
 <div class="product-options">
     <!-- Chọn màu sắc -->
@@ -74,9 +78,12 @@
     <div class="form-group">
         <label for="color">Màu sắc</label>
         <div class="color-options">
-            @foreach($detail->variants as $color)
-                <label class="color-radio" style="background-color:{{ $color->color->name }};">
-                    <input type="radio" name="variant[0][color_id]" value="{{ $color->color->id }}" style="display: none;">
+            @foreach($groupByColor as $colorName=>$variants)
+                <label class="color-radio" style="background-color:{{ $colorName }};">
+                    {{-- @foreach($variants as $variant)
+                        <input type="radio" name="variant[0][color_id]" value="{{ $variant->color->id }}" style="display: none;">
+                    @endforeach --}}
+                    <input type="radio" name="color_id" value="{{ $variants->first()->color->id }}" />
                 </label>
             @endforeach
         </div>
@@ -89,18 +96,21 @@
     <div class="form-group">
         <label for="size">Kích thước</label>
         <div class="size-options">
-            @foreach($detail->variants as $size)
+            @foreach($groupBySize as $sizeName=>$variants)
                 <label class="size-option">
-                    <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}">
-                    <span>{{ $size->size->name }}</span>
+
+                    <input type="radio" name="size_id" value="{{ $variants->first()->size->id }}" />
+                    {{-- <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}"> --}}
+                    <span>{{ $sizeName }}</span>
                 </label>
             @endforeach
         </div>
     </div>
-
+{{-- thêm product_id để so sánh  --}}
+    <input type="hidden" name="product_id" value="{{ $detail->id }}">
 
 </div>
-
+<input type="hidden" name="product_variant_id" id="product_variant_id">
 {{-- dành cho size và color  --}}
                     <div class="prt_05 mb-4">
                         <div class="form-row mb-7">
@@ -146,9 +156,12 @@
 
                 </div>
             </div>
+
         </div>
     </div>
+
 </section>
+</form>
 <!-- ======================= Product Detail End ======================== -->
 
 <!-- ======================= Product Description ======================= -->
@@ -563,4 +576,32 @@
     </div>
 </section>
 <!-- ======================= Similar Products Start ============================ -->
+<script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const colorRadios = document.querySelectorAll('input[name="variant[0][color_id]"]');
+    const sizeRadios = document.querySelectorAll('input[name="variant[0][size_id]"]');
+
+    colorRadios.forEach((colorRadio) => {
+        colorRadio.addEventListener('change', updateProductVariantId);
+    });
+
+    sizeRadios.forEach((sizeRadio) => {
+        sizeRadio.addEventListener('change', updateProductVariantId);
+    });
+
+    function updateProductVariantId() {
+        const selectedColorId = document.querySelector('input[name="variant[0][color_id]"]:checked')?.value;
+        const selectedSizeId = document.querySelector('input[name="variant[0][size_id]"]:checked')?.value;
+
+        if (selectedColorId && selectedSizeId) {
+            const variants = @json($detail->variants);
+            const variant = variants.find(v => v.color_id == selectedColorId && v.size_id == selectedSizeId);
+            document.getElementById('product_variant_id').value = variant ? variant.id : '';
+        }
+    }
+});
+</script>
+</script>
 @endsection
+
