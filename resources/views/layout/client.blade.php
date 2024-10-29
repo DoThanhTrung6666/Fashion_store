@@ -218,7 +218,8 @@
 									</a>
 								</li>
 								<li>
-									<a href="{{route('cart.load')}}" onclick="openCart()">
+                                    {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
+									<a href="{{route('cart.load')}}">
 										<i class="lni lni-shopping-basket"></i><span class="dn-counter theme-bg">3</span>
 									</a>
 								</li>
@@ -228,7 +229,7 @@
 				</div>
 			</div>
 			<!-- End Navigation -->
-			<div class="clearfix"></div>
+			{{-- <div class="clearfix"></div> --}}
 			<!-- ============================================================== -->
 			<!-- Top header  -->
 			<!-- ============================================================== -->

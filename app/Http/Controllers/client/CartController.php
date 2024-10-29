@@ -19,11 +19,21 @@ class CartController extends Controller
                     ->where('status', 1)
                     ->with('cartItems.productVariant.product') // Eager load để lấy thông tin sản phẩm
                     ->first();
-        $totalPrice = $cart->cartItems->sum(function ($item) {
-            return $item->quantity * $item->productVariant->price;
-        });
 
-        return view('client.cart', compact('cart','totalPrice'));
+                    // if (!$cart) {
+                    //     return redirect()->back()->with('error', 'Giỏ hàng không tồn tại.');
+                    // }
+                    // else{
+                    if($cart){
+                        $totalPrice = $cart->cartItems->sum(function ($item) {
+                            return $item->quantity * $item->productVariant->price;
+                        });
+                        return view('client.cart', compact('cart','totalPrice'));
+
+                    }else{
+                        return view('client.cart', compact('cart'));
+                    }
+
 
     }
     public function addToCart(Request $request)
