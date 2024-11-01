@@ -12,10 +12,11 @@ class Order extends Model
     
     protected $fillable = [
         'user_id',
-        'payment',
+       'payment',
         'order_date',
         'status',
         'total_amount',
+
     ];
 
     
@@ -27,4 +28,5 @@ class Order extends Model
     // {
     //     return $this->status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán';
     // }
+
 }
