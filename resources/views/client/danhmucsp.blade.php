@@ -129,47 +129,22 @@
 										
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-											<div class="single_filter_title mb-2"><h6 class="mb-0 fs-sm ft-medium text-muted">Choose Colors</h6></div>
-											<div class="text-left">
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="whitea8">
-													<label class="form-option-label rounded-circle" for="whitea8"><span class="form-option-color rounded-circle blc7"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="bluea8">
-													<label class="form-option-label rounded-circle" for="bluea8"><span class="form-option-color rounded-circle blc2"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="yellowa8">
-													<label class="form-option-label rounded-circle" for="yellowa8"><span class="form-option-color rounded-circle blc5"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="pinka8">
-													<label class="form-option-label rounded-circle" for="pink8"><span class="form-option-color rounded-circle blc3"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="ared">
-													<label class="form-option-label rounded-circle" for="red"><span class="form-option-color rounded-circle blc4"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="agreen">
-													<label class="form-option-label rounded-circle" for="agreen"><span class="form-option-color rounded-circle blc6"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="askypet">
-													<label class="form-option-label rounded-circle" for="askypet"><span class="form-option-color rounded-circle blc9"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="aphilips">
-													<label class="form-option-label rounded-circle" for="aphilips"><span class="form-option-color rounded-circle blc8"></span></label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-1">
-													<input class="form-check-input" type="radio" name="colora8" id="aelio">
-													<label class="form-option-label rounded-circle" for="aelio"><span class="form-option-color rounded-circle blc1"></span></label>
-												</div>
+											<div class="single_filter_title mb-2">
+												<h6 class="mb-0 fs-sm ft-medium text-muted">Choose Colors</h6>
 											</div>
-										</div>
-										
+											<form method="GET" action="{{ route('danhmucsp') }}">
+											<div class="text-left">
+												@foreach ($colors as $color)
+													<div class="form-check form-option form-check-inline mb-1">
+														<input class="form-check-input" type="radio" name="color" id="color{{ $color->id }}" value="{{ $color->id }}" {{ request('color') == $color->id ? 'checked' : '' }} onchange="this.form.submit()">
+														<label class="form-option-label rounded-circle" for="color{{ $color->id }}">
+															<span class="form-option-color rounded-circle" style="background-color: {{ $color->name }};"></span>
+														</label>
+													</div>
+												@endforeach
+											</div>
+											</form>
+										</div>		
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 											<div class="single_filter_title mb-2"><h6 class="mb-0 fs-sm ft-medium text-muted">Filter By Price</h6></div>

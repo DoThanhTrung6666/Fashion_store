@@ -3,19 +3,30 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Color;
 use App\Models\ProductVariant;
-use App\Models\Size; // Nhớ import model Size
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
     public function danhmucsp(Request $request)
     {
+        // Lấy sản phẩm từ DB với eager loading để lấy thông tin sản phẩm
+        $query = ProductVariant::with('product');
+
+        // Lấy tất cả các màu
+        $colors = Color::all();
+
+        // Lọc theo màu sắc
+        if ($request->has('color')) {
+            $query->where('color_id', $request->input('color'));
+        }
+
         // Lấy tất cả các kích thước
         $sizes = Size::all();
 
-        // Lấy sản phẩm từ DB với eager loading để lấy thông tin sản phẩm
-        $query = ProductVariant::with('product');
+
 
         // Lọc theo kích thước nếu được chọn
         if ($request->has('size')) {
@@ -59,6 +70,6 @@ class FilterController extends Controller
             return $product;
         })->values();
 
-        return view('client.danhmucsp', compact('products', 'sizes')); // Truyền dữ liệu sản phẩm và kích thước vào view
+        return view('client.danhmucsp', compact('products', 'sizes', 'colors')); // Truyền dữ liệu sản phẩm và kích thước vào view
     }
 }
