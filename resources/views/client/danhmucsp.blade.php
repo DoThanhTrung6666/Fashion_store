@@ -35,28 +35,6 @@
 								</ol>
 							</nav>
 						</div>
-						
-						{{-- <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
-							<div class="filter_wraps elspo_wrap d-flex align-items-center justify-content-end">
-								<div class="single_fitres elspo_filter mr-2 br-right">
-									<a href="#filterBox" class="simple-button px-2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="filterBox"><i class="lni lni-text-align-right mr-2"></i><span class="hide_mob">Filters</span></a>
-								</div>
-								<div class="single_fitres mr-2 br-right">
-									<select class="custom-select simple">
-									  <option value="1" selected="">Default Sorting</option>
-									  <option value="2">Sort by price: Low price</option>
-									  <option value="3">Sort by price: Hight price</option>
-									  <option value="4">Sort by rating</option>
-									  <option value="5">Sort by trending</option>
-									</select>
-								</div>
-								<div class="single_fitres">
-									<a href="shop-style-4.html" class="simple-button mr-1"><i class="ti-layout-grid3"></i></a>
-									<a href="shop-grid-3.html" class="simple-button mr-1"><i class="ti-layout-grid2"></i></a>
-									<a href="shop-list-view.html" class="simple-button active"><i class="ti-view-list"></i></a>
-								</div>
-							</div>
-						</div> --}}
 						<div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
 							<div class="filter_wraps elspo_wrap d-flex align-items-center justify-content-end">
 								<div class="single_fitres elspo_filter mr-2 br-right">
@@ -131,47 +109,23 @@
 										</div>
 										
 										<!-- Choose Category -->
-										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-											<div class="single_filter_title mb-2"><h6 class="mb-0 fs-sm ft-medium text-muted">Choose Size</h6></div>
-											<div class="text-left pb-0 pt-2">
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="size" id="a26">
-													<label class="form-option-label" for="a26">26</label>
+										<!-- Choose Size -->
+										
+											<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+												<div class="single_filter_title mb-2">
+													<h6 class="mb-0 fs-sm ft-medium text-muted">Choose Size</h6>
 												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="size" id="a28">
-													<label class="form-option-label" for="a28">28</label>
+												<form method="GET" action="{{ route('danhmucsp') }}">
+												<div class="text-left pb-0 pt-2 d-flex flex-wrap">
+													@foreach ($sizes as $size)
+														<div class="form-check form-option form-check-inline mb-2">
+															<input class="form-check-input" type="radio" name="size" id="size{{ $size->id }}" value="{{ $size->id }}" {{ request('size') == $size->id ? 'checked' : '' }} onchange="this.form.submit()">
+															<label class="form-option-label" for="size{{ $size->id }}">{{ $size->name }}</label>
+														</div>
+													@endforeach
 												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a30" checked>
-													<label class="form-option-label" for="a30">30</label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a32">
-													<label class="form-option-label" for="a32">32</label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a34">
-													<label class="form-option-label" for="a34">34</label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a36">
-													<label class="form-option-label" for="a36">36</label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a38">
-													<label class="form-option-label" for="a38">38</label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a40">
-													<label class="form-option-label" for="a40">40</label>
-												</div>
-												<div class="form-check form-option form-check-inline mb-2">
-													<input class="form-check-input" type="radio" name="sizes" id="a42">
-													<label class="form-option-label" for="a42">42</label>
-												</div>
+												</form>
 											</div>
-										</div>
 										
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
@@ -245,28 +199,7 @@
 					<div class="row align-items-center rows-products">
 					
 						<!-- Single -->
-						{{-- <div class="col-xl-3 col-lg-4 col-md-6 col-6">
-							<div class="product_grid card b-0">
-								<div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-								<button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button> 
-								<div class="card-body p-0">
-									<div class="shop_thumb position-relative">
-										<a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/1.jpg" alt="..."></a>
-										<div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-											<div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-										</div>
-									</div>
-								</div>
-								<div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
-									<div class="text-left">
-										<div class="text-center">
-											<h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Half Running Set</a></h5>
-											<div class="elis_rty"><span class="ft-bold fs-md text-dark">$119.00</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div> --}}
+						
 						{{-- <div class="row align-items-center rows-products">
 							@foreach ($products as $product)
 							<div class="col-xl-3 col-lg-4 col-md-6 col-6">
@@ -275,7 +208,7 @@
 									<button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
 									<div class="card-body p-0">
 										<div class="shop_thumb position-relative">
-											<a class="card-img-top d-block overflow-hidden" href=""><img class="card-img-top" src="{{ asset('storage/' . $product->image) }}" alt="..."></a>
+											<a class="card-img-top d-block overflow-hidden" href=""><img class="card-img-top" src="{{ asset('storage/' . $product->product->image) }}" alt="..."></a>
 											<div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
 												<div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
 											</div>
@@ -284,8 +217,12 @@
 									<div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
 										<div class="text-left">
 											<div class="text-center">
-												<h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="">{{ $product->name }}</a></h5>
-												<div class="elis_rty"><span class="ft-bold fs-md text-dark">${{ number_format($product->price, 2) }}</span></div>
+												<h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="">{{ $product->product->name ?? 'Product Name' }}</a></h5>
+												<div class="elis_rty">
+													<span class="ft-bold fs-md text-dark">
+														${{ number_format($product->min_price, 2) }} - ${{ number_format($product->max_price, 2) }}
+													</span>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -323,6 +260,7 @@
 							</div>
 							@endforeach
 						</div>
+
 
 					</div>
 					<!-- Phân trang -->

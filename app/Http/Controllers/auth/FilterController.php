@@ -4,14 +4,23 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductVariant;
+use App\Models\Size; // Nhớ import model Size
 use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
     public function danhmucsp(Request $request)
     {
-        // Lấy sản phẩm từ DB
-        $query = ProductVariant::query();
+        // Lấy tất cả các kích thước
+        $sizes = Size::all();
+
+        // Lấy sản phẩm từ DB với eager loading để lấy thông tin sản phẩm
+        $query = ProductVariant::with('product');
+
+        // Lọc theo kích thước nếu được chọn
+        if ($request->has('size')) {
+            $query->where('size_id', $request->input('size')); // Giả sử bạn đã có cột size_id trong bảng ProductVariant
+        }
 
         // Kiểm tra xem có điều kiện lọc theo giá hay không
         if ($request->has('sort_by')) {
@@ -50,9 +59,6 @@ class FilterController extends Controller
             return $product;
         })->values();
 
-        // // Lấy sản phẩm với pagination
-        // $products = $query->paginate(12); // Giả sử mỗi trang có 12 sản phẩm
-
-        return view('client.danhmucsp', compact('products')); // Truyền dữ liệu sản phẩm vào view
+        return view('client.danhmucsp', compact('products', 'sizes')); // Truyền dữ liệu sản phẩm và kích thước vào view
     }
 }
