@@ -144,7 +144,14 @@
 <!-- ======================= Products Lists ======================== -->
 <section class="space min pt-0">
     <div class="container">
-
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="sec_title position-relative text-center">
+                    <h2 class="off_title">Tất cả sản phẩm</h2>
+                    <h3 class="ft-bold pt-3">Tất cả sản phẩm</h3>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 
@@ -174,7 +181,7 @@
                                         <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div>
                                         <div class="card-body p-0">
                                             <div class="shop_thumb position-relative">
-                                                <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
+                                                <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $value->id) }}"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
                                                 <div class="product-left-hover-overlay">
                                                     <ul class="left-over-buttons">
                                                         <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li>
@@ -196,7 +203,7 @@
                                                         <span class="small">(5 Reviews)</span>
                                                     </div>
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$value->name}}</a></h5>
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">$99 - $129</span></div>
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->discount}}vnđ - {{$value->price}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
