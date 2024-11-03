@@ -18,7 +18,7 @@ use App\Http\Controllers\client\CheckoutController;
 use App\Http\Controllers\client\DetailController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
-
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ Route::get('/', function () {
 
 // bên admin
 Route::prefix('admin')
-    ->middleware(['auth', 'admin'])
+    // ->middleware(['auth', 'admin'])
     ->as('admin.')
     ->group(function () {
         Route::get('/', [thongkeController::class, 'index']);
@@ -54,6 +54,10 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class);
         Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
+        Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
+        Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
+        Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
     });
 
 
