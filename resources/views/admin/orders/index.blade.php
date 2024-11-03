@@ -15,7 +15,8 @@
                 <div class="box box-primary">
 
                     <h3>Orders Pending Confirmation</h3>
-                    <table class="table">
+
+                    <table>
                         <thead>
                             <tr>
                                 <th>Order ID</th>
@@ -25,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($pendingOrders as $order)
+                            @foreach( $pendingOrders as $order)
                                 <tr>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->total_amount }}</td>
@@ -33,93 +34,57 @@
                                     <td>
                                         <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
                                             @csrf
-                                            <input type="hidden" name="status" value="Đã xác nhận">
-                                            <button type="submit">Confirm</button>
+                                            <div>
+                                                <label>
+                                                    <input type="radio" name="status" value="Chờ xác nhận" onclick="disableOtherOptions(this)" {{ $order->status === 'Chờ xác nhận' ? 'checked disabled' : '' }}>
+                                                    Chờ xác nhận
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" value="Đã xác nhận" onclick="disableOtherOptions(this)" {{ $order->status === 'Đã xác nhận' ? 'checked disabled' : '' }}>
+                                                    Đã xác nhận
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" value="Chờ giao hàng" onclick="disableOtherOptions(this)" {{ $order->status === 'Chờ giao hàng' ? 'checked disabled' : '' }}>
+                                                    Chờ giao hàng
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" value="Đã giao hàng" onclick="disableOtherOptions(this)" {{ $order->status === 'Đã giao hàng' ? 'checked disabled' : '' }}>
+                                                    Đã giao hàng
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="status" value="Hủy đơn hàng" onclick="disableOtherOptions(this)" {{ $order->status === 'Hủy đơn hàng' ? 'checked disabled' : '' }}>
+                                                    Hủy đơn hàng
+                                                </label>
+                                            </div>
+                                            <button type="submit">Update Status</button>
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                
-                    <h3>Confirmed Orders</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($confirmedOrders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="Chờ giao hàng">
-                                            <button type="submit">Ready for Shipping</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                
-                    <h3>Orders Ready for Shipping</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($shippingOrders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="Đã giao hàng">
-                                            <button type="submit">Mark as Delivered</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                
-                    <h3>Delivered Orders</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($deliveredOrders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->status }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                  
+ 
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+
+<script>
+    function disableOtherOptions(selectedRadio) {
+        // Get all radio buttons in the current form
+        const form = selectedRadio.closest('form');
+        const radios = form.querySelectorAll('input[type="radio"]');
+
+        // Disable all other radio buttons
+        radios.forEach(radio => {
+            if (radio !== selectedRadio) {
+                radio.disabled = true;
+            }
+        });
+    }
+</script>
 @endsection

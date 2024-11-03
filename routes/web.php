@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\admin\AdOrderController;
 use App\Http\Controllers\admin\ColorController;
 
 use App\Http\Controllers\Admin\BannerController;
@@ -74,8 +74,8 @@ Route::get('/cart',[CartController::class,'index'])->name('cart.load');
 Route::delete('cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
 
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
+Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
