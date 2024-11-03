@@ -16,10 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone',255);
-            $table->string('address',255);
-            $table->string('city',255);
-            $table->string('zip_code',255);
+            $table->string('phone',255)->nullable();
+            $table->string('address',255)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignIdFor(Role::class)->constrained();
