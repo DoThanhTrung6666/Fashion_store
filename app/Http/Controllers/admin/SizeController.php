@@ -32,13 +32,13 @@ class SizeController extends Controller
         ]);
 
         Size::create($request->all());
-        return redirect()->route('sizes.index')->with('success', 'Size created successfully.');
+        return redirect()->route('admin.sizes.index')->with('success', 'Size created successfully.');
     }
 
     // Hiển thị form chỉnh sửa size
     public function edit(Size $size)
     {
-        return view('sizes.edit', compact('size'));
+        return view('admin.sizes.edit', compact('size'));
     }
 
     // Cập nhật size
@@ -49,13 +49,13 @@ class SizeController extends Controller
         ]);
 
         $size->update($request->all());
-        return redirect()->route('sizes.index')->with('success', 'Size updated successfully.');
+        return redirect()->route('admin.sizes.index')->with('success', 'Size updated successfully.');
     }
 
     // Xóa size
     public function destroy(Size $size)
     {
         $size->delete();
-        return redirect()->route('sizes.index')->with('success', 'Size deleted successfully.');
+        return redirect()->route('admin.sizes.index')->with('success', 'Size deleted successfully.');
     }
 }
