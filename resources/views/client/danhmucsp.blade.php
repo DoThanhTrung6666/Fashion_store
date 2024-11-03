@@ -1,6 +1,6 @@
 @extends('layout.client')
 @section('content')
-			
+
 			<!-- ======================= Shop Style 1 ======================== -->
 			<section class="bg-cover" style="background:url(assets/img/cover-1.jpg) no-repeat;">
 				<div class="container">
@@ -20,8 +20,8 @@
 				</div>
 			</section>
 			<!-- ======================= Shop Style 1 ======================== -->
-			
-			
+
+
 			<!-- ======================= Filter Wrap Style 1 ======================== -->
 			<section class="py-2 br-bottom br-top">
 				<div class="container">
@@ -31,7 +31,7 @@
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="#">Home</a></li>
 									<li class="breadcrumb-item"><a href="#">Shop</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Women's</li>
+									<li class="breadcrumb-item active" aria-current="page">All product</li>
 								</ol>
 							</nav>
 						</div>
@@ -62,18 +62,18 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="row align-items-center justify-content-center">
 						<div class="col-xl-12 col-lg-12 col-md-12">
 							<div class="collapse" id="filterBox">
 								<div class="card py-3 b-0">
 									<div class="row">
-										
+
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 											<div class="single_filter_title mb-2"><h6 class="mb-0 fs-sm ft-medium text-muted">Choose Categories</h6></div>
 											<div class="single_filter_card mb-2">
-												<h5><a href="#mens" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Men's<i class="accordion-indicator ti-angle-down"></i></a></h5>
+												<h5><a href="#mens" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Áo nam<i class="accordion-indicator ti-angle-down"></i></a></h5>
 												<div class="collapse" id="mens" data-parent="#mens-categories">
 													<div class="card-body">
 														<div class="inner_widget_link">
@@ -90,7 +90,7 @@
 												</div>
 											</div>
 											<div class="single_filter_card">
-												<h5><a href="#womens" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Women's<i class="accordion-indicator ti-angle-down"></i></a></h5>
+												<h5><a href="#womens" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Quần nam<i class="accordion-indicator ti-angle-down"></i></a></h5>
 												<div class="collapse" id="womens" data-parent="#womens-categories">
 													<div class="card-body">
 														<div class="inner_widget_link">
@@ -107,10 +107,10 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<!-- Choose Category -->
 										<!-- Choose Size -->
-										
+
 											<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 												<div class="single_filter_title mb-2">
 													<h6 class="mb-0 fs-sm ft-medium text-muted">Choose Size</h6>
@@ -126,7 +126,7 @@
 												</div>
 												</form>
 											</div>
-										
+
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 											<div class="single_filter_title mb-2">
@@ -144,37 +144,37 @@
 												@endforeach
 											</div>
 											</form>
-										</div>		
+										</div>
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 											<div class="single_filter_title mb-2"><h6 class="mb-0 fs-sm ft-medium text-muted">Filter By Price</h6></div>
 											<div class="side-list mb-2">
 												<div class="rg-slider">
 													 <input type="text" class="js-range-slider" name="my_range" value="" />
-												</div>		
+												</div>
 											</div>
 										</div>
-										
+
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</section>
 			<!-- ============================= Filter Wrap ============================== -->
-			
-			
+
+
 			<!-- ======================= All Product List ======================== -->
 			<section class="middle">
 				<div class="container">
-				
+
 					<!-- row -->
 					<div class="row align-items-center rows-products">
-					
+
 						<!-- Single -->
-						
+
 						{{-- <div class="row align-items-center rows-products">
 							@foreach ($products as $product)
 							<div class="col-xl-3 col-lg-4 col-md-6 col-6">
@@ -245,22 +245,22 @@
 						{{ $products->links() }}
 					</div> --}}
 					<!-- row -->
-					
+
 					<div class="row">
 						<div class="col-xl-12 col-lg-12 col-md-12 text-center">
 							<a href="#" class="btn stretched-link borders m-auto"><i class="lni lni-reload mr-2"></i>Load More</a>
 						</div>
 					</div>
-					
+
 				</div>
 			</section>
 			<!-- ======================= All Product List ======================== -->
-			
+
 			<!-- ======================= Customer Features ======================== -->
 			<section class="px-0 py-3 br-top">
 				<div class="container">
 					<div class="row">
-						
+
 						<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 							<div class="d-flex align-items-center justify-content-start py-2">
 								<div class="d_ico">
@@ -272,7 +272,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 							<div class="d-flex align-items-center justify-content-start py-2">
 								<div class="d_ico">
@@ -284,7 +284,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 							<div class="d-flex align-items-center justify-content-start py-2">
 								<div class="d_ico">
@@ -296,7 +296,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
 							<div class="d-flex align-items-center justify-content-start py-2">
 								<div class="d_ico">
@@ -308,12 +308,12 @@
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 			</section>
 			<!-- ======================= Customer Features ======================== -->
-			
+
 			<!-- Product View Modal -->
 			<div class="modal fade lg-modal" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickviewmodal" aria-hidden="true">
 				<div class="modal-dialog modal-xl login-pop-form" role="document">
@@ -323,10 +323,10 @@
 							  <span class="ti-close"></span>
 							</button>
 						  </div>
-					
+
 						<div class="modal-body">
 							<div class="quick_view_wrap">
-					
+
 								<div class="quick_view_thmb">
 									<div class="quick_view_slide">
 										<div class="single_view_slide"><img src="assets/img/product/1.jpg" class="img-fluid" alt="" /></div>
@@ -335,10 +335,10 @@
 										<div class="single_view_slide"><img src="assets/img/product/4.jpg" class="img-fluid" alt="" /></div>
 									</div>
 								</div>
-								
+
 								<div class="quick_view_capt">
 									<div class="prd_details">
-										
+
 										<div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">Dresses</span></div>
 										<div class="prt_02 mb-2">
 											<h2 class="ft-bold mb-1">Women Striped Shirt Dress</h2>
@@ -354,11 +354,11 @@
 												<div class="elis_rty"><span class="ft-medium text-muted line-through fs-md mr-2">$199</span><span class="ft-bold theme-cl fs-lg mr-2">$110</span><span class="ft-regular text-danger bg-light-danger py-1 px-2 fs-sm">Out of Stock</span></div>
 											</div>
 										</div>
-										
+
 										<div class="prt_03 mb-3">
 											<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.</p>
 										</div>
-										
+
 										<div class="prt_04 mb-2">
 											<p class="d-flex align-items-center mb-0 text-dark ft-medium">Color:</p>
 											<div class="text-left">
@@ -388,7 +388,7 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<div class="prt_04 mb-4">
 											<p class="d-flex align-items-center mb-0 text-dark ft-medium">Size:</p>
 											<div class="text-left pb-0 pt-2">
@@ -422,7 +422,7 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<div class="prt_05 mb-4">
 											<div class="form-row mb-7">
 												<div class="col-12 col-lg-auto">
@@ -438,7 +438,7 @@
 												<div class="col-12 col-lg">
 													<!-- Submit -->
 													<button type="submit" class="btn btn-block custom-height bg-dark mb-2">
-														<i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
+														<i class="lni lni-shopping-basket mr-2"></i>Add to Cart
 													</button>
 												</div>
 												<div class="col-12 col-lg-auto">
@@ -449,7 +449,7 @@
 												</div>
 										  </div>
 										</div>
-										
+
 										<div class="prt_06">
 											<p class="mb-0 d-flex align-items-center">
 											  <span class="mr-4">Share:</span>
@@ -464,7 +464,7 @@
 											  </a>
 											</p>
 										</div>
-										
+
 									</div>
 								</div>
 							</div>
@@ -473,7 +473,7 @@
 				</div>
 			</div>
 			<!-- End Modal -->
-			
+
 			<!-- Log In Modal -->
 			<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginmodal" aria-hidden="true">
 				<div class="modal-dialog modal-xl login-pop-form" role="document">
@@ -483,39 +483,39 @@
 							  <span class="ti-close"></span>
 							</button>
 						  </div>
-					
+
 						<div class="modal-body p-5">
 							<div class="text-center mb-4">
 								<h2 class="m-0 ft-regular">Login</h2>
 							</div>
-							
-							<form>				
+
+							<form>
 								<div class="form-group">
 									<label>User Name</label>
 									<input type="text" class="form-control" placeholder="Username*">
 								</div>
-								
+
 								<div class="form-group">
 									<label>Password</label>
 									<input type="password" class="form-control" placeholder="Password*">
 								</div>
-								
+
 								<div class="form-group">
 									<div class="d-flex align-items-center justify-content-between">
 										<div class="flex-1">
 											<input id="dd" class="checkbox-custom" name="dd" type="checkbox">
 											<label for="dd" class="checkbox-custom-label">Remember Me</label>
-										</div>	
+										</div>
 										<div class="eltio_k2">
 											<a href="#">Lost Your Password?</a>
-										</div>	
+										</div>
 									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">Login</button>
 								</div>
-								
+
 								<div class="form-group text-center mb-0">
 									<p class="extra">Not a member?<a href="#et-register-wrap" class="text-dark"> Register</a></p>
 								</div>
@@ -525,7 +525,7 @@
 				</div>
 			</div>
 			<!-- End Modal -->
-			
+
 			<!-- Search -->
 			<div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Search">
 				<div class="rightMenu-scroll">
@@ -533,13 +533,13 @@
 						<h4 class="cart_heading fs-md ft-medium mb-0">Search Products</h4>
 						<button onclick="closeSearch()" class="close_slide"><i class="ti-close"></i></button>
 					</div>
-						
+
 					<div class="cart_action px-3 py-4">
 						<form class="form m-0 p-0">
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="Product Keyword.." />
 							</div>
-							
+
 							<div class="form-group">
 								<select class="custom-select">
 								  <option value="1" selected="">Choose Category</option>
@@ -549,17 +549,17 @@
 								  <option value="5">Inner Wear</option>
 								</select>
 							</div>
-							
+
 							<div class="form-group mb-0">
 								<button type="button" class="btn d-block full-width btn-dark">Search Product</button>
 							</div>
 						</form>
 					</div>
-					
+
 					<div class="d-flex align-items-center justify-content-center br-top br-bottom py-2 px-3">
 						<h4 class="cart_heading fs-md mb-0">Hot Categories</h4>
 					</div>
-						
+
 					<div class="cart_action px-3 py-3">
 						<div class="row">
 							<div class="col-xl-4 col-lg-4 col-md-4 col-4 mb-3">
@@ -600,10 +600,10 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
-			
+
 			<!-- Wishlist -->
 			<div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Wishlist">
 				<div class="rightMenu-scroll">
@@ -612,7 +612,7 @@
 						<button onclick="closeWishlist()" class="close_slide"><i class="ti-close"></i></button>
 					</div>
 					<div class="right-ch-sideBar">
-						
+
 						<div class="cart_select_items py-2">
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
@@ -628,7 +628,7 @@
 								</div>
 								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
 							</div>
-							
+
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
 								<div class="cart_single d-flex align-items-center">
@@ -643,7 +643,7 @@
 								</div>
 								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
 							</div>
-							
+
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between px-3 py-3">
 								<div class="cart_single d-flex align-items-center">
@@ -658,14 +658,14 @@
 								</div>
 								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
 							</div>
-							
+
 						</div>
-						
+
 						<div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
 							<h6 class="mb-0">Subtotal</h6>
 							<h3 class="mb-0 ft-medium">$417</h3>
 						</div>
-						
+
 						<div class="cart_action px-3 py-3">
 							<div class="form-group">
 								<button type="button" class="btn d-block full-width btn-dark">Move To Cart</button>
@@ -674,11 +674,11 @@
 								<button type="button" class="btn d-block full-width btn-dark-light">Edit or View</button>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
-			
+
 			<!-- Cart -->
 			<div class="w3-ch-sideBar w3-bar-block w3-card-2 w3-animate-right" style="display:none;right:0;" id="Cart">
 				<div class="rightMenu-scroll">
@@ -687,7 +687,7 @@
 						<button onclick="closeCart()" class="close_slide"><i class="ti-close"></i></button>
 					</div>
 					<div class="right-ch-sideBar">
-						
+
 						<div class="cart_select_items py-2">
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
@@ -703,7 +703,7 @@
 								</div>
 								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
 							</div>
-							
+
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
 								<div class="cart_single d-flex align-items-center">
@@ -718,7 +718,7 @@
 								</div>
 								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
 							</div>
-							
+
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between px-3 py-3">
 								<div class="cart_single d-flex align-items-center">
@@ -733,14 +733,14 @@
 								</div>
 								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
 							</div>
-							
+
 						</div>
-						
+
 						<div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
 							<h6 class="mb-0">Subtotal</h6>
 							<h3 class="mb-0 ft-medium">$1023</h3>
 						</div>
-						
+
 						<div class="cart_action px-3 py-3">
 							<div class="form-group">
 								<button type="button" class="btn d-block full-width btn-dark">Checkout Now</button>
@@ -749,13 +749,13 @@
 								<button type="button" class="btn d-block full-width btn-dark-light">Edit or View</button>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
-			
+
 			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
-			
+
 
 		</div>
 		<!-- ============================================================== -->
@@ -771,14 +771,14 @@
 		<script src="assets/js/ion.rangeSlider.min.js"></script>
 		<script src="assets/js/slick.js"></script>
 		<script src="assets/js/slider-bg.js"></script>
-		<script src="assets/js/lightbox.js"></script> 
+		<script src="assets/js/lightbox.js"></script>
 		<script src="assets/js/smoothproducts.js"></script>
 		<script src="assets/js/snackbar.min.js"></script>
 		<script src="assets/js/jQuery.style.switcher.js"></script>
 		<script src="assets/js/custom.js"></script>
 		<!-- ============================================================== -->
 		<!-- This page plugins -->
-		<!-- ============================================================== -->	
+		<!-- ============================================================== -->
 
 		<script>
 			function openWishlist() {
@@ -788,7 +788,7 @@
 				document.getElementById("Wishlist").style.display = "none";
 			}
 		</script>
-		
+
 		<script>
 			function openCart() {
 				document.getElementById("Cart").style.display = "block";
@@ -805,6 +805,6 @@
 			function closeSearch() {
 				document.getElementById("Search").style.display = "none";
 			}
-		</script>		
+		</script>
 	   </div>
 @endsection
