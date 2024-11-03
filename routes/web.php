@@ -18,6 +18,7 @@ use App\Http\Controllers\client\DetailController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +36,7 @@ Route::get('/', function () {
 
 // bên admin
 Route::prefix('admin')
+
     ->as('admin.')
     ->group(function () {
         Route::get('/', [thongkeController::class, 'index']);
@@ -70,6 +72,12 @@ Route::get('/danhmucsp', [AuthenticationController::class, 'danhmucsp'])->name('
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart',[CartController::class,'index'])->name('cart.load');
 Route::delete('cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
+
+
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
+

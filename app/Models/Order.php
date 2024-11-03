@@ -8,11 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+
+    
     protected $fillable = [
-        'payment',
+        'user_id',
+       'payment',
         'order_date',
         'status',
         'total_amount',
-        'user_id', // Thêm dòng này
+
     ];
+
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    // public function getPaymentStatusAttribute()
+    // {
+    //     return $this->status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán';
+    // }
+
 }

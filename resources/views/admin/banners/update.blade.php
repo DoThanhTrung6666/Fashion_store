@@ -27,7 +27,7 @@
                     <div class="box box-primary">
 
 
-                        <form action="{{ route('banners.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.banners.update', $banner->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="box-body">
