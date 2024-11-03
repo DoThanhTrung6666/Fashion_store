@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
 use App\Http\Controllers\auth\AuthenticationController;
+use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -67,11 +68,16 @@ Route::get('register', [AuthenticationController::class, 'showFormRegister'])->n
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::get('/danhmucsp', [AuthenticationController::class, 'danhmucsp'])->name('danhmucsp');
+Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-Route::get('/cart',[CartController::class,'index'])->name('cart.load');
-Route::delete('cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.load');
+Route::delete('cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
+Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
+Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
+
 
 
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -80,4 +86,5 @@ Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->na
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
+
 
