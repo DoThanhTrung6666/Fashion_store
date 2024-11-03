@@ -37,7 +37,7 @@ Route::get('/', function () {
 
 // bên admin
 Route::prefix('admin')
-
+    ->middleware(['auth', 'admin'])
     ->as('admin.')
     ->group(function () {
         Route::get('/', [thongkeController::class, 'index']);
@@ -54,7 +54,7 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class);
         Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-    })->middleware(['auth', 'admin']);
+    });
 
 
 // bên client
