@@ -20,6 +20,7 @@ use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\CommentController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -90,5 +91,6 @@ Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->na
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
+Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
 

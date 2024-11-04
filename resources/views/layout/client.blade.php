@@ -203,11 +203,11 @@
 										<li><a href="{{route('admin.')}}">Vào trang quản trị</a></li>
                                         <li><a href="index.html">Sửa tài khoản</a></li>
                                         <li><a href="index.html">Đăng xuất</a></li>
-                                        <li><a href="index.html">Đơn hàng</a></li>
+                                        <li><a href="{{route('orders.loadUser')}}">Đơn hàng</a></li>
                                         @else
                                         <li><a href="index.html">Sửa tài khoản</a></li>
                                         <li><a href="index.html">Đăng xuất</a></li>
-                                        <li><a href="index.html">Đơn hàng</a></li>
+                                        <li><a href="{{route('orders.loadUser')}}">Đơn hàng</a></li>
                                         @endif
 									</ul>
 								</li>
