@@ -7,7 +7,7 @@
 		<meta name="author" content="Themezhub" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Kumo- Fashion eCommerce HTML Template</title>
+        <title>Fashion-store</title>
 
         <!-- Custom CSS -->
         <link href="{{ asset('assets/css/styles.css')}}" rel="stylesheet">
@@ -96,7 +96,8 @@
 					<nav id="navigation" class="navigation navigation-landscape">
 						<div class="nav-header">
 							<a class="nav-brand" href="#">
-								<img src="assets/img/logo.png" class="logo" alt="" />
+								{{-- <img src="assets/img/logo.png" class="logo" alt="" /> --}}
+                                <b>Fashion-store</b>
 							</a>
 							<div class="nav-toggle"></div>
 							<div class="mobile_nav">
