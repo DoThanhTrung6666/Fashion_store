@@ -8,7 +8,8 @@ namespace Database\Seeders;
 use App\Models\Banner;
 
 use App\Models\Brand;
-
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,8 +26,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Banner::factory(10)->create();
+        // Banner::factory(10)->create();
 
-        Brand::factory(10)->create();
+        // Brand::factory(10)->create();
+
+        Comment::factory(10)->create();
     }
 }
