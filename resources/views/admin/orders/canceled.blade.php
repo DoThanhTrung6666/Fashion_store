@@ -6,7 +6,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Danh sách đơn hàng
+            Đơn hàng bị hủy
         </h1>
     </section>
     <section class="content">
@@ -14,25 +14,22 @@
             <div class="col-md-12">
                 <div class="box box-primary">
 
-
+                    
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
-                                <th>Payment</th>
-                                <th>Order_date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( $orders as $order)
+                            @foreach( $canceledOrders as $order)
                                 <tr>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->total_amount }}</td>
                                     <td>{{ $order->status }}</td>
-                                    <td>{{ $order->payment }}</td>
-                                    <td>{{ $order->order_date }}</td>
                                    
                                 </tr>
                             @endforeach

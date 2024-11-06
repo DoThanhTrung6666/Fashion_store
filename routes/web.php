@@ -53,6 +53,16 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class);
         Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
+        Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/pending', [AdOrderController::class, 'pendingOrders'])->name('orders.pending');
+        Route::get('/orders/confirmed', [AdOrderController::class, 'confirmedOrders'])->name('orders.confirmed');
+        Route::get('/orders/shipping', [AdOrderController::class, 'shippingOrders'])->name('orders.shipping');
+        Route::get('/orders/delivered', [AdOrderController::class, 'deliveredOrders'])->name('orders.delivered');
+        Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
+
+        Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
     })->middleware(['auth', 'admin']);
 
 
@@ -74,8 +84,6 @@ Route::get('/cart',[CartController::class,'index'])->name('cart.load');
 Route::delete('cart/remove/{id}',[CartController::class,'remove'])->name('cart.remove');
 
 
-Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
-Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
