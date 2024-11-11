@@ -94,3 +94,7 @@ Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.orde
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master

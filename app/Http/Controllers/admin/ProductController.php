@@ -9,7 +9,9 @@ use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Size;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -19,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('variants')->get();
+        $products = Product::with('variants','categoryHome')->get();
         return view('admin.product.index',compact('products'));
     }
 
@@ -97,6 +99,8 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
+        $products = Product::with('variants','categoryHome')->get();
+        return view('admin.product.detail',compact('products'));
     }
 
     /**
@@ -105,6 +109,14 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         //
+        $product = Product::with('variants')->findOrFail($id);
+        $brands = Brand::all();
+        $categories = Category::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+
+        return view('admin.product.update', compact('product', 'brands', 'categories', 'colors', 'sizes'));
+
     }
 
     /**
@@ -113,7 +125,67 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $product =Product::findOrFail($id);
+
+        // xử lí ảnh cũ
+        if($request->hasFile('image')){
+            // xoá ảnh cũ nếu có
+            if($product->image){
+                Storage::disk('public')->delete($product->image);
+            }
+            $path =$request->file('image')->store('upload/product', 'public');
+        }else{
+            $path = $product->image;
+        }
+
+        // tiến hành cập nhật
+        $product->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+            'discount' => $request->input('discount'),
+            'stock_quantity' => $request->input('stock_quantity'),
+            'brand_id' => $request->input('brand_id'),
+            'category_id' => $request->input('category_id'),
+            'status' => $request->input('status'),
+            'image' => $path,
+        ]);
+        // Cập nhật các biến thể
+    $existingVariantIds = $product->variants->pluck('id')->toArray(); // Lấy ID các biến thể hiện tại
+    $submittedVariantIds = array_column($request->variant ?? [], 'id'); // Lấy ID các biến thể được gửi lên
+
+    // Xóa các biến thể không có trong dữ liệu gửi lên
+    $variantsToDelete = array_diff($existingVariantIds, $submittedVariantIds);
+    ProductVariant::whereIn('id', $variantsToDelete)->delete();
+
+    // Cập nhật hoặc thêm các biến thể mới
+    foreach ($request->variant as $variantData) {
+        if (isset($variantData['id'])) {
+            // Cập nhật biến thể đã có
+            $variant = ProductVariant::find($variantData['id']);
+            if ($variant) {
+                $variant->update([
+                    'color_id' => $variantData['color_id'],
+                    'size_id' => $variantData['size_id'],
+                    'price' => $variantData['price'],
+                    'stock_quantity' => $variantData['stock_quantity'],
+                ]);
+            }
+        } else {
+            // Thêm biến thể mới
+            ProductVariant::create([
+                'product_id' => $product->id,
+                'color_id' => $variantData['color_id'],
+                'size_id' => $variantData['size_id'],
+                'price' => $variantData['price'],
+                'stock_quantity' => $variantData['stock_quantity'],
+            ]);
+        }
     }
+
+    return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -121,5 +193,6 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+
     }
 }

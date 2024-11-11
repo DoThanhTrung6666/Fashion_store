@@ -6,9 +6,9 @@
             <div class="colxl-12 col-lg-12 col-md-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Login</li>
+                        <li class="breadcrumb-item active" aria-current="page">Register</li>
                     </ol>
                 </nav>
             </div>
@@ -20,88 +20,35 @@
 <!-- ======================= Login Detail ======================== -->
 <section class="middle">
     <div class="container">
-        <div class="row align-items-start justify-content-between">
+        <div class="login-container">
+            <div class="login-image">
+                <img src="{{asset('assets/img/thanhtrung.jpg')}}" width="100%" height="100%" alt="">
+            </div>
+            <div class="login-form">
+                <h2>Đăng kí tài khoản</h2>
+                <form action="{{route('register')}}" method="POST">
+                    @csrf
+                    <label for="email">Họ và tên</label>
+                    <input type="text" id="email" name="name" placeholder="Nhập tên của bạn" >
 
-            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                <form class="border p-3 rounded">
-                    <div class="form-group">
-                        <label>User Name *</label>
-                        <input type="text" class="form-control" placeholder="Username*">
-                    </div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
 
-                    <div class="form-group">
-                        <label>Password *</label>
-                        <input type="password" class="form-control" placeholder="Password*">
-                    </div>
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
 
-                    <div class="form-group">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="flex-1">
-                                <input id="dd" class="checkbox-custom" name="dd" type="checkbox">
-                                <label for="dd" class="checkbox-custom-label">Remember Me</label>
-                            </div>
-                            <div class="eltio_k2">
-                                <a href="#">Lost Your Password?</a>
-                            </div>
-                        </div>
-                    </div>
+                    <button type="submit">Đăng kí</button>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">Login</button>
+                    <div class="forgot">
+                        <a href="#">Quên mật khẩu?</a>
+                        <a href="{{route('login')}}">Đăng nhập tài khoản</a>
                     </div>
                 </form>
+
+                <div class="register">
+                    <span>Bạn đã có tài khoản? <a href="{{route('login')}}">Đăng nhập ngay</a></span>
+                </div>
             </div>
-
-            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mfliud">
-                <form class="border p-3 rounded">
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label>First Name *</label>
-                            <input type="text" class="form-control" placeholder="First Name">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" placeholder="Last Name">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Email *</label>
-                        <input type="text" class="form-control" placeholder="Username*">
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label>Password *</label>
-                            <input type="password" class="form-control" placeholder="Password*">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label>Confirm Password *</label>
-                            <input type="password" class="form-control" placeholder="Confirm Password*">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <p>By registering your details, you agree with our Terms & Conditions, and Privacy and Cookie Policy.</p>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="flex-1">
-                                <input id="ddd" class="checkbox-custom" name="ddd" type="checkbox">
-                                <label for="ddd" class="checkbox-custom-label">Sign me up for the Newsletter!</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-md full-width bg-dark text-light fs-md ft-medium">Create An Account</button>
-                    </div>
-                </form>
-            </div>
-
         </div>
     </div>
 </section>
