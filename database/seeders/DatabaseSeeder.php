@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
 
         // Banner::factory(10)->create();
 
+        Brand::factory(10)->create();
+        $this->call(UserSeeder::class);
+
         // Brand::factory(10)->create();
 
         Comment::factory(10)->create();

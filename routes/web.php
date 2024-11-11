@@ -59,6 +59,7 @@ Route::prefix('admin')
         Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+        Route::resource('users',UserController::class);
     });
 
 
@@ -93,4 +94,7 @@ Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.orde
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
