@@ -4,7 +4,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Thêm mới danh mục <a href="{{ route('categories.index') }}" class="btn btn-primary">Danh sách danh mục</a>
+            Thêm mới danh mục <a href="{{ route('admin.categories.index') }}" class="btn btn-primary">Danh sách danh mục</a>
         </h1>
     </section>
     <section class="content">

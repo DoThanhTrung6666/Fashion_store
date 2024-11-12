@@ -54,4 +54,9 @@ class OrderController extends Controller
 
         return redirect()->route('thankyou');
     }
+    public function loadOrderUser(){
+        $user = Auth::user();
+        $orders = Order::where('user_id',$user->id)->with('orderItems')->get();
+        return view('client.order',compact('orders'));
+    }
 }

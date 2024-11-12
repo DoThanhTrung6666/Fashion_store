@@ -32,13 +32,13 @@ class ColorController extends Controller
         ]);
 
         Color::create($request->all());
-        return redirect()->route('colors.index')->with('success', 'color created successfully.');
+        return redirect()->route('admin.colors.index')->with('success', 'color created successfully.');
     }
 
     // Hiển thị form chỉnh sửa size
     public function edit(Color $color)
     {
-        return view('colors.edit', compact('color'));
+        return view('admin.colors.edit', compact('color'));
     }
 
     // Cập nhật size
@@ -49,13 +49,13 @@ class ColorController extends Controller
         ]);
 
         $color->update($request->all());
-        return redirect()->route('colors.index')->with('success', 'color updated successfully.');
+        return redirect()->route('admin.colors.index')->with('success', 'color updated successfully.');
     }
 
     // Xóa size
     public function destroy(Color $color)
     {
         $color->delete();
-        return redirect()->route('colors.index')->with('success', 'color deleted successfully.');
+        return redirect()->route('admin.colors.index')->with('success', 'color deleted successfully.');
     }
 }
