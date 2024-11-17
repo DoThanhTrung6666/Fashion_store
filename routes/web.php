@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthenticationController;
 use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
@@ -93,8 +94,3 @@ Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkou
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
-
-<<<<<<< HEAD
-=======
-
->>>>>>> master
