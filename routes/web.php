@@ -91,5 +91,7 @@ Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.orde
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
+
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+
