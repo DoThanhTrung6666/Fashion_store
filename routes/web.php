@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\admin\AdOrderController;
 use App\Http\Controllers\admin\ColorController;
 
 use App\Http\Controllers\Admin\BannerController;
@@ -53,11 +53,24 @@ Route::prefix('admin')
         Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
 
+
+        Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/pending', [AdOrderController::class, 'pendingOrders'])->name('orders.pending');
+        Route::get('/orders/confirmed', [AdOrderController::class, 'confirmedOrders'])->name('orders.confirmed');
+        Route::get('/orders/shipping', [AdOrderController::class, 'shippingOrders'])->name('orders.shipping');
+        Route::get('/orders/delivered', [AdOrderController::class, 'deliveredOrders'])->name('orders.delivered');
+        Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
+
+        Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+   
+
         Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
         Route::resource('users',UserController::class);
     });
+
 
 
 // bên client
@@ -83,8 +96,6 @@ Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou'
 
 
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
@@ -92,6 +103,8 @@ Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
 
+
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+
 
