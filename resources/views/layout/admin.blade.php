@@ -341,19 +341,7 @@
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
-{{-- quản lí sản phẩm --}}
-<li class="treeview">
-    <a href="#">
-        <i class="fas fa-box"></i>
-    <span>Product</span>
-    <i class="fa fa-angle-left pull-right"></i>
-    </a>
-    <ul class="treeview-menu">
-    <li><a href="#"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="#"><i class="fa fa-circle-o"></i>Thêm </a></li>
-    </ul>
-</li>
-{{-- kết thúc quản lí banner  --}}
+
 {{-- quản lí sản phẩm --}}
 <li class="treeview">
     <a href="{{route('admin.products.index')}}">

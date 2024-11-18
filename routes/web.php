@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthenticationController;
 use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
@@ -31,14 +32,10 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [HomeController::class, 'getProductHome']);
 // bên admin
 Route::prefix('admin')
-    // ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'admin'])
     ->as('admin.')
     ->group(function () {
         Route::get('/', [thongkeController::class, 'index']);
@@ -94,7 +91,5 @@ Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.orde
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
