@@ -341,19 +341,7 @@
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
-{{-- quản lí sản phẩm --}}
-<li class="treeview">
-    <a href="#">
-        <i class="fas fa-box"></i>
-    <span>Product</span>
-    <i class="fa fa-angle-left pull-right"></i>
-    </a>
-    <ul class="treeview-menu">
-    <li><a href="#"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="#"><i class="fa fa-circle-o"></i>Thêm </a></li>
-    </ul>
-</li>
-{{-- kết thúc quản lí banner  --}}
+
 {{-- quản lí sản phẩm --}}
 <li class="treeview">
     <a href="{{route('admin.products.index')}}">
@@ -429,6 +417,23 @@
               <li><a href="{{route('admin.comment.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
             </ul>
           </li>
+
+          <li class="treeview">
+            <a href="#">
+                <i class="nav-icon fas fa-receipt"></i>
+            <span>Order</span>
+            <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+            <li><a href="{{route('admin.orders.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+            <li><a href="{{route('admin.orders.pending')}}"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
+            <li><a href="{{route('admin.orders.confirmed')}}"><i class="fa fa-circle-o"></i>Đã xác nhận </a></li>
+            <li><a href="{{route('admin.orders.shipping')}}"><i class="fa fa-circle-o"></i>Chờ giao hàng </a></li>
+            <li><a href="{{route('admin.orders.delivered')}}"><i class="fa fa-circle-o"></i>Đã giao hàng </a></li>
+            <li><a href="{{route('admin.orders.canceled')}}"><i class="fa fa-circle-o"></i>Đơn bị hủy </a></li>
+            </ul>
+        </li>
+
         </ul>
       </section>
     </aside>

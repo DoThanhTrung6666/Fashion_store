@@ -6,7 +6,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Danh sách đơn hàng
+            Đơn hàng đã xác nhận
         </h1>
     </section>
     <section class="content">
@@ -14,26 +14,40 @@
             <div class="col-md-12">
                 <div class="box box-primary">
 
-
+                   
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
-                                <th>Payment</th>
-                                <th>Order_date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach( $orders as $order)
+                            @foreach( $confirmedOrders as $order)
                                 <tr>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->total_amount }}</td>
                                     <td>{{ $order->status }}</td>
-                                    <td>{{ $order->payment }}</td>
-                                    <td>{{ $order->order_date }}</td>
-                                   
+                                    <td>
+                                        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+                                            @csrf
+                                            <div>
+
+                                                <label>
+                                                    <input type="radio" name="status" value="Chờ giao hàng" onclick="disableOtherOptions(this)" {{ $order->status === 'Chờ giao hàng' ? 'checked disabled' : '' }}>
+                                                    Chờ giao hàng
+                                                </label>
+                                                
+                                                <label>
+                                                    <input type="radio" name="status" value="Hủy đơn hàng" onclick="disableOtherOptions(this)" {{ $order->status === 'Hủy đơn hàng' ? 'checked disabled' : '' }}>
+                                                    Hủy 
+                                                </label>
+                                            </div>
+                                            <button type="submit" class="btn btn-warning">Update Status</button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

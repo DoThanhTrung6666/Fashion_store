@@ -14,4 +14,11 @@ class OrderItem extends Model
         'price',      // Giả sử bạn có trường này
         'order_id',   // Thêm dòng này
     ];
+
+    public function productVariant()
+    {
+        return $this->belongsTo(ProductVariant::class);
+    }
 }
+
+
