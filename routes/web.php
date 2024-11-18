@@ -32,8 +32,8 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/home', function () {
+    return view('home');
 });
 
 // bên admin
@@ -94,7 +94,3 @@ Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.orde
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
