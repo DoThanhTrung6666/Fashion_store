@@ -90,7 +90,7 @@ class ProductController extends Controller
                 'stock_quantity' => $variant['stock_quantity'],
             ]);
         }
-        return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
+        return redirect()->route('admin.products.index')->with('success', 'Thêm sản phẩm thành công');
     }
 
     /**
@@ -183,7 +183,7 @@ class ProductController extends Controller
         }
     }
 
-    return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
+    return redirect()->route('admin.products.index')->with('success', 'Sửa thành công sản phẩm');
 }
 
 
