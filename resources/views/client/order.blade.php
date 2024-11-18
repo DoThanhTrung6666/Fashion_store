@@ -27,8 +27,19 @@
         </div>
 
         <div class="card-footer text-right">
-            <a href="#" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+            <a href="{{ route('orders.show',$order->id)}}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+            {{-- <a href="">{{$order->productVariant->id}}</a> --}}
+
+        @if($order->status != 'Hủy đơn hàng')
+            <form action="{{ route('orders.cancel', $order->id) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')">Hủy đơn hàng</button>
+            </form>
+        @else
+            <span class="badge badge-secondary">Đơn hàng đã hủy</span>
+        @endif
         </div>
+
     </div>
     @endforeach
 

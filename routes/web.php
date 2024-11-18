@@ -32,14 +32,10 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', [HomeController::class, 'getProductHome']);
 // bên admin
 Route::prefix('admin')
-    // ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'admin'])
     ->as('admin.')
     ->group(function () {
         Route::get('/', [thongkeController::class, 'index']);
@@ -94,3 +90,8 @@ Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkou
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
+
+
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+

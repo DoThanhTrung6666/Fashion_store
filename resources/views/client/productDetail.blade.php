@@ -57,12 +57,12 @@
                                 <i class="fas fa-star"></i>
                                 <span class="small">(412 Reviews)</span>
                             </div>
-                            <div class="elis_rty"><span class="ft-medium text-muted line-through fs-md mr-2">$199</span><span class="ft-bold theme-cl fs-lg">$110</span></div>
+                            <div class="elis_rty"><span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span><span class="ft-bold theme-cl fs-lg">{{$detail->price}}</span></div>
                         </div>
                     </div>
 
                     <div class="prt_03 mb-4">
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                        <p></p>
                     </div>
 
                     <div class="prt_04 mb-4">
@@ -116,24 +116,24 @@
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">
                                 <!-- Quantity -->
-                                <select class="mb-2 custom-select">
-                                  <option value="1" selected="">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
+                                <select class="mb-2 custom-select" name="quantity">
+                                    <option value="1" selected="">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-lg">
+                            <div class="col-12 col-lg"> 
                                 <!-- Submit -->
                                 <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
-                                    <i class="lni lni-shopping-basket mr-2"></i>Add to Cart
+                                    <i class="lni lni-shopping-basket mr-2"></i>Thêm vào giỏ hàng
                                 </button>
                             </div>
                             <div class="col-12 col-lg-auto">
                                 <!-- Wishlist -->
                                 <button class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
-                                    <i class="lni lni-heart mr-2"></i>Wishlist
+                                    <i class="lni lni-heart mr-2"></i>Mua hàng
                                 </button>
                             </div>
                       </div>
