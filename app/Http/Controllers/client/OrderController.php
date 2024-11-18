@@ -54,4 +54,37 @@ class OrderController extends Controller
 
         return redirect()->route('thankyou');
     }
+    public function loadOrderUser(){
+        $user = Auth::user();
+        $orders = Order::where('user_id',$user->id)->with('orderItems')->get();
+        return view('client.order',compact('orders'));
+    }
+    // OrderController.php
+public function show($orderId)
+{
+    $order = Order::with(['orderItems.productVariant.size', 'orderItems.productVariant.color'])
+        ->where('user_id', auth()->id())
+        ->where('id', $orderId)
+        ->first();
+
+    return view('client.orderdetail', compact('order'));
+}
+
+public function cancelOrder($orderId)
+{
+    $order = Order::where('user_id', auth()->id())
+                  ->where('id', $orderId)
+                  ->first();
+
+    if ($order) {
+        $order->status = 'Hủy đơn hàng';
+        $order->save();
+
+        return redirect()->route('orders.loadUser')->with('success', 'Đơn hàng đã được hủy.');
+    }
+
+    return redirect()->route('orders.loadUser')->with('error', 'Không thể hủy đơn hàng này.');
+}
+
+
 }

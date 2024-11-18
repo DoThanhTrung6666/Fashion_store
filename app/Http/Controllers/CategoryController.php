@@ -33,15 +33,15 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255', // Xác thực trường name
             'description' => 'nullable|string',  // Xác thực trường description
         ]);
-        
+
         // Laravel sẽ tự động thêm giá trị cho `created_at` và `updated_at`, nên không cần validate chúng.
-        
+
         Category::query()->create($data);  // Tạo một bản ghi mới với dữ liệu đã xác thực
-        
-        return redirect()->route('categories.index');  // Redirect về trang index của categories (nếu route có đúng tên)
+
+        return redirect()->route('admin.categories.index');  // Redirect về trang index của categories (nếu route có đúng tên)
         // dd($request->all()); // Debug dữ liệu request nếu cần
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -69,7 +69,7 @@ class CategoryController extends Controller
             'description' => 'nullable|string', // Xác thực trường description
         ]);
         $category->update($data);
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -81,6 +81,6 @@ class CategoryController extends Controller
         // Xóa bản ghi category
         $category->delete();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
     }
 }
