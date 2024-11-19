@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Color;
 use App\Models\ProductVariant;
 use App\Models\Size;
@@ -32,6 +33,14 @@ class FilterController extends Controller
         if ($request->has('size')) {
             $query->where('size_id', $request->input('size')); // Giả sử bạn đã có cột size_id trong bảng ProductVariant
         }
+        // lọc theo danh mục
+        $categories = Category::all();
+        if ($request->has('category')) {
+            $query->whereHas('product', function ($q) use ($request) {
+                $q->where('category_id', $request->input('category'));
+            });
+        }
+        
 
         // Kiểm tra xem có điều kiện lọc theo giá hay không
         if ($request->has('sort_by')) {
@@ -70,6 +79,6 @@ class FilterController extends Controller
             return $product;
         })->values();
 
-        return view('client.danhmucsp', compact('products', 'sizes', 'colors')); // Truyền dữ liệu sản phẩm và kích thước vào view
+        return view('client.danhmucsp', compact('products', 'sizes', 'colors', 'categories')); // Truyền dữ liệu sản phẩm và kích thước vào view
     }
 }
