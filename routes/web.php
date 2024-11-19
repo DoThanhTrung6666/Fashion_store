@@ -32,6 +32,8 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
 Route::get('/', [HomeController::class, 'getProductHome']);
 // bên admin
 Route::prefix('admin')

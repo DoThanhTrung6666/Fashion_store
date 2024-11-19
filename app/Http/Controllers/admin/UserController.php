@@ -58,7 +58,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $model = User::query()->findOrFail($id);
+        return view('admin.users.detail', compact('model'));
     }
 
     /**
