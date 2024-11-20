@@ -32,7 +32,7 @@ class OrderController extends Controller
             'user_id' => $user->id,
             'payment' => 1,
             'order_date'=> now(),
-            'status' => 'Đơn hàng mới',
+            'status' => 'Chờ xác nhận',
             'total_amount' => $totalPrice
         ]);
         // tạo các mục đơn hàng từ giỏ hàng

@@ -23,6 +23,7 @@
                                 <th>Status</th>
                                 <th>Payment</th>
                                 <th>Order_date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,14 +34,18 @@
                                     <td>{{ $order->status }}</td>
                                     <td>{{ $order->payment }}</td>
                                     <td>{{ $order->order_date }}</td>
-                                   
+                                    <td>
+                                        <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info">View Details</a>
+                                    </td>
+
+
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                  
- 
+
+
                 </div>
             </div>
         </div>

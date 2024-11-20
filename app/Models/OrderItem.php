@@ -9,10 +9,10 @@ class OrderItem extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'product_variant_id', // Giả sử bạn có trường này
-        'quantity',   // Giả sử bạn có trường này
-        'price',      // Giả sử bạn có trường này
-        'order_id',   // Thêm dòng này
+        'product_variant_id',
+        'quantity',
+        'price',
+        'order_id',  
     ];
 
     public function productVariant()

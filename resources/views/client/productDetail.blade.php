@@ -124,7 +124,7 @@
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <div class="col-12 col-lg"> 
+                            <div class="col-12 col-lg">
                                 <!-- Submit -->
                                 <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
                                     <i class="lni lni-shopping-basket mr-2"></i>Thêm vào giỏ hàng
