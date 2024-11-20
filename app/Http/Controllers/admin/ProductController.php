@@ -21,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('variants','categoryHome')->get();
+        $products = Product::with('variants','category')->get();
         return view('admin.product.index',compact('products'));
     }
 
@@ -43,26 +43,65 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // $validated = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'description' => 'nullable|string',
-        //     'price' => 'required|numeric|min:0',
-        //     'discount' => 'nullable|numeric|min:0|max:100', // Discount có thể là phần trăm giảm giá (từ 0 đến 100)
-        //     'stock_quantity' => 'required|integer|min:0',
-        //     'brand_id' => 'required|exists:brands,id', // Kiểm tra xem brand_id có tồn tại trong bảng brands không
-        //     'category_id' => 'required|exists:categories,id', // Kiểm tra category_id có tồn tại trong bảng categories không
-        //     'status' => 'required|in:active,inactive', // Kiểm tra status phải là 'active' hoặc 'inactive'
-        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra file image (nếu có)
-        //     'variant.*.color_id' => 'required|exists:colors,id', // Kiểm tra color_id có tồn tại
-        //     'variant.*.size_id' => 'required|exists:sizes,id', // Kiểm tra size_id có tồn tại
-        //     'variant.*.price' => 'required|numeric|min:0',
-        //     'variant.*.stock_quantity' => 'required|integer|min:0',
-        // ]);
-        //
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'price' => 'required|numeric|min:0',
+                'discount' => 'nullable|numeric|min:0|max:100', // Phần trăm giảm giá từ 0-100
+                'stock_quantity' => 'required|integer|min:0',
+                'brand_id' => 'required|exists:brands,id', // Kiểm tra xem brand_id có tồn tại
+                'category_id' => 'required|exists:categories,id', // Kiểm tra category_id có tồn tại
+                'status' => 'required', // Giá trị chỉ được active hoặc inactive
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Kiểm tra file ảnh
+                'variant.*.color_id' => 'required|exists:colors,id', // color_id phải tồn tại trong bảng colors
+                'variant.*.size_id' => 'required|exists:sizes,id', // size_id phải tồn tại trong bảng sizes
+                'variant.*.price' => 'required|numeric|min:0',
+                'variant.*.stock_quantity' => 'required|integer|min:0',
+                'variant.*.image_variant' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ],
+            [
+                // Thông báo lỗi cho các trường
+                'name.required' => 'Tên sản phẩm là bắt buộc.',
+                'name.max' => 'Tên sản phẩm không được dài hơn 255 ký tự.',
+                'price.required' => 'Giá sản phẩm là bắt buộc.',
+                'price.numeric' => 'Giá sản phẩm phải là số.',
+                'price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
+                'discount.numeric' => 'Phần trăm giảm giá phải là số.',
+                'discount.min' => 'Phần trăm giảm giá không được nhỏ hơn 0.',
+                'discount.max' => 'Phần trăm giảm giá không được lớn hơn 100.',
+                'stock_quantity.required' => 'Số lượng tồn kho là bắt buộc.',
+                'stock_quantity.integer' => 'Số lượng tồn kho phải là số nguyên.',
+                'stock_quantity.min' => 'Số lượng tồn kho không được âm.',
+                'brand_id.required' => 'Thương hiệu là bắt buộc.',
+                'brand_id.exists' => 'Thương hiệu không hợp lệ.',
+                'category_id.required' => 'Danh mục là bắt buộc.',
+                'category_id.exists' => 'Danh mục không hợp lệ.',
+                'status.required' => 'Trạng thái là bắt buộc.',
+                // 'status.in' => 'Trạng thái chỉ được chọn active hoặc inactive.',
+                'image.image' => 'File tải lên phải là một hình ảnh.',
+                'image.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif.',
+                'image.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+                'variant.*.color_id.required' => 'Màu sắc là bắt buộc.',
+                'variant.*.color_id.exists' => 'Màu sắc không hợp lệ.',
+                'variant.*.size_id.required' => 'Kích thước là bắt buộc.',
+                'variant.*.size_id.exists' => 'Kích thước không hợp lệ.',
+                'variant.*.price.required' => 'Giá biến thể là bắt buộc.',
+                'variant.*.price.numeric' => 'Giá biến thể phải là số.',
+                'variant.*.price.min' => 'Giá biến thể phải lớn hơn hoặc bằng 0.',
+                'variant.*.stock_quantity.required' => 'Số lượng biến thể là bắt buộc.',
+                'variant.*.stock_quantity.integer' => 'Số lượng biến thể phải là số nguyên.',
+                'variant.*.stock_quantity.min' => 'Số lượng biến thể không được âm.',
+                'variant.*.image_variant.image' => 'File tải lên phải là 1 hình ảnh.',
+                'variant.*.image_variant.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg, gif.',
+                'variant.*.image_variant.max' => 'Kích thước ảnh không được vượt quá 2MB.',
+            ]
+        );
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('uploads/product', 'public'); // Lưu ảnh vào storage/app/public/images
         }else{
-            // $path = null;
+            $path = null;
         }
         // $product = Product::create(array_merge(
         //     //array_merge để kết hợp thuộc tính khác và đường dẫn ảnh thành 1 mảng duy nhất
@@ -71,25 +110,27 @@ class ProductController extends Controller
         // ));
         // cách 2 để thêm sản phẩm
         $product = Product::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-            'discount' => $request->input('discount'),
-            'stock_quantity' => $request->input('stock_quantity'),
-            'brand_id' => $request->input('brand_id'),
-            'category_id' => $request->input('category_id'),
-            'status'=> $request->input('status'),
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+            'price' => $validated['price'],
+            'discount' => $validated['discount'] ?? null,
+            'stock_quantity' => $validated['stock_quantity'],
+            'brand_id' => $validated['brand_id'],
+            'category_id' => $validated['category_id'],
+            'status'=> $validated['status'],
             'image' => $path, // Lưu đường dẫn ảnh vào cột 'image'
         ]);
-        foreach($request->variant as $variant){
-            ProductVariant::create([
-                'product_id' => $product->id,
-                'color_id' => $variant['color_id'],
-                'size_id' => $variant['size_id'],
-                'price' => $variant['price'],
-                'stock_quantity' => $variant['stock_quantity'],
-            ]);
-        }
+
+            foreach ($validated['variant'] as $variant) {
+                ProductVariant::create([
+                    'product_id' => $product->id,
+                    'color_id' => $variant['color_id'],
+                    'size_id' => $variant['size_id'],
+                    'price' => $variant['price'],
+                    'stock_quantity' => $variant['stock_quantity'],
+                    // 'image_variant' => $variant['image_variant']
+                ]);
+            }
         return redirect()->route('admin.products.index')->with('success', 'Thêm sản phẩm thành công');
     }
 
@@ -99,8 +140,9 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
-        $products = Product::with('variants','categoryHome')->get();
-        return view('admin.product.detail',compact('products'));
+        $product = Product::with('variants','variants.color','variants.size','category')
+        ->find($id);
+        return view('admin.product.detail',compact('product'));
     }
 
     /**

@@ -32,7 +32,7 @@
                                                 <td><img src="{{Storage::url($product->image)}}" width="100" height="100" alt=""></td>
                                                 <td>{{$product->price}}</td>
                                                 <td>{{$product->stock_quantity}}</td>
-                                                <td>Áo</td>
+                                                <td>{{$product->category->name}}</td>
                                                 <td>
                                                     <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-warning">Sửa</a>
                                                     <a href="{{route('admin.products.show', $product->id)}}" class="btn btn-info">Xem Chi Tiết</a>

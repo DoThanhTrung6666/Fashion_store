@@ -82,6 +82,7 @@ class CartController extends Controller
         }
         // tính tổng tiền
         return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng');
+        // return route('cart.load');
     }
 
     // Xoá sản phẩm khỏi giỏ

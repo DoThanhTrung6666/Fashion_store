@@ -20,25 +20,42 @@
                     <label for="exampleInputEmail1">id</label>
                     <input type="text" class="form-control" placeholder="" disabled>
                   </div>
+            {{-- Tên sản phẩm  --}}
                   <div class="form-group">
                     <label for="">Tên sản phẩm</label>
                     <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="name">
+                    @error('name')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
+            {{-- Ảnh sản phẩm  --}}
                   <div class="form-group">
                     <label for="">Ảnh sản phẩm</label>
                     <input type="file" class="form-control" placeholder="" name="image">
+                    @error('image')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="">Giá chung</label>
                     <input type="number" class="form-control" placeholder="Nhập giá sản phẩm" name="price">
+                    @error('price')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="">Giá sau khi giảm</label>
                     <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="discount">
+                    @error('discount')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="">Số lượng</label>
                     <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="stock_quantity">
+                    @error('stock_quantity')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="">Thương hiệu</label>
@@ -48,6 +65,9 @@
                             {{-- <option value="1">Trung con</option> --}}
                         @endforeach
                     </select>
+                    @error('brand_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="">Danh mục sản phẩm</label>
@@ -56,12 +76,18 @@
                             <option value="{{$item->id}}">{{$item->name}}</option>
                         @endforeach
                     </select>
+                    @error('category_id')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <div class="form-group">
                     <label for="">Mô tả</label>
                     <textarea class="form-control" rows="3" placeholder="Nhập nội dung..." name="description"></textarea>
+                    @error('description')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
-                  <div class="form-group">
+                <div class="form-group">
                     <label for="status">Trạng thái sản phẩm</label>
                     <div class="status-options">
                         <label class="status-option">
@@ -73,52 +99,79 @@
                             <span>Ngừng kinh doanh</span>
                         </label>
                     </div>
+                    @error('status')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
 
 
 
-                    <h3>Biến thể sản phẩm</h3>
-                    <div id="variants">
-                        <!-- Biến thể đầu tiên -->
-                        <div class="variant-group">
-                            <div class="form-group">
-                                <label for="variant[0][color_id]">Màu sắc</label>
-                                <div class="color-options">
-                                    @foreach($colors as $color)
-                                        <label class="color-radio" style="background-color: {{$color->name}};">
-                                            <input type="radio" name="variant[0][color_id]" value="{{ $color->id }}" style="display: none;">
-                                        </label>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="size">Kích thước</label>
-                                <div class="size-options">
-                                    @foreach($sizes as $size)
-                                        <label class="size-option">
-                                            <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}">
-                                            <span>{{ $size->name }}</span>
-                                        </label>
-                                    @endforeach
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="variant[0][price]">Giá biến thể</label>
-                                <input type="text" name="variant[0][price]" class="form-control">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="variant[0][stock_quantity]">Số lượng tồn kho</label>
-                                <input type="text" name="variant[0][stock_quantity]" class="form-control">
-                            </div>
+                <!-- Biến thể sản phẩm -->
+        <h3>Biến thể sản phẩm</h3>
+        <div id="variants">
+            <!-- Duyệt qua các biến thể đã thêm -->
+            @foreach(old('variant', []) as $index => $variant)
+                <div class="variant-group">
+                    <div class="form-group">
+                        <label for="variant[{{ $index }}][color_id]">Màu sắc</label>
+                        <div class="color-options">
+                            @foreach($colors as $color)
+                                <label class="color-radio" style="background-color: {{ $color->name }};">
+                                    <input type="radio" name="variant[{{ $index }}][color_id]" value="{{ $color->id }}"
+                                        @if(old('variant.' . $index . '.color_id') == $color->id) checked @endif
+                                    >
+                                </label>
+                            @endforeach
                         </div>
-                        <!-- Kết thúc biến thể đầu tiên -->
+                        @error('variant.' . $index . '.color_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                        <button type="button" id="addVariantBtn" class="btn btn-secondary">Thêm biến thể</button><br>
+                    <div class="form-group">
+                        <label for="variant[{{ $index }}][size_id]">Kích thước</label>
+                        <div class="size-options">
+                            @foreach($sizes as $size)
+                                <label class="size-option">
+                                    <input type="radio" name="variant[{{ $index }}][size_id]" value="{{ $size->id }}"
+                                        @if(old('variant.' . $index . '.size_id') == $size->id) checked @endif
+                                    >
+                                    <span>{{ $size->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('variant.' . $index . '.size_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="variant[{{ $index }}][price]">Giá biến thể</label>
+                        <input type="text" name="variant[{{ $index }}][price]" class="form-control" value="{{ old('variant.' . $index . '.price') }}">
+                        @error('variant.' . $index . '.price')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="variant[{{ $index }}][stock_quantity]">Số lượng tồn kho</label>
+                        <input type="text" name="variant[{{ $index }}][stock_quantity]" class="form-control" value="{{ old('variant.' . $index . '.stock_quantity') }}">
+                        @error('variant.' . $index . '.stock_quantity')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    {{-- <div class="form-group">
+                        <label for="variant[{{ $index }}][image_variant]">Ảnh biến thể sản phẩm</label>
+                        <input type="file" name="variant[{{ $index }}][image_variant]" class="form-control" value="{{ old('variant.' . $index . '.image_variant') }}">
+                        @error('variant.' . $index . '.image_variant')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div> --}}
                 </div>
+            @endforeach
+
+            <button type="button" id="addVariantBtn" class="btn btn-secondary">Thêm biến thể</button><br>
+        </div>
                 <div class="box-footer">
                   <button type="submit" name="createProduct" class="btn btn-primary">Thêm mới sản phẩm</button>
                 </div>
@@ -131,51 +184,99 @@
 
 
     {{-- Xử lí thêm nhiều biến thể mới  --}}
+
     <script>
-        let variantIndex = 1;
+        let variantIndex = 1; // Để đánh dấu các biến thể (sử dụng biến đếm)
 
-        function addVariant() {
-            let variantsDiv = document.getElementById('variants');
-            let newVariant = `
-            <a href="">Biến thể tiếp theo</a>
-                <div class="variant-group">
-                    <div class="form-group">
-                        <label for="variant[${variantIndex}][color_id]">Màu sắc</label>
+function addVariant(existingVariant = {}) {
+    let variantsDiv = document.getElementById('variants');
+    let index = variantIndex; // Tạo chỉ số cho biến thể mới
 
-                        <div class="color-options">
-                                    @foreach($colors as $color)
-                                        <label class="color-radio" style="background-color: {{ $color->name }};">
-                                            <input type="radio" name="variant[${variantIndex}][color_id]" value="{{ $color->id }}" style="display: none;">
-                                        </label>
-                                    @endforeach
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="variant[${variantIndex}][size_id]">Kích thước</label>
-                        <select name="variant[${variantIndex}][size_id]" class="form-control">
-                            @foreach($sizes as $size)
-                                <option value="{{ $size->id }}">{{ $size->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="variant[${variantIndex}][price]">Giá biến thể</label>
-                        <input type="text" name="variant[${variantIndex}][price]" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="variant[${variantIndex}][stock_quantity]">Số lượng tồn kho</label>
-                        <input type="text" name="variant[${variantIndex}][stock_quantity]" class="form-control" required>
-                    </div>
+    // HTML cho biến thể mới
+    let newVariant = `
+        <div class="variant-group" id="variant-group-${index}">
+            <div class="form-group">
+                <label for="variant[${index}][color_id]">Màu sắc</label>
+                <div class="color-options">
+                    @foreach($colors as $color)
+                        <label class="color-radio" style="background-color: {{ $color->name }};">
+                            <input type="radio" name="variant[${index}][color_id]" value="{{ $color->id }}"
+                                ${existingVariant.color_id == {{ $color->id }} ? 'checked' : ''}>
+                        </label>
+                    @endforeach
                 </div>
-            `;
-            variantsDiv.insertAdjacentHTML('beforeend', newVariant);
-            variantIndex++;
-        }
+                @error('variant.${index}.color_id')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
 
-        document.getElementById('addVariantBtn').addEventListener('click', addVariant);
+            <div class="form-group">
+                <label for="variant[${index}][size_id]">Kích thước</label>
+                <select name="variant[${index}][size_id]" class="form-control">
+                    @foreach($sizes as $size)
+                        <option value="{{ $size->id }}"
+                            ${existingVariant.size_id == {{ $size->id }} ? 'selected' : ''}>{{ $size->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="variant[${index}][price]">Giá biến thể</label>
+                <input type="text" name="variant[${index}][price]" class="form-control"
+                    value="${existingVariant.price || ''}">
+            </div>
+
+            <div class="form-group">
+                <label for="variant[${index}][stock_quantity]">Số lượng tồn kho</label>
+                <input type="text" name="variant[${index}][stock_quantity]" class="form-control"
+                    value="${existingVariant.stock_quantity || ''}">
+            </div>
+
+
+
+            <button type="button" class="btn btn-danger" onclick="removeVariant(${index})">Xóa biến thể</button>
+        </div>
+    `;
+
+    // Thêm biến thể mới vào trong form
+    variantsDiv.insertAdjacentHTML('beforeend', newVariant);
+    variantIndex++; // Tăng chỉ số biến thể tiếp theo
+}
+
+// Xóa biến thể
+function removeVariant(index) {
+    document.getElementById(`variant-group-${index}`).remove();
+    saveVariantsToStorage();
+}
+
+// Lưu tất cả các biến thể vào localStorage
+function saveVariantsToStorage() {
+    let variants = [];
+    let variantGroups = document.querySelectorAll('.variant-group');
+
+    variantGroups.forEach((group, index) => {
+        let color_id = group.querySelector('[name="variant[' + index + '][color_id]"]:checked')?.value || '';
+        let size_id = group.querySelector('[name="variant[' + index + '][size_id]"]').value || '';
+        let price = group.querySelector('[name="variant[' + index + '][price]"]').value || '';
+        let stock_quantity = group.querySelector('[name="variant[' + index + '][stock_quantity]"]').value || '';
+        // let image_variant = group.querySelector('[name="variant[' + index + '][image_variant]"]').value || '';
+
+        variants.push({
+            color_id,
+            size_id,
+            price,
+            stock_quantity,
+            // image_variant
+        });
+    });
+
+    localStorage.setItem("variants", JSON.stringify(variants));
+}
+
+document.getElementById('addVariantBtn').addEventListener('click', function() {
+    addVariant();
+});
+
     </script>
 
     {{-- <button type="button" id="addVariantBtn" class="btn btn-secondary">Thêm biến thể</button> --}}

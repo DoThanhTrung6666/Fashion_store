@@ -22,7 +22,7 @@
     <div class="container">
         <div class="login-container">
             <div class="login-image">
-                <img src="{{asset('assets/img/thanhtrung.jpg')}}" width="100%" height="100%" alt="">
+                <img src="{{asset('assets/img/bannershop1.jpg')}}" width="100%" height="100%" alt="">
             </div>
             <div class="login-form">
                 <h2>Đăng kí tài khoản</h2>

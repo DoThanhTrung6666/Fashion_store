@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name',255);
             $table->string('image',255);
-            // $table->text('description');
-            // $table->decimal('price');
-            // $table->decimal('discount');
-            // $table->integer('stock_quantity');
-            // $table->foreignIdFor(Brand::class)->constrained();
-            // $table->foreignIdFor(Category::class)->constrained();
-            // $table->integer('status');
+            $table->text('description');
+            $table->decimal('price');
+            $table->decimal('discount');
+            $table->integer('stock_quantity');
+            $table->foreignIdFor(Brand::class)->constrained();
+            $table->foreignIdFor(Category::class)->constrained();
+            $table->integer('status');
             $table->timestamps();
         });
     }
