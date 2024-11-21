@@ -12,10 +12,10 @@ class Product extends Model
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductVariant::class,'product_id');
     }
 
-    public function categoryHome()
+    public function category()
     {
         return $this->belongsTo(Category::class);
     }
@@ -23,5 +23,10 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id');
     }
 }

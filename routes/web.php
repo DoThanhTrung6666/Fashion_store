@@ -60,6 +60,7 @@ Route::prefix('admin')
         Route::get('/orders/shipping', [AdOrderController::class, 'shippingOrders'])->name('orders.shipping');
         Route::get('/orders/delivered', [AdOrderController::class, 'deliveredOrders'])->name('orders.delivered');
         Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
+        Route::get('/orders/{id}', [AdOrderController::class, 'show'])->name('orders.show');
 
         Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 

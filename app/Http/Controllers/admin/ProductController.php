@@ -21,7 +21,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('variants','categoryHome')->get();
+        $products = Product::with('variants','category')->get();
         return view('admin.product.index',compact('products'));
     }
 
@@ -99,7 +99,7 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
-        $products = Product::with('variants','categoryHome')->get();
+        $products = Product::with('variants','category')->get();
         return view('admin.product.detail',compact('products'));
     }
 

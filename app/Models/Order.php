@@ -24,10 +24,7 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    // public function getPaymentStatusAttribute()
-    // {
-    //     return $this->status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán';
-    // }
+   
     public function orderItems()
 {
     return $this->hasMany(OrderItem::class, 'order_id', 'id');
