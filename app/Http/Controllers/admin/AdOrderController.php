@@ -66,16 +66,14 @@ public function canceledOrders()
         return redirect()->back()->with('success', 'Order status updated successfully!');
     }
 
-    
+
     public function show($id)
 {
 
-    
+
 
     // Fetch the order by ID
     $order = Order::with('user', 'orderItems')->findOrFail($id); // Include relationships like 'user' and 'items' if available
-
-    
 
     // Pass the order data to the view
     return view('admin.orders.show', compact('order'));

@@ -32,6 +32,8 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
 Route::get('/', [HomeController::class, 'getProductHome']);
 // bên admin
 Route::prefix('admin')
@@ -64,7 +66,7 @@ Route::prefix('admin')
 
         Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
-   
+
 
         Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');

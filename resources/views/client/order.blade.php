@@ -30,13 +30,26 @@
             <a href="{{ route('orders.show',$order->id)}}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
             {{-- <a href="">{{$order->productVariant->id}}</a> --}}
 
-        @if($order->status != 'Hủy đơn hàng')
+        @if($order->status != 'Hủy đơn hàng' && $order->status != 'Chờ giao hàng' && $order->status != 'Đã giao hàng' && $order->status != 'Đã xác nhận')
             <form action="{{ route('orders.cancel', $order->id) }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')">Hủy đơn hàng</button>
             </form>
-        @else
-            <span class="badge badge-secondary">Đơn hàng đã hủy</span>
+
+            @elseif($order->status == 'Đã xác nhận')
+            <span class="badge badge-secondary">Đơn hàng đã xác nhận</span>
+
+            @elseif($order->status == 'Chờ giao hàng')
+            <span class="badge badge-secondary">Đơn hàng chuẩn bị được giao</span>
+
+            @elseif($order->status == 'Chờ giao hàng')
+            <span class="badge badge-secondary">Đơn hàng chuẩn bị được giao</span>
+
+            @elseif($order->status == 'Hủy đơn hàng')
+            <form action="" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn mua lại đơn hàng này không?')">Mua lại</button>
+            </form>
         @endif
         </div>
 

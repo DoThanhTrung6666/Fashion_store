@@ -11,7 +11,7 @@
                 <div class="row container-fluid">
                     <div class="col-md-12">
                         <div class="box box-primary">
-
+                            @if ($product)
                             <table class="table">
                                 <tr>
                                     <th style="text-align: center" scope="col" style=""></th>
@@ -27,7 +27,7 @@
                                     <th style="text-align: center" scope="col" style="">Số lượng riêng<th>
                                 </tr>
 
-                               @foreach ($products as $product)
+
                                     @foreach ($product->variants as $variant)
                                             <tr style="text-align: center">
                                                 <td><input type="checkbox"></td>
@@ -36,7 +36,7 @@
                                                 <td><img src="{{Storage::url($product->image)}}" width="100" height="100" alt=""></td>
                                                 <td>{{$product->price}}</td>
                                                 <td>{{$product->stock_quantity}}</td>
-                                                <td>Áo</td>
+                                                <td>{{$product->category->name}}</td>
                                                 <td><label class="color-radio" style="background-color: {{$variant->color->name}};"></label></td>
                                                 <td>{{$variant->size->name}}</td>
                                                 <td>{{$variant->price}}</td>
@@ -48,8 +48,11 @@
                                             </tr>
                                     @endforeach
 
-                               @endforeach
+
                             </table>
+                            @else
+                                <p>Sản phẩm không tồn tại.</p>
+                            @endif
                         </div>
                     </div>
                 </div>

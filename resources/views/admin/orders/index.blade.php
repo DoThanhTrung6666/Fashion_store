@@ -37,15 +37,13 @@
                                     <td>
                                         <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info">View Details</a>
                                     </td>
-                                    
-                                   
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                  
- 
+
+
                 </div>
             </div>
         </div>
