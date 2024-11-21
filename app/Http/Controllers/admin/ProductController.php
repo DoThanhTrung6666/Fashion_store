@@ -140,9 +140,11 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
+
         $product = Product::with('variants','variants.color','variants.size','category')
         ->find($id);
         return view('admin.product.detail',compact('product'));
+
     }
 
     /**
