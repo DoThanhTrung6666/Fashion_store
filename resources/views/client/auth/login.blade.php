@@ -34,16 +34,14 @@
                     <label for="password">Mật khẩu</label>
                     <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
 
-                    <button type="submit">Đăng nhập</button>
-
-                    <div class="forgot">
-                        <a href="#">Quên mật khẩu?</a>
-                        <a href="{{route('register')}}">Đăng ký tài khoản</a>
-                    </div>
+                    <div class="d-flex justify-content-between align-items-center forgot">
+                        <button type="submit">Đăng nhập</button>
+                        <a href="{{route('showForgotPassword')}}">Quên mật khẩu?</a>
+                    </div>                    
                 </form>
 
                 <div class="register">
-                    <span>Chưa có tài khoản? <a href="#">Đăng ký ngay</a></span>
+                    <span>Chưa có tài khoản? <a href="{{route('register')}}">Đăng ký ngay</a></span>
                 </div>
             </div>
         </div>

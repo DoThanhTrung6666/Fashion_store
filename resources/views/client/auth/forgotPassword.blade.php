@@ -8,7 +8,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Register</li>
+                        <li class="breadcrumb-item active" aria-current="page">Login</li>
                     </ol>
                 </nav>
             </div>
@@ -25,23 +25,17 @@
                 <img src="{{asset('assets/img/bannershop1.jpg')}}" width="100%" height="100%" alt="">
             </div>
             <div class="login-form">
-                <h2>Đăng kí tài khoản</h2>
-                <form action="{{route('register')}}" method="POST">
+                <h2>Quên mật khẩu</h2>
+                <form action="{{route('forgotPassword')}}" method="POST">
                     @csrf
-                    <label for="email">Họ và tên</label>
-                    <input type="text" id="email" name="name" placeholder="Nhập tên của bạn" >
-
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
 
-                    <label for="password">Mật khẩu</label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
+                    <button type="submit">Gửi</button>
 
-                    <button type="submit">Đăng kí</button>
                 </form>
-
                 <div class="register">
-                    <span>Bạn đã có tài khoản? <a href="{{route('login')}}">Đăng nhập ngay</a></span>
+                    <span>Quay lại trang đăng nhập? <a href="{{route('login')}}">Đăng nhập</a></span>
                 </div>
             </div>
         </div>
