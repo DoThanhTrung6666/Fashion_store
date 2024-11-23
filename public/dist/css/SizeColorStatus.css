@@ -50,9 +50,9 @@
 }
 
 .size-option input[type="radio"]:checked+span {
-    background-color: #007bff;
+    background-color: #55595e;
     color: #fff;
-    border-color: #007bff;
+    /* border-color: #007bff; */
 }
 
 
@@ -120,6 +120,15 @@
 .color-radio input[type="radio"]:checked+label {
     border-color: #000;
     /* Đổi màu đường viền khi được chọn */
+}
+
+.disabled {
+    opacity: 0.5;
+    /* Làm mờ tùy chọn */
+    pointer-events: none;
+    /* Không cho phép click */
+    cursor: not-allowed;
+    /* Con trỏ chuột hiển thị dấu cấm */
 }
 
 .login-container {

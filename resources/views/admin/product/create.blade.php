@@ -37,26 +37,26 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label for="">Giá chung</label>
+                    <label for="">Giá sản phẩm</label>
                     <input type="number" class="form-control" placeholder="Nhập giá sản phẩm" name="price">
                     @error('price')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="">Giá sau khi giảm</label>
                     <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="discount">
                     @error('discount')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                  </div>
-                  <div class="form-group">
+                  </div> --}}
+                  {{-- <div class="form-group">
                     <label for="">Số lượng</label>
                     <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" name="stock_quantity">
                     @error('stock_quantity')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                  </div>
+                  </div> --}}
                   <div class="form-group">
                     <label for="">Thương hiệu</label>
                     <select class="form-control" name="brand_id">
@@ -87,7 +87,7 @@
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="status">Trạng thái sản phẩm</label>
                     <div class="status-options">
                         <label class="status-option">
@@ -102,7 +102,7 @@
                     @error('status')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
-                </div>
+                </div> --}}
 
 
 
@@ -112,7 +112,7 @@
             <!-- Duyệt qua các biến thể đã thêm -->
             @foreach(old('variant', []) as $index => $variant)
                 <div class="variant-group">
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="variant[{{ $index }}][color_id]">Màu sắc</label>
                         <div class="color-options">
                             @foreach($colors as $color)
@@ -126,9 +126,27 @@
                         @error('variant.' . $index . '.color_id')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
+                        <label for="variant[{{ $index }}][color_id]">Màu sắc</label>
+                        <select name="variant[{{ $index }}][color_id]" class="form-control" id="variant[{{ $index }}][color_id]">
+                            <option value="">Chọn màu sắc</option> <!-- Tùy chọn mặc định -->
+                            @foreach($colors as $color)
+                                <option value="{{ $color->id }}"
+                                    @if(old('variant.' . $index . '.color_id') == $color->id) selected @endif
+                                >
+                                    {{ $color->name }} <!-- Hiển thị tên màu -->
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('variant.' . $index . '.color_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+                    {{-- <div class="form-group">
                         <label for="variant[{{ $index }}][size_id]">Kích thước</label>
                         <div class="size-options">
                             @foreach($sizes as $size)
@@ -143,15 +161,32 @@
                         @error('variant.' . $index . '.size_id')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
+                    </div> --}}
+                    <div class="form-group">
+                        <label for="variant[{{ $index }}][size_id]">Kích thước</label>
+                        <select name="variant[{{ $index }}][size_id]" class="form-control" id="variant[{{ $index }}][size_id]">
+                            <option value="">Chọn kích thước</option> <!-- Thêm một tùy chọn mặc định -->
+                            @foreach($sizes as $size)
+                                <option value="{{ $size->id }}"
+                                    @if(old('variant.' . $index . '.size_id') == $size->id) selected @endif
+                                >
+                                    {{ $size->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('variant.' . $index . '.size_id')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <div class="form-group">
+
+                    {{-- <div class="form-group">
                         <label for="variant[{{ $index }}][price]">Giá biến thể</label>
                         <input type="text" name="variant[{{ $index }}][price]" class="form-control" value="{{ old('variant.' . $index . '.price') }}">
                         @error('variant.' . $index . '.price')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="form-group">
                         <label for="variant[{{ $index }}][stock_quantity]">Số lượng tồn kho</label>
@@ -160,13 +195,13 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    {{-- <div class="form-group">
+                    <div class="form-group">
                         <label for="variant[{{ $index }}][image_variant]">Ảnh biến thể sản phẩm</label>
                         <input type="file" name="variant[{{ $index }}][image_variant]" class="form-control" value="{{ old('variant.' . $index . '.image_variant') }}">
                         @error('variant.' . $index . '.image_variant')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div> --}}
+                    </div>
                 </div>
             @endforeach
 
@@ -197,14 +232,15 @@ function addVariant(existingVariant = {}) {
         <div class="variant-group" id="variant-group-${index}">
             <div class="form-group">
                 <label for="variant[${index}][color_id]">Màu sắc</label>
-                <div class="color-options">
+                <select name="variant[${index}][color_id]" class="form-control" id="variant[${index}][color_id]">
+                    <option value="">Chọn màu sắc</option> <!-- Tùy chọn mặc định -->
                     @foreach($colors as $color)
-                        <label class="color-radio" style="background-color: {{ $color->name }};">
-                            <input type="radio" name="variant[${index}][color_id]" value="{{ $color->id }}"
-                                ${existingVariant.color_id == {{ $color->id }} ? 'checked' : ''}>
-                        </label>
+                        <option value="{{ $color->id }}"
+                            ${existingVariant.color_id == {{ $color->id }} ? 'selected' : '' }>
+                            {{ $color->name }} <!-- Hiển thị tên màu -->
+                        </option>
                     @endforeach
-                </div>
+                </select>
                 @error('variant.${index}.color_id')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -220,11 +256,7 @@ function addVariant(existingVariant = {}) {
                 </select>
             </div>
 
-            <div class="form-group">
-                <label for="variant[${index}][price]">Giá biến thể</label>
-                <input type="text" name="variant[${index}][price]" class="form-control"
-                    value="${existingVariant.price || ''}">
-            </div>
+
 
             <div class="form-group">
                 <label for="variant[${index}][stock_quantity]">Số lượng tồn kho</label>
@@ -233,6 +265,16 @@ function addVariant(existingVariant = {}) {
             </div>
 
 
+            <div class="form-group">
+                <label for="variant[${index}][image_variant]">Ảnh biến thể sản phẩm</label>
+                <input type="file" name="variant[${index}][image_variant]" class="form-control"
+                    value="${existingVariant.image_variant || ''}">
+                ${existingVariant.image_variant ? `
+                    <div class="existing-image">
+                        <img src="${existingVariant.image_variant}" alt="Ảnh biến thể" class="img-thumbnail" style="max-width: 200px;">
+                    </div>
+                ` : ''}
+            </div>
 
             <button type="button" class="btn btn-danger" onclick="removeVariant(${index})">Xóa biến thể</button>
         </div>
@@ -261,12 +303,24 @@ function saveVariantsToStorage() {
         let stock_quantity = group.querySelector('[name="variant[' + index + '][stock_quantity]"]').value || '';
         // let image_variant = group.querySelector('[name="variant[' + index + '][image_variant]"]').value || '';
 
+        let image_variant = group.querySelector('[name="variant[' + index + '][image_variant]"]').files[0]; // Lấy file ảnh
+
+        let image_url = ''; // Tạo biến để lưu URL ảnh
+
+        // Nếu có ảnh được chọn, bạn có thể tạo URL đối tượng cho ảnh
+        if (image_variant) {
+            image_url = URL.createObjectURL(image_variant); // Tạo URL cho ảnh
+        } else if (existingVariant.image_variant) {
+            image_url = existingVariant.image_variant; // Sử dụng ảnh cũ nếu có
+        }
+
         variants.push({
             color_id,
             size_id,
             price,
             stock_quantity,
             // image_variant
+            image_variant: image_url
         });
     });
 

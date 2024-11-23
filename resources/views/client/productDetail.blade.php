@@ -32,32 +32,38 @@
 
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class=""><img src="{{Storage::url($detail->image)}}" width="100%" alt=""><br>LOADING IMAGES</div>
-                <div class="sp-wrap">
-                    <a href="assets/img/product/16.png"><img src="assets/img/product/16.png" alt=""></a>
-                    <a href="assets/img/product/17.png"><img src="assets/img/product/17.png" alt=""></a>
-                    <a href="assets/img/product/18.png"><img src="assets/img/product/18.png" alt=""></a>
-                    <a href="assets/img/product/19.png"><img src="assets/img/product/19.png" alt=""></a>
-                    <a href="assets/img/product/20.png"><img src="assets/img/product/20.png" alt=""></a>
-                    <a href="assets/img/product/21.png"><img src="assets/img/product/21.png" alt=""></a>
+                @foreach ($detail->variants as $image )
+                <div class="sp-wrap" style="display:flex;">
+                    <div style="width:100px">
+                        <a href=""><img src="{{Storage::url($image->image_variant)}}" alt="" width="100"></a>
+                    </div>
                 </div>
+                @endforeach
             </div>
 
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class="prd_details">
 
-                    <div class="prt_01 mb-2"><span class="text-success bg-light-success rounded px-2 py-1">Women's Suit</span></div>
+                    <div class="prt_01 mb-2"><span class="text-success bg-light-success rounded px-2 py-1">{{$detail->category->name}}</span></div>
                     <div class="prt_02 mb-3">
                         <h2 class="ft-bold mb-1">{{$detail->name}}</h2>
                         <div class="text-left">
-                            <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                            {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star"></i>
                                 <span class="small">(412 Reviews)</span>
-                            </div>
-                            <div class="elis_rty"><span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span><span class="ft-bold theme-cl fs-lg">{{$detail->price}}</span></div>
+                            </div> --}}
+
+                            @if($flashSale)
+                                <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$detail->price - ($detail->price * ($flashSale->sale->discount_percentage / 100))}}</span> vnđ</div>
+                            @else
+                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm :{{$detail->price}} vnđ</span></div>
+                            @endif
+
                         </div>
                     </div>
 
@@ -66,8 +72,8 @@
                     </div>
 
                     <div class="prt_04 mb-4">
-                        <p class="d-flex align-items-center mb-1">Category:<strong class="fs-sm text-dark ft-medium ml-1">Salwar Suit, Women's</strong></p>
-                        <p class="d-flex align-items-center mb-0">SKU:<strong class="fs-sm text-dark ft-medium ml-1">KUMO42568</strong></p>
+                        <p class="d-flex align-items-center mb-1">Category:<strong class="fs-sm text-dark ft-medium ml-1">{{$detail->category->name}}</strong></p>
+                        {{-- <p class="d-flex align-items-center mb-0">SKU:<strong class="fs-sm text-dark ft-medium ml-1">KUMO42568</strong></p> --}}
 
                     </div>
 
@@ -77,17 +83,35 @@
 
     <div class="form-group">
         <label for="color">Màu sắc</label>
-        <div class="color-options">
+        <div class="size-options">
+            {{-- @foreach($groupByColor as $colorName=>$variants)
+                <label class="size-option">
+                    <input type="radio" name="color_id" value="{{ $variants->first()->color->id }}" onclick="updateSizes({{ $variants->first()->color->id }})"/>
+                    <span>{{ $colorName }}</span>
+                </label>
+            @endforeach --}}
+            @foreach($variants->groupBy('color.id') as $colorId => $colorVariants)
+            <label class="size-option">
+                <input type="radio" name="color_id" value="{{ $colorId }}" onclick="updateSizes({{ $colorId }})" />
+                <span>{{ $colorVariants->first()->color->name }}</span>
+            </label>
+        @endforeach
+        </div>
+    </div>
+
+    {{-- <div class="form-group">
+        <label for="size">Kích thước</label>
+        <div class="size-options">
             @foreach($groupByColor as $colorName=>$variants)
-                <label class="color-radio" style="background-color:{{ $colorName }};">
-                    {{-- @foreach($variants as $variant)
-                        <input type="radio" name="variant[0][color_id]" value="{{ $variant->color->id }}" style="display: none;">
-                    @endforeach --}}
+                <label class="size-option">
+
                     <input type="radio" name="color_id" value="{{ $variants->first()->color->id }}" />
+
+                    <span>{{ $colorName }}</span>
                 </label>
             @endforeach
         </div>
-    </div>
+    </div> --}}
 
 
 
@@ -95,20 +119,70 @@
     <!-- Chọn size -->
     <div class="form-group">
         <label for="size">Kích thước</label>
-        <div class="size-options">
-            @foreach($groupBySize as $sizeName=>$variants)
+        <div class="size-options" id="size-options">
+            {{-- @foreach($groupBySize as $sizeName=>$variants)
                 <label class="size-option">
-
-                    <input type="radio" name="size_id" value="{{ $variants->first()->size->id }}" />
-                    {{-- <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}"> --}}
+                    <input type="radio" name="size_id" value="{{ $variants->first()->size->id }}" disabled />
                     <span>{{ $sizeName }}</span>
                 </label>
-            @endforeach
+            @endforeach --}}
+            @foreach($variants->groupBy('size.id') as $sizeId => $sizeVariants)
+            <label class="size-option">
+                <input type="radio" name="size_id" value="{{ $sizeId }}" onclick="updateColors({{ $sizeId }})" />
+                <span>{{ $sizeVariants->first()->size->name }}</span>
+            </label>
+        @endforeach
         </div>
     </div>
+    <span>
+        @if(session('error'))
+            <p style="color: red">{{session('error')}}</p>
+        @endif
+    </span>
 {{-- thêm product_id để so sánh  --}}
     <input type="hidden" name="product_id" value="{{ $detail->id }}">
 
+    <script>
+        const variants = @json($variants->toArray());
+
+function updateSizes(colorId) {
+    const sizeOptions = document.querySelectorAll('#size-options .size-option');
+    sizeOptions.forEach(option => {
+        const input = option.querySelector('input');
+        input.checked = false;
+        option.classList.add('disabled'); // Thêm class màu tối
+    });
+
+    // Lọc các kích thước phù hợp với màu đã chọn
+    const availableSizes = variants.filter(variant => variant.color_id === colorId).map(variant => variant.size_id);
+
+    sizeOptions.forEach(option => {
+        const input = option.querySelector('input');
+        if (availableSizes.includes(parseInt(input.value))) {
+            option.classList.remove('disabled'); // Bỏ màu tối
+        }
+    });
+}
+
+function updateColors(sizeId) {
+    const colorOptions = document.querySelectorAll('#color-options .color-option');
+    colorOptions.forEach(option => {
+        const input = option.querySelector('input');
+        input.checked = false;
+        option.classList.add('disabled'); // Thêm class màu tối
+    });
+
+    // Lọc các màu phù hợp với kích thước đã chọn
+    const availableColors = variants.filter(variant => variant.size_id === sizeId).map(variant => variant.color_id);
+
+    colorOptions.forEach(option => {
+        const input = option.querySelector('input');
+        if (availableColors.includes(parseInt(input.value))) {
+            option.classList.remove('disabled'); // Bỏ màu tối
+        }
+    });
+}
+    </script>
 </div>
 <input type="hidden" name="product_variant_id" id="product_variant_id">
 {{-- dành cho size và color  --}}
