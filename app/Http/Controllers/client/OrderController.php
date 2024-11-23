@@ -23,7 +23,7 @@ class OrderController extends Controller
         if($cart){
         // tính tổng tiền
             $totalPrice = $cart->cartItems->sum(function ($item) {
-                return $item->quantity * $item->productVariant->price;
+                return $item->quantity * $item->productVariant->product->price;
             });
         }
 
@@ -40,12 +40,23 @@ class OrderController extends Controller
             if (!$item->productVariant) {
                 return redirect()->back()->with('error', 'Sản phẩm không tồn tại hoặc không có sẵn.');
             }
+             // Cập nhật số lượng tồn kho của biến thể sản phẩm
+                    $productVariant = $item->productVariant;
+
+                    // Kiểm tra xem số lượng tồn kho có đủ không
+                    if ($productVariant->stock_quantity < $item->quantity) {
+                        return redirect()->back()->with('error', 'Sản phẩm ' . $productVariant->product->name . ' không đủ số lượng trong kho.');
+                    }
+
+                    // Trừ số lượng của biến thể sản phẩm
+                    $productVariant->stock_quantity -= $item->quantity;
+                    $productVariant->save();
             OrderItem::create([
                 'order_id'=>$order->id,
                 // dd($item->product_variant_id),
                 'product_variant_id'=>$item->productVariant->id,
                 'quantity'=>$item->quantity,
-                'price'=>$item->productVariant->price
+                'price'=>$item->productVariant->product->price
             ]);
         }
         // xoá giỏ hàng khi mua thành công

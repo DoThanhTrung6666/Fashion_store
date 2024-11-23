@@ -80,67 +80,158 @@
 </div>
 <!-- ============================ Hero Banner End ================================== -->
 
-<!-- ======================= All Category ======================== -->
-<section class="middle">
+<!-- ======================= Flash sale ======================== -->
+@if($flashSales->isEmpty())
+    {{-- <p>Chương trình đã kết thúc</p> --}}
+@else
+<section class="middle gray">
     <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Popular Categories</h2>
-                    <h3 class="ft-bold pt-3">Trending Categories</h3>
+                    <h2 class="off_title">Chương trình flash sale</h2>
+                    <h3 class="ft-bold pt-3">Chương trình flash sale </h3>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 style="color: red">Kết thúc sau: <span id="countdown"></span></h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="row align-items-center justify-content-center">
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/fashion.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Men's Wear</a></h6></div>
-                </div>
-            </div> --}}
+        <!-- row -->
+        <div class="row align-items-center rows-products">
 
-            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/tshirt.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Áo nam</a></h6></div>
+            @foreach ($flashSales as $flashSale)
+
+
+            <!-- Single -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                <div class="product_grid card b-0">
+                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale['salePercentage']) }}%</div>
+                    <div class="card-body p-0">
+                        <div class="shop_thumb position-relative">
+                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $flashSale['flashSaleId']) }}"><img class="card-img-top" src="{{Storage::url($flashSale['productImage'])}}" alt="..."></a>
+                            <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer b-0 p-0 pt-2">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="text-left">
+                                {{-- @foreach ($flashSale->productVariant->color as $color)
+                                <div class="form-check form-option form-check-inline mb-1">
+                                    <input class="form-check-input" type="radio" name="color1" id="white" checked="">
+                                    <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->name}};"></label> --}}
+                                    {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
+                                 {{-- </div>
+                                @endforeach --}}
+                            </div>
+                            <div class="text-right">
+                                <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="text-left">
+                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="{{ route('detail.show', $flashSale['flashSaleId']) }}">{{$flashSale['productName']}}</a></p>
+                            <div class="elis_rty">
+                                <span class="ft-bold text-dark fs-sm" style="display: flex">
+                                <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($flashSale['productPrice'], 2, '.', ','), '0'), '.') }}vnđ</p>
+                                <p style="width:60%">{{
+                                    rtrim(rtrim(number_format($flashSale['productPrice'] -
+                                    ($flashSale['productPrice'] * ($flashSale['salePercentage'] / 100)), 2, '.', ','), '0'), '.')
+                                }}vnđ</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/accessories.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Accessories</a></h6></div>
-                </div>
-            </div> --}}
+            @endforeach
 
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/sneakers.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Men's Shoes</a></h6></div>
-                </div>
-            </div> --}}
 
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/television.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Television</a></h6></div>
-                </div>
-            </div> --}}
+            @foreach($flashSales as $flashSale)
+    <script>
+        // Lấy end_time của mỗi phần tử trong mảng flashSales và chuyển thành timestamp
+        var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale['end_time'])->toIso8601String() }}").getTime();
+        var countdown = setInterval(function () {
+                    var now = new Date().getTime();
+                    var timeRemaining = endTime - now;
 
-            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/pant.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Quần nam</a></h6></div>
+                    // Nếu hết thời gian, dừng đếm ngược và cập nhật text
+                    if (timeRemaining < 0) {
+                        clearInterval(countdown);
+                        document.getElementById("countdown").innerHTML = "Chương trình đã kết thúc";
+                        return;
+                    }
+
+                    // Tính toán thời gian còn lại
+                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                    // Hiển thị thời gian
+                    document.getElementById("countdown").innerHTML =
+                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                }, 1000);
+        // console.log("End Time for Flash Sale {{ $flashSale['flashSaleId'] }}: ", endTime); // In ra giá trị end_time
+    </script>
+@endforeach
+
+            {{-- <script>
+                // Lấy thời gian kết thúc từ server (ISO8601)
+                // var endTime = new Date("{{ \Carbon\Carbon::parse($flashSales[0]->end_time)->toIso8601String() }}").getTime();
+
+
+
+                // Cập nhật thời gian đếm ngược mỗi giây
+                var countdown = setInterval(function () {
+                    var now = new Date().getTime();
+                    var timeRemaining = endTime - now;
+
+                    // Nếu hết thời gian, dừng đếm ngược và cập nhật text
+                    if (timeRemaining < 0) {
+                        clearInterval(countdown);
+                        document.getElementById("countdown").innerHTML = "Sale ended";
+                        return;
+                    }
+
+                    // Tính toán thời gian còn lại
+                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                    // Hiển thị thời gian
+                    document.getElementById("countdown").innerHTML =
+                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                }, 1000);
+            </script> --}}
+
+
+        </div>
+        <!-- row -->
+
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="position-relative text-center">
+                    <a href="shop-style-1.html" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
                 </div>
             </div>
         </div>
 
     </div>
 </section>
-<!-- ======================= All Category ======================== -->
+@endif
 
+<!-- ======================= All  ======================== -->
+<section class="space min">
+
+</section>
 <!-- ======================= Products Lists ======================== -->
 <section class="space min pt-0">
     <div class="container">
@@ -203,7 +294,9 @@
                                                         <span class="small">(5 Reviews)</span>
                                                     </div>
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$value->name}}</a></h5>
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->discount}}vnđ - {{$value->price}}vnđ</span></div>
+
+
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->price}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -324,21 +417,17 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             @endforeach
 
-            {{ $trendingProducts->links() }}
+            {{-- {{ $trendingProducts->links() }} --}}
         </div>
+        {{ $trendingProducts->links() }}
         <!-- row -->
 
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="position-relative text-center">
-                    <a href="shop-style-1.html" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
-                </div>
-            </div>
-        </div>
+
 
     </div>
 </section>
@@ -346,64 +435,7 @@
 
 <!-- ======================= Blog Start ============================ -->
 <section class="space min">
-    <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Latest News</h2>
-                    <h3 class="ft-bold pt-3">New Updates</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="_blog_wrap">
-                    <div class="_blog_thumb mb-2">
-                        <a href="blog-detail.html" class="d-block"><img src="assets/img/bl-1.png" class="img-fluid rounded" alt="" /></a>
-                    </div>
-                    <div class="_blog_caption">
-                        <span class="text-muted">26 Jan 2021</span>
-                        <h5 class="bl_title lh-1"><a href="blog-detail.html">Let's start bring sale on this saummer vacation.</a></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                        <a href="blog-detail.html" class="text-dark fs-sm">Continue Reading..</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="_blog_wrap">
-                    <div class="_blog_thumb mb-2">
-                        <a href="blog-detail.html" class="d-block"><img src="assets/img/bl-2.png" class="img-fluid rounded" alt="" /></a>
-                    </div>
-                    <div class="_blog_caption">
-                        <span class="text-muted">17 July 2021</span>
-                        <h5 class="bl_title lh-1"><a href="blog-detail.html">Let's start bring sale on this saummer vacation.</a></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                        <a href="blog-detail.html" class="text-dark fs-sm">Continue Reading..</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="_blog_wrap">
-                    <div class="_blog_thumb mb-2">
-                        <a href="blog-detail.html" class="d-block"><img src="assets/img/bl-3.png" class="img-fluid rounded" alt="" /></a>
-                    </div>
-                    <div class="_blog_caption">
-                        <span class="text-muted">10 Aug 2021</span>
-                        <h5 class="bl_title lh-1"><a href="blog-detail.html">Let's start bring sale on this saummer vacation.</a></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                        <a href="blog-detail.html" class="text-dark fs-sm">Continue Reading..</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
 </section>
 <!-- ======================= Blog Start ============================ -->
 

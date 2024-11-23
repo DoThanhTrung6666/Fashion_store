@@ -18,8 +18,6 @@
                                     <th style="text-align: center" scope="col" style="">id</th>
                                     <th style="text-align: center" scope="col" style="">Tên sản phẩm</th>
                                     <th style="text-align: center" scope="col" style="">Image</th>
-                                    <th style="text-align: center" scope="col" style="">Giá chung</th>
-                                    <th style="text-align: center" scope="col" style="">Số lượng chung</th>
                                     <th style="text-align: center" scope="col" style="">Danh mục</th>
                                 </tr>
 
@@ -30,8 +28,6 @@
                                                 <td>{{$product->id}}</td>
                                                 <td>{{$product->name}}</td>
                                                 <td><img src="{{Storage::url($product->image)}}" width="100" height="100" alt=""></td>
-                                                <td>{{$product->price}}</td>
-                                                <td>{{$product->stock_quantity}}</td>
                                                 <td>{{$product->category->name}}</td>
                                                 <td>
                                                     <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-warning">Sửa</a>

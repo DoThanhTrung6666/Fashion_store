@@ -18,7 +18,7 @@ class CheckoutController extends Controller
         $cart = Cart::with('cartItems.productVariant')->where('user_id',$user->id)->first();
         if($cart){
             $totalPrice = $cart->cartItems->sum(function ($item) {
-                return $item->quantity * $item->productVariant->price;
+                return $item->quantity * $item->productVariant->product->price;
             });
             return view('client.checkout',compact('user','cart','totalPrice'));
         }else{

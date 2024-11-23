@@ -4,8 +4,10 @@ use App\Http\Controllers\admin\AdOrderController;
 use App\Http\Controllers\admin\ColorController;
 
 use App\Http\Controllers\Admin\BannerController;
-
+use App\Http\Controllers\admin\FlashSaleAllController;
+use App\Http\Controllers\admin\FlashSaleController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\SaleController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
 use App\Http\Controllers\admin\UserController;
@@ -20,6 +22,7 @@ use App\Http\Controllers\client\DetailController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\CommentController;
+
 
 
 /*
@@ -72,6 +75,12 @@ Route::prefix('admin')
         Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
         Route::resource('users',UserController::class);
+
+        // dành cho quản lí flash sale bên phía admin
+        Route::resource('/sales',SaleController::class);
+        Route::resource('/flash-sales',FlashSaleController::class);
+        Route::resource('/flash-salesAll',FlashSaleAllController::class);
+        // kết thúc flash sale
     });
 
 
