@@ -86,33 +86,6 @@
                         </div>
                     </div>
 
-                    <h5 class="mb-4 ft-medium">Payments</h5>
-                    <div class="row mb-4">
-                        <div class="col-12 col-lg-12 col-xl-12 col-md-12">
-                            <div class="panel-group pay_opy980" id="payaccordion">
-
-                                <!-- Pay By Paypal -->
-                                <div class="panel panel-default border">
-                                    <div class="panel-heading" id="pay">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" role="button" data-parent="#payaccordion" href="#payPal" aria-expanded="true"  aria-controls="payPal" class="">PayPal<img src="assets/img/paypal.html" class="img-fluid" alt=""></a>
-                                        </h4>
-                                    </div>
-                                    <div id="payPal" class="panel-collapse collapse show" aria-labelledby="pay" data-parent="#payaccordion">
-                                        <div class="panel-body">
-                                            <div class="form-group">
-                                                <label class="text-dark">PayPal Email</label>
-                                                <input type="text" class="form-control simple" placeholder="paypal@gmail.com">
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-dark btm-md full-width">Pay 400.00 USD</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
             </div>
@@ -161,13 +134,13 @@
                       <span>Subtotal</span> <span class="ml-auto text-dark ft-medium">0</span>
                       @endif
                       <li class="list-group-item d-flex text-dark fs-sm ft-regular">
-                        <span>Tax</span> <span class="ml-auto text-dark ft-medium">$10.10</span>
+                        <span>Phí vận chuyển</span> <span class="ml-auto text-dark ft-medium">30.000 vnđ</span>
                       </li>
                       <li class="list-group-item d-flex text-dark fs-sm ft-regular">
-                        <span>Total</span> <span class="ml-auto text-dark ft-medium">Chưa có tổng</span>
+                        <span>Total</span> <span class="ml-auto text-dark ft-medium">{{$totalPrice - 30000}}</span>
                       </li>
                       <li class="list-group-item fs-sm text-center">
-                        Shipping cost calculated at Checkout *
+                        Kiểm tra lại thông tin đặt hàng
                       </li>
 
 
@@ -175,7 +148,7 @@
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-dark btm-md full-width">Place Your Order</button>
+                <button type="submit" class="btn btn-dark btm-md full-width">Tiến hành đặt hàng</button>
             </div>
 
         </form>
