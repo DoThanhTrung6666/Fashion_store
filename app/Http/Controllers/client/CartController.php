@@ -23,34 +23,39 @@ class CartController extends Controller
                     ->first();
 
         // Duyệt qua tất cả các sản phẩm trong giỏ hàng và kiểm tra flash sale
-        $cartItemsWithSaleInfo = $cart->cartItems->map(function ($cartItem) {
-            // Kiểm tra nếu sản phẩm này có tham gia Flash Sale
-            $flashSale = FlashSale::where('product_variant_id', $cartItem->productVariant->id)
-                ->where('start_time', '<=', now())
-                ->where('end_time', '>=', now())
-                ->first();
+        if($cart !== null){
+            $cartItemsWithSaleInfo = $cart->cartItems->map(function ($cartItem) {
+                // Kiểm tra nếu sản phẩm này có tham gia Flash Sale
+                $flashSale = FlashSale::where('product_variant_id', $cartItem->productVariant->id)
+                    ->where('start_time', '<=', now())
+                    ->where('end_time', '>=', now())
+                    ->first();
 
-            // Trả về thông tin sản phẩm và trạng thái Flash Sale của sản phẩm đó
-            return [
-                'cartItem' => $cartItem,  // Sản phẩm trong giỏ hàng
-                'isOnFlashSale' => $flashSale ? true : false, // Trạng thái Flash Sale
-                'flashSale' => $flashSale, // Thông tin Flash Sale nếu có
-                'finalPrice' => $flashSale ? $flashSale->discounted_price : $cartItem->productVariant->product->price,
-            ];
-        });
-        $totalAmount = $cartItemsWithSaleInfo->sum(function ($item) {
-            return $item['finalPrice'] * $item['cartItem']->quantity;
-        });
+                // Trả về thông tin sản phẩm và trạng thái Flash Sale của sản phẩm đó
+                return [
+                    'cartItem' => $cartItem,  // Sản phẩm trong giỏ hàng
+                    'isOnFlashSale' => $flashSale ? true : false, // Trạng thái Flash Sale
+                    'flashSale' => $flashSale, // Thông tin Flash Sale nếu có
+                    'finalPrice' => $flashSale ? $flashSale->discounted_price : $cartItem->productVariant->product->price,
+                ];
+            });
+            $totalAmount = $cartItemsWithSaleInfo->sum(function ($item) {
+                return $item['finalPrice'] * $item['cartItem']->quantity;
+            });
+            return view('client.cart', compact('totalAmount','cart', 'cartItemsWithSaleInfo'));
+        }else{
+            echo "";
+        }
 
 
         // Trả về view với thông tin giỏ hàng và Flash Sale
-        return view('client.cart', compact('totalAmount','cart', 'cartItemsWithSaleInfo'));
+        return view('client.cart', compact('cart'));
     }
 
     public function addToCart(Request $request)
     {
 
-        // validate 
+        // validate
         if (!$request->has('color_id') || !$request->has('size_id')) {
             return redirect()->back()->with('error', 'Vui lòng chọn đầy đủ màu sắc và kích cỡ.');
         }

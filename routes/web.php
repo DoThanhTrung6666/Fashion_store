@@ -118,5 +118,5 @@ Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.lo
 
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
-
+Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase');
 

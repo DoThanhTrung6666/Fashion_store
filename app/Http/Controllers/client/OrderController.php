@@ -33,7 +33,7 @@ class OrderController extends Controller
             'payment' => 1,
             'order_date'=> now(),
             'status' => 'Chờ xác nhận',
-            'total_amount' => $totalPrice
+            'total_amount' => $totalPrice - 30000
         ]);
         // tạo các mục đơn hàng từ giỏ hàng
         foreach($cart->cartItems as $item){
@@ -96,6 +96,43 @@ public function cancelOrder($orderId)
 
     return redirect()->route('orders.loadUser')->with('error', 'Không thể hủy đơn hàng này.');
 }
+
+
+// xử lí mua lại
+public function repurchase($orderId)
+    {
+        $user = Auth::user(); // Lấy thông tin người dùng đang đăng nhập
+
+        // Lấy đơn hàng đã huỷ mà người dùng muốn mua lại
+        $oldOrder = Order::with('orderItems.productVariant')->where('id', $orderId)->where('user_id', $user->id)->first();
+
+        // Nếu không tìm thấy đơn hàng
+        if (!$oldOrder) {
+            return redirect()->back()->with('error', 'Đơn hàng không tìm thấy.');
+        }
+
+        // Kiểm tra nếu đơn hàng cũ không phải là "Đã huỷ"
+        if ($oldOrder->status !== 'Hủy đơn hàng') {
+            return redirect()->back()->with('error', 'Đơn hàng này không thể mua lại vì trạng thái không phải là "Đã huỷ".');
+        }
+
+        // Kiểm tra số lượng tồn kho của sản phẩm trong đơn hàng cũ
+        foreach ($oldOrder->orderItems as $item) {
+            $productVariant = $item->productVariant;
+
+            // Kiểm tra số lượng tồn kho của sản phẩm
+            if ($productVariant->stock_quantity < $item->quantity) {
+                return redirect()->back()->with('error', 'Sản phẩm ' . $productVariant->product->name . ' không đủ số lượng trong kho.');
+            }
+        }
+
+        // Cập nhật trạng thái đơn hàng từ "Đã huỷ" thành "Chờ xác nhận"
+        $oldOrder->status = 'Chờ xác nhận';
+        $oldOrder->save();
+
+        // Thông báo thành công và chuyển đến trang cảm ơn hoặc trang chi tiết đơn hàng
+        return redirect()->back()->with('success', 'Đơn hàng của bạn đã được khôi phục và đang chờ xác nhận.');
+    }
 
 
 }
