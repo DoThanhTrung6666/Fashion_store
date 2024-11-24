@@ -96,7 +96,9 @@ Route::get('register', [AuthenticationController::class, 'showFormRegister'])->n
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
+//Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
+Route::get('/danhmucsp', [\App\Http\Controllers\auth\FilterController::class, 'danhmucsp'])->name('danhmucsp');
+
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 
