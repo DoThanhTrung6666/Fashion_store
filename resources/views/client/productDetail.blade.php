@@ -29,108 +29,187 @@
         <div class="row">
 
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                <div class=""><img src="{{Storage::url($detail->image)}}" width="100%" alt=""><br>LOADING IMAGES</div>
-                <div class="sp-wrap">
-                    <a href="assets/img/product/16.png"><img src="assets/img/product/16.png" alt=""></a>
-                    <a href="assets/img/product/17.png"><img src="assets/img/product/17.png" alt=""></a>
-                    <a href="assets/img/product/18.png"><img src="assets/img/product/18.png" alt=""></a>
-                    <a href="assets/img/product/19.png"><img src="assets/img/product/19.png" alt=""></a>
-                    <a href="assets/img/product/20.png"><img src="assets/img/product/20.png" alt=""></a>
-                    <a href="assets/img/product/21.png"><img src="assets/img/product/21.png" alt=""></a>
+                {{-- <div class=""><img src="{{Storage::url($detail->image)}}" width="100%" alt=""><br>LOADING IMAGES</div> --}}
+
+                <div class="sp-wrap" >
+                    @foreach ($detail->variants as $image )
+                        <a href=""><img src="{{Storage::url($image->image_variant)}}" alt="" width="100"></a>
+                    @endforeach
                 </div>
+
             </div>
 
             <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div class="prd_details">
 
-                    <div class="prt_01 mb-2"><span class="text-success bg-light-success rounded px-2 py-1">Women's Suit</span></div>
+                    <div class="prt_01 mb-2"><span class="text-success bg-light-success rounded px-2 py-1">{{$detail->category->name}}</span></div>
                     <div class="prt_02 mb-3">
                         <h2 class="ft-bold mb-1">{{$detail->name}}</h2>
                         <div class="text-left">
-                            <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                            {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star filled"></i>
                                 <i class="fas fa-star"></i>
                                 <span class="small">(412 Reviews)</span>
-                            </div>
-                            <div class="elis_rty"><span class="ft-medium text-muted line-through fs-md mr-2">$199</span><span class="ft-bold theme-cl fs-lg">$110</span></div>
+                            </div> --}}
+
+                            @if($flashSale)
+                                <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$detail->price - ($detail->price * ($flashSale->sale->discount_percentage / 100))}}</span> vnđ</div>
+                            @else
+                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{$detail->price}} VNĐ</span></div>
+                            @endif
+
                         </div>
                     </div>
 
                     <div class="prt_03 mb-4">
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
+                        <p></p>
                     </div>
 
                     <div class="prt_04 mb-4">
+<<<<<<< HEAD
                         <p class="d-flex align-items-center mb-1">Category:<strong class="fs-sm text-dark ft-medium ml-1">Salwar Suit, Women's</strong></p>
                         <p class="d-flex align-items-center mb-0">SKU:<strong class="fs-sm text-dark ft-medium ml-1">KUMO42568</strong></p>
+=======
+                        {{-- <p class="d-flex align-items-center mb-1">Category:<strong class="fs-sm text-dark ft-medium ml-1">{{$detail->category->name}}</strong></p> --}}
+                        {{-- <p class="d-flex align-items-center mb-0">SKU:<strong class="fs-sm text-dark ft-medium ml-1">KUMO42568</strong></p> --}}
+
+>>>>>>> master
                     </div>
 {{-- dành cho size và color  --}}
 <div class="product-options">
     <!-- Chọn màu sắc -->
-
     <div class="form-group">
         <label for="color">Màu sắc</label>
-        <div class="color-options">
+        <div class="size-options">
+            {{-- @foreach($groupByColor as $colorName=>$variants)
+                <label class="size-option">
+                    <input type="radio" name="color_id" value="{{ $variants->first()->color->id }}" onclick="updateSizes({{ $variants->first()->color->id }})"/>
+                    <span>{{ $colorName }}</span>
+                </label>
+            @endforeach --}}
+            @foreach($variants->groupBy('color.id') as $colorId => $colorVariants)
+            <label class="size-option">
+                <input type="radio" name="color_id" value="{{ $colorId }}" onclick="updateSizes({{ $colorId }})" />
+                <span>{{ $colorVariants->first()->color->name }}</span>
+            </label>
+        @endforeach
+        </div>
+    </div>
+    {{-- <div class="form-group">
+        <label for="size">Kích thước</label>
+        <div class="size-options">
             @foreach($groupByColor as $colorName=>$variants)
-                <label class="color-radio" style="background-color:{{ $colorName }};">
-                    {{-- @foreach($variants as $variant)
-                        <input type="radio" name="variant[0][color_id]" value="{{ $variant->color->id }}" style="display: none;">
-                    @endforeach --}}
+                <label class="size-option">
+
                     <input type="radio" name="color_id" value="{{ $variants->first()->color->id }}" />
+
+                    <span>{{ $colorName }}</span>
                 </label>
             @endforeach
         </div>
-    </div>
-
-
-
-
+    </div> --}}
     <!-- Chọn size -->
     <div class="form-group">
         <label for="size">Kích thước</label>
-        <div class="size-options">
-            @foreach($groupBySize as $sizeName=>$variants)
+        <div class="size-options" id="size-options">
+            {{-- @foreach($groupBySize as $sizeName=>$variants)
                 <label class="size-option">
-
-                    <input type="radio" name="size_id" value="{{ $variants->first()->size->id }}" />
-                    {{-- <input type="radio" name="variant[0][size_id]" value="{{ $size->id }}"> --}}
+                    <input type="radio" name="size_id" value="{{ $variants->first()->size->id }}" disabled />
                     <span>{{ $sizeName }}</span>
                 </label>
-            @endforeach
+            @endforeach --}}
+            @foreach($variants->groupBy('size.id') as $sizeId => $sizeVariants)
+            <label class="size-option">
+                <input type="radio" name="size_id" value="{{ $sizeId }}" onclick="updateColors({{ $sizeId }})" />
+                <span>{{ $sizeVariants->first()->size->name }}</span>
+            </label>
+        @endforeach
         </div>
     </div>
-{{-- thêm product_id để so sánh  --}}
+    <span>
+        @if(session('error'))
+            <p style="color: red">{{session('error')}}</p>
+        @endif
+    </span>
+    {{-- thêm product_id để so sánh  --}}
     <input type="hidden" name="product_id" value="{{ $detail->id }}">
 
-</div>
+    <script>
+        const variants = @json($variants->toArray());
 
+function updateSizes(colorId) {
+    const sizeOptions = document.querySelectorAll('#size-options .size-option');
+    sizeOptions.forEach(option => {
+        const input = option.querySelector('input');
+        input.checked = false;
+        option.classList.add('disabled'); // Thêm class màu tối
+    });
+
+    // Lọc các kích thước phù hợp với màu đã chọn
+    const availableSizes = variants.filter(variant => variant.color_id === colorId && variant.stock_quantity > 0).map(variant => variant.size_id);
+
+    sizeOptions.forEach(option => {
+        const input = option.querySelector('input');
+        if (availableSizes.includes(parseInt(input.value))) {
+            option.classList.remove('disabled'); // Bỏ màu tối
+        }
+    });
+}
+
+function updateColors(sizeId) {
+    const colorOptions = document.querySelectorAll('#color-options .color-option');
+    colorOptions.forEach(option => {
+        const input = option.querySelector('input');
+        input.checked = false;
+        option.classList.add('disabled'); // Thêm class màu tối
+    });
+
+    // Lọc các màu phù hợp với kích thước đã chọn
+    const availableColors = variants.filter(variant => variant.size_id === sizeId && variant.stock_quantity > 0).map(variant => variant.color_id);
+
+    colorOptions.forEach(option => {
+        const input = option.querySelector('input');
+        if (availableColors.includes(parseInt(input.value))) {
+            option.classList.remove('disabled'); // Bỏ màu tối
+        }
+    });
+}
+    </script>
+</div>
+<<<<<<< HEAD
+
+=======
+{{-- <input type="hidden" name="product_variant_id" id="product_variant_id"> --}}
+>>>>>>> master
 {{-- dành cho size và color  --}}
                     <div class="prt_05 mb-4">
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">
                                 <!-- Quantity -->
-                                <select class="mb-2 custom-select">
-                                  <option value="1" selected="">1</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
+                                <select class="mb-2 custom-select" name="quantity">
+                                    <option value="1" selected="">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                             </div>
                             <div class="col-12 col-lg">
                                 <!-- Submit -->
                                 <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
-                                    <i class="lni lni-shopping-basket mr-2"></i>Add to Cart
+                                    <i class="lni lni-shopping-basket mr-2"></i>Thêm vào giỏ hàng
                                 </button>
                             </div>
                             <div class="col-12 col-lg-auto">
                                 <!-- Wishlist -->
-                                <button class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
-                                    <i class="lni lni-heart mr-2"></i>Wishlist
-                                </button>
+                                <a href="" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                    <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
+                                </a>
+
                             </div>
                       </div>
                     </div>
@@ -386,8 +465,8 @@
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Similar Products</h2>
-                    <h3 class="ft-bold pt-3">Matching Producta</h3>
+                    <h2 class="off_title">Sản phẩm cùng loại</h2>
+                    <h3 class="ft-bold pt-3">Sản phẩm cùng loại</h3>
                 </div>
             </div>
         </div>
@@ -396,171 +475,32 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="slide_items">
 
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/8.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                    @foreach ($relatedProducts as $product)
+                        <!-- single Item -->
+                        <div class="single_itesm">
+                            <div class="product_grid card b-0 mb-0">
+                                <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                                <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
+                                <div class="card-body p-0">
+                                    <div class="shop_thumb position-relative">
+                                        <a class="card-img-top d-block overflow-hidden" href="{{route('detail.show',$product->id)}}"><img class="card-img-top" src="{{Storage::url($product->image)}}" alt="..."></a>
+                                        <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                            <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Half Running Set</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold fs-md text-dark">$119.00</span></div>
+                                <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
+                                    <div class="text-left">
+                                        <div class="text-center">
+                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$product->name}}</a></h5>
+                                            <div class="elis_rty"><span class="ft-bold fs-md text-dark">{{$product->price}} VNĐ</span></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
 
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">New</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/9.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Formal Men Lowers</a></h5>
-                                        <div class="elis_rty"><span class="text-muted ft-medium line-through mr-2">$129.00</span><span class="ft-bold theme-cl fs-md">$79.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/10.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Half Running Suit</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold fs-md text-dark">$80.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-warning text-white position-absolute ft-regular ab-left text-upper">Hot</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/11.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Half Fancy Lady Dress</a></h5>
-                                        <div class="elis_rty"><span class="text-muted ft-medium line-through mr-2">$149.00</span><span class="ft-bold theme-cl fs-md">$110.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/12.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Flix Flox Jeans</a></h5>
-                                        <div class="elis_rty"><span class="text-muted ft-medium line-through mr-2">$90.00</span><span class="ft-bold theme-cl fs-md">$49.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-danger text-white position-absolute ft-regular ab-left text-upper">Hot</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/13.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Fancy Salwar Suits</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold fs-md text-dark">$114.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- single Item -->
-                    <div class="single_itesm">
-                        <div class="product_grid card b-0 mb-0">
-                            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
-                            <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i class="far fa-heart"></i></button>
-                            <div class="card-body p-0">
-                                <div class="shop_thumb position-relative">
-                                    <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="assets/img/product/14.jpg" alt="..."></a>
-                                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                        <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer b-0 p-3 pb-0 d-flex align-items-start justify-content-center">
-                                <div class="text-left">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">Collot Full Dress</a></h5>
-                                        <div class="elis_rty"><span class="ft-bold theme-cl fs-md text-dark">$120.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>

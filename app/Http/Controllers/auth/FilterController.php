@@ -16,6 +16,14 @@ class FilterController extends Controller
         // Lấy sản phẩm từ DB với eager loading để lấy thông tin sản phẩm
         $query = ProductVariant::with('product');
 
+        // Lấy tất cả các danh mục
+        $categories = Category::all();
+        if ($request->has('category') && $request->category != '') {
+            $query->whereHas('product.category', function($query) use ($request) {
+                $query->where('id', $request->category);
+            });
+        }
+
         // Lấy tất cả các màu
         $colors = Color::all();
 
@@ -78,7 +86,6 @@ class FilterController extends Controller
             $product->max_price = $maxPrice;
             return $product;
         })->values();
-
         return view('client.danhmucsp', compact('products', 'sizes', 'colors', 'categories')); // Truyền dữ liệu sản phẩm và kích thước vào view
     }
 }

@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
+        'phone',
+        'address',
+        'city',
+        'zip_code'
     ];
 
     /**
@@ -42,4 +47,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function isAdmin(){
+        return $this->role_id == 1;
+    }
+    public function isUser(){
+        return $this->role_id == 2;
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function getNameRole()
+    {
+        return $this->role->name ?? 'No Role Assigned';
+    }
 }

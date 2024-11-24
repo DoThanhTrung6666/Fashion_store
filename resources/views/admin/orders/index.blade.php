@@ -6,7 +6,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-            Quan ly don hang
+            Danh sách đơn hàng
         </h1>
     </section>
     <section class="content">
@@ -14,112 +14,55 @@
             <div class="col-md-12">
                 <div class="box box-primary">
 
-                    <h3>Orders Pending Confirmation</h3>
+
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Order ID</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
+                                <th>Payment</th>
+                                <th>Order_date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($pendingOrders as $order)
+                            @foreach( $orders as $order)
                                 <tr>
                                     <td>{{ $order->id }}</td>
                                     <td>{{ $order->total_amount }}</td>
                                     <td>{{ $order->status }}</td>
+                                    <td>{{ $order->payment }}</td>
+                                    <td>{{ $order->order_date }}</td>
                                     <td>
-                                        <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="Đã xác nhận">
-                                            <button type="submit">Confirm</button>
-                                        </form>
+                                        <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-info">View Details</a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                
-                    <h3>Confirmed Orders</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($confirmedOrders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="Chờ giao hàng">
-                                            <button type="submit">Ready for Shipping</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                
-                    <h3>Orders Ready for Shipping</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($shippingOrders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->status }}</td>
-                                    <td>
-                                        <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="status" value="Đã giao hàng">
-                                            <button type="submit">Mark as Delivered</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                
-                    <h3>Delivered Orders</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Total Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($deliveredOrders as $order)
-                                <tr>
-                                    <td>{{ $order->id }}</td>
-                                    <td>{{ $order->total_amount }}</td>
-                                    <td>{{ $order->status }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+
+
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+
+<script>
+    function disableOtherOptions(selectedRadio) {
+        // Get all radio buttons in the current form
+        const form = selectedRadio.closest('form');
+        const radios = form.querySelectorAll('input[type="radio"]');
+
+        // Disable all other radio buttons
+        radios.forEach(radio => {
+            if (radio !== selectedRadio) {
+                radio.disabled = true;
+            }
+        });
+    }
+</script>
 @endsection

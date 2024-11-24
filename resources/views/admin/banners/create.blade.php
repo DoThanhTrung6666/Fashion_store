@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Thêm mới brand
+                Thêm mới banner
             </h1>
             @if ($errors->any())
                 <div class="alert alert-danger">

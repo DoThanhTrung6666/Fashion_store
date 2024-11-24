@@ -1,13 +1,16 @@
 <?php
 
-
+use App\Http\Controllers\admin\AdOrderController;
 use App\Http\Controllers\admin\ColorController;
 
 use App\Http\Controllers\Admin\BannerController;
-
+use App\Http\Controllers\admin\FlashSaleAllController;
+use App\Http\Controllers\admin\FlashSaleController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\SaleController;
 use App\Http\Controllers\admin\SizeController;
 use App\Http\Controllers\admin\thongkeController;
+use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthenticationController;
 use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
@@ -17,7 +20,9 @@ use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\client\CheckoutController;
 use App\Http\Controllers\client\DetailController;
 use App\Http\Controllers\client\HomeController;
-use App\Http\Controllers\client\OrderController;
+use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\CommentController;
+
 
 
 /*
@@ -31,10 +36,8 @@ use App\Http\Controllers\client\OrderController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::get('/', [HomeController::class, 'getProductHome']);
 // bên admin
 Route::prefix('admin')
     ->middleware(['auth', 'admin'])
@@ -54,12 +57,37 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class);
         Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
+
+        Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/pending', [AdOrderController::class, 'pendingOrders'])->name('orders.pending');
+        Route::get('/orders/confirmed', [AdOrderController::class, 'confirmedOrders'])->name('orders.confirmed');
+        Route::get('/orders/shipping', [AdOrderController::class, 'shippingOrders'])->name('orders.shipping');
+        Route::get('/orders/delivered', [AdOrderController::class, 'deliveredOrders'])->name('orders.delivered');
+        Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
+        Route::get('/orders/{id}', [AdOrderController::class, 'show'])->name('orders.show');
+
+        Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
+
+
+        Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
+        Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
+        Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
+        Route::resource('users',UserController::class);
+
+        // dành cho quản lí flash sale bên phía admin
+        Route::resource('/sales',SaleController::class);
+        Route::resource('/flash-sales',FlashSaleController::class);
+        Route::resource('/flash-salesAll',FlashSaleAllController::class);
+        // kết thúc flash sale
     });
 
 Route::resource('brands', BrandController::class);
 Route::resource('categories', CategoryController::class);
 Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
 Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
 
 // bên client
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
@@ -71,7 +99,9 @@ Route::get('register', [AuthenticationController::class, 'showFormRegister'])->n
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
+//Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
+Route::get('/danhmucsp', [\App\Http\Controllers\auth\FilterController::class, 'danhmucsp'])->name('danhmucsp');
+
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 
@@ -83,12 +113,12 @@ Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou'
 
 
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
 Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 // Route để hiển thị sản phẩm theo danh mục
-Route::get('/', [HomeController::class, 'getProductHome'])->name('client.home');
+Route::get('/', [HomeController::class, 'getProductHome'])->name('client.home');Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase');

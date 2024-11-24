@@ -9,25 +9,22 @@ class Order extends Model
 {
     use HasFactory;
 
-    
+
     protected $fillable = [
         'user_id',
-       'payment',
+        'payment',
         'order_date',
         'status',
         'total_amount',
 
     ];
 
-    
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    // public function getPaymentStatusAttribute()
-    // {
-    //     return $this->status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán';
-    // }
+   
     public function orderItems()
 {
     return $this->hasMany(OrderItem::class, 'order_id', 'id');

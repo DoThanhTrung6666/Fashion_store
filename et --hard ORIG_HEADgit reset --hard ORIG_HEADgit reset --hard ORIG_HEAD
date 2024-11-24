@@ -1,0 +1,116 @@
+[33ma282d2f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m Merge pull request #44 from DoThanhTrung6666/trung
+[33mcdbc86d[m mua lai san pham trong order
+[33m0c49aa6[m chuc nang flash_sale va validate product dem so luong kho
+[33m19f6bd9[m Merge pull request #43 from DoThanhTrung6666/trung
+[33m259dba4[m Merge pull request #42 from DoThanhTrung6666/luu
+[33mc8f75a6[m Merge branch 'master' into luu
+[33m745d6b9[m chi tiết đơn hàng
+[33ma4b4c70[m Merge pull request #41 from DoThanhTrung6666/trung
+[33m035b654[m xem trang thai don hang user
+[33m072fa9d[m Merge pull request #40 from DoThanhTrung6666/hlinh
+[33m9bedec2[m Merge branch 'luu' of https://github.com/DoThanhTrung6666/Fashion_store into luu
+[33mfc1790e[m sưa create banner
+[33macc09c7[m Merge branch 'master' into hlinh
+[33m26a7f89[m add detail for users
+[33ma14825a[m Merge pull request #38 from DoThanhTrung6666/luu
+[33mc87c79c[m Merge branch 'master' into luu
+[33mb34b1b3[m Merge pull request #39 from DoThanhTrung6666/trung
+[33m806c5e2[m Merge branch 'master' into trung
+[33mfe27346[m xem trang thai don hang
+[33m4257bef[m Update web.php with new routes
+[33ma9d6737[m Merge branch 'master' into luu
+[33me23d552[m Merge pull request #37 from DoThanhTrung6666/hlinh
+[33mf0af1ec[m fix conflig
+[33m87c4895[m fix conflig
+[33ma9849ce[m Quan ly đon hang
+[33mb38e5ee[m Merge pull request #34 from DoThanhTrung6666/trung
+[33m8690c04[m chinh anh banner
+[33m7b5c6cb[m Merge pull request #33 from DoThanhTrung6666/khanhlinh
+[33mafdf97d[m Quan ly binh luan
+[33mf3f24a5[m Quan ly binh luan
+[33m7ca3453[m Quan ly binh luan
+[33me892619[m don hang
+[33m359b3f8[m Merge pull request #32 from DoThanhTrung6666/nguyetanh
+[33mea4c3ad[m xem don hang cua user
+[33m4d1e666[m Merge pull request #31 from DoThanhTrung6666/trung
+[33mc68b401[m sua lai giao dien
+[33m3580777[m sua lai dang nhap
+[33m7d64c75[m Merge pull request #30 from DoThanhTrung6666/trung
+[33m74c1943[m update product
+[33mf147d0e[m Merge pull request #29 from DoThanhTrung6666/trung
+[33m3776d37[m update giao dien
+[33m062e470[m Merge pull request #28 from DoThanhTrung6666/trung
+[33m7f9a296[m sua lai database
+[33m2296cf0[m Merge pull request #27 from DoThanhTrung6666/trung
+[33m5076312[m Merge pull request #26 from DoThanhTrung6666/hoang
+[33m7c38ec0[m Merge branch 'master' into hoang
+[33m5beebd9[m Merge pull request #25 from DoThanhTrung6666/luu
+[33m4c23d84[m update hiển thị sản phẩm
+[33mf3efe43[m lọc theo màu
+[33mdecb5e4[m lọc theo size
+[33m5c6010c[m update lọc theo giá 2
+[33m59a32f2[m bannercontroller
+[33m5fa7622[m update lai banner
+[33me078b2c[m don hang
+[33m367ada4[m Merge pull request #23 from DoThanhTrung6666/trung
+[33ma78965e[m thanh toan
+[33m0bc23fb[m fix lỗi
+[33mba8c145[m tao bang comment
+[33mc25727c[m Merge pull request #22 from DoThanhTrung6666/trung
+[33m0fea9d2[m Merge pull request #21 from DoThanhTrung6666/nguyetanh
+[33m6ef08c1[m dang ki tai khoan
+[33md331715[m Merge pull request #20 from DoThanhTrung6666/hoang
+[33mbe6aa87[m crud users
+[33m6debda9[m update lọc theo giá
+[33maab17e8[m Merge pull request #18 from DoThanhTrung6666/trung
+[33m39f1dd9[m gio hang khi dang nhap
+[33m9f9f1e5[m Merge pull request #17 from DoThanhTrung6666/hoang
+[33m303dc6b[m update
+[33mfb825d5[m lọc theo giá
+[33md3664fa[m Cập nhật trạng thái brand
+[33m49adf5f[m Update composer.lock
+[33mf0b8e9a[m Merge pull request #16 from DoThanhTrung6666/trung
+[33m8484bcd[m Merge branch 'master' into trung
+[33m8b0f82e[m dang ki dang nhap , phan quyen
+[33m303df96[m update
+[33m796585a[m load sp giao dien va xem chi tiet sp
+[33m5b4be90[m Merge pull request #14 from DoThanhTrung6666/trung
+[33mb086efd[m Merge pull request #13 from DoThanhTrung6666/luu
+[33m5035520[m update
+[33mef560ea[m Merge pull request #12 from DoThanhTrung6666/manh
+[33m5b9f56c[m lần 2
+[33mf8602bb[m lần 1
+[33m90ed7fa[m Merge pull request #11 from DoThanhTrung6666/nguyeanh04
+[33m5883e98[m Merge branch 'master' into nguyeanh04
+[33m590e6ee[m crud sizecolor
+[33m70f9723[m Merge pull request #10 from DoThanhTrung6666/luu
+[33mc63a08c[m Merge branch 'master' of https://github.com/DoThanhTrung6666/Fashion_store into luu
+[33m96e8963[m update
+[33m2626b86[m Merge pull request #9 from DoThanhTrung6666/luu
+[33md5d3888[m Merge branch 'master' into luu
+[33mc8ec57d[m quản lý brands
+[33me6a6f09[m update
+[33m283f5de[m update
+[33m7652d46[m Merge pull request #8 from DoThanhTrung6666/trung
+[33me217e31[m sua database
+[33m0fa5b13[m bien the san pham
+[33m2b46858[m Merge pull request #7 from DoThanhTrung6666/trung
+[33mf80d224[m cập nhật qly brand
+[33m7e1e4ad[m Merge branch 'master' into hoang
+[33m808717f[m Update composer.lock
+[33mba0974a[m tao bang moi
+[33mf0b4ffe[m Merge pull request #6 from DoThanhTrung6666/trung
+[33m69c6a75[m tao them bang
+[33meebbd3c[m Merge pull request #5 from DoThanhTrung6666/trung
+[33m97b0735[m quản lý brand
+[33m7feca8b[m update
+[33maf7f4ea[m tao bang brand
+[33m5eecc13[m Merge pull request #4 from DoThanhTrung6666/trung
+[33mf162670[m Merge pull request #3 from DoThanhTrung6666/admin
+[33m61e5882[m giao dien admin
+[33m600333b[m Merge pull request #2 from DoThanhTrung6666/database
+[33mdb56857[m tao bang
+[33m541fac0[m tao bang
+[33m7f1bbb6[m Merge pull request #1 from DoThanhTrung6666/database
+[33m2e774b5[m tao bang
+[33m54a85b1[m first commit
