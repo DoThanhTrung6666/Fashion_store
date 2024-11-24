@@ -84,7 +84,7 @@
                                 <!-- Choose Category -->
                                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="single_filter_title mb-2">
-                                        <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Categories</h6>
+                                        <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Category</h6>
                                     </div>
                                     {{-- <div class="single_filter_card mb-2">
                                         <h5><a href="#mens" data-toggle="collapse" class="collapsed" aria-expanded="false"
