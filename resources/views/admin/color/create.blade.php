@@ -13,7 +13,7 @@
         <div class="row container-fluid">
           <div class="col-md-11">
             <div class="box box-primary">
-              <form role="form" method="post" action="{{ route('admin.colors.store')}}" enctype="multipart/form-data">
+              <form role="form" method="post" action="{{ route('colors.store')}}" enctype="multipart/form-data">
               @csrf
                 <div class="box-body">
                   <div class="form-group">
@@ -35,7 +35,7 @@
     </div>
 
 
-
+    
 
     {{-- <button type="button" id="addVariantBtn" class="btn btn-secondary">Thêm biến thể</button> --}}
 

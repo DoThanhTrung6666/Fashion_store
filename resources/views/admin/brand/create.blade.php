@@ -1,7 +1,6 @@
 @extends('layout.admin')
 
 @section('content')
-
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
@@ -14,7 +13,6 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-
                 </div>
             @endif
 
@@ -55,15 +53,7 @@
                     </div>
                 </div>
             </div>
-
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
-
         </section>
     </div>
     </div>
-
 @endsection

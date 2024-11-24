@@ -20,8 +20,6 @@
 
 
         <section class="content">
-
-         
             <div class="row container-fluid">
                 <div class="col-md-11">
                     <div class="box box-primary">
@@ -73,7 +71,6 @@
                                 </div>
                            
                     </form>
-
 
 
                 </div>

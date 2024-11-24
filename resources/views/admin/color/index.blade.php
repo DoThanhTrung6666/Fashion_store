@@ -17,7 +17,7 @@
                                     <th style="text-align: center" scope="col" style=""></th>
                                     <th style="text-align: center" scope="col" style="">id</th>
                                     <th style="text-align: center" scope="col" style="">Color</th>
-
+                                    
                                 </tr>
 
                                @foreach ($colors as $color)
@@ -27,7 +27,7 @@
                                 <td style="text-align: center"><label class="color-radio" style="background-color: {{$color->name}};"></label></td>
                                 <td style="text-align: center">
                                         <a href="" class="btn btn-warning">Sửa</a>
-                                        <form action="{{ route('admin.colors.destroy',$color->id)}}" method="POST" class="btn btn-danger">
+                                        <form action="{{ route('colors.destroy',$color->id)}}" method="POST" class="btn btn-danger">
                                             @csrf
                                             @method('delete')
                                             <button type="submit">Xóa</button>

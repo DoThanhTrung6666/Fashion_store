@@ -42,8 +42,8 @@
                                 <td>{{$brand->country}}</td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <a href="{{route('admin.brands.edit', $brand)}}" class="btn btn-success">Edit</a>
-                                        <form action="{{route('admin.brands.destroy', $brand)}}" method="post">
+                                        <a href="{{route('brands.edit', $brand)}}" class="btn btn-success">Edit</a>
+                                        <form action="{{route('brands.destroy', $brand)}}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" onclick="return confirm('Bạn muốn xóa không?')" class="btn btn-danger">Delete</button>

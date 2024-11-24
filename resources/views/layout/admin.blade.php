@@ -323,8 +323,8 @@
             <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{route("admin.categories.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-              <li><a href="{{route("admin.categories.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
+              <li><a href="{{route("categories.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route("categories.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
             </ul>
         </li>
 {{-- kết thúc category  --}}
@@ -336,8 +336,8 @@
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="{{route('admin.banners.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="{{route('admin.banners.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+    <li><a href="{{route('banners.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route('banners.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
@@ -356,55 +356,55 @@
 {{-- kết thúc quản lí banner  --}}
 {{-- quản lí sản phẩm --}}
 <li class="treeview">
-    <a href="{{route('admin.products.index')}}">
+    <a href="{{route('products.index')}}">
         <i class="fas fa-box"></i>
     <span>Product</span>
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="{{route('admin.products.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="{{route('admin.products.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+    <li><a href="{{route('products.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route('products.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí banner  --}}
 
 {{-- quản lí Size --}}
 <li class="treeview">
-  <a href="{{route('admin.sizes.index')}}">
+  <a href="{{route('sizes.index')}}">
       <i class="fas fa-box"></i>
   <span>Size</span>
   <i class="fa fa-angle-left pull-right"></i>
   </a>
   <ul class="treeview-menu">
-  <li><a href="{{route('admin.sizes.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-  <li><a href="{{route('admin.sizes.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+  <li><a href="{{route('sizes.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+  <li><a href="{{route('sizes.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
   </ul>
 </li>
 {{-- kết thúc quản lí Size  --}}
 {{-- quản lí Color --}}
 <li class="treeview">
-  <a href="{{route('admin.colors.index')}}">
+  <a href="{{route('colors.index')}}">
       <i class="fas fa-box"></i>
   <span>Color</span>
   <i class="fa fa-angle-left pull-right"></i>
   </a>
   <ul class="treeview-menu">
-  <li><a href="{{route('admin.colors.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-  <li><a href="{{route('admin.colors.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
+  <li><a href="{{route('colors.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+  <li><a href="{{route('colors.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
   </ul>
 </li>
 {{-- kết thúc quản lí Size  --}}
 
 {{-- quản lí brand --}}
 <li class="treeview">
-    <a href="{{route("admin.brands.index")}}">
+    <a href="{{route("brands.index")}}">
         <i class="nav-icon fas fa-image"></i>
     <span>Brand</span>
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="{{route("admin.brands.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="{{route("admin.brands.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
+    <li><a href="{{route("brands.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route("brands.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí brand  --}}

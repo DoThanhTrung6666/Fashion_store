@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class Customer extends Model
 {
     use HasFactory;
+<<<<<<< HEAD:app/Models/Cart.php
     protected $fillable = [
         'user_id', // Thêm user_id vào đây
         'status',

@@ -17,7 +17,7 @@
                                     <th style="text-align: center" scope="col" style=""></th>
                                     <th style="text-align: center" scope="col" style="">id</th>
                                     <th style="text-align: center" scope="col" style="">Size</th>
-
+                                    
                                 </tr>
 
                                @foreach ($sizes as $size)
@@ -27,7 +27,7 @@
                                 <td style="text-align: center">{{$size->name}}</td>
                                 <td style="text-align: center">
                                         <a href="" class="btn btn-warning">Sửa</a>
-                                        <form action="{{ route('admin.sizes.destroy',$size->id)}}" method="POST" class="btn btn-danger">
+                                        <form action="{{ route('sizes.destroy',$size->id)}}" method="POST" class="btn btn-danger">
                                             @csrf
                                             @method('delete')
                                             <button type="submit">Xoa</button>

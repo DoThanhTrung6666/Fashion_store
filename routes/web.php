@@ -56,11 +56,14 @@ Route::prefix('admin')
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
     });
 
+Route::resource('brands', BrandController::class);
+Route::resource('categories', CategoryController::class);
+Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
 
 // bên client
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
-
 
 Route::get('login', [AuthenticationController::class, 'showFormLogin'])->name('login');
 Route::post('login', [AuthenticationController::class, 'login']);
@@ -87,8 +90,5 @@ Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkou
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
-
-
-
-
-
+// Route để hiển thị sản phẩm theo danh mục
+Route::get('/', [HomeController::class, 'getProductHome'])->name('client.home');

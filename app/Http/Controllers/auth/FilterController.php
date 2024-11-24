@@ -35,9 +35,9 @@ class FilterController extends Controller
         }
         // lọc theo danh mục
         $categories = Category::all();
-        if ($request->has('category')) {
-            $query->whereHas('product', function ($q) use ($request) {
-                $q->where('category_id', $request->input('category'));
+        if ($request->has('category') && $request->category != '') {
+            $query->whereHas('product.category', function($query) use ($request) {
+                $query->where('id', $request->category);
             });
         }
         
