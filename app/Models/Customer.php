@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     use HasFactory;
-<<<<<<< HEAD:app/Models/Cart.php
     protected $fillable = [
         'user_id', // Thêm user_id vào đây
         'status',
