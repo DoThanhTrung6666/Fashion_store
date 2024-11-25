@@ -187,9 +187,47 @@
 
 							<ul class="nav-menu nav-menu-social align-to-right">
 								<li>
-									<a href="#" onclick="openSearch()">
-										<i class="lni lni-search-alt"></i>
-									</a>
+									<form method="GET" action="{{ route('products.search') }}" style="display: flex; align-items: center; gap: 10px;">
+										<input 
+											type="text" 
+											name="keyword" 
+											placeholder="Nhập từ khóa tìm kiếm" 
+											style="
+												border: none;
+												border-bottom: 2px solid #ccc;
+												outline: none;
+												padding: 5px 0;
+												font-size: 16px;
+												width: 200px;
+												transition: border-color 0.3s;
+											" 
+											onfocus="this.style.borderBottomColor='#007BFF'" 
+											onblur="this.style.borderBottomColor='#ccc'"
+										/>
+										<button 
+											type="submit" 
+											style="
+												background: none;
+												border: none;
+												cursor: pointer;
+												padding: 0;
+												outline: none;
+											" 
+										>
+											<svg 
+												xmlns="http://www.w3.org/2000/svg" 
+												viewBox="0 0 24 24" 
+												fill="#007BFF" 
+												width="24px" 
+												height="24px"
+												style="transition: transform 0.2s;"
+												onmouseover="this.style.transform='scale(1.2)'"
+												onmouseout="this.style.transform='scale(1)'"
+											>
+												<path d="M10 2a8 8 0 105.292 14.707l4.122 4.121a1 1 0 101.414-1.414l-4.121-4.122A8 8 0 0010 2zm0 2a6 6 0 11-4.243 10.243A6 6 0 0110 4z"/>
+											</svg>
+										</button>
+									</form>
 								</li>
                                 @if(empty(Auth::check()))
                                 <li>

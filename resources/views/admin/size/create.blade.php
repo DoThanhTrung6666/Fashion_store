@@ -5,7 +5,7 @@
 <div class="content-wrapper">
       <section class="content-header">
         <h1>
-          Thêm mới sản phẩm <a href="" class="btn btn-primary">Danh sách sản phẩm</a>
+          Thêm mới sản phẩm <a href="{{route('admin.sizes.index')}}" class="btn btn-primary">Danh sách sản phẩm</a>
         </h1>
       </section>
       <section class="content">
@@ -23,6 +23,9 @@
                   <div class="form-group">
                     <label for="">Tên size</label>
                     <input type="text" class="form-control" placeholder="Nhập tên size" name="name">
+                    @error('name')
+                          <div class="text-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                 <div class="box-footer">
                   <button type="submit" name="createSize" class="btn btn-primary">Thêm mới size</button>
