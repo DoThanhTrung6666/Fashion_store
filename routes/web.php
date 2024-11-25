@@ -21,6 +21,7 @@ use App\Http\Controllers\client\CheckoutController;
 use App\Http\Controllers\client\DetailController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
 
 
@@ -120,3 +121,5 @@ Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show'
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
 Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase');
 
+// tìm kiếm sản phẩm 
+Route::get('/search', [SearchController::class, 'search'])->name('products.search');
