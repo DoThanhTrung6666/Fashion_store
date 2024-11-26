@@ -24,12 +24,13 @@
                                             <th>Start Time</th>
                                             <th>End Time</th>
                                             <th>Status</th>
+                                            <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($flashSales as $flashSale)
                                             <tr>
-                                                <td>{{ $flashSale->productVariant->product->name }} ({{ $flashSale->productVariant->color->name }} - {{ $flashSale->productVariant->size->name }})</td>
+                                                <td>{{ $flashSale->product->name }}</td>
 
                                                 <td>
                                                     @if($flashSale->sale)
@@ -63,6 +64,13 @@
                                                         <option value="active" {{ $flashSale->status == 'active' ? 'selected' : '' }}>Active</option>
                                                         <option value="inactive" {{ $flashSale->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                                     </select>
+                                                </td>
+                                                <td>
+                                                    <form action="{{ route('admin.flash-sales.destroy', $flashSale->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa Flash Sale này không?')">
+                                                        @csrf
+                                                        @method('DELETE') <!-- Đặt phương thức HTTP là DELETE -->
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

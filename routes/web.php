@@ -82,6 +82,10 @@ Route::prefix('admin')
         Route::resource('/flash-sales',FlashSaleController::class);
         Route::resource('/flash-salesAll',FlashSaleAllController::class);
         // kết thúc flash sale
+        Route::get('/flash-sale/select', [FlashSaleController::class, 'createSelectFlashSale'])->name('flash-sale.select');
+        Route::post('/flash-sale/select', [FlashSaleController::class, 'storeSelectFlashSale'])->name('storeSelectFlashSale'); // Dùng POST khi chọn sản phẩm
+        // Route::get('/flash-sale/create', [FlashSaleController::class, 'createFlashSale'])->name('flash-sale.create');
+        // Route::post('/flash-sale/store', [FlashSaleController::class, 'storeFlashSale'])->name('flash-sale.store');
     });
 
 
@@ -96,6 +100,9 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::get('register', [AuthenticationController::class, 'showFormRegister'])->name('register');
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
+Route::resource('profile',AuthenticationController::class);
+
+
 
 Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
 
@@ -121,5 +128,5 @@ Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show'
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
 Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase');
 
-// tìm kiếm sản phẩm 
+// tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');

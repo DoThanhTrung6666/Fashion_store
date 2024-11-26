@@ -26,16 +26,37 @@
             </div>
             <div class="login-form">
                 <h2>Đăng kí tài khoản</h2>
+                <span>
+                    @if(session('error'))
+                        <p style="color: red">{{session('error')}}</p>
+                    @endif
+                </span>
                 <form action="{{route('register')}}" method="POST">
                     @csrf
-                    <label for="email">Họ và tên</label>
-                    <input type="text" id="email" name="name" placeholder="Nhập tên của bạn" >
 
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
+                        <label for="name">
+                        </label>
+                        <input type="text" id="name" name="name" placeholder="Nhập tên của bạn" >
+                        @error('name')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
 
-                    <label for="password">Mật khẩu</label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
+                        <label for="email"></label>
+                        <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
+                        @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+
+
+
+
+                        <label for="password"></label>
+                        <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
+                        @error('password')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+
+
 
                     <button type="submit">Đăng kí</button>
 
