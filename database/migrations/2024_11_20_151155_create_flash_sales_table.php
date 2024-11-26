@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Sale;
 use Illuminate\Database\Migrations\Migration;
@@ -15,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('flash_sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(ProductVariant::class)->constrained();
+            $table->foreignIdFor(Product::class)->constrained();
             $table->foreignIdFor(Sale::class)->constrained();
             $table->dateTime('start_time');
             $table->dateTime('end_time');

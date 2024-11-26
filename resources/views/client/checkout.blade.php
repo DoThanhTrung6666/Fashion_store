@@ -58,7 +58,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Địa chỉ</label>
-                                <input type="text" class="form-control" placeholder="Nhập địa chỉ của bạn" />
+                                <input type="text" class="form-control" placeholder="Nhập địa chỉ của bạn" value="@if($user !== null){{$user->address}} @endif" />
                             </div>
                         </div>
 
@@ -66,7 +66,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Mobile Number *</label>
-                                <input type="text" class="form-control" placeholder="Mobile Number" />
+                                <input type="text" class="form-control" placeholder="Mobile Number" value="@if($user !== null){{$user->phone}} @endif" />
                             </div>
                         </div>
 

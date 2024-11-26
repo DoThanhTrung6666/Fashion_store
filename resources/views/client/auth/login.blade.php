@@ -25,15 +25,23 @@
                 <img src="{{asset('assets/img/bannershop1.jpg')}}" width="100%" height="100%" alt="">
             </div>
             <div class="login-form">
-                <h2>Đăng nhập</h2>
+                <h2>Đăng nhập <span>
+                    @if(session('error'))
+                        <p style="color: red">{{session('error')}}</p>
+                    @endif
+                </span></h2>
                 <form action="{{route('login')}}" method="POST">
                     @csrf
-                    <label for="email">Email</label>
+                    <label for="email"></label>
                     <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
-
-                    <label for="password">Mật khẩu</label>
+                        @error('email')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    <label for="password"></label>
                     <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
-
+                        @error('password')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                     <button type="submit">Đăng nhập</button>
 
                     <div class="forgot">
@@ -49,4 +57,5 @@
         </div>
     </div>
 </section>
+
 @endsection

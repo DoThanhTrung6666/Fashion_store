@@ -26,7 +26,7 @@ class CartController extends Controller
         if($cart !== null){
             $cartItemsWithSaleInfo = $cart->cartItems->map(function ($cartItem) {
                 // Kiểm tra nếu sản phẩm này có tham gia Flash Sale
-                $flashSale = FlashSale::where('product_variant_id', $cartItem->productVariant->id)
+                $flashSale = FlashSale::where('product_id', $cartItem->productVariant->product->id)
                     ->where('start_time', '<=', now())
                     ->where('end_time', '>=', now())
                     ->first();
