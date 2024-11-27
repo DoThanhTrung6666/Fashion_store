@@ -245,9 +245,9 @@ function updateColors(sizeId) {
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" href="#information" id="information-tab" data-toggle="tab" role="tab" aria-controls="information" aria-selected="false">Additional information</a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    {{-- <li class="nav-item" role="presentation">
                         <a class="nav-link" href="#reviews" id="reviews-tab" data-toggle="tab" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -291,7 +291,7 @@ function updateColors(sizeId) {
                     </div>
 
                     <!-- Reviews Content -->
-                    <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    {{-- <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                         <div class="reviews_info">
                             <div class="single_rev d-flex align-items-start br-bottom py-3">
                                 <div class="single_rev_thumb"><img src="assets/img/team-1.jpg" class="img-fluid circle" width="90" alt="" /></div>
@@ -447,7 +447,148 @@ function updateColors(sizeId) {
                             </form>
                         </div>
 
+                    </div> --}}
+
+                    
+
+
+                    <!-- Thông tin sản phẩm -->
+<div class="product-info">
+    <!-- Chi tiết sản phẩm, giá cả, mô tả... -->
+</div>
+
+<!-- Bình luận về sản phẩm -->
+<div class="reviews_info">
+    @foreach($comments as $comment)
+        <div class="single_rev d-flex align-items-start br-bottom py-3">
+            <div class="single_rev_thumb">
+                <img src="assets/img/team-1.jpg" class="img-fluid circle" width="90" alt="" />
+            </div>
+            <div class="single_rev_caption d-flex align-items-start pl-3">
+                <div class="single_capt_left">
+                    <h5 class="mb-0 fs-md ft-medium lh-1">{{ $comment->user->name }}</h5>
+                    <span class="small">{{ $comment->created_at->format('d M Y') }}</span>
+                    <p>{{ $comment->content }}</p>
+                </div>
+                <div class="single_capt_right">
+                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                        @for($i = 0; $i < $comment->rating; $i++)
+                            <i class="fas fa-star filled"></i>
+                        @endfor
+                        @for($i = $comment->rating; $i < 5; $i++)
+                            <i class="fas fa-star"></i>
+                        @endfor
                     </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+</div>
+
+<!-- Form gửi bình luận -->
+<div class="add-review">
+    <form action="{{ route('storeComment', $detail->id) }}" method="POST" class="row">
+        @csrf
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <h4>Submit Rating</h4>
+        </div>
+    
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="revie_stars d-flex align-items-center justify-content-between px-2 py-2 gray rounded mb-2 mt-1">
+                <div class="srt_013">
+                    <div class="submit-rating">
+                        <!-- Rating Stars as Radio Buttons -->
+                        <input id="star-5" type="radio" name="rating" value="5" />
+                        <label for="star-5" title="5 stars">
+                            <i class="active fa fa-star" aria-hidden="true"></i>
+                        </label>
+                        <input id="star-4" type="radio" name="rating" value="4" />
+                        <label for="star-4" title="4 stars">
+                            <i class="active fa fa-star" aria-hidden="true"></i>
+                        </label>
+                        <input id="star-3" type="radio" name="rating" value="3" />
+                        <label for="star-3" title="3 stars">
+                            <i class="active fa fa-star" aria-hidden="true"></i>
+                        </label>
+                        <input id="star-2" type="radio" name="rating" value="2" />
+                        <label for="star-2" title="2 stars">
+                            <i class="active fa fa-star" aria-hidden="true"></i>
+                        </label>
+                        <input id="star-1" type="radio" name="rating" value="1" />
+                        <label for="star-1" title="1 star">
+                            <i class="active fa fa-star" aria-hidden="true"></i>
+                        </label>
+                    </div>
+                </div>
+                <div class="srt_014">
+                    <h6 class="mb-0">4 Star</h6>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+                <label class="medium text-dark ft-medium">Description</label>
+                <textarea class="form-control" name="content" rows="4" required></textarea>
+            </div>
+        </div>
+    
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group m-0">
+                <button type="submit" class="btn btn-white stretched-link hover-black">Submit Review <i class="lni lni-arrow-right"></i></button>
+            </div>
+        </div>
+    </form>
+    
+    
+    <script>
+        // Lấy tất cả các sao
+        const stars = document.querySelectorAll('.star-rating i');
+        const ratingInput = document.getElementById('rating');  // Input ẩn để lưu rating
+    
+        // Lặp qua các sao và thêm sự kiện click
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                // Lấy giá trị của sao (1 - 5)
+                const rating = this.getAttribute('data-value');
+    
+                // Cập nhật giá trị rating vào input ẩn
+                ratingInput.value = rating;
+    
+                // Cập nhật giao diện sao
+                updateStars(rating);
+            });
+        });
+    
+        // Hàm để cập nhật giao diện sao
+        function updateStars(rating) {
+            stars.forEach(star => {
+                if (star.getAttribute('data-value') <= rating) {
+                    star.classList.add('filled');  // Đổi sao thành màu vàng khi đã chọn
+                } else {
+                    star.classList.remove('filled');  // Đổi lại màu mặc định khi chưa chọn
+                }
+            });
+        }
+    </script>
+    
+    <style>
+        .fas.fa-star.filled {
+            color: #ffcc00;  /* Màu vàng cho sao đã chọn */
+        }
+        .fas.fa-star {
+            color: #ddd;  /* Màu xám cho sao chưa chọn */
+            cursor: pointer;  /* Thêm con trỏ chuột khi hover */
+        }
+    </style>
+    
+    
+</div>
+
+
+                    
+                    
+
                 </div>
             </div>
         </div>

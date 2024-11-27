@@ -93,6 +93,7 @@ Route::prefix('admin')
 // bên client
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
+Route::post('/product/{id}/comment', [DetailController::class, 'storeComment'])->name('storeComment');
 
 
 Route::get('login', [AuthenticationController::class, 'showFormLogin'])->name('login');

@@ -13,5 +13,18 @@ class Comment extends Model
         'user_id',
         'product_id',
         'content',
+        'rating'
     ];
+
+    // Quan hệ với model User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // Quan hệ với model Product
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
