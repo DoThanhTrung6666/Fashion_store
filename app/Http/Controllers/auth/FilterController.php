@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Color;
 use App\Models\ProductVariant;
 use App\Models\Size;
@@ -26,7 +27,14 @@ class FilterController extends Controller
         // Lấy tất cả các kích thước
         $sizes = Size::all();
 
-
+        // lọc theo danh mục
+        $categories = Category::all();
+        if ($request->has('category') && $request->category != '') {
+            $query->whereHas('product.category', function($query) use ($request) {
+                $query->where('id', $request->category);
+            });
+        }
+        
 
         // Lọc theo kích thước nếu được chọn
         if ($request->has('size')) {
@@ -70,6 +78,6 @@ class FilterController extends Controller
             return $product;
         })->values();
 
-        return view('client.danhmucsp', compact('products', 'sizes', 'colors')); // Truyền dữ liệu sản phẩm và kích thước vào view
+        return view('client.danhmucsp', compact('products', 'sizes', 'colors', 'categories')); // Truyền dữ liệu sản phẩm và kích thước vào view
     }
 }

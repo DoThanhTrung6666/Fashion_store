@@ -14,18 +14,19 @@
 
                         <table class="table">
                             <tr>
-                                <th style="text-align: center" scope="col" style=""></th>
-                                <th style="text-align: center" scope="col" style="">ID</th>
-                                <th style="text-align: center" scope="col" style="">Tên người bình luận</th>
-                                <th style="text-align: center" scope="col" style="">Nội dung</th>
-                                <th style="text-align: center" scope="col" style="">Ngày bình luận</th>
+                                <th style="text-align: center" scope="col"></th>
+                                <th style="text-align: center" scope="col">ID</th>
+                                <th style="text-align: center" scope="col">Tên người bình luận</th>
+                                <th style="text-align: center" scope="col">Nội dung</th>
+                                <th style="text-align: center" scope="col">Ngày bình luận</th>
+                                <th style="text-align: center" scope="col"></th>
                             </tr>
 
                             @foreach ($comments as $comment)
                                 <tr style="text-align: center">
                                     <td><input type="checkbox"></td>
                                     <td>{{ $comment->id }}</td>
-                                    <td>{{ $comment->name }}</td>
+                                    <td>{{ $comment->user->name }}</td> <!-- Sửa để lấy tên người dùng -->
                                     <td>{{ $comment->content }}</td>
                                     <td>{{ $comment->created_at }}</td>
                                     <form action="{{ route('admin.comment.destroy', $comment->id) }}" method="POST">
