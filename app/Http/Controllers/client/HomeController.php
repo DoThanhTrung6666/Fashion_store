@@ -5,6 +5,7 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\FlashSale;
+use App\Models\FlashSaleItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -27,28 +28,14 @@ class HomeController extends Controller
         ->paginate(8);// phân trang
 
         //flashsale
-        $flashSales = FlashSale::with('sale', 'product')  
+        $flashSales = FlashSale::with('sale', 'product')
             ->where('status', 'active')
             ->where('start_time', '<=', now())
             ->where('end_time', '>=', now())
-            ->get()
-            ->unique(function ($flashSale) {
-        return $flashSale->product->id; // Lọc các sản phẩm trùng lặp dựa trên productId
-    });
-
-$flashSales = $flashSales->map(function ($flashSale) {
-    return [
-        'flashSale' => $flashSale,
-        'flashSaleId' => $flashSale->product->id,  // Lấy ID của sản phẩm
-        'productImage' => $flashSale->product->image,  // Lấy hình ảnh của sản phẩm
-        'productName' => $flashSale->product->name,  // Tên sản phẩm chính
-        'productPrice' => $flashSale->product->price,  // Giá sản phẩm
-        'saleName' => $flashSale->sale->name,  // Tên chương trình giảm giá
-        'salePercentage' => $flashSale->sale->discount_percentage,  // Phần trăm giảm giá
-        'end_time' => $flashSale->end_time,
-    ];
-});
-
+            ->get();
+        // Lấy tất cả các sản phẩm Flash Sale hiện tại
+        $flashSaleItems = FlashSaleItem::whereIn('flash_sale_id', $flashSales->pluck('id'))->get();
+// dd($flashSaleItems);
         return view('client.index',compact('flashSales','categories','allProducts','trendingProducts'));
 
     }
