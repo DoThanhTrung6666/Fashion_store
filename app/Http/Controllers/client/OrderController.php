@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\FlashSaleItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -22,9 +23,22 @@ class OrderController extends Controller
 
         if($cart){
         // tính tổng tiền
-            $totalPrice = $cart->cartItems->sum(function ($item) {
-                return $item->quantity * $item->productVariant->product->price;
-            });
+        $totalPrice = $cart->cartItems->sum(function ($cartItem) {
+            // Lấy thông tin Flash Sale nếu có
+            $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+                ->whereHas('flashSale', function ($query) {
+                    $query->where('start_time', '<=', now())
+                        ->where('end_time', '>=', now())
+                        ->where('status', 'active');
+                })
+                ->first();
+
+            // Sử dụng giá giảm nếu có Flash Sale, nếu không dùng giá gốc
+            $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
+
+            // Tính giá theo số lượng sản phẩm
+            return $finalPrice * $cartItem->quantity;
+        });
         }
 
         // tạo đơn hàng mới
@@ -51,12 +65,23 @@ class OrderController extends Controller
                     // Trừ số lượng của biến thể sản phẩm
                     $productVariant->stock_quantity -= $item->quantity;
                     $productVariant->save();
+                    $flashSaleItem = FlashSaleItem::where('product_id', $productVariant->product->id)
+                    ->whereHas('flashSale', function ($query) {
+                        $query->where('start_time', '<=', now())
+                            ->where('end_time', '>=', now())
+                            ->where('status', 'active');
+                    })
+                    ->first();
+
+                    $finalPrice = $flashSaleItem ? $flashSaleItem->price : $productVariant->product->price;
+
+        // Tạo mục đơn hàng
             OrderItem::create([
                 'order_id'=>$order->id,
                 // dd($item->product_variant_id),
                 'product_variant_id'=>$item->productVariant->id,
                 'quantity'=>$item->quantity,
-                'price'=>$item->productVariant->product->price
+                'price'=>$finalPrice
             ]);
         }
         // xoá giỏ hàng khi mua thành công

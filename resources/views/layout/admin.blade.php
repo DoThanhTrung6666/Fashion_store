@@ -417,8 +417,8 @@
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="{{route("admin.flash-sales.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="{{route("admin.flash-sales.create")}}"><i class="fa fa-circle-o"></i>Chọn sp Flash sale</a></li>
+    <li><a href="{{route('admin.all_flash_sale')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route("admin.select_products")}}"><i class="fa fa-circle-o"></i>Chọn sp Flash sale</a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí flash sale  --}}

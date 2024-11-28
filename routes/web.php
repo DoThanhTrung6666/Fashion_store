@@ -79,13 +79,19 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales',SaleController::class);
-        Route::resource('/flash-sales',FlashSaleController::class);
-        Route::resource('/flash-salesAll',FlashSaleAllController::class);
-        // kết thúc flash sale
-        Route::get('/flash-sale/select', [FlashSaleController::class, 'createSelectFlashSale'])->name('flash-sale.select');
-        Route::post('/flash-sale/select', [FlashSaleController::class, 'storeSelectFlashSale'])->name('storeSelectFlashSale'); // Dùng POST khi chọn sản phẩm
+        // Route::resource('/flash-sales',FlashSaleController::class);
+        // Route::resource('/flash-salesAll',FlashSaleAllController::class);
+        // // kết thúc flash sale
+        // Route::get('/flash-sale/select', [FlashSaleController::class, 'createSelectFlashSale'])->name('flash-sale.select');
+        // Route::post('/flash-sale/select', [FlashSaleController::class, 'storeSelectFlashSale'])->name('storeSelectFlashSale'); // Dùng POST khi chọn sản phẩm
         // Route::get('/flash-sale/create', [FlashSaleController::class, 'createFlashSale'])->name('flash-sale.create');
         // Route::post('/flash-sale/store', [FlashSaleController::class, 'storeFlashSale'])->name('flash-sale.store');
+        Route::get('/select-products', [FlashSaleController::class, 'selectProducts'])->name('select_products');
+        Route::post('/save-selected-products', [FlashSaleController::class, 'saveSelectedProduct'])->name('save_selected_products');
+        Route::get('/prepare', [FlashSaleController::class, 'prepareFlashSale'])->name('prepare');
+        Route::post('/apply', [FlashSaleController::class, 'applyFlashSale'])->name('apply');
+        Route::get('all-flash-sale', [FlashSaleController::class, 'index'])->name('all_flash_sale');
+        Route::delete('/{id}', [FlashSaleController::class, 'delete'])->name('delete');
     });
 
 
