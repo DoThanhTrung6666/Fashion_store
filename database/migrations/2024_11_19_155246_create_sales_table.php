@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Tên chương trình giảm giá (trungcon)
             $table->decimal('discount_percentage',5,2);// phần trăm giảm giá (trungcon)
             $table->timestamps();
         });

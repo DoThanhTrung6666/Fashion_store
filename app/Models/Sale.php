@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'discount_percentage'];
+    protected $fillable = ['discount_percentage'];
 
     // Quan hệ với bảng flash_sales
     public function flashSales()

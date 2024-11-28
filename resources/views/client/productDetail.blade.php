@@ -57,9 +57,9 @@
                                 <span class="small">(412 Reviews)</span>
                             </div> --}}
 
-                            @if($flashSale)
+                            @if($flashSales)
                                 <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$detail->price - ($detail->price * ($flashSale->sale->discount_percentage / 100))}}</span> vnđ</div>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$flashSales->price}}</span> vnđ</div>
                             @else
                                 <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{$detail->price}} VNĐ</span></div>
                             @endif
