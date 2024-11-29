@@ -5,8 +5,13 @@
 <div class="content-wrapper">
       <section class="content-header">
         <h1>
-          Thêm mới color <a href="" class="btn btn-primary">Danh sách sản phẩm</a>
+          Thêm mới color <a href="{{route('admin.colors.index')}}" class="btn btn-primary">Danh sách sản phẩm</a>
         </h1>
+        <span>
+          @if(session('success'))
+              <p style="color: red">{{session('success')}}</p>
+          @endif
+      </span>
       </section>
       <section class="content">
 
@@ -22,7 +27,10 @@
                   </div>
                   <div class="form-group">
                     <label for="">Tên color</label>
-                    <input type="color" class="form-control" placeholder="Nhập tên color" name="name">
+                    <input type="text" class="form-control" placeholder="Nhập tên color" name="name">
+                      @error('name')
+                          <div class="text-danger">{{ $message }}</div>
+                      @enderror
                   </div>
                 <div class="box-footer">
                   <button type="submit" name="createColor" class="btn btn-primary">Thêm mới color</button>

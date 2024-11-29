@@ -21,6 +21,7 @@ use App\Http\Controllers\client\CheckoutController;
 use App\Http\Controllers\client\DetailController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
+use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
 
 
@@ -78,9 +79,19 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales',SaleController::class);
-        Route::resource('/flash-sales',FlashSaleController::class);
-        Route::resource('/flash-salesAll',FlashSaleAllController::class);
-        // kết thúc flash sale
+        // Route::resource('/flash-sales',FlashSaleController::class);
+        // Route::resource('/flash-salesAll',FlashSaleAllController::class);
+        // // kết thúc flash sale
+        // Route::get('/flash-sale/select', [FlashSaleController::class, 'createSelectFlashSale'])->name('flash-sale.select');
+        // Route::post('/flash-sale/select', [FlashSaleController::class, 'storeSelectFlashSale'])->name('storeSelectFlashSale'); // Dùng POST khi chọn sản phẩm
+        // Route::get('/flash-sale/create', [FlashSaleController::class, 'createFlashSale'])->name('flash-sale.create');
+        // Route::post('/flash-sale/store', [FlashSaleController::class, 'storeFlashSale'])->name('flash-sale.store');
+        Route::get('/select-products', [FlashSaleController::class, 'selectProducts'])->name('select_products');
+        Route::post('/save-selected-products', [FlashSaleController::class, 'saveSelectedProduct'])->name('save_selected_products');
+        Route::get('/prepare', [FlashSaleController::class, 'prepareFlashSale'])->name('prepare');
+        Route::post('/apply', [FlashSaleController::class, 'applyFlashSale'])->name('apply');
+        Route::get('all-flash-sale', [FlashSaleController::class, 'index'])->name('all_flash_sale');
+        Route::delete('/{id}', [FlashSaleController::class, 'delete'])->name('delete');
     });
 
 
@@ -88,6 +99,7 @@ Route::prefix('admin')
 // bên client
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
+Route::post('/product/{id}/comment', [DetailController::class, 'storeComment'])->name('storeComment');
 
 
 Route::get('login', [AuthenticationController::class, 'showFormLogin'])->name('login');
@@ -95,6 +107,9 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::get('register', [AuthenticationController::class, 'showFormRegister'])->name('register');
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
+Route::resource('profile',AuthenticationController::class);
+
+
 
 Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
 
@@ -118,5 +133,7 @@ Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.lo
 
 Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
+Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase');
 
-
+// tìm kiếm sản phẩm
+Route::get('/search', [SearchController::class, 'search'])->name('products.search');

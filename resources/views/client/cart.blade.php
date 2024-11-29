@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-3">
                             <!-- Image -->
-                            <a href="product.html"><img src="{{Storage::url($item['cartItem']->productVariant->product->image)}}" alt="..." class="img-fluid"></a>
+                            <a href="product.html"><img src="{{Storage::url($item['cartItem']->productVariant->image_variant)}}" alt="..." class="img-fluid"></a>
                         </div>
                         <div class="col d-flex align-items-center justify-content-between">
                             <div class="cart_single_caption pl-2">
@@ -62,7 +62,7 @@
 
                             @if($item['isOnFlashSale'])
                                 <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{$item['cartItem']->productVariant->product->price}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$item['cartItem']->productVariant->product->price - ($item['cartItem']->productVariant->product->price * ($item['flashSale']->sale->discount_percentage / 100))}}</span> vnđ</div>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{($item['cartItem']->productVariant->product->price)*($item['cartItem']->quantity)}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{($item['finalPrice'])*($item['cartItem']->quantity)}}</span> vnđ</div>
                             @else
                                 <h4 class="fs-md ft-medium mb-3 lh-1">{{$item['cartItem']->productVariant->product->price}}vnđ</h4>
                             @endif

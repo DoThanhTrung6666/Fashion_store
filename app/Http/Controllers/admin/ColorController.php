@@ -27,29 +27,40 @@ class ColorController extends Controller
     // Lưu color mới
     public function store(Request $request)
     {
-        $request->validate([
+        $request->validate(
+        [
             'name' => 'required|string|max:255',
-        ]);
+        ],
+        [
+           'name.required' => 'Tên màu sắc là bắt buộc',
+           'name.max' => 'Tên màu sắc không được dài hơn 255 ký tự.',
+        ]
+    );
 
         Color::create($request->all());
-        return redirect()->route('admin.colors.index')->with('success', 'color created successfully.');
+        return redirect()->route('admin.colors.index')->with('success', 'Thêm mới thành công.');
     }
 
     // Hiển thị form chỉnh sửa size
     public function edit(Color $color)
     {
-        return view('admin.colors.edit', compact('color'));
+        return view('admin.color.update', compact('color'));
     }
 
     // Cập nhật size
     public function update(Request $request, Color $color)
     {
-        $request->validate([
+        $request->validate(
+            [
             'name' => 'required|string|max:255',
-        ]);
+        ],
+        [
+            'name.required' => 'Tên màu sắc là bắt buộc',
+            'name.max' => 'Tên màu sắc không được dài hơn 255 ký tự.',
+         ]);
 
         $color->update($request->all());
-        return redirect()->route('admin.colors.index')->with('success', 'color updated successfully.');
+        return redirect()->route('admin.colors.index')->with('success', 'Cập nhật thành công .');
     }
 
     // Xóa size

@@ -36,17 +36,17 @@
 					<div class="row">
 
 						<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-							<div class="top_first"><a href="callto:(+84)0123456789" class="medium text-light">(+84) 0123 456 789</a></div>
+							<div class="top_first"><a href="callto:(+84)0123456789" class="medium text-light">Hotline: 0762.456.789</a></div>
 						</div>
 
 						<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 hide-ipad">
-							<div class="top_second text-center"><p class="medium text-light m-0 p-0">Get Free delivery from $2000 <a href="#" class="medium text-dark text-underline">Shop Now</a></p></div>
+							{{-- <div class="top_second text-center"><p class="medium text-light m-0 p-0">Get Free delivery from $2000 <a href="#" class="medium text-dark text-underline">Shop Now</a></p></div> --}}
 						</div>
 
 						<!-- Right Menu -->
 						<div class="col-xl-4 col-lg-4 col-md-5 col-sm-12">
 
-							<div class="currency-selector dropdown js-dropdown float-right">
+							{{-- <div class="currency-selector dropdown js-dropdown float-right">
 								<a href="javascript:void(0);" data-toggle="dropdown" class="popup-title"  title="Currency" aria-label="Currency dropdown">
 									<span class="hidden-xl-down medium text-light">Currency:</span>
 									<span class="iso_code medium text-light">$USD</span>
@@ -82,7 +82,7 @@
 
 							<div class="currency-selector dropdown js-dropdown float-right mr-3">
 								<a href="javascript:void(0);" class="text-light medium">My Account</a>
-							</div>
+							</div> --}}
 
 						</div>
 
@@ -187,9 +187,47 @@
 
 							<ul class="nav-menu nav-menu-social align-to-right">
 								<li>
-									<a href="#" onclick="openSearch()">
-										<i class="lni lni-search-alt"></i>
-									</a>
+									<form method="GET" action="{{ route('products.search') }}" style="display: flex; align-items: center; gap: 10px;">
+										<input
+											type="text"
+											name="keyword"
+											placeholder="Nhập từ khóa tìm kiếm"
+											style="
+												border: none;
+												border-bottom: 2px solid #ccc;
+												outline: none;
+												padding: 5px 0;
+												font-size: 16px;
+												width: 200px;
+												transition: border-color 0.3s;
+											"
+											onfocus="this.style.borderBottomColor='#007BFF'"
+											onblur="this.style.borderBottomColor='#ccc'"
+										/>
+										<button
+											type="submit"
+											style="
+												background: none;
+												border: none;
+												cursor: pointer;
+												padding: 0;
+												outline: none;
+											"
+										>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 24 24"
+												fill="black"
+												width="24px"
+												height="24px"
+												style="transition: transform 0.2s;"
+												onmouseover="this.style.transform='scale(1.2)'"
+												onmouseout="this.style.transform='scale(1)'"
+											>
+												<path d="M10 2a8 8 0 105.292 14.707l4.122 4.121a1 1 0 101.414-1.414l-4.121-4.122A8 8 0 0010 2zm0 2a6 6 0 11-4.243 10.243A6 6 0 0110 4z"/>
+											</svg>
+										</button>
+									</form>
 								</li>
                                 @if(empty(Auth::check()))
                                 <li>
@@ -202,13 +240,22 @@
 									<ul class="nav-dropdown nav-submenu">
                                         @if(Auth::user()->role_id==1)
 										<li><a href="{{route('admin.')}}">Vào trang quản trị</a></li>
-                                        <li><a href="index.html">Sửa tài khoản</a></li>
-                                        <li><a href="index.html">Đăng xuất</a></li>
+                                        <li><a href="{{route('profile.edit',Auth::user()->id)}}">Sửa tài khoản</a></li>
+                                        <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </li>
                                         <li><a href="{{route('orders.loadUser')}}">Đơn hàng</a></li>
-                                        @else
-                                        <li><a href="index.html">Sửa tài khoản</a></li>
-                                        <li><a href="index.html">Đăng xuất</a></li>
-                                        <li><a href="{{route('orders.loadUser')}}">Đơn hàng</a></li>
+                                        @elseif(Auth::user()->role_id==2)
+                                        <li><a href="{{route('orders.loadUser')}}"> Xem đơn hàng</a></li>
+                                        <li><a href="{{route('profile.edit',Auth::user()->id)}}"> Sửa hồ sơ </a></li>
+                                        <li>
+                                                <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+                                        </li>
                                         @endif
 									</ul>
 								</li>

@@ -17,7 +17,7 @@
                                 <span class="trending">There's nothing like trend</span>
                             </div>
 
-                            <a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -105,7 +105,7 @@
         <div class="row align-items-center rows-products">
 
             @foreach ($flashSales as $flashSale)
-
+            @foreach ($flashSale->flashSaleItems as $item)
 
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
@@ -113,7 +113,7 @@
                     <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale['salePercentage']) }}%</div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
-                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $flashSale['flashSaleId']) }}"><img class="card-img-top" src="{{Storage::url($flashSale['productImage'])}}" alt="..."></a>
+                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $item->product->id) }}"><img class="card-img-top" src="{{Storage::url($item->product->image)}}" alt="..."></a>
                             <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                 <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
                             </div>
@@ -135,28 +135,25 @@
                             </div>
                         </div>
                         <div class="text-left">
-                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="{{ route('detail.show', $flashSale['flashSaleId']) }}">{{$flashSale['productName']}}</a></p>
+                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="{{ route('detail.show', $flashSale->id) }}">{{$item->product->name}}</a></p>
                             <div class="elis_rty">
                                 <span class="ft-bold text-dark fs-sm" style="display: flex">
-                                <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($flashSale['productPrice'], 2, '.', ','), '0'), '.') }}vnđ</p>
-                                <p style="width:60%">{{
-                                    rtrim(rtrim(number_format($flashSale['productPrice'] -
-                                    ($flashSale['productPrice'] * ($flashSale['salePercentage'] / 100)), 2, '.', ','), '0'), '.')
-                                }}vnđ</p>
+                                <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($item->product->price, 2, '.', ','), '0'), '.') }}vnđ</p>
+                                <p style="width:60%">{{$item->price}}vnđ</p>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            @endforeach
             @endforeach
 
 
             @foreach($flashSales as $flashSale)
     <script>
         // Lấy end_time của mỗi phần tử trong mảng flashSales và chuyển thành timestamp
-        var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale['end_time'])->toIso8601String() }}").getTime();
+        var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale->end_time)->toIso8601String() }}").getTime();
         var countdown = setInterval(function () {
                     var now = new Date().getTime();
                     var timeRemaining = endTime - now;
@@ -178,41 +175,8 @@
                     document.getElementById("countdown").innerHTML =
                         `${days}d ${hours}h ${minutes}m ${seconds}s`;
                 }, 1000);
-        // console.log("End Time for Flash Sale {{ $flashSale['flashSaleId'] }}: ", endTime); // In ra giá trị end_time
     </script>
 @endforeach
-
-            {{-- <script>
-                // Lấy thời gian kết thúc từ server (ISO8601)
-                // var endTime = new Date("{{ \Carbon\Carbon::parse($flashSales[0]->end_time)->toIso8601String() }}").getTime();
-
-
-
-                // Cập nhật thời gian đếm ngược mỗi giây
-                var countdown = setInterval(function () {
-                    var now = new Date().getTime();
-                    var timeRemaining = endTime - now;
-
-                    // Nếu hết thời gian, dừng đếm ngược và cập nhật text
-                    if (timeRemaining < 0) {
-                        clearInterval(countdown);
-                        document.getElementById("countdown").innerHTML = "Sale ended";
-                        return;
-                    }
-
-                    // Tính toán thời gian còn lại
-                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                    // Hiển thị thời gian
-                    document.getElementById("countdown").innerHTML =
-                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                }, 1000);
-            </script> --}}
-
-
         </div>
         <!-- row -->
 
@@ -269,7 +233,17 @@
                                 @foreach ($allProducts as $value)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                                     <div class="product_grid card b-0">
-                                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+
+                                        @php
+                                            // Kiểm tra xem sản phẩm này có tham gia flash sale không
+                                            $flashSale = $flashSales->firstWhere('flashSaleId', $value->id);
+                                        @endphp
+
+                                        @if($flashSale)
+                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">{{number_format($flashSale['salePercentage'])}}%</div>
+                                        @else
+                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
+                                        @endif
                                         <div class="card-body p-0">
                                             <div class="shop_thumb position-relative">
                                                 <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $value->id) }}"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
@@ -285,14 +259,14 @@
                                         <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left">
                                                 <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star"></i>
                                                         <span class="small">(5 Reviews)</span>
-                                                    </div>
+                                                    </div> --}}
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$value->name}}</a></h5>
 
 
@@ -334,14 +308,14 @@
                                         <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left">
                                                 <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star"></i>
                                                         <span class="small">(5 Reviews)</span>
-                                                    </div>
+                                                    </div> --}}
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $product->id) }}">{{$product->name}}</a></h5>
                                                     <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$product->discount}}vnđ - {{$product->price}}vnđ</span></div>
                                                 </div>
@@ -390,30 +364,32 @@
                     <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
-                            <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
+                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show',$trending->id)}}"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
                             <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                                <div class="edlio"><a href="{{ route('detail.show',$trending->id)}}" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer b-0 p-0 pt-2">
                         <div class="d-flex align-items-start justify-content-between">
                             <div class="text-left">
-                                @foreach ($trending->variants as $color)
+                                {{-- @foreach ($trending->variants as $color)
                                 <div class="form-check form-option form-check-inline mb-1">
                                     <input class="form-check-input" type="radio" name="color1" id="white" checked="">
-                                    <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->color->name}};"></label>
+                                    <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->color->name}};">
+                                        {{$color->color->name}}
+                                    </label> --}}
                                     {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
-                                </div>
-                                @endforeach
+                                {{-- </div>
+                                @endforeach --}}
                             </div>
                             <div class="text-right">
                                 <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
                             </div>
                         </div>
                         <div class="text-left">
-                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$trending->name}}</a></h5>
-                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">$99 - $129</span></div>
+                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show',$trending->id)}}">{{$trending->name}}</a></h5>
+                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$trending->price}} vnđ</span></div>
                         </div>
                     </div>
                 </div>
