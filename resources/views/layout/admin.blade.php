@@ -430,7 +430,8 @@
               <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <li><a href="pages/user/danh_sach_user.html"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.create')}}"><i class="fa fa-circle-o"></i>Thêm mới</a></li>
             </ul>
           </li>
           <li class="treeview">
