@@ -94,7 +94,7 @@
                     <h3 class="ft-bold pt-3">Chương trình flash sale </h3>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 style="color: red">Kết thúc sau: <span id="countdown"></span></h3>
+                            <h3 style="color: red"><span id="countdown"></span></h3>
                         </div>
                     </div>
                 </div>
@@ -150,32 +150,48 @@
             @endforeach
 
 
-            @foreach($flashSales as $flashSale)
-    <script>
-        // Lấy end_time của mỗi phần tử trong mảng flashSales và chuyển thành timestamp
+@foreach($flashSales as $flashSale)
+<script>
+    window.onload = function () {
+
+        // Lấy start_time và end_time của flashSale
+        var startTime = new Date("{{ \Carbon\Carbon::parse($flashSale->start_time)->toIso8601String() }}").getTime();
         var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale->end_time)->toIso8601String() }}").getTime();
+        console.log(startTime);
         var countdown = setInterval(function () {
-                    var now = new Date().getTime();
-                    var timeRemaining = endTime - now;
+            var now = new Date().getTime();
 
-                    // Nếu hết thời gian, dừng đếm ngược và cập nhật text
-                    if (timeRemaining < 0) {
-                        clearInterval(countdown);
-                        document.getElementById("countdown").innerHTML = "Chương trình đã kết thúc";
-                        return;
-                    }
+            if (now < startTime) {
+                // Chương trình chưa bắt đầu, hiển thị thời gian chờ bắt đầu
+                var timeUntilStart = startTime - now;
+                // console.log(timeUntilStart);
+                var days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
 
-                    // Tính toán thời gian còn lại
-                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                document.getElementById("countdown").innerHTML =
+                    `Chương trình bắt đầu sau: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else if (now >= startTime && now < endTime) {
+                // Chương trình đã bắt đầu, hiển thị thời gian còn lại đến khi kết thúc
+                var timeRemaining = endTime - now;
 
-                    // Hiển thị thời gian
-                    document.getElementById("countdown").innerHTML =
-                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                }, 1000);
-    </script>
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    `Chương trình kết thúc sau: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                // Chương trình đã kết thúc
+                clearInterval(countdown);
+                document.getElementById("countdown").innerHTML = "Chương trình đã kết thúc";
+                location.reload();
+            }
+        }, 1000);
+    };
+</script>
 @endforeach
         </div>
         <!-- row -->

@@ -47,7 +47,7 @@ class OrderController extends Controller
             'payment' => 1,
             'order_date'=> now(),
             'status' => 'Chờ xác nhận',
-            'total_amount' => $totalPrice - 30000
+            'total_amount' => $totalPrice + 30000
         ]);
         // tạo các mục đơn hàng từ giỏ hàng
         foreach($cart->cartItems as $item){

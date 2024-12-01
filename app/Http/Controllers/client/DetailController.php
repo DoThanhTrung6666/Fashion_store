@@ -31,14 +31,14 @@ class DetailController extends Controller
             ->where('id', '!=', $detail->id)  // Loại bỏ sản phẩm hiện tại khỏi danh sách
             ->take(4)  // Lấy tối đa 4 sản phẩm cùng loại
             ->get();
-    
+
         // Lấy các bình luận của sản phẩm
         $comments = Comment::where('product_id', $id)->with('user')->get();
-    
+
         // Trả về view với các dữ liệu đã truy vấn
-        return view('client.productDetail', compact('comments', 'relatedProducts', 'variants', 'flashSale', 'detail'));
+        return view('client.productDetail', compact('comments', 'relatedProducts', 'variants', 'flashSales', 'detail'));
     }
-    
+
 
     // Lưu bình luận
     public function storeComment(Request $request, $productId)

@@ -292,7 +292,7 @@ function updateColors(sizeId) {
 
                     <!-- Reviews Content -->
 
-                    
+
 
 
                     <!-- Thông tin sản phẩm -->
@@ -335,7 +335,7 @@ function updateColors(sizeId) {
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <h4>Submit Rating</h4>
         </div>
-    
+
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="revie_stars d-flex align-items-center justify-content-between px-2 py-2 gray rounded mb-2 mt-1">
                 <div class="srt_013">
@@ -368,41 +368,41 @@ function updateColors(sizeId) {
                 </div>
             </div>
         </div>
-    
+
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="form-group">
                 <label class="medium text-dark ft-medium">Description</label>
                 <textarea class="form-control" name="content" rows="4" required></textarea>
             </div>
         </div>
-    
+
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="form-group m-0">
                 <button type="submit" class="btn btn-white stretched-link hover-black">Submit Review <i class="lni lni-arrow-right"></i></button>
             </div>
         </div>
     </form>
-    
-    
+
+
     <script>
         // Lấy tất cả các sao
         const stars = document.querySelectorAll('.star-rating i');
         const ratingInput = document.getElementById('rating');  // Input ẩn để lưu rating
-    
+
         // Lặp qua các sao và thêm sự kiện click
         stars.forEach(star => {
             star.addEventListener('click', function() {
                 // Lấy giá trị của sao (1 - 5)
                 const rating = this.getAttribute('data-value');
-    
+
                 // Cập nhật giá trị rating vào input ẩn
                 ratingInput.value = rating;
-    
+
                 // Cập nhật giao diện sao
                 updateStars(rating);
             });
         });
-    
+
         // Hàm để cập nhật giao diện sao
         function updateStars(rating) {
             stars.forEach(star => {
@@ -414,7 +414,7 @@ function updateColors(sizeId) {
             });
         }
     </script>
-    
+
     <style>
         .fas.fa-star.filled {
             color: #ffcc00;  /* Màu vàng cho sao đã chọn */
@@ -424,13 +424,13 @@ function updateColors(sizeId) {
             cursor: pointer;  /* Thêm con trỏ chuột khi hover */
         }
     </style>
-    
-    
+
+
 </div>
 
 
-                    
-                    
+
+
 
                 </div>
             </div>
@@ -490,32 +490,4 @@ function updateColors(sizeId) {
     </div>
 </section>
 <!-- ======================= Similar Products Start ============================ -->
-<script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const colorRadios = document.querySelectorAll('input[name="variant[0][color_id]"]');
-    const sizeRadios = document.querySelectorAll('input[name="variant[0][size_id]"]');
-
-    colorRadios.forEach((colorRadio) => {
-        colorRadio.addEventListener('change', updateProductVariantId);
-    });
-
-    sizeRadios.forEach((sizeRadio) => {
-        sizeRadio.addEventListener('change', updateProductVariantId);
-    });
-
-    function updateProductVariantId() {
-        const selectedColorId = document.querySelector('input[name="variant[0][color_id]"]:checked')?.value;
-        const selectedSizeId = document.querySelector('input[name="variant[0][size_id]"]:checked')?.value;
-
-        if (selectedColorId && selectedSizeId) {
-            const variants = @json($detail->variants);
-            const variant = variants.find(v => v.color_id == selectedColorId && v.size_id == selectedSizeId);
-            document.getElementById('product_variant_id').value = variant ? variant.id : '';
-        }
-    }
-});
-</script>
-</script>
 @endsection
-

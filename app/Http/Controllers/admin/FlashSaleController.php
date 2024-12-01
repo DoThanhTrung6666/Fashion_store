@@ -69,7 +69,8 @@ class FlashSaleController extends Controller
     public function index()
     {
         $flashSales = FlashSale::with('flashSaleItems.product')->get();
-        return view('admin.flash-sale.index', compact('flashSales'));
+        $sales = Sale::all();
+        return view('admin.flash-sale.index', compact('flashSales','sales'));
     }
 
     public function delete($id)

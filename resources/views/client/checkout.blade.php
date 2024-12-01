@@ -51,14 +51,14 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Email *</label>
-                                <input type="email" class="form-control" placeholder="Email" value=""/>
+                                <input type="email" class="form-control" placeholder="Email" value="@if($user !== null){{$user->email}} @endif"/>
                             </div>
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Địa chỉ</label>
-                                <input type="text" class="form-control" placeholder="Nhập địa chỉ của bạn" value="" />
+                                <input type="text" class="form-control" placeholder="Nhập địa chỉ của bạn" value="@if($user !== null){{$user->address}} @endif" />
                             </div>
                         </div>
 
@@ -95,33 +95,22 @@
             <div class="col-12 col-lg-4 col-md-12">
                 <div class="d-block mb-3">
                     <h5 class="mb-4">Order Items (3)</h5>
-                    <span>
-                        @if(session('error'))
-                            <p style="color: red">{{session('error')}}</p>
-                        @endif
-                    </span>
                     <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
                         @if(Auth::user())
                         @if($cart && $cart->cartItems->count()>0)
-                        @foreach ($cartItemsWithSaleInfo as $item )
+                        @foreach ($cart->cartItems as $item )
                         <li class="list-group-item">
                             <div class="row align-items-center">
                                 <div class="col-3">
                                     <!-- Image -->
-                                    <a href="product.html"><img src="{{Storage::url($item['cartItem']->productVariant->product->image)}}" alt="..." class="img-fluid"></a>
+                                    <a href="product.html"><img src="{{Storage::url($item->productVariant->product->image)}}" alt="..." class="img-fluid"></a>
                                 </div>
                                 <div class="col d-flex align-items-center">
                                     <div class="cart_single_caption pl-2">
-                                        <h4 class="product_title fs-md ft-medium mb-1 lh-1">{{$item['cartItem']->productVariant->product->name}}</h4>
-                                        @if ($item['isOnFlashSale'])
-                                            <p class="mb-1 lh-1"><span  class="text-danger">Sản phẩm đang được Flash-Sale</span></p>
-                                            {{ number_format($item['finalPrice'] * ($item['cartItem']->quantity))}}VNĐ - SL:{{$item['cartItem']->quantity}}x
-                                        @else
-                                            {{ number_format($item['cartItem']->productVariant->product->price)}}VNĐ - SL:{{$item['cartItem']->quantity}}x
-                                        @endif
-                                        <p class="mb-1 lh-1"><span class="text-dark">Size: {{$item['cartItem']->productVariant->size->name}}</span></p>
-                                        <p class="mb-3 lh-1"><span class="text-dark">Color: {{$item['cartItem']->productVariant->color->name}}</span></p>
-                                        <h4 class="fs-md ft-medium mb-3 lh-1">{{$item['cartItem']->productVariant->price}}</h4>
+                                        <h4 class="product_title fs-md ft-medium mb-1 lh-1">{{$item->productVariant->product->name}}</h4>
+                                        <p class="mb-1 lh-1"><span class="text-dark">Size: {{$item->productVariant->size->name}}</span></p>
+                                        <p class="mb-3 lh-1"><span class="text-dark">Color: {{$item->productVariant->color->name}}</span></p>
+                                        <h4 class="fs-md ft-medium mb-3 lh-1">{{$item->productVariant->price}}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -148,7 +137,7 @@
                         <span>Phí vận chuyển</span> <span class="ml-auto text-dark ft-medium">30.000 vnđ</span>
                       </li>
                       <li class="list-group-item d-flex text-dark fs-sm ft-regular">
-                        <span>Total</span> <span class="ml-auto text-dark ft-medium">{{$totalPrice - 30000}}</span>
+                        <span>Total</span> <span class="ml-auto text-dark ft-medium">{{$totalPrice + 30000}}</span>
                       </li>
                       @else
                       <span>Subtotal</span> <span class="ml-auto text-dark ft-medium">0</span>

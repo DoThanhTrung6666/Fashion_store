@@ -23,17 +23,33 @@
                                             <th>Update Discount</th>
                                             <th>Start Time</th>
                                             <th>End Time</th>
-                                            <th>Status</th>
+
                                             <th>Thao tác</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($flashSales as $flashSale)
                                             <tr>
+                                                <td>
+                                                    @foreach ($flashSale->flashSaleItems as $flashSaleItem)
+                                                        <p>{{ $flashSaleItem->product->name }}</p>
+                                                    @endforeach
+                                                </td>
                                                 <td>{{ $flashSale->name }}</td>
-
-
-
+                                                <td>
+                                                <select name="sale_id" class="form-control">
+                                                    <option value="">Chọn % giảm giá</option>
+                                                    @foreach($sales as $sale)
+                                                        <option value="{{ $sale->id }}">{{ $flashSale->name }} - {{ number_format($sale->discount_percentage) }}%</option>
+                                                    @endforeach
+                                                </select>
+                                                </td>
+                                                <td>
+                                                    <input type="datetime-local" name="start_time" class="form-control" value="{{$flashSale->start_time}}">
+                                                </td>
+                                                <td>
+                                                    <input type="datetime-local" name="end_time" class="form-control" value="{{$flashSale->end_time}}">
+                                                </td>
 
 
 
