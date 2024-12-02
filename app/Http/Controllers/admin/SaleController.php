@@ -32,7 +32,17 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         //
-        Sale::create($request->all());
+        $validated = $request->validate([
+            'discount_percentage' => 'required|integer|min:1|max:99',
+        ],[
+            'discount_percentage.required' => 'Không được bỏ trống',
+            'discount_percentage.interger' => '% giảm giá phải là số',
+            'discount_percentage.min' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',
+            'discount_percentage.max' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',
+        ]);
+        Sale::create([
+            'discount_percentage' => $validated['discount_percentage'],
+        ]);
         return redirect()->route('admin.sales.index');
     }
 
@@ -50,6 +60,8 @@ class SaleController extends Controller
     public function edit(string $id)
     {
         //
+        $sale = Sale::findOrFail($id);
+        return view('admin.sale.update',compact('sale'));
     }
 
     /**
@@ -58,6 +70,21 @@ class SaleController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validated = $request->validate([
+            'discount_percentage' => 'required|integer|min:1|max:99',
+        ], [
+            'discount_percentage.required' => 'Không được bỏ trống',
+            'discount_percentage.integer' => '% giảm giá phải là số',
+            'discount_percentage.min' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',
+            'discount_percentage.max' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',
+        ]);
+
+        $sale = Sale::findOrFail($id);
+        $sale->update([
+            'discount_percentage' => $validated['discount_percentage'],
+        ]);
+
+        return redirect()->route('admin.sales.index')->with('success', 'Cập nhật giảm giá thành công');
     }
 
     /**
