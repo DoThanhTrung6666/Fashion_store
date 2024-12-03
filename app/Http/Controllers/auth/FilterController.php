@@ -18,22 +18,23 @@ class FilterController extends Controller
         // Lấy tất cả các màu
         $colors = Color::all();
 
-        // Lọc theo màu sắc
-        if ($request->has('color')) {
-            $query->where('color_id', $request->input('color'));
-        }
-
         // Lấy tất cả các kích thước
         $sizes = Size::all();
 
+        // Chỉ lọc nếu cả màu và kích thước đều được chọn
+        if (
+            $request->has('color') && $request->input('color') !== '' &&
+            $request->has('size') && $request->input('size') !== ''
+        ) {
 
+            // Lọc theo màu sắc
+            $query->where('color_id', $request->input('color'));
 
-        // Lọc theo kích thước nếu được chọn
-        if ($request->has('size')) {
-            $query->where('size_id', $request->input('size')); // Giả sử bạn đã có cột size_id trong bảng ProductVariant
+            // Lọc theo kích thước
+            $query->where('size_id', $request->input('size'));
         }
 
-        // Kiểm tra xem có điều kiện lọc theo giá hay không
+        // Kiểm tra nếu người dùng chọn lọc theo giá
         if ($request->has('sort_by')) {
             switch ($request->input('sort_by')) {
                 case 2:
@@ -70,6 +71,7 @@ class FilterController extends Controller
             return $product;
         })->values();
 
-        return view('client.danhmucsp', compact('products', 'sizes', 'colors')); // Truyền dữ liệu sản phẩm và kích thước vào view
+        // Truyền dữ liệu vào view
+        return view('client.danhmucsp', compact('products', 'sizes', 'colors'));
     }
 }
