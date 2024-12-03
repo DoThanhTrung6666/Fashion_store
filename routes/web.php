@@ -47,7 +47,10 @@ Route::prefix('admin')
         Route::resource('banners', BannerController::class);
         // Route::get('/admin', [thongkeController::class, 'index']);
         Route::resource('products', ProductController::class);
-
+        // trạng thái ngừng bán
+        Route::patch('/product/{id}/update-status', [ProductController::class, 'updateStatus'])->name('product.updateStatus');
+        // danh sách sản phẩm ngừnh kinh doanh
+        Route::get('list-product-end', [ProductController::class, 'listEndProduct'])->name('listEndProduct');
         Route::resource('sizes', SizeController::class);
         Route::resource('colors', ColorController::class);
 

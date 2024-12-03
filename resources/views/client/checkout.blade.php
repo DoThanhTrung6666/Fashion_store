@@ -44,7 +44,10 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Họ và tên</label>
-                                <input type="text" class="form-control" placeholder="Họ và tên"  value="@if($user !== null){{$user->name}} @endif"/>
+                                <input type="text" class="form-control" placeholder="Họ và tên" name="name_order"  value="@if($user !== null){{$user->name}} @endif"/>
+                                @error('name_order')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
@@ -58,7 +61,10 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Địa chỉ</label>
-                                <input type="text" class="form-control" placeholder="Nhập địa chỉ của bạn" value="@if($user !== null){{$user->address}} @endif" />
+                                <input type="text" class="form-control" name="address_order" placeholder="Nhập địa chỉ của bạn" value="@if($user !== null){{$user->address}} @endif" />
+                                @error('address_order')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
@@ -66,14 +72,17 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Mobile Number *</label>
-                                <input type="text" class="form-control" placeholder="Mobile Number" value="@if($user !== null){{$user->phone}} @endif" />
+                                <input type="text" class="form-control" name="phone_order" placeholder="Mobile Number" value="@if($user !== null){{$user->phone}} @endif" />
+                                @error('phone_order')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Ghi chú</label>
-                                <textarea class="form-control ht-50"></textarea>
+                                <textarea class="form-control ht-50" name="content_order"></textarea>
                             </div>
                         </div>
 

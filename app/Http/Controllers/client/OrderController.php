@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function Order(){
+    public function Order(Request $request){
         $user = Auth::user();
         $cart = Cart::with('cartItems.productVariant')->where('user_id',$user->id)->first();
 
@@ -21,6 +21,20 @@ class OrderController extends Controller
         //     return redirect()->back()->with('error','Giỏ hàng của bạn đang trống.');
         // }
 
+        if (!$cart || $cart->cartItems->isEmpty()) {
+            return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
+        }
+
+        // Lọc các sản phẩm ngừng kinh doanh
+        $inactiveItems = $cart->cartItems->filter(function ($cartItem) {
+            return $cartItem->productVariant->product->status == 2;
+        });
+
+        // Nếu có sản phẩm ngừng kinh doanh, hiển thị thông báo và quay lại giỏ hàng
+        if ($inactiveItems->count() > 0) {
+            $inactiveProductNames = $inactiveItems->pluck('productVariant.product.name')->join(', ');
+            return redirect()->route('cart.load')->with('error', 'Các sản phẩm sau đã ngừng kinh doanh: ' . $inactiveProductNames . '. Vui lòng xoá chúng khỏi giỏ hàng.');
+        }
         if($cart){
         // tính tổng tiền
         $totalPrice = $cart->cartItems->sum(function ($cartItem) {
@@ -41,13 +55,35 @@ class OrderController extends Controller
         });
         }
 
+
+        $validate = $request->validate([
+            'name_order' => 'required|string|max:255',
+            'phone_order' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:15',
+            'address_order' => 'required|string|min:10|max:500',
+        ],[
+            'name_order.required' => 'Vui lòng nhập tên người đặt hàng.',
+            'name_order.string' => 'Tên phải là chuỗi ký tự.',
+            'name_order.max' => 'Tên không được dài hơn 255 ký tự.',
+
+            'phone_order.required' => 'Vui lòng nhập số điện thoại.',
+            'phone_order.regex' => 'Số điện thoại không đúng định dạng.',
+
+            'address_order.required' => 'Vui lòng nhập địa chỉ.',
+            'address_order.string' => 'Địa chỉ phải là chuỗi ký tự.',
+            'address_order.min' => 'Địa chỉ phải có ít nhất 10 ký tự.',
+            'address_order.max' => 'Địa chỉ không được dài hơn 500 ký tự.',
+        ]);
         // tạo đơn hàng mới
         $order = Order::create([
             'user_id' => $user->id,
             'payment' => 1,
             'order_date'=> now(),
             'status' => 'Chờ xác nhận',
-            'total_amount' => $totalPrice + 30000
+            'total_amount' => $totalPrice + 30000,
+            'name_order' => $request->name_order,
+            'phone_order' => $request->phone_order,
+            'address_order' => $request->address_order,
+            'content_order'=> $request->content_order
         ]);
         // tạo các mục đơn hàng từ giỏ hàng
         foreach($cart->cartItems as $item){
