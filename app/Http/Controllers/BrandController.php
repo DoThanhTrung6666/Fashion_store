@@ -51,13 +51,26 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255', // Xác thực trường name
-            'logo' => 'required', // Chú ý sửa 'logobrand' thành 'logo'
-            'description' => 'nullable|string', // Xác thực trường description
-            'country' => 'nullable|string', // Xác thực trường address
-            'website_url' => 'required',
-        ]);
+        $data = $request->validate(
+            [
+                'name' => 'required|string|max:255', // Xác thực trường name
+                'logo' => 'required', // Chú ý sửa 'logobrand' thành 'logo'
+                'description' => 'required|string', // Xác thực trường description
+                'country' => 'required|string', // Xác thực trường address
+                'website_url' => 'required',
+            ],
+            [
+                'name.required' => 'Vui lòng nhập tên thương hiệu.',
+                'name.max' => 'Tên thương hiệu không được vượt quá 255 ký tự.',
+                'logo.required' => 'Vui lòng tải lên logo.',
+                'description.required' => 'Vui lòng nhập mô tả.',
+                'description.string' => 'Mô tả phải là một chuỗi.',
+                'country.required' => 'Vui lòng nhập địa chỉ.',
+                'country.string' => 'Địa phải là một chuỗi.',
+                'website_url.required' => 'Vui lòng nhập đường dẫn website.',
+                'website_url.url' => 'Đường dẫn website không đúng định dạng.',
+            ]
+        );
         $data['slug'] = Str::slug($data['name'], '-');
         $data['status'] = 1;
         $path_logo = $request->file('logo')->store('images');
