@@ -36,7 +36,11 @@
         </div>
 
 {{-- xử lí xoá nhiều bên ngoài if  --}}
-
+@if(session('error'))
+    <div>
+        {{ session('error') }}
+    </div>
+@endif
 @if($cart)
         <div class="row justify-content-between">
             <div class="col-12 col-lg-7 col-md-12">

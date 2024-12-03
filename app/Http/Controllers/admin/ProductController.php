@@ -22,10 +22,19 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('variants','category')->get();
+        $products = Product::with('variants','category')
+        ->where('status',1)
+        ->get();
         return view('admin.product.index',compact('products'));
     }
 
+    // danh sách ngừng kinh doanh
+    public function listEndProduct(){
+        $products = Product::with('variants','category')
+        ->where('status',2)
+        ->get();
+        return view('admin.product.list-end-product',compact('products'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -115,12 +124,10 @@ class ProductController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'] ?? null,
             'price' => $validated['price'],
-            // 'discount' => $validated['discount'] ?? null,
-            // 'stock_quantity' => $validated['stock_quantity'],
             'brand_id' => $validated['brand_id'],
             'category_id' => $validated['category_id'],
-            // 'status'=> $validated['status'],
-            'image' => $path, // Lưu đường dẫn ảnh vào cột 'image'
+            'image' => $path,
+            'status'=> 1, // mặc định là đang bán là 1 còn 2 là ngừng kinh doanh
         ]);
 
             foreach ($validated['variant'] as $index=>$variant) {
@@ -260,5 +267,17 @@ class ProductController extends Controller
     {
         //
 
+    }
+
+    public function updateStatus($id){
+        $product = Product::findOrFail($id);
+        if($product->status == 1){
+            $product->status = 2;
+            $product->save();
+        }elseif($product->status == 2){
+            $product->status = 1;
+            $product->save();
+        }
+        return redirect()->back()->with('success','Sản phẩm đã ngừng kinh doanh');
     }
 }

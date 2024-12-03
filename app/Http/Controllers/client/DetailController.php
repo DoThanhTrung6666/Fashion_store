@@ -14,7 +14,16 @@ class DetailController extends Controller
     // Hiển thị chi tiết sản phẩm
     public function show($id){
         // Tìm sản phẩm theo id
-        $detail = Product::with('variants','category')->findOrFail($id);
+        $detail = Product::with('variants', 'category')->where('status', 1)->find($id);
+
+
+        if (!$detail) {
+            $detail1 = Product::find($id);
+            if ($detail1 && $detail1->status == 2) {
+                return redirect()->route('home');
+            }
+        }
+
         $variants = $detail->variants;
 
         $flashSales = FlashSaleItem::with('flashSale')
