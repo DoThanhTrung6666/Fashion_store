@@ -23,8 +23,7 @@ use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
-
-
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,12 +74,12 @@ Route::prefix('admin')
         Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
-        Route::resource('users',UserController::class);
+        Route::resource('users', UserController::class);
 
         // dành cho quản lí flash sale bên phía admin
-        Route::resource('/sales',SaleController::class);
-        Route::resource('/flash-sales',FlashSaleController::class);
-        Route::resource('/flash-salesAll',FlashSaleAllController::class);
+        Route::resource('/sales', SaleController::class);
+        Route::resource('/flash-sales', FlashSaleController::class);
+        Route::resource('/flash-salesAll', FlashSaleAllController::class);
         // kết thúc flash sale
         Route::get('/flash-sale/select', [FlashSaleController::class, 'createSelectFlashSale'])->name('flash-sale.select');
         Route::post('/flash-sale/select', [FlashSaleController::class, 'storeSelectFlashSale'])->name('storeSelectFlashSale'); // Dùng POST khi chọn sản phẩm
@@ -100,7 +99,7 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::get('register', [AuthenticationController::class, 'showFormRegister'])->name('register');
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
-Route::resource('profile',AuthenticationController::class);
+Route::resource('profile', AuthenticationController::class);
 
 
 
@@ -110,17 +109,15 @@ Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add')
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.load');
 Route::delete('cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+// Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
+// Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
+// Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
+
+Route::post('/checkout/handle', [CheckoutController::class, 'handleCheckout'])->name('checkout.handle');
 Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
-
-
-
-
-Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
-Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
-Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
-Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
+Route::get('/orders', [OrderController::class, 'loadOrderUser'])->name('orders.loadUser');
 
 
 
@@ -130,3 +127,6 @@ Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
+
+Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment'])->name('vnpay');
+Route::get('/vnpay/callback', [PaymentController::class, 'vnpay_callback'])->name('vnpay.callback');
