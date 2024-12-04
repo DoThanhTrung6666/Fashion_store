@@ -19,6 +19,10 @@ return new class extends Migration
             $table->date('order_date');
             $table->string('status');
             $table->unsignedBigInteger('total_amount');
+            $table->string('name_order');
+            $table->string('phone_order');
+            $table->string('address_order');
+            $table->string('content_order')->nullable();
             $table->timestamps();
         });
     }

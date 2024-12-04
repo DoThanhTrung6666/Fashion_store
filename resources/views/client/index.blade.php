@@ -94,7 +94,7 @@
                     <h3 class="ft-bold pt-3">Chương trình flash sale </h3>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 style="color: red">Kết thúc sau: <span id="countdown"></span></h3>
+                            <h3 style="color: red"><span id="countdown"></span></h3>
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
         <div class="row align-items-center rows-products">
 
             @foreach ($flashSales as $flashSale)
-
+            @foreach ($flashSale->flashSaleItems as $item)
 
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
@@ -113,7 +113,7 @@
                     <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale['salePercentage']) }}%</div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
-                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $flashSale['flashSaleId']) }}"><img class="card-img-top" src="{{Storage::url($flashSale['productImage'])}}" alt="..."></a>
+                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $item->product->id) }}"><img class="card-img-top" src="{{Storage::url($item->product->image)}}" alt="..."></a>
                             <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                 <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
                             </div>
@@ -135,84 +135,64 @@
                             </div>
                         </div>
                         <div class="text-left">
-                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="{{ route('detail.show', $flashSale['flashSaleId']) }}">{{$flashSale['productName']}}</a></p>
+                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="{{ route('detail.show', $flashSale->id) }}">{{$item->product->name}}</a></p>
                             <div class="elis_rty">
                                 <span class="ft-bold text-dark fs-sm" style="display: flex">
-                                <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($flashSale['productPrice'], 2, '.', ','), '0'), '.') }}vnđ</p>
-                                <p style="width:60%">{{
-                                    rtrim(rtrim(number_format($flashSale['productPrice'] -
-                                    ($flashSale['productPrice'] * ($flashSale['salePercentage'] / 100)), 2, '.', ','), '0'), '.')
-                                }}vnđ</p>
+                                <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($item->product->price, 2, '.', ','), '0'), '.') }}vnđ</p>
+                                <p style="width:60%">{{$item->price}}vnđ</p>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            @endforeach
             @endforeach
 
 
-            @foreach($flashSales as $flashSale)
-    <script>
-        // Lấy end_time của mỗi phần tử trong mảng flashSales và chuyển thành timestamp
-        var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale['end_time'])->toIso8601String() }}").getTime();
+@foreach($flashSales as $flashSale)
+<script>
+    window.onload = function () {
+
+        // Lấy start_time và end_time của flashSale
+        var startTime = new Date("{{ \Carbon\Carbon::parse($flashSale->start_time)->toIso8601String() }}").getTime();
+        var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale->end_time)->toIso8601String() }}").getTime();
+        console.log(startTime);
         var countdown = setInterval(function () {
-                    var now = new Date().getTime();
-                    var timeRemaining = endTime - now;
+            var now = new Date().getTime();
 
-                    // Nếu hết thời gian, dừng đếm ngược và cập nhật text
-                    if (timeRemaining < 0) {
-                        clearInterval(countdown);
-                        document.getElementById("countdown").innerHTML = "Chương trình đã kết thúc";
-                        return;
-                    }
+            if (now < startTime) {
+                // Chương trình chưa bắt đầu, hiển thị thời gian chờ bắt đầu
+                var timeUntilStart = startTime - now;
+                // console.log(timeUntilStart);
+                var days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
 
-                    // Tính toán thời gian còn lại
-                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                document.getElementById("countdown").innerHTML =
+                    `Chương trình bắt đầu sau: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else if (now >= startTime && now < endTime) {
+                // Chương trình đã bắt đầu, hiển thị thời gian còn lại đến khi kết thúc
+                var timeRemaining = endTime - now;
 
-                    // Hiển thị thời gian
-                    document.getElementById("countdown").innerHTML =
-                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                }, 1000);
-        // console.log("End Time for Flash Sale {{ $flashSale['flashSaleId'] }}: ", endTime); // In ra giá trị end_time
-    </script>
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    `Chương trình kết thúc sau: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                // Chương trình đã kết thúc
+                clearInterval(countdown);
+                document.getElementById("countdown").innerHTML = "Chương trình đã kết thúc";
+                location.reload();
+            }
+        }, 1000);
+    };
+</script>
 @endforeach
-
-            {{-- <script>
-                // Lấy thời gian kết thúc từ server (ISO8601)
-                // var endTime = new Date("{{ \Carbon\Carbon::parse($flashSales[0]->end_time)->toIso8601String() }}").getTime();
-
-
-
-                // Cập nhật thời gian đếm ngược mỗi giây
-                var countdown = setInterval(function () {
-                    var now = new Date().getTime();
-                    var timeRemaining = endTime - now;
-
-                    // Nếu hết thời gian, dừng đếm ngược và cập nhật text
-                    if (timeRemaining < 0) {
-                        clearInterval(countdown);
-                        document.getElementById("countdown").innerHTML = "Sale ended";
-                        return;
-                    }
-
-                    // Tính toán thời gian còn lại
-                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                    // Hiển thị thời gian
-                    document.getElementById("countdown").innerHTML =
-                        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-                }, 1000);
-            </script> --}}
-
-
         </div>
         <!-- row -->
 

@@ -65,4 +65,10 @@ class User extends Authenticatable
         return $this->role->name ?? 'No Role Assigned';
     }
 
+    public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
+
+
 }

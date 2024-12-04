@@ -1,8 +1,7 @@
 <?php
 
+use App\Models\FlashSale;
 use App\Models\Product;
-use App\Models\ProductVariant;
-use App\Models\Sale;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,13 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('flash_sales', function (Blueprint $table) {
+        Schema::create('flash_sale_items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignIdFor(Sale::class)->constrained();
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
-            $table->enum('status', ['active', 'inactive']);
+            $table->foreignIdFor(FlashSale::class)->constrained();
+            $table->foreignIdFor(Product::class)->constrained();
+            $table->decimal('price',10,0);
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('flash_sales');
+        Schema::dropIfExists('flash_sale_items');
     }
 };

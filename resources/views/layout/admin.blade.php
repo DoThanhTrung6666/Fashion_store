@@ -413,12 +413,12 @@
 <li class="treeview">
     <a href="{{route("admin.sales.index")}}">
         <i class="nav-icon fas fa-image"></i>
-    <span>Quản lí Flash-Sale</span>
+    <span>Quản lí Flash-Sale-One</span>
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="{{route("admin.flash-sales.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="{{route("admin.flash-sales.create")}}"><i class="fa fa-circle-o"></i>Chọn sp Flash sale</a></li>
+        <li><a href="{{route('admin.listFlashSale')}}"><i class="fa fa-circle-o"></i>Danh sách Flash-Sale</a></li>
+        <li><a href="{{route("admin.createFlashSale")}}"><i class="fa fa-circle-o"></i>Tạo Flash-Sale</a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí flash sale  --}}
@@ -430,7 +430,8 @@
               <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <li><a href="pages/user/danh_sach_user.html"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.create')}}"><i class="fa fa-circle-o"></i>Thêm mới</a></li>
             </ul>
           </li>
           <li class="treeview">

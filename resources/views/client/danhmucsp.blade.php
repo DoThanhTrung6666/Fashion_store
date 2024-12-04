@@ -1,5 +1,6 @@
 @extends('layout.client')
 @section('content')
+
     <!-- ======================= Shop Style 1 ======================== -->
     <section class="bg-cover" style="background:url(assets/img/cover-1.jpg) no-repeat;">
         <div class="container">

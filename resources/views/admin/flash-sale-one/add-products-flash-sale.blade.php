@@ -5,10 +5,8 @@
 <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    Chọn sản phẩm muốn Flash sale
-                    <a class="btn btn-primary" href="{{route('admin.sales.create')}}">Thêm mới loại sale</a>
-                    <a class="btn btn-warning" href="{{route('admin.flash-salesAll.create')}}">Flash Sale toàn bộ</a>
-                    <a href="{{route('admin.flash-sales.create')}}" class="btn btn-danger">Danh sách sản phẩm đã chọn flash-sale</a>
+                    Thêm sản phẩm muốn Flash-Sale vào : <strong style="color: red">{{ $flashSale->name }}</strong>
+                    {{-- <a class="btn btn-primary" href="{{route('admin.sales.create')}}">Thêm mới loại sale</a> --}}
                 </h1>
                 <span>
                     @if(session('success'))
@@ -20,32 +18,34 @@
                 <div class="row container-fluid">
                     <div class="col-md-12">
                         <div class="box box-primary">
-
                             <table class="table table-bordered" id="flashSaleTable">
                                 <thead>
                                     <tr>
-                                        <th>Chọn</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Giá</th>
-                                        {{-- <th>Ảnh</th> --}}
-                                        <th>Thao tác</th>
+                                        <th style="text-align: center">Chọn</th>
+                                        <th style="text-align: center">Tên sản phẩm</th>
+                                        <th style="text-align: center">Giá</th>
+                                        <th style="text-align: center">Ảnh</th>
+                                        <th style="text-align: center">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form action="{{ route('admin.storeSelectFlashSale') }}" method="POST">
+                                    <form action="{{route('admin.save_products',['flashSaleId' => $flashSale->id])}}" method="POST">
                                         @csrf
-                                    @foreach($products as $product)
-                                        <tr>
+                                        @foreach($products as $product)
+                                        <tr style="text-align: center">
                                             <td>
                                                 <!-- Checkbox để chọn sản phẩm -->
-                                                <input type="checkbox" name="products[]" value="{{ $product->id }}" id="product_{{ $product->id }}"
+                                                <input type="checkbox" name="products_id[]" value="{{ $product->id }}" id="product_{{ $product->id }}"
                                                     @if(in_array($product->id, old('products', []))) checked @endif>
                                             </td>
                                             <td>
                                                 {{$product->name}}
                                             </td>
                                             <td>
-                                                {{$product->price}}
+                                                {{ number_format($product->price)}}
+                                            </td>
+                                            <td>
+                                                <img src="{{Storage::url($product->image)}}" alt="" width="30">
                                             </td>
                                             <td>
                                                 <a href="" class="btn btn-facebook">Xem chi tiết sản phẩm</a>
