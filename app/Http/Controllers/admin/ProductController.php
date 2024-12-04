@@ -46,7 +46,7 @@ class ProductController extends Controller
     {
         $validated = $request->validate(
             [
-                'name' => 'required|string|max:255',
+                'name' => 'required|string|max:255|unique:products,name',
                 'description' => 'nullable|string',
                 'price' => 'required|numeric|min:0',
                 // 'discount' => 'nullable|numeric|min:0|max:100', // Phần trăm giảm giá từ 0-100
@@ -65,6 +65,7 @@ class ProductController extends Controller
                 // Thông báo lỗi cho các trường
                 'name.required' => 'Tên sản phẩm là bắt buộc.',
                 'name.max' => 'Tên sản phẩm không được dài hơn 255 ký tự.',
+                'name.unique' => 'Tên sản phẩm đã tồn tại',
                 'price.required' => 'Giá sản phẩm là bắt buộc.',
                 'price.numeric' => 'Giá sản phẩm phải là số.',
                 'price.min' => 'Giá sản phẩm phải lớn hơn hoặc bằng 0.',
