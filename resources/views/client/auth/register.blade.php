@@ -59,11 +59,6 @@
 
 
                     <button type="submit">Đăng kí</button>
-
-                    <div class="forgot">
-                        <a href="#">Quên mật khẩu?</a>
-                        <a href="{{route('login')}}">Đăng nhập tài khoản</a>
-                    </div>
                 </form>
 
                 <div class="register">
