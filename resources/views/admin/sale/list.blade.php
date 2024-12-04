@@ -15,24 +15,19 @@
 
                             <table class="table">
                                 <tr>
-                                    <th style="text-align: center" scope="col" style=""></th>
-                                    <th style="text-align: center" scope="col" style="">Tên giảm giá</th>
-                                    <th style="text-align: center" scope="col" style="">Phần trăm giảm giá</th>
+                                    {{-- <th style="text-align: center" scope="col" style=""></th> --}}
 
+                                    <th style="text-align: center" scope="col" style="">Phần trăm giảm giá</th>
+                                    <th style="text-align: center">Thao tác</th>
                                 </tr>
 
                                @foreach ($sales as $sale)
                                <tr>
-                                <td style="text-align: center"><input type="checkbox"></td>
-                                <td style="text-align: center">{{$sale->name}}</td>
-                                <td style="text-align: center">{{$sale->discount_percentage}}%</td>
+                                {{-- <td style="text-align: center"><input type="checkbox"></td> --}}
+
+                                <td style="text-align: center">{{number_format($sale->discount_percentage)}}%</td>
                                 <td style="text-align: center">
-                                        <a href="" class="btn btn-warning">Sửa</a>
-                                        <form action="{{ route('admin.sales.destroy',$sale->id)}}" method="POST" class="btn btn-danger">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit">Xoa</button>
-                                        </form>
+                                        <a href="{{route('admin.sales.edit',$sale->id)}}" class="btn btn-warning">Sửa</a>
                                     </td>
                                 </tr>
                                @endforeach

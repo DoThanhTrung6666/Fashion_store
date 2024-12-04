@@ -31,7 +31,6 @@ class Product extends Model
     }
     public function flashSaleItems()
     {
-        // Định nghĩa mối quan hệ hoặc logic bạn muốn xử lý
         return $this->hasMany(FlashSaleItem::class);
     }
 }

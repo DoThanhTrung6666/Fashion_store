@@ -6,7 +6,7 @@
 <div class="content-wrapper">
       <section class="content-header">
         <h1>
-          Quản lí sale <a href="" class="btn btn-primary">Danh sách sale</a>
+           Thêm mới loại (%) sale <a href="" class="btn btn-primary">Danh sách sale</a>
         </h1>
       </section>
       <section class="content">
@@ -18,12 +18,11 @@
               @csrf
                 <div class="box-body">
                   <div class="form-group">
-                    <label for="">Nhập tên giảm giá</label>
-                    <input type="text" class="form-control" placeholder="Nhập tên giảm giá" name="name">
-                  </div>
-                  <div class="form-group">
                     <label for="">Nhập phần trăm (%) giảm giá</label>
                     <input type="number" class="form-control" placeholder="Nhập % giảm giá" name="discount_percentage">
+                            @error('discount_percentage')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
                   </div>
                 <div class="box-footer">
                   <button type="submit" name="" class="btn btn-primary">Thêm mới loại giảm giá</button>
