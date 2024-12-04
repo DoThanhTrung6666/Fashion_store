@@ -239,7 +239,7 @@
                                 <li><a href="#">Hello - {{Auth::user()->name}}</a>
 									<ul class="nav-dropdown nav-submenu">
                                         @if(Auth::user()->role_id==1)
-										<li><a href="{{route('admin.')}}">Vào trang quản trị</a></li>
+										<li><a href="{{route('admin.statistics.index')}}">Vào trang quản trị</a></li>
                                         <li><a href="{{route('profile.edit',Auth::user()->id)}}">Sửa tài khoản</a></li>
                                         <li><a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

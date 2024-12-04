@@ -50,20 +50,27 @@ public function canceledOrders()
     return view('admin.orders.canceled', compact('canceledOrders'));
 }
 
+public function index() {
+    $status = request('status', 'Đã xác nhận');
+    $orders = Order::orderBy('id','DESC')->where('status', $status)->paginate();
+    
 
-    public function index()
-    {
-        $orders = Order::all();
+    return view('admin.orders.index', compact('orders'));
+}
 
-        return view('admin.orders.index', compact('orders')); }
 
-    public function updateStatus(Request $request, $id)
-    {
-        $order = Order::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
+    
 
-        return redirect()->back()->with('success', 'Order status updated successfully!');
+   
+
+    public function update(Order $order) {
+        $status = request('status', 'chờ xác nhận');
+        if ($order->status != 'đã giao hàng') {
+            $order->update(['status' => $status]);
+            return redirect()->route('admin.orders.index')->with('ok', 'Cập nhật trạng thái thanh công');
+        }
+        return redirect()->route('admin.orders.index')->with('no', 'Không thể cập nhật đơn hàng đã giao');
+
     }
 
 

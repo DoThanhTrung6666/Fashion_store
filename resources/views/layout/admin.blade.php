@@ -299,22 +299,14 @@
         </form>
         <ul class="sidebar-menu">
           <li class="header">MAIN NAVIGATION</li>
-          {{-- <li class="active treeview">
-            <a href="index.html">
-                <i class="nav-icon fas fa-tachometer-alt"></i> <span>Bảng điều khiển</span>
-            </a>
-          </li>
           <li class="treeview">
-            <a href="#">
-                <i class="nav-icon fas fa-newspaper"></i>
-              <span>Bản tin</span>
-              <i class="fa fa-angle-left pull-right"></i>
+            <a href="{{route("admin.statistics.index")}}">
+                <i class="fa fa-chart-bar"></i>
+            <span>Dashboard</span>
+           
             </a>
-            <ul class="treeview-menu">
-              <li><a href="pages/forms/danh_sach.html"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-              <li><a href="pages/forms/them_ban_tin.html"><i class="fa fa-circle-o"></i>Thêm tin tức</a></li>
-            </ul>
-          </li> --}}
+            
+        </li>
 {{-- category --}}
         <li class="treeview">
             <a href="#">
@@ -452,11 +444,11 @@
             </a>
             <ul class="treeview-menu">
             <li><a href="{{route('admin.orders.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-            <li><a href="{{route('admin.orders.pending')}}"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
-            <li><a href="{{route('admin.orders.confirmed')}}"><i class="fa fa-circle-o"></i>Đã xác nhận </a></li>
-            <li><a href="{{route('admin.orders.shipping')}}"><i class="fa fa-circle-o"></i>Chờ giao hàng </a></li>
-            <li><a href="{{route('admin.orders.delivered')}}"><i class="fa fa-circle-o"></i>Đã giao hàng </a></li>
-            <li><a href="{{route('admin.orders.canceled')}}"><i class="fa fa-circle-o"></i>Đơn bị hủy </a></li>
+            <li><a href="{{ route('admin.orders.index')}}?status=chờ xác nhận"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=đã xác nhận"><i class="fa fa-circle-o"></i>Đã xác nhận </a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=chờ giao hàng"><i class="fa fa-circle-o"></i>Chờ giao hàng </a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=đã giao hàng"><i class="fa fa-circle-o"></i>Đã giao hàng </a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=hủy đơn hàng"><i class="fa fa-circle-o"></i>Đơn bị hủy </a></li>
             </ul>
         </li>
 
