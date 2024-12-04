@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'image', 'description', 'price', 'discount', 'stock_quantity', 'brand_id', 'category_id', 'status'];
+    protected $fillable = ['name', 'image','price', 'description', 'brand_id', 'category_id'];
 
     public function variants()
     {
-        return $this->hasMany(ProductVariant::class);
+        return $this->hasMany(ProductVariant::class,'product_id');
     }
 
     public function category()
@@ -23,5 +23,14 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'product_id');
+    }
+    public function flashSaleItems()
+    {
+        return $this->hasMany(FlashSaleItem::class);
     }
 }

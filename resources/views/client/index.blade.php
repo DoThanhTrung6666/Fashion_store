@@ -17,7 +17,7 @@
                                 <span class="trending">There's nothing like trend</span>
                             </div>
 
-                            <a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -80,67 +80,138 @@
 </div>
 <!-- ============================ Hero Banner End ================================== -->
 
-<!-- ======================= All Category ======================== -->
-<section class="middle">
+<!-- ======================= Flash sale ======================== -->
+@if($flashSales->isEmpty())
+    {{-- <p>Chương trình đã kết thúc</p> --}}
+@else
+<section class="middle gray">
     <div class="container">
 
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Popular Categories</h2>
-                    <h3 class="ft-bold pt-3">Trending Categories</h3>
+                    <h2 class="off_title">Chương trình flash sale</h2>
+                    <h3 class="ft-bold pt-3">Chương trình flash sale </h3>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 style="color: red"><span id="countdown"></span></h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="row align-items-center justify-content-center">
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/fashion.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Men's Wear</a></h6></div>
-                </div>
-            </div> --}}
+        <!-- row -->
+        <div class="row align-items-center rows-products">
 
-            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/tshirt.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Áo nam</a></h6></div>
+            @foreach ($flashSales as $flashSale)
+            @foreach ($flashSale->flashSaleItems as $item)
+
+            <!-- Single -->
+            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                <div class="product_grid card b-0">
+                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale['salePercentage']) }}%</div>
+                    <div class="card-body p-0">
+                        <div class="shop_thumb position-relative">
+                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $item->product->id) }}"><img class="card-img-top" src="{{Storage::url($item->product->image)}}" alt="..."></a>
+                            <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer b-0 p-0 pt-2">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div class="text-left">
+                                {{-- @foreach ($flashSale->productVariant->color as $color)
+                                <div class="form-check form-option form-check-inline mb-1">
+                                    <input class="form-check-input" type="radio" name="color1" id="white" checked="">
+                                    <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->name}};"></label> --}}
+                                    {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
+                                 {{-- </div>
+                                @endforeach --}}
+                            </div>
+                            <div class="text-right">
+                                <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                        <div class="text-left">
+                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="{{ route('detail.show', $flashSale->id) }}">{{$item->product->name}}</a></p>
+                            <div class="elis_rty">
+                                <span class="ft-bold text-dark fs-sm" style="display: flex">
+                                <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($item->product->price, 2, '.', ','), '0'), '.') }}vnđ</p>
+                                <p style="width:60%">{{$item->price}}vnđ</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            @endforeach
+            @endforeach
 
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/accessories.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Accessories</a></h6></div>
-                </div>
-            </div> --}}
 
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/sneakers.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Men's Shoes</a></h6></div>
-                </div>
-            </div> --}}
+@foreach($flashSales as $flashSale)
+<script>
+    window.onload = function () {
 
-            {{-- <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/television.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Television</a></h6></div>
-                </div>
-            </div> --}}
+        // Lấy start_time và end_time của flashSale
+        var startTime = new Date("{{ \Carbon\Carbon::parse($flashSale->start_time)->toIso8601String() }}").getTime();
+        var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale->end_time)->toIso8601String() }}").getTime();
+        console.log(startTime);
+        var countdown = setInterval(function () {
+            var now = new Date().getTime();
 
-            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-4">
-                <div class="cats_side_wrap text-center mx-auto mb-3">
-                    <div class="sl_cat_01"><div class="d-inline-flex align-items-center justify-content-center p-4 circle mb-2 border"><a href="javascript:void(0);" class="d-block"><img src="assets/img/pant.png" class="img-fluid" width="40" alt=""></a></div></div>
-                    <div class="sl_cat_02"><h6 class="m-0 ft-medium fs-sm"><a href="javascript:void(0);">Quần nam</a></h6></div>
+            if (now < startTime) {
+                // Chương trình chưa bắt đầu, hiển thị thời gian chờ bắt đầu
+                var timeUntilStart = startTime - now;
+                // console.log(timeUntilStart);
+                var days = Math.floor(timeUntilStart / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeUntilStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeUntilStart % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeUntilStart % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    `Chương trình bắt đầu sau: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else if (now >= startTime && now < endTime) {
+                // Chương trình đã bắt đầu, hiển thị thời gian còn lại đến khi kết thúc
+                var timeRemaining = endTime - now;
+
+                var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML =
+                    `Chương trình kết thúc sau: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                // Chương trình đã kết thúc
+                clearInterval(countdown);
+                document.getElementById("countdown").innerHTML = "Chương trình đã kết thúc";
+                location.reload();
+            }
+        }, 1000);
+    };
+</script>
+@endforeach
+        </div>
+        <!-- row -->
+
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="position-relative text-center">
+                    <a href="shop-style-1.html" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
                 </div>
             </div>
         </div>
 
     </div>
 </section>
-<!-- ======================= All Category ======================== -->
+@endif
 
+<!-- ======================= All  ======================== -->
+<section class="space min">
+
+</section>
 <!-- ======================= Products Lists ======================== -->
 <section class="space min pt-0">
     <div class="container">
@@ -178,7 +249,17 @@
                                 @foreach ($allProducts as $value)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                                     <div class="product_grid card b-0">
-                                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+
+                                        @php
+                                            // Kiểm tra xem sản phẩm này có tham gia flash sale không
+                                            $flashSale = $flashSales->firstWhere('flashSaleId', $value->id);
+                                        @endphp
+
+                                        @if($flashSale)
+                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">{{number_format($flashSale['salePercentage'])}}%</div>
+                                        @else
+                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
+                                        @endif
                                         <div class="card-body p-0">
                                             <div class="shop_thumb position-relative">
                                                 <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $value->id) }}"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
@@ -194,16 +275,18 @@
                                         <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left">
                                                 <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star"></i>
                                                         <span class="small">(5 Reviews)</span>
-                                                    </div>
+                                                    </div> --}}
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$value->name}}</a></h5>
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->discount}}vnđ - {{$value->price}}vnđ</span></div>
+
+
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->price}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -241,14 +324,14 @@
                                         <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left">
                                                 <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star filled"></i>
                                                         <i class="fas fa-star"></i>
                                                         <span class="small">(5 Reviews)</span>
-                                                    </div>
+                                                    </div> --}}
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $product->id) }}">{{$product->name}}</a></h5>
                                                     <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$product->discount}}vnđ - {{$product->price}}vnđ</span></div>
                                                 </div>
@@ -297,48 +380,46 @@
                     <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
-                            <a class="card-img-top d-block overflow-hidden" href="shop-single-v1.html"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
+                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show',$trending->id)}}"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
                             <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                                <div class="edlio"><a href="{{ route('detail.show',$trending->id)}}" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer b-0 p-0 pt-2">
                         <div class="d-flex align-items-start justify-content-between">
                             <div class="text-left">
-                                @foreach ($trending->variants as $color)
+                                {{-- @foreach ($trending->variants as $color)
                                 <div class="form-check form-option form-check-inline mb-1">
                                     <input class="form-check-input" type="radio" name="color1" id="white" checked="">
-                                    <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->color->name}};"></label>
+                                    <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->color->name}};">
+                                        {{$color->color->name}}
+                                    </label> --}}
                                     {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
-                                </div>
-                                @endforeach
+                                {{-- </div>
+                                @endforeach --}}
                             </div>
                             <div class="text-right">
                                 <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
                             </div>
                         </div>
                         <div class="text-left">
-                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$trending->name}}</a></h5>
-                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">$99 - $129</span></div>
+                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show',$trending->id)}}">{{$trending->name}}</a></h5>
+                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$trending->price}} vnđ</span></div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             @endforeach
 
-            {{ $trendingProducts->links() }}
+            {{-- {{ $trendingProducts->links() }} --}}
         </div>
+        {{ $trendingProducts->links() }}
         <!-- row -->
 
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="position-relative text-center">
-                    <a href="shop-style-1.html" class="btn stretched-link borders">Explore More<i class="lni lni-arrow-right ml-2"></i></a>
-                </div>
-            </div>
-        </div>
+
 
     </div>
 </section>
@@ -346,64 +427,7 @@
 
 <!-- ======================= Blog Start ============================ -->
 <section class="space min">
-    <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Latest News</h2>
-                    <h3 class="ft-bold pt-3">New Updates</h3>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="_blog_wrap">
-                    <div class="_blog_thumb mb-2">
-                        <a href="blog-detail.html" class="d-block"><img src="assets/img/bl-1.png" class="img-fluid rounded" alt="" /></a>
-                    </div>
-                    <div class="_blog_caption">
-                        <span class="text-muted">26 Jan 2021</span>
-                        <h5 class="bl_title lh-1"><a href="blog-detail.html">Let's start bring sale on this saummer vacation.</a></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                        <a href="blog-detail.html" class="text-dark fs-sm">Continue Reading..</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="_blog_wrap">
-                    <div class="_blog_thumb mb-2">
-                        <a href="blog-detail.html" class="d-block"><img src="assets/img/bl-2.png" class="img-fluid rounded" alt="" /></a>
-                    </div>
-                    <div class="_blog_caption">
-                        <span class="text-muted">17 July 2021</span>
-                        <h5 class="bl_title lh-1"><a href="blog-detail.html">Let's start bring sale on this saummer vacation.</a></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                        <a href="blog-detail.html" class="text-dark fs-sm">Continue Reading..</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                <div class="_blog_wrap">
-                    <div class="_blog_thumb mb-2">
-                        <a href="blog-detail.html" class="d-block"><img src="assets/img/bl-3.png" class="img-fluid rounded" alt="" /></a>
-                    </div>
-                    <div class="_blog_caption">
-                        <span class="text-muted">10 Aug 2021</span>
-                        <h5 class="bl_title lh-1"><a href="blog-detail.html">Let's start bring sale on this saummer vacation.</a></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</p>
-                        <a href="blog-detail.html" class="text-dark fs-sm">Continue Reading..</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
 </section>
 <!-- ======================= Blog Start ============================ -->
 

@@ -34,7 +34,7 @@
   <div class="wrapper">
 
     <header class="main-header">
-      <a href="index.html" class="logo"><b>Admin</b>LTE</a>
+      <a href="index.html" class="logo"><b>Trang quản trị viên</b></a>
       <nav class="navbar navbar-static-top" role="navigation">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
@@ -239,14 +239,14 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image" />
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">Hello - {{Auth::user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 <p>
-                  Alexander Pierce - Web Developer
+                  {{Auth::user()->name}}
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -284,7 +284,7 @@
             <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
           </div>
           <div class="pull-left info">
-            <p>Alexander Pierce</p>
+            <p>{{Auth::user()->name}}</p>
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
         </div>
@@ -299,22 +299,14 @@
         </form>
         <ul class="sidebar-menu">
           <li class="header">MAIN NAVIGATION</li>
-          <li class="active treeview">
-            <a href="index.html">
-                <i class="nav-icon fas fa-tachometer-alt"></i> <span>Bảng điều khiển</span>
-            </a>
-          </li>
           <li class="treeview">
-            <a href="#">
-                <i class="nav-icon fas fa-newspaper"></i>
-              <span>Bản tin</span>
-              <i class="fa fa-angle-left pull-right"></i>
+            <a href="{{route("admin.statistics.index")}}">
+                <i class="fa fa-chart-bar"></i>
+            <span>Dashboard</span>
+           
             </a>
-            <ul class="treeview-menu">
-              <li><a href="pages/forms/danh_sach.html"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-              <li><a href="pages/forms/them_ban_tin.html"><i class="fa fa-circle-o"></i>Thêm tin tức</a></li>
-            </ul>
-          </li>
+            
+        </li>
 {{-- category --}}
         <li class="treeview">
             <a href="#">
@@ -354,7 +346,7 @@
     <li><a href="{{route('admin.products.create')}}"><i class="fa fa-circle-o"></i>Thêm </a></li>
     </ul>
 </li>
-{{-- kết thúc quản lí banner  --}}
+{{-- kết thúc quản lí sản phẩm  --}}
 
 {{-- quản lí Size --}}
 <li class="treeview">
@@ -396,6 +388,32 @@
     </ul>
 </li>
 {{-- kết thúc quản lí brand  --}}
+{{-- quản lí  sale --}}
+<li class="treeview">
+    <a href="{{route("admin.sales.index")}}">
+        <i class="nav-icon fas fa-image"></i>
+    <span>Quản lí Sale</span>
+    <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+    <li><a href="{{route("admin.sales.index")}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+    <li><a href="{{route("admin.sales.create")}}"><i class="fa fa-circle-o"></i>Thêm</a></li>
+    </ul>
+</li>
+{{-- kết thúc quản lí  sale  --}}
+{{-- quản lí flash sale --}}
+<li class="treeview">
+    <a href="{{route("admin.sales.index")}}">
+        <i class="nav-icon fas fa-image"></i>
+    <span>Quản lí Flash-Sale-One</span>
+    <i class="fa fa-angle-left pull-right"></i>
+    </a>
+    <ul class="treeview-menu">
+        <li><a href="{{route('admin.listFlashSale')}}"><i class="fa fa-circle-o"></i>Danh sách Flash-Sale</a></li>
+        <li><a href="{{route("admin.createFlashSale")}}"><i class="fa fa-circle-o"></i>Tạo Flash-Sale</a></li>
+    </ul>
+</li>
+{{-- kết thúc quản lí flash sale  --}}
 
           <li class="treeview">
             <a href="#">
@@ -404,7 +422,8 @@
               <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <li><a href="pages/user/danh_sach_user.html"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.create')}}"><i class="fa fa-circle-o"></i>Thêm mới</a></li>
             </ul>
           </li>
           <li class="treeview">
@@ -426,11 +445,11 @@
             </a>
             <ul class="treeview-menu">
             <li><a href="{{route('admin.orders.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-            <li><a href="{{route('admin.orders.pending')}}"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
-            <li><a href="{{route('admin.orders.confirmed')}}"><i class="fa fa-circle-o"></i>Đã xác nhận </a></li>
-            <li><a href="{{route('admin.orders.shipping')}}"><i class="fa fa-circle-o"></i>Chờ giao hàng </a></li>
-            <li><a href="{{route('admin.orders.delivered')}}"><i class="fa fa-circle-o"></i>Đã giao hàng </a></li>
-            <li><a href="{{route('admin.orders.canceled')}}"><i class="fa fa-circle-o"></i>Đơn bị hủy </a></li>
+            <li><a href="{{ route('admin.orders.index')}}?status=chờ xác nhận"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=đã xác nhận"><i class="fa fa-circle-o"></i>Đã xác nhận </a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=chờ giao hàng"><i class="fa fa-circle-o"></i>Chờ giao hàng </a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=đã giao hàng"><i class="fa fa-circle-o"></i>Đã giao hàng </a></li>
+            <li><a href="{{route('admin.orders.index')}}?status=hủy đơn hàng"><i class="fa fa-circle-o"></i>Đơn bị hủy </a></li>
             </ul>
         </li>
 

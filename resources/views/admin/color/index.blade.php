@@ -4,8 +4,13 @@
 <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    Danh sách Color <a class="btn btn-primary" href="">Thêm mới Color</a>
+                    Danh sách Color <a class="btn btn-primary" href="{{route('admin.colors.create')}}">Thêm mới Color</a>
                 </h1>
+                <span>
+                    @if(session('success'))
+                        <p style="color: red">{{session('success')}}</p>
+                    @endif
+                </span>
             </section>
             <section class="content">
                 <div class="row container-fluid">
@@ -24,14 +29,15 @@
                                <tr>
                                 <td style="text-align: center"><input type="checkbox"></td>
                                 <td style="text-align: center">{{$color->id}}</td>
-                                <td style="text-align: center"><label class="color-radio" style="background-color: {{$color->name}};"></label></td>
-                                <td style="text-align: center">
-                                        <a href="" class="btn btn-warning">Sửa</a>
-                                        <form action="{{ route('admin.colors.destroy',$color->id)}}" method="POST" class="btn btn-danger">
+                                <td style="text-align: center">{{$color->name}}</td>
+                                <td style="text-align: center; display: flex;">
+                                        <a href="{{route('admin.colors.edit',$color->id)}}" class="btn btn-warning">Sửa</a>
+                                        <form action="{{ route('admin.colors.destroy',$color->id)}}" method="POST" style="margin-left: 20px">
                                             @csrf
                                             @method('delete')
-                                            <button type="submit">Xóa</button>
+                                            <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa không')" class="btn btn-danger">Xóa</button>
                                         </form>
+                                        {{-- <a href="{{ route('admin.colors.destroy',$color->id)}}" class="btn btn-danger">Xóa </a> --}}
                                     </td>
                                 </tr>
                                @endforeach

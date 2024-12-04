@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('image',255);
             $table->text('description');
             $table->decimal('price');
-            $table->decimal('discount');
-            $table->integer('stock_quantity');
+            // $table->decimal('discount');
+            // $table->integer('stock_quantity');
             $table->foreignIdFor(Brand::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
-            $table->integer('status');
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

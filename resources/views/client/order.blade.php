@@ -46,10 +46,11 @@
             <span class="badge badge-secondary">Đơn hàng chuẩn bị được giao</span>
 
             @elseif($order->status == 'Hủy đơn hàng')
-            <form action="" method="POST" style="display: inline;">
+            {{-- <form action="" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn mua lại đơn hàng này không?')">Mua lại</button>
-            </form>
+            </form> --}}
+            <a href="{{ route('order.repurchase', $order->id) }}" class="btn btn-sm btn-outline-danger">Mua lại</a>
         @endif
         </div>
 

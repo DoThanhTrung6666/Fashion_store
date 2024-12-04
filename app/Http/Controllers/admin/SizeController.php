@@ -29,16 +29,20 @@ class SizeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+        ],
+        [
+           'name.required' => 'Tên kích cỡ là bắt buộc',
+           'name.max' => 'Tên kích cỡ  không được dài hơn 255 ký tự.',
         ]);
 
         Size::create($request->all());
-        return redirect()->route('admin.sizes.index')->with('success', 'Size created successfully.');
+        return redirect()->route('admin.sizes.index')->with('success', 'Thêm mới thành công.');
     }
 
     // Hiển thị form chỉnh sửa size
     public function edit(Size $size)
     {
-        return view('admin.sizes.edit', compact('size'));
+        return view('admin.size.update', compact('size'));
     }
 
     // Cập nhật size
@@ -46,16 +50,19 @@ class SizeController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-        ]);
+        ],[
+            'name.required' => 'Tên kích cỡ là bắt buộc',
+            'name.max' => 'Tên kích cỡ  không được dài hơn 255 ký tự.',
+         ]);
 
         $size->update($request->all());
-        return redirect()->route('admin.sizes.index')->with('success', 'Size updated successfully.');
+        return redirect()->route('admin.sizes.index')->with('success', 'Cập nhật thành công.');
     }
 
     // Xóa size
     public function destroy(Size $size)
     {
         $size->delete();
-        return redirect()->route('admin.sizes.index')->with('success', 'Size deleted successfully.');
+        return redirect()->route('admin.sizes.index')->with('success', 'Xóa thành công.');
     }
 }

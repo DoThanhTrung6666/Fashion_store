@@ -16,18 +16,18 @@ class Order extends Model
         'order_date',
         'status',
         'total_amount',
-
+        'name_order',
+        'phone_order',
+        'address_order',
+        'content_order'
     ];
 
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
-    // public function getPaymentStatusAttribute()
-    // {
-    //     return $this->status === 'paid' ? 'Đã thanh toán' : 'Chưa thanh toán';
-    // }
+
     public function orderItems()
 {
     return $this->hasMany(OrderItem::class, 'order_id', 'id');
