@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(FlashSale::class)->constrained();
             $table->foreignIdFor(Product::class)->constrained();
+            $table->decimal('price',10,0);
             $table->timestamps();
         });
     }

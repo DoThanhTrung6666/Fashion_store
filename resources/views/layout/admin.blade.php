@@ -405,12 +405,12 @@
 <li class="treeview">
     <a href="{{route("admin.sales.index")}}">
         <i class="nav-icon fas fa-image"></i>
-    <span>Quản lí Flash-Sale</span>
+    <span>Quản lí Flash-Sale-One</span>
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-    <li><a href="{{route('admin.all_flash_sale')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-    <li><a href="{{route("admin.select_products")}}"><i class="fa fa-circle-o"></i>Chọn sp Flash sale</a></li>
+        <li><a href="{{route('admin.listFlashSale')}}"><i class="fa fa-circle-o"></i>Danh sách Flash-Sale</a></li>
+        <li><a href="{{route("admin.createFlashSale")}}"><i class="fa fa-circle-o"></i>Tạo Flash-Sale</a></li>
     </ul>
 </li>
 {{-- kết thúc quản lí flash sale  --}}
@@ -422,7 +422,8 @@
               <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
-              <li><a href="pages/user/danh_sach_user.html"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
+              <li><a href="{{route('admin.users.create')}}"><i class="fa fa-circle-o"></i>Thêm mới</a></li>
             </ul>
           </li>
           <li class="treeview">
@@ -444,11 +445,6 @@
             </a>
             <ul class="treeview-menu">
             <li><a href="{{route('admin.orders.index')}}"><i class="fa fa-circle-o"></i>Danh sách</a></li>
-            <li><a href="{{ route('admin.orders.index')}}?status=chờ xác nhận"><i class="fa fa-circle-o"></i>Chờ xác nhận</a></li>
-            <li><a href="{{route('admin.orders.index')}}?status=đã xác nhận"><i class="fa fa-circle-o"></i>Đã xác nhận </a></li>
-            <li><a href="{{route('admin.orders.index')}}?status=chờ giao hàng"><i class="fa fa-circle-o"></i>Chờ giao hàng </a></li>
-            <li><a href="{{route('admin.orders.index')}}?status=đã giao hàng"><i class="fa fa-circle-o"></i>Đã giao hàng </a></li>
-            <li><a href="{{route('admin.orders.index')}}?status=hủy đơn hàng"><i class="fa fa-circle-o"></i>Đơn bị hủy </a></li>
             </ul>
         </li>
 

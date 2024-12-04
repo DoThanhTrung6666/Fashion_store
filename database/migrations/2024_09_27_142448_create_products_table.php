@@ -23,7 +23,7 @@ return new class extends Migration
             // $table->integer('stock_quantity');
             $table->foreignIdFor(Brand::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
-            // $table->integer('status');
+            $table->string('status')->default(1);
             $table->timestamps();
         });
     }

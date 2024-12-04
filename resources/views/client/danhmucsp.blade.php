@@ -71,7 +71,7 @@
 
 										<!-- Choose Category -->
 										<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-											
+
 											<div class="single_filter_card mb-2">
 												<h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
 												<div class="collapse" id="categories">
@@ -84,7 +84,7 @@
 																		<input type="radio" name="category" id="category_all" value="" {{ request('category') == '' ? 'checked' : '' }} onchange="this.form.submit()">
 																		<label for="category_all">Tất cả</label>
 																	</li>
-																	
+
 																	@foreach ($categories as $category)
 																		<li>
 																			<input type="radio" name="category" id="category{{ $category->id }}" value="{{ $category->id }}" {{ request('category') == $category->id ? 'checked' : '' }} onchange="this.form.submit()">
@@ -97,7 +97,7 @@
 													</div>
 												</div>
 											</div>
-											
+
 										</div>
 
 
@@ -128,12 +128,12 @@
 											<form method="GET" action="{{ route('danhmucsp') }}">
 											<div class="text-left">
 												@foreach ($colors as $color)
-													<div class="form-check form-option form-check-inline mb-1">
-														<input class="form-check-input" type="radio" name="color" id="color{{ $color->id }}" value="{{ $color->id }}" {{ request('color') == $color->id ? 'checked' : '' }} onchange="this.form.submit()">
-														<label class="form-option-label rounded-circle" for="color{{ $color->id }}">
-															<span class="form-option-color rounded-circle" style="background-color: {{ $color->name }};"></span>
-														</label>
-													</div>
+
+                                                        <div class="form-check form-option form-check-inline mb-2">
+															<input class="form-check-input" type="radio" name="size" id="size{{ $color->id }}" value="{{ $color->id }}" {{ request('size') == $size->id ? 'checked' : '' }} onchange="this.form.submit()">
+															<label class="form-option-label" for="size{{ $color->id }}">{{ $color->name }}</label>
+														</div>
+
 												@endforeach
 											</div>
 											</form>

@@ -4,10 +4,20 @@
 <div class="content-wrapper">
             <section class="content-header">
                 <h1 style="margin-bottom: 10px">
-                    Danh sách product
+                    Tất cả sản phẩm ngừng kinh doanh
                 </h1>
-                <a class="btn btn-success" href="">Thêm mới product</a>
-                <a class="btn btn-warning" href="{{route('admin.listEndProduct')}}">Danh sách sản phẩm ngừng kinh doanh</a>
+                <div class="gray py-3">
+                    <div class="row">
+                        <div class="colxl-12 col-lg-12 col-md-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('admin.products.index')}}">Danh sách sản phẩm đang bán</a></li>
+                                    <li class="breadcrumb-item"><a href="{{route('admin.listEndProduct')}}">Danh sách sản phẩm ngừng bán</a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
             </section>
             <section class="content">
                 <div class="row container-fluid">
@@ -29,9 +39,7 @@
                                                 <td><input type="checkbox"></td>
                                                 <td>{{$product->id}}</td>
                                                 <td>{{$product->name}}</td>
-
-                                                <td><img src="{{ asset('storage/' . $product->image) }}"
-                                                    alt="" width="100" height="100"></td>
+                                                <td><img src="{{Storage::url($product->image)}}" width="50" alt=""></td>
                                                 <td>{{$product->category->name}}</td>
                                                 <td>
                                                     <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-danger">Sửa</a>
@@ -40,7 +48,7 @@
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit" class="btn btn-warning">
-                                                            Ngừng kinh doanh
+                                                            Tiếp tục bán
                                                         </button>
                                                     </form>
                                                 </td>

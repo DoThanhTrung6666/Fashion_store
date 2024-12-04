@@ -14,7 +14,9 @@
             <div class="col-md-12">
                 <div class="box box-primary">
 
-
+                    <a href="{{ route('admin.orders.index')}}?status=chờ xác nhận" class="btn btn-danger">Chờ xác nhận</a>
+                    <a href="{{route('admin.orders.index')}}?status=đã giao hàng" class="btn btn-success">Đã giao hàng</a>
+                        <a href="{{route('admin.orders.index')}}?status=hủy đơn hàng" class="btn btn-warning">Đơn bị hủy</a>
                     <table class="table">
                         <thead>
                             <tr>

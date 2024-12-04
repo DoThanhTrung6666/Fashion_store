@@ -1,11 +1,7 @@
 @extends('layout.admin')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    
 
 
     <div class="content-wrapper">
@@ -18,7 +14,11 @@
             <div class="row container-fluid">
                 <div class="col-md-12">
                     <div class="box box-primary">
-
+                        @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                         <table class="table">
                             <tr>
                                 <th style="text-align: center" scope="col" style=""></th>
