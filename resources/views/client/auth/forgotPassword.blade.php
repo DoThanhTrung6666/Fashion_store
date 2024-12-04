@@ -25,39 +25,20 @@
                 <img src="{{asset('assets/img/bannershop1.jpg')}}" width="100%" height="100%" alt="">
             </div>
             <div class="login-form">
-                <h2>Đăng nhập <span>
-                    @if(session('error'))
-                        <p style="color: red">{{session('error')}}</p>
-                    @endif
-                </span></h2>
-                <form action="{{route('login')}}" method="POST">
+                <h2>Quên mật khẩu</h2>
+                <form action="{{route('forgotPassword')}}" method="POST">
                     @csrf
-                    <label for="email"></label>
+                    <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
-                        @error('email')
-                        <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    <label for="password"></label>
-                    <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" >
 
-                        @error('password')
-                        <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    <button type="submit">Đăng nhập</button>
-
-                    <div class="forgot">
-                        <a href="{{route('showForgotPassword')}}">Quên mật khẩu?</a>
-                        <a href="{{route('register')}}">Đăng ký tài khoản</a>
-                    </div>
+                    <button type="submit">Gửi</button>
 
                 </form>
-
                 <div class="register">
-                    <span>Chưa có tài khoản? <a href="{{route('register')}}">Đăng ký ngay</a></span>
+                    <span>Quay lại trang đăng nhập? <a href="{{route('login')}}">Đăng nhập</a></span>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 @endsection

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\admin\AdOrderController;
+
 use App\Http\Controllers\admin\ColorController;
 
 use App\Http\Controllers\Admin\BannerController;
@@ -36,8 +36,10 @@ use App\Http\Controllers\CommentController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/', [HomeController::class, 'getProductHome']);
 // bên admin
 Route::prefix('admin')
     ->middleware(['auth', 'admin'])
@@ -60,6 +62,7 @@ Route::prefix('admin')
         Route::resource('categories', CategoryController::class);
         Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
         Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+
 
 
         Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
@@ -93,8 +96,8 @@ Route::prefix('admin')
         Route::get('flash-sale/{flashSaleId}/products', [FlashSaleOneController::class, 'splienquan'])->name('view_products');
         //Xoá sản phẩm liên quan flash-sale mình thích
         Route::delete('flash-sale/{flashSaleId}/product/{productId}', [FlashSaleOneController::class, 'deleteProduct'])->name('delete_product');
-    });
 
+    });
 
 
 // bên client
@@ -112,6 +115,13 @@ Route::resource('profile',AuthenticationController::class);
 
 
 
+//Quên mật khẩu
+Route::get('forgot-password', [AuthenticationController::class, 'showForgotPassword'])->name('showForgotPassword');
+Route::post('forgot-password', [AuthenticationController::class, 'forgotPassword'])->name('forgotPassword');
+Route::post('reset-password', [AuthenticationController::class, 'resetPassword'])->name('resetPassword');
+Route::get('reset-password/{email}', [AuthenticationController::class, 'showResetPassword'])->name('showResetPassword');
+
+
 Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucsp');
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
@@ -124,9 +134,12 @@ Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou'
 
 
 
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
-Route::get('checkout',[CheckoutController::class,'viewCheckout'])->name('checkout');
+Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
+
 Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
 Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
 
@@ -138,3 +151,4 @@ Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
+
