@@ -29,7 +29,8 @@
                                                 <td><input type="checkbox"></td>
                                                 <td>{{$product->id}}</td>
                                                 <td>{{$product->name}}</td>
-                                                <td><img src="{{Storage::url($product->image)}}" width="50" alt=""></td>
+                                                <td><img src="{{ asset('storage/' . $product->image) }}"
+                                                    alt="" width="100" height="100"></td>
                                                 <td>{{$product->category->name}}</td>
                                                 <td>
                                                     <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-danger">Sửa</a>

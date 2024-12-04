@@ -43,7 +43,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->as('admin.')
     ->group(function () {
-        Route::get('/', [thongkeController::class, 'index']);
+        Route::get('/statistics', [thongkeController::class, 'index'])->name('statistics.index');
         Route::resource('banners', BannerController::class);
         // Route::get('/admin', [thongkeController::class, 'index']);
         Route::resource('products', ProductController::class);
@@ -70,7 +70,7 @@ Route::prefix('admin')
         Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
         Route::get('/orders/{id}', [AdOrderController::class, 'show'])->name('orders.show');
 
-        Route::post('/orders/{id}/status', [AdOrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::get('/order/update-status/{order}', [AdOrderController::class, 'update'])->name('order.update');
 
 
 
