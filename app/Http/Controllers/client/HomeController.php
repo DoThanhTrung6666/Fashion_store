@@ -17,16 +17,17 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     //
-    public function getProductHome(){
+    public function getProductHome()
+    {
         // load sản phẩm theo danh mục
         $categories = Category::with('productHome')->get();
         //load sản phẩm all
-        $allProducts = Product::with(['variants'])->where('status',1)->get();
+        $allProducts = Product::with(['variants'])->where('status', 1)->get();
         //load sản phẩm thịnh hành
         $trendingProducts = Product::with('variants')
-        ->where('status',1)
-        ->orderBy('views','desc') // sắp xếp theo lượt xem
-        ->paginate(8);// phân trang
+            ->where('status', 1)
+            ->orderBy('views', 'desc') // sắp xếp theo lượt xem
+            ->paginate(8); // phân trang
 
         //flashsale
         $flashSales = FlashSale::with('sale', 'product')
@@ -36,8 +37,7 @@ class HomeController extends Controller
             ->get();
         // Lấy tất cả các sản phẩm Flash Sale hiện tại
         $flashSaleItems = FlashSaleItem::whereIn('flash_sale_id', $flashSales->pluck('id'))->get();
-// dd($flashSaleItems);
-        return view('client.index',compact('flashSales','categories','allProducts','trendingProducts'));
-
+        // dd($flashSaleItems);
+        return view('client.index', compact('flashSales', 'categories', 'allProducts', 'trendingProducts'));
     }
 }

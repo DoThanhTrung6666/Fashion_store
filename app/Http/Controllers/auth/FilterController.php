@@ -30,11 +30,11 @@ class FilterController extends Controller
         // lọc theo danh mục
         $categories = Category::all();
         if ($request->has('category') && $request->category != '') {
-            $query->whereHas('product.category', function($query) use ($request) {
+            $query->whereHas('product.category', function ($query) use ($request) {
                 $query->where('id', $request->category);
             });
         }
-        
+
 
         // Lọc theo kích thước nếu được chọn
         if ($request->has('size')) {
