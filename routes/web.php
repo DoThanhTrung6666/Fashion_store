@@ -66,11 +66,6 @@ Route::prefix('admin')
 
 
         Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/pending', [AdOrderController::class, 'pendingOrders'])->name('orders.pending');
-        Route::get('/orders/confirmed', [AdOrderController::class, 'confirmedOrders'])->name('orders.confirmed');
-        Route::get('/orders/shipping', [AdOrderController::class, 'shippingOrders'])->name('orders.shipping');
-        Route::get('/orders/delivered', [AdOrderController::class, 'deliveredOrders'])->name('orders.delivered');
-        Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
         Route::get('/orders/{id}', [AdOrderController::class, 'show'])->name('orders.show');
 
         Route::get('/order/update-status/{order}', [AdOrderController::class, 'update'])->name('order.update');
@@ -84,6 +79,8 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales', SaleController::class);
+
+
 
         //dành cho flashsale
         Route::get('list-product-flash-sale', [FlashSaleOneController::class, 'listProductFlashSale'])->name('listProductFlashSale');

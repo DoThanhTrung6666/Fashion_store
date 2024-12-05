@@ -44,9 +44,9 @@
                                     <label for="exampleInputFile">Image</label>
                                     <input type="file" name="image_path" id="image">
                                     <br>
-                                    <img src="{{ asset('storage/' . $banner->image_path) }}" alt="{{ $banner->title }}"
-                                        width="100">
+                                    <img src="{{ asset('storage/' . $banner->image_path) }}" alt="{{ $banner->title }}" width="100">
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Link</label>
                                     <input type="url" class="form-control" placeholder="Link..." name="link"
@@ -70,9 +70,11 @@
                                 <div class="form-group">
                                     <label for="is_active">Is Active</label>
                                     <input type="checkbox" name="is_active" id="is_active" class="form-check-input"
-                                        {{ $banner->is_active ? 'checked' : '' }}>
-
+                                        {{ old('is_active', $banner->is_active) ? 'checked' : '' }}>
                                 </div>
+                                
+                                
+                                
                                 </div>
                                 <div class="box-footer">
                                   <button type="submit" class="btn btn-primary">Cập nhật banner</button>
