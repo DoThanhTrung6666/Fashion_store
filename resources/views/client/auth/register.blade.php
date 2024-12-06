@@ -26,9 +26,14 @@
             </div>
             <div class="login-form">
                 <h2>Đăng kí tài khoản</h2>
-                <span>
+                <span style="font-size: 15px">
                     @if(session('error'))
                         <p style="color: red">{{session('error')}}</p>
+                    @endif
+                </span>
+                <span style="font-size: 15px">
+                    @if(session('success'))
+                        <p style="color: red">{{session('success')}}</p>
                     @endif
                 </span>
                 <form action="{{route('register')}}" method="POST">

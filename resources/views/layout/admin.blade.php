@@ -303,9 +303,9 @@
             <a href="{{route("admin.statistics.index")}}">
                 <i class="fa fa-chart-bar"></i>
             <span>Dashboard</span>
-           
+
             </a>
-            
+
         </li>
 {{-- category --}}
         <li class="treeview">
@@ -405,7 +405,7 @@
 <li class="treeview">
     <a href="{{route("admin.sales.index")}}">
         <i class="nav-icon fas fa-image"></i>
-    <span>Quản lí Flash-Sale-One</span>
+    <span>Quản lí Flash-Sale</span>
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
