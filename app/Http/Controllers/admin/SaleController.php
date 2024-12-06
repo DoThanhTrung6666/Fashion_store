@@ -33,12 +33,12 @@ class SaleController extends Controller
     {
         //
         $validated = $request->validate([
-            'discount_percentage' => 'required|integer|min:1|max:99',
+            'discount_percentage' => 'required|integer|min:1|max:40',
         ],[
             'discount_percentage.required' => 'Không được bỏ trống',
             'discount_percentage.interger' => '% giảm giá phải là số',
-            'discount_percentage.min' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',
-            'discount_percentage.max' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',
+            'discount_percentage.min' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 40',
+            'discount_percentage.max' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 40',
         ]);
         Sale::create([
             'discount_percentage' => $validated['discount_percentage'],

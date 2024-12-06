@@ -9,35 +9,35 @@ use Illuminate\Http\Request;
 class AdOrderController extends Controller
 {
 
- 
+
 
 public function index() {
-    $status = request('status', 'Đã xác nhận');
+    $status = request('status', 'Chờ xác nhận');
     $orders = Order::orderBy('id','DESC')->where('status', $status)->paginate();
-    
+
 
     return view('admin.orders.index', compact('orders'));
 }
 
 
-    
 
-   
+
+
 
 public function update(Order $order)
 {
     // Lấy trạng thái từ request, mặc định là 'chờ xác nhận'
-    $status = request('status', 'chờ xác nhận');
+    $status = request('status', 'Chờ xác nhận');
 
     // Kiểm tra nếu đơn hàng chưa được giao
-    if ($order->status != 'đã giao hàng') {
+    if ($order->status != 'Đã giao hàng') {
         $order->update(['status' => $status]);
 
         // Điều hướng tùy theo trạng thái mới
-        if ($status === 'đã giao hàng') {
-            return redirect()->route('admin.orders.index', ['status' => 'đã giao hàng'])->with('ok', 'Cập nhật trạng thái thành công');
-        } elseif ($status === 'hủy đơn hàng') {
-            return redirect()->route('admin.orders.index', ['status' => 'hủy đơn hàng'])->with('ok', 'Đơn hàng đã được hủy');
+        if ($status === 'Đã giao hàng') {
+            return redirect()->route('admin.orders.index', ['status' => 'Đã giao hàng'])->with('ok', 'Cập nhật trạng thái thành công');
+        } elseif ($status === 'Hủy đơn hàng') {
+            return redirect()->route('admin.orders.index', ['status' => 'Hủy đơn hàng'])->with('ok', 'Đơn hàng đã được hủy');
         }
     }
 

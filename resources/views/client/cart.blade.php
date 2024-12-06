@@ -51,7 +51,7 @@
                     <div class="row align-items-center">
 
                         <div class="col-1">
-                            <input type="checkbox" name="cart_item_ids[]" value="">
+                            {{-- <input type="checkbox" name="cart_item_ids[]" value=""> --}}
                         </div>
                         <div class="col-3">
                             <!-- Image -->
@@ -74,7 +74,7 @@
                                 {{-- <select class="mb-2 custom-select w-auto">
                                   <option value="1" selected="">{{$item->quanity}}</option>
                                 </select> --}}
-                                <input type="number" class="quantity-input" name="quantity" value="{{ $item['cartItem']->quantity }}" min="1" style="width: 60px;">
+                                <input type="number" class="quantity-input" name="quantity" value="{{ $item['cartItem']->quantity }}" min="1" style="width: 60px;" disabled>
                             </div>
                             <div class="fls_last">
                                 <form action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST">
@@ -120,7 +120,7 @@
             </div>
 
         </div>
-        <button type="submit" class="btn btn-danger">Xóa các sản phẩm đã chọn</button>
+        {{-- <button type="submit" class="btn btn-danger">Xóa các sản phẩm đã chọn</button> --}}
 
 @else
     <p>Giỏ hàng của bạn trống</p>

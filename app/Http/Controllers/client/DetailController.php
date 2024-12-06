@@ -15,7 +15,11 @@ class DetailController extends Controller
     public function show($id){
         // Tìm sản phẩm theo id
         $detail = Product::with('variants', 'category')->where('status', 1)->find($id);
-
+        if ($detail) {
+            // Tăng số lượt xem của sản phẩm
+            $detail->views += 1;
+            $detail->save();
+        }
 
         if (!$detail) {
             $detail1 = Product::find($id);

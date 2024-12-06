@@ -110,7 +110,7 @@
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
-                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale['salePercentage']) }}%</div>
+                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale->sale->discount_percentage) }}%</div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
                             <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $item->product->id) }}"><img class="card-img-top" src="{{Storage::url($item->product->image)}}" alt="..."></a>
@@ -153,14 +153,12 @@
 @foreach($flashSales as $flashSale)
 <script>
     window.onload = function () {
-
         // Lấy start_time và end_time của flashSale
         var startTime = new Date("{{ \Carbon\Carbon::parse($flashSale->start_time)->toIso8601String() }}").getTime();
         var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale->end_time)->toIso8601String() }}").getTime();
         console.log(startTime);
         var countdown = setInterval(function () {
             var now = new Date().getTime();
-
             if (now < startTime) {
                 // Chương trình chưa bắt đầu, hiển thị thời gian chờ bắt đầu
                 var timeUntilStart = startTime - now;
@@ -377,7 +375,7 @@
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
-                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
                             <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show',$trending->id)}}"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
@@ -398,6 +396,9 @@
                                     {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
                                 {{-- </div>
                                 @endforeach --}}
+                                <div class="form-check form-option form-check-inline mb-1">
+                                    Lượt xem : {{$trending->views}}
+                                </div>
                             </div>
                             <div class="text-right">
                                 <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
