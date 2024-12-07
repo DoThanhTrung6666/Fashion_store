@@ -12,9 +12,9 @@
                 <div class="colxl-12 col-lg-12 col-md-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Support</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="#">Giỏ hàng</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Kiểm tra</li>
                         </ol>
                     </nav>
                 </div>
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="text-center d-block mb-5">
-                        <h2>Checkout</h2>
+                        <h2>Kiểm tra thông tin</h2>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <div class="col-12 col-lg-7 col-md-12">
                     <form action="" id="paymentForm" method="POST">
                         @csrf
-                        <h5 class="mb-4 ft-medium">Billing Details</h5>
+                        <h5 class="mb-4 ft-medium">Thông tin cá nhân</h5>
                         <div class="row mb-2">
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -74,7 +74,7 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="form-group">
-                                    <label class="text-dark">Mobile Number *</label>
+                                    <label class="text-dark">Số điện thoại *</label>
                                     <input type="text" class="form-control" name="phone_order"
                                         placeholder="Mobile Number"
                                         value="@if ($user !== null) {{ $user->phone }} @endif" />
@@ -202,7 +202,7 @@
 
                 <div class="col-12 col-lg-4 col-md-12">
                     <div class="d-block mb-3">
-                        <h5 class="mb-4">Order Items (3)</h5>
+                        <h5 class="mb-4">Chi tiết đơn hàng</h5>
                         <span>
                             @if(session('error'))
                                 <p style="color: red">{{session('error')}}</p>
@@ -210,25 +210,26 @@
                         </span>
                         <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
                             @if (Auth::user())
-                                @if ($cart && $cart->cartItems->count() > 0)
-                                    @foreach ($cart->cartItems as $item)
+                            @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
+                            @foreach ($cartItemsWithSaleInfo as $item)
+                            <input type="hidden" name="selectedCartItemIds[]" value="{{ $item['cartItem']->id }}">
                                         <li class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col-3">
                                                     <!-- Image -->
                                                     <a href="product.html"><img
-                                                            src="{{ Storage::url($item->productVariant->product->image) }}"
+                                                            src="{{ Storage::url($item['cartItem']->productVariant->product->image) }}"
                                                             alt="..." class="img-fluid"></a>
                                                 </div>
                                                 <div class="col d-flex align-items-center">
                                                     <div class="cart_single_caption pl-2">
                                                         <h4 class="product_title fs-md ft-medium mb-1 lh-1">
-                                                            {{ $item->productVariant->product->name }}</h4>
+                                                            {{ $item['cartItem']->productVariant->product->name }}</h4>
                                                         <p class="mb-1 lh-1"><span class="text-dark">Size:
-                                                                {{ $item->productVariant->size->name }}</span></p> <p class="mb-3 lh-1"><span class="text-dark">Color:
-                                                                {{ $item->productVariant->color->name }}</span></p>
+                                                                {{ $item['cartItem']->productVariant->size->name }}</span></p> <p class="mb-3 lh-1"><span class="text-dark">Color:
+                                                                {{ $item['cartItem']->productVariant->color->name }}</span></p>
                                                         <h4 class="fs-md ft-medium mb-3 lh-1">
-                                                            {{ $item->productVariant->price }}</h4>
+                                                            {{ $item['cartItem']->productVariant->price }}</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -247,7 +248,7 @@
 
                                 {{-- tồn tại user  --}}
                                 @if (Auth::user())
-                                    @if ($cart && $cart->cartItems->count() > 0)
+                                @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Subtotal</span> <span
                                                 class="ml-auto text-dark ft-medium">{{ $totalPrice }}</span>

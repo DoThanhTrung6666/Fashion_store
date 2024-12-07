@@ -12,12 +12,12 @@
                         <!-- Slide Title -->
                         <div class="home-slider-desc">
                             <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2024</h1>
-                                <span class="trending">There's nothing like trend</span>
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
                             </div>
 
-                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -37,12 +37,12 @@
                         <!-- Slide Title -->
                         <div class="home-slider-desc">
                             <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2024</h1>
-                                <span class="trending">There's nothing like trend</span>
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
                             </div>
 
-                            <a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -62,12 +62,12 @@
                         <!-- Slide Title -->
                         <div class="home-slider-desc">
                             <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
-                                <span class="trending">There's nothing like trend</span>
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông  2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
                             </div>
 
-                            <a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -270,21 +270,24 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
-                                            <div class="text-left">
+                                        <div style="text-align: center; margin-left:96px"  class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
+                                            <div class="text-left" >
                                                 <div class="text-left">
-                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span class="small">(5 Reviews)</span>
-                                                    </div> --}}
+                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                        <div class="text-right">
+                                                <div class="text-right">
+                                                    @foreach ($value->variants as $color)
+                                                    <div class="form-check form-option form-check-inline mb-1" >
+                                                        <img src="{{Storage::url($color->image_variant)}}" alt="" style="width: 20px; height: 20px; border-radius: 50%;">
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                                    </div>
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$value->name}}</a></h5>
 
 
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->price}}vnđ</span></div>
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -331,7 +334,7 @@
                                                         <span class="small">(5 Reviews)</span>
                                                     </div> --}}
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $product->id) }}">{{$product->name}}</a></h5>
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$product->discount}}vnđ - {{$product->price}}vnđ</span></div>
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($product->price)}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -406,7 +409,7 @@
                         </div>
                         <div class="text-left">
                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show',$trending->id)}}">{{$trending->name}}</a></h5>
-                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$trending->price}} vnđ</span></div>
+                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($trending->price)}} vnđ</span></div>
                         </div>
                     </div>
                 </div>

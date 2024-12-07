@@ -109,6 +109,18 @@ class ProductController extends Controller
             ]
         );
 
+        $variants = $request->input('variant', []);
+        $uniqueVariants = collect($variants)->unique(function ($variant) {
+            return $variant['color_id'] . '-' . $variant['size_id'];
+        });
+
+        if ($uniqueVariants->count() !== count($variants)) {
+            return redirect()->back()
+                ->withErrors(['variant' => 'Không được trùng lặp về màu sắc và kích thước.'])
+                ->withInput();
+                // ->with('error','Màu sắc và kích cỡ phải khác nhau hãy chọn lại');
+        }
+
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('uploads/product', 'public'); // Lưu ảnh vào storage/app/public/images
         }else{

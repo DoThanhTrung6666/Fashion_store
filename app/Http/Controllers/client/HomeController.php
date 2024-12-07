@@ -23,7 +23,10 @@ class HomeController extends Controller
         // load sản phẩm theo danh mục
         $categories = Category::with('productHome')->get();
         //load sản phẩm all
-        $allProducts = Product::with(['variants'])->where('status', 1)->get();
+        $allProducts = Product::with(['variants'])
+        ->where('status', 1)
+        ->orderBy('created_at', 'DESC')
+        ->get();
         //load sản phẩm thịnh hành
         $trendingProducts = Product::with('variants')
             ->where('status', 1)

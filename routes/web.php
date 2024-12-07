@@ -150,3 +150,8 @@ Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
+// xử lí mua lại trong order
+Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('orders.reorder');
+// xử lí mua sản phẩm đã chọn
+// Route::post('purchase', [CheckoutController::class, 'purchase'])->name('cart.purchase');
+Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
