@@ -36,6 +36,13 @@ use App\Http\Controllers\CommentController;
 |
 */
 Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
+
 // bên admin
 Route::prefix('admin')
     ->middleware(['auth', 'admin'])
