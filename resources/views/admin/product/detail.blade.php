@@ -4,7 +4,7 @@
 <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    Danh sách product <a class="btn btn-primary" href="">Thêm mới product</a>
+                    Danh sách biến thể sản phẩm <a class="btn btn-success" href="">Thêm biến thể mới</a>
                 </h1>
             </section>
             <section class="content">

@@ -201,17 +201,20 @@ function updateColors(sizeId) {
                             </div>
                             <div class="col-12 col-lg">
                                 <!-- Submit -->
-                                <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
+                                <button type="submit" name="action" value="add_to_cart" class="btn btn-block custom-height bg-dark mb-2">
                                     <i class="lni lni-shopping-basket mr-2"></i>Thêm vào giỏ hàng
                                 </button>
                             </div>
-                            {{-- <div class="col-12 col-lg-auto">
+                            <div class="col-12 col-lg-auto">
                                 <!-- Wishlist -->
-                                <a href="" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                {{-- <a href="" class="btn custom-height btn-default btn-block mb-2 text-dark">
                                     <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
-                                </a>
+                                </a> --}}
+                                <button type="submit" name="action" value="buy_now" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                    <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
+                                </button>
 
-                            </div> --}}
+                            </div>
                       </div>
                     </div>
 

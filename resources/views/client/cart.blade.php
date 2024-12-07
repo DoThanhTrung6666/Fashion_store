@@ -12,9 +12,9 @@
             <div class="colxl-12 col-lg-12 col-md-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Support</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="#">Chi tiết</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
                     </ol>
                 </nav>
             </div>
@@ -24,13 +24,13 @@
 <!-- ======================= Top Breadcrubms ======================== -->
 
 <!-- ======================= Product Detail ======================== -->
-<section class="middle">
+<section style="margin-top: 5px">
     <div class="container">
 
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="text-center d-block mb-5">
-                    <h2>Shopping Cart</h2>
+                    <h2>Giỏ hàng của tôi</h2>
                 </div>
             </div>
         </div>
@@ -44,6 +44,8 @@
 @if($cart)
         <div class="row justify-content-between">
             <div class="col-12 col-lg-7 col-md-12">
+                <form method="POST" action="{{ route('cart.proceedToCheckout') }}">
+                    @csrf
                 <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
 
                 @foreach ($cartItemsWithSaleInfo as $item)
@@ -51,11 +53,12 @@
                     <div class="row align-items-center">
 
                         <div class="col-1">
-                            {{-- <input type="checkbox" name="cart_item_ids[]" value=""> --}}
+                            <input type="checkbox" name="cart_item_ids[]" value="{{ $item['cartItem']->id }}">
+
                         </div>
                         <div class="col-3">
                             <!-- Image -->
-                            <a href="product.html"><img src="{{Storage::url($item['cartItem']->productVariant->image_variant)}}" alt="..." class="img-fluid"></a>
+                            <a href="#"><img width="50px" src="{{Storage::url($item['cartItem']->productVariant->image_variant)}}" alt="..." class="img-fluid"></a>
                         </div>
                         <div class="col d-flex align-items-center justify-content-between">
                             <div class="cart_single_caption pl-2">
@@ -77,21 +80,20 @@
                                 <input type="number" class="quantity-input" name="quantity" value="{{ $item['cartItem']->quantity }}" min="1" style="width: 60px;" disabled>
                             </div>
                             <div class="fls_last">
-                                <form action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST">
+                                {{-- <form action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="close_slide gray"><i class="ti-close"></i></button>
-                                </form>
+                                </form> --}}
 
                             </div>
                         </div>
                     </div>
                 </li>
                 @endforeach
-
-
                 </ul>
-
+                <button type="submit" class="btn btn-danger">Thanh toán</button>
+            </form>
             </div>
 
             <div class="col-12 col-md-12 col-lg-4">
