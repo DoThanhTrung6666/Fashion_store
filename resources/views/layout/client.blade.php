@@ -128,49 +128,24 @@
 						<div class="nav-menus-wrapper" style="transition-property: none;">
 							<ul class="nav-menu">
 
-								<li><a href="{{route('home')}}">Home</a>
-									<ul class="nav-dropdown nav-submenu">
-										<li><a href="index.html">Home 1</a></li>
-									</ul>
+								<li>
+                                    <a href="{{route('home')}}">Trang chủ</a>
 								</li>
 
-								<li><a href="javascript:void(0);">Shop</a>
-									<ul class="nav-dropdown nav-submenu">
-										<li><a href="javascript:void(0);">Account Dashboard</a>
-											<ul class="nav-dropdown nav-submenu">
-												<li><a href="my-orders.html">My Order</a></li>
-												<li><a href="wishlist.html">Wishlist</a></li>
-												<li><a href="profile-info.html">Profile Info</a></li>
-												<li><a href="addresses.html">Addresses</a></li>
-												<li><a href="payment-methode.html">Payment Methode</a></li>
-											</ul>
-										</li>
-										<li><a href="javascript:void(0);">Support</a>
-											<ul class="nav-dropdown nav-submenu">
-												<li><a href="shoping-cart.html">Shopping Cart</a></li>
-												<li><a href="checkout.html">Checkout</a></li>
-												<li><a href="complete-order.html">Order Complete</a></li>
-											</ul>
-										</li>
-										<li><a href="{{ route('danhmucsp') }}">Shop Style 01</a></li>
-										<li><a href="shop-style-2.html">Shop Style 02</a></li>
-										<li><a href="shop-style-3.html">Shop Style 03</a></li>
-										<li><a href="shop-style-4.html">Shop Style 04</a></li>
-										<li><a href="shop-style-5.html">Shop Style 05</a></li>
-										<li><a href="shop-list-view.html">Shop List Style</a></li>
-									</ul>
+								<li>
+                                    <a href="{{ route('danhmucsp') }}">Tất cả sản phẩm</a>
 								</li>
 
-								<li><a href="javascript:void(0);">Product</a>
-									<ul class="nav-dropdown nav-submenu">
+								<li><a href="">Giới thiệu</a>
+									{{-- <ul class="nav-dropdown nav-submenu">
 										<li><a href="shop-single-v1.html">Product Detail v01</a></li>
 										<li><a href="shop-single-v2.html">Product Detail v02</a></li>
 										<li><a href="shop-single-v3.html">Product Detail v03</a></li>
 										<li><a href="shop-single-v4.html">Product Detail v04</a></li>
-									</ul>
+									</ul> --}}
 								</li>
 
-								<li><a href="javascript:void(0);">Pages</a>
+								<li><a href="">Góp ý</a>
 									<ul class="nav-dropdown nav-submenu">
 										<li><a href="blog.html">Blog Style</a></li>
 										<li><a href="about-us.html">About Us</a></li>
@@ -181,7 +156,9 @@
 									</ul>
 								</li>
 
-								<li><a href="docs.html">Docs</a></li>
+								{{-- <li>
+                                    <a href="docs.html">Liên hệ</a>
+                                </li> --}}
 
 							</ul>
 

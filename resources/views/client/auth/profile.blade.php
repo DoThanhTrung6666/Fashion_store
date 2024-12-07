@@ -71,6 +71,9 @@
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Tên đăng nhập *</label>
                                 <input type="text" class="form-control" name="name" placeholder="Nhập tên của bạn" value="{{ old('name', $user->name) }}" />
+                                    @error('name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                         </div>
 
@@ -78,6 +81,9 @@
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Số điện thoại *</label>
                                 <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại" value="{{ old('phone', $user->phone) }}"/>
+                                    @error('phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                         </div>
 

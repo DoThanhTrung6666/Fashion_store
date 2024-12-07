@@ -8,6 +8,11 @@
           Thêm mới sản phẩm <a href="" class="btn btn-primary">Danh sách sản phẩm</a>
         </h1>
       </section>
+        @if ($errors->has('variant'))
+            <span style="color: red;margin-left:20px">
+                {{ $errors->first('variant') }}
+            </span>
+        @endif
       <section class="content">
 
         <div class="row container-fluid">

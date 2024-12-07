@@ -34,3 +34,43 @@
     </div>
 </div>
 @endsection
+
+
+<div class="search-bar">
+    <input type="text" placeholder="Bạn có thể tìm kiếm theo tên Shop, ID đơn hàng hoặc Tên Sản phẩm">
+</div>
+{{-- nội dung foreach  --}}
+<div class="order-card">
+    <div class="shop-info">
+        <span class="shop-name">BAG NICE</span>
+        <div class="shop-actions">
+            <button class="chat-btn">Chat</button>
+            <button class="view-shop-btn">Xem Shop</button>
+        </div>
+    </div>
+    <div class="order-info">
+        <img src="bag-image.jpg" alt="Bag Image" class="product-image">
+        <div class="product-details">
+            <p class="product-name">Túi hộp LV cầm tay đeo chéo đeo vai khóa vuông size 20 cm cực chất 2023 full box</p>
+            <p class="product-variant">Phân loại hàng: lvv đen</p>
+            <p class="product-quantity">x1</p>
+        </div>
+        <div class="order-status">
+            <span class="status-label">Giao hàng thành công</span>
+            <span class="status">HOÀN THÀNH</span>
+        </div>
+        <div class="product-price">
+            <span class="original-price">350.000đ</span>
+            <span class="discounted-price">245.000đ</span>
+        </div>
+    </div>
+    <div class="order-total">
+        <span>Thành tiền: <b>245.000đ</b></span>
+    </div>
+    <div class="order-actions">
+        <button class="buy-again-btn">Mua Lại</button>
+        <button class="contact-seller-btn">Liên Hệ Người Bán</button>
+    </div>
+</div>
+
+{{-- nội dung foreach  --}}

@@ -35,10 +35,13 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
 // bên admin
 Route::prefix('admin')
@@ -75,10 +78,10 @@ Route::prefix('admin')
         Route::get('/comments', [CommentController::class, 'index'])->name('comment.index');
         Route::get('/comments/{id}', [CommentController::class, 'show'])->name('comment.show');
         Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comment.destroy');
-        Route::resource('users',UserController::class);
+        Route::resource('users', UserController::class);
 
         // dành cho quản lí flash sale bên phía admin
-        Route::resource('/sales',SaleController::class);
+        Route::resource('/sales', SaleController::class);
 
 
 
@@ -93,7 +96,6 @@ Route::prefix('admin')
         Route::get('flash-sale/{flashSaleId}/products', [FlashSaleOneController::class, 'splienquan'])->name('view_products');
         //Xoá sản phẩm liên quan flash-sale mình thích
         Route::delete('flash-sale/{flashSaleId}/product/{productId}', [FlashSaleOneController::class, 'deleteProduct'])->name('delete_product');
-
     });
 
 
@@ -108,7 +110,7 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::get('register', [AuthenticationController::class, 'showFormRegister'])->name('register');
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
-Route::resource('profile',AuthenticationController::class);
+Route::resource('profile', AuthenticationController::class);
 
 
 
@@ -137,8 +139,8 @@ Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->na
 Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
 Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
 
-Route::get('thankyou',[CheckoutController::class,'thankyou'])->name('thankyou');
-Route::get('/orders', [OrderController::class,'loadOrderUser'])->name('orders.loadUser');
+Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
+Route::get('/orders', [OrderController::class, 'loadOrderUser'])->name('orders.loadUser');
 
 
 
@@ -148,4 +150,8 @@ Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
-
+// xử lí mua lại trong order
+Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('orders.reorder');
+// xử lí mua sản phẩm đã chọn
+// Route::post('purchase', [CheckoutController::class, 'purchase'])->name('cart.purchase');
+Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');

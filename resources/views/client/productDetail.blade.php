@@ -59,9 +59,9 @@
 
                             @if($flashSales)
                                 <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{$detail->price}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$flashSales->price}}</span> vnđ</div>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{number_format($detail->price)}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$flashSales->price}}</span> vnđ</div>
                             @else
-                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{$detail->price}} VNĐ</span></div>
+                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{number_format($detail->price)}} VNĐ</span></div>
                             @endif
 
                         </div>
@@ -133,6 +133,12 @@
             <p style="color: red">{{session('error')}}</p>
         @endif
     </span>
+    <span>
+        @if(session('success'))
+            <p style="color: red">{{session('success')}}</p>
+        @endif
+    </span>
+    <p>Số lượng  </p>
     {{-- thêm product_id để so sánh  --}}
     <input type="hidden" name="product_id" value="{{ $detail->id }}">
 
@@ -184,25 +190,29 @@ function updateColors(sizeId) {
                         <div class="form-row mb-7">
                             <div class="col-12 col-lg-auto">
                                 <!-- Quantity -->
-                                <select class="mb-2 custom-select" name="quantity">
+                                {{-- <select class="mb-2 custom-select" name="quantity">
                                     <option value="1" selected="">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
-                                </select>
+                                </select> --}}
+                                <input type="number" class="btn custom-height btn-default btn-block mb-2 text-dark" name="quantity" value="1">
                             </div>
                             <div class="col-12 col-lg">
                                 <!-- Submit -->
-                                <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
+                                <button type="submit" name="action" value="add_to_cart" class="btn btn-block custom-height bg-dark mb-2">
                                     <i class="lni lni-shopping-basket mr-2"></i>Thêm vào giỏ hàng
                                 </button>
                             </div>
                             <div class="col-12 col-lg-auto">
                                 <!-- Wishlist -->
-                                <a href="" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                {{-- <a href="" class="btn custom-height btn-default btn-block mb-2 text-dark">
                                     <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
-                                </a>
+                                </a> --}}
+                                <button type="submit" name="action" value="buy_now" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                    <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
+                                </button>
 
                             </div>
                       </div>

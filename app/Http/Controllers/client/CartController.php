@@ -65,8 +65,11 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-
+        $user = Auth::user();
         // validate
+        if(!$user){
+            return redirect()->back()->with('error', 'Vui lòng đăng nhập');
+        }
         if (!$request->has('color_id') || !$request->has('size_id')) {
             return redirect()->back()->with('error', 'Vui lòng chọn đầy đủ màu sắc và kích cỡ.');
         }
@@ -74,7 +77,10 @@ class CartController extends Controller
         $productId = $request -> input('product_id');
         $colorId = $request -> input('color_id');
         $sizeId = $request -> input('size_id');
-
+        $quantity = $request -> input('quantity');
+        if($request->quantity <= 0){
+            return redirect()->back()->with('error','Số lượng phải lớn hơn 1');
+        }
         // sau đó tìm theo product_variant
         $productVariant = ProductVariant::where('product_id',$productId)
                                         ->where('color_id',$colorId)
@@ -83,7 +89,9 @@ class CartController extends Controller
         if(!$productVariant){
             return redirect()->back()->with('error','Biến thể không tồn tại');
         }
-
+        if($quantity>$productVariant->stock_quantity){
+            return redirect()->back()->with('error', 'Sản phẩm quá số lượng.Còn ' . $productVariant->stock_quantity .'sản phẩm');
+        }
         // sau khi so sánh xong thì kiểm tra nếu người dùng đã có giỏ hàng thì load giỏ hàng theo user_id
         $cart = Cart::firstOrCreate(
             ['user_id'=>auth()->id(),'status' => 1],
@@ -98,7 +106,7 @@ class CartController extends Controller
         if($cartItem){
             // nếu sản phẩm đã có , cập nhật số lượng
             $cartItem->update([
-                'quantity'=>$cartItem->quantity + 1,
+                'quantity'=>$cartItem->quantity + $quantity,
                 'updated_at' => now()
             ]);
 
@@ -127,11 +135,19 @@ class CartController extends Controller
         return redirect()->route('cart.load')->with('success','Sản phẩm đã được xoá khỏi giỏ hàng');
     }
 
-    // Thanh toán giỏ hàng
-    public function checkout()
-    {
+    // Thanh toán giỏ hàng đã chọn
+    public function proceedToCheckout(Request $request)
+{
+    $selectedCartItemIds = $request->input('cart_item_ids', []);
 
+    if (empty($selectedCartItemIds)) {
+        return redirect()->route('cart.load')->with('error', 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
     }
+
+    return redirect()->route('checkout', ['selectedCartItemIds' => $selectedCartItemIds]);
+}
+
+
 }
 
 
