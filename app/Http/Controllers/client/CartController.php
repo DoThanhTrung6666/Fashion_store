@@ -135,11 +135,19 @@ class CartController extends Controller
         return redirect()->route('cart.load')->with('success','Sản phẩm đã được xoá khỏi giỏ hàng');
     }
 
-    // Thanh toán giỏ hàng
-    public function checkout()
-    {
+    // Thanh toán giỏ hàng đã chọn
+    public function proceedToCheckout(Request $request)
+{
+    $selectedCartItemIds = $request->input('cart_item_ids', []);
 
+    if (empty($selectedCartItemIds)) {
+        return redirect()->route('cart.load')->with('error', 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
     }
+
+    return redirect()->route('checkout', ['selectedCartItemIds' => $selectedCartItemIds]);
+}
+
+
 }
 
 
