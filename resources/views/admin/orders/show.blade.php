@@ -10,26 +10,34 @@
                 Danh sách đơn hàng
             </h1>
         </section>
-        
+
         <section class="content">
             <div class="row container-fluid">
                 <div class="col-md-12">
                     <div class="box box-primary">
-
-                        @if ($order->status != 'đã giao hàng')
-            @if ($order->status != 'hủy đơn hàng')
+            @if ($order->status != 'Đã huỷ' && $order->status != 'Chờ giao hàng' && $order->status != 'Hoàn thành' && $order->status != 'Vận chuyển')
                 <div class="mb5 mt5">
-                    <a href="{{ route('admin.order.update', $order->id) }}?status=đã giao hàng" class="btn btn-danger"
-                        onclick="return confirm('Bạn có chắc hành động này là gì?')">Đã giao hàng</a>
-                    <a href="{{ route('admin.order.update', $order->id) }}?status=hủy đơn hàng" class="btn btn-warning"
-                        onclick="return confirm('Bạn có chắc hành động này là gì?')">Hủy</a>
-
+                        <a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển" class="btn btn-warning"
+                            onclick="return confirm('xác nhận')">Xác nhận đơn hàng</a>
+                            <a href="{{ route('admin.order.update', $order->id) }}?status=Đã huỷ" class="btn btn-danger"
+                                onclick="return confirm('xác nhận')">Huỷ đơn hàng</a>
                 </div>
-            @else
-                <a href="{{ route('admin.order.update', $order->id) }}?status=chờ xác nhận" class="btn btn-warning"
-                    onclick="return confirm('Bạn có chắc hành động này là gì?')">Khoi phục</a>
+            @elseif($order->status == 'Chờ giao hàng' )
+                <div class="mb5 mt5">
+                    <a href="{{ route('admin.order.update', $order->id) }}?status=Hoàn thành" class="btn btn-success"
+                        onclick="return confirm('xác nhận')">Giao hàng</a>
+                </div>
+            @elseif($order->status == 'Vận chuyển' )
+                <div class="mb5 mt5">
+                    <a href="{{ route('admin.order.update', $order->id) }}?status=Chờ giao hàng" class="btn btn-success"
+                        onclick="return confirm('xác nhận')">Chờ giao hàng</a>
+                </div>
+            @elseif($order->status == 'Chờ xác nhận')
+
+                <a href="{{ route('admin.order.update', $order->id) }}?status=Chờ xác nhận" class="btn btn-warning"
+                    onclick="return confirm('xác nhận')">Khoi phục</a>
             @endif
-        @endif
+
 
                         <h3>Order Details (Order ID: {{ $order->id }})</h3>
                         <div class="mb-4">

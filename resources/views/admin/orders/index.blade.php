@@ -10,13 +10,17 @@
         </h1>
     </section>
     <section class="content">
+        <div style="margin-left: 15px; margin-bottom:10px">
+                    <a href="{{ route('admin.orders.index')}}?status=Chờ xác nhận" class="btn btn-primary">Chờ xác nhận</a>
+                    <a href="{{ route('admin.orders.index')}}?status=Vận chuyển" class="btn btn-warning">Vận chuyển</a>
+                    <a href="{{ route('admin.orders.index')}}?status=Chờ giao hàng" class="btn btn-danger">Chờ giao hàng</a>
+                    <a href="{{route('admin.orders.index')}}?status=Hoàn thành" class="btn btn-success">Hoàn thành</a>
+                    <a href="{{route('admin.orders.index')}}?status=Đã huỷ" class="btn btn-warning">Đơn bị hủy</a>
+        </div>
         <div class="row container-fluid">
+
             <div class="col-md-12">
                 <div class="box box-primary">
-
-                    <a href="{{ route('admin.orders.index')}}?status=chờ xác nhận" class="btn btn-danger">Chờ xác nhận</a>
-                    <a href="{{route('admin.orders.index')}}?status=đã giao hàng" class="btn btn-success">Đã giao hàng</a>
-                        <a href="{{route('admin.orders.index')}}?status=hủy đơn hàng" class="btn btn-warning">Đơn bị hủy</a>
                     <table class="table">
                         <thead>
                             <tr>
