@@ -16,9 +16,10 @@
         }
 
         .header {
-            background: #f8f8f8;
+            background: rgb(173, 78, 78);
             padding: 10px;
             text-align: center;
+            color: white;
         }
 
         .order-details {
@@ -37,7 +38,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>Cảm ơn bạn đã đặt hàng tại Shop!</h2>
+            <h2>Cảm ơn bạn đã đặt hàng tại Fashion Store!</h2>
         </div>
         <p>Xin chào {{ $order->name_order}},</p>
         <p>Chúng tôi đã nhận được đơn hàng của bạn. Dưới đây là thông tin chi tiết:</p>
