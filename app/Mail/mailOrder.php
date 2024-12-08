@@ -29,7 +29,7 @@ class mailOrder extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Mail Order',
+            subject: 'Đơn hàng ' . $this->order->id . ' được đặt thành công',
         );
     }
 
