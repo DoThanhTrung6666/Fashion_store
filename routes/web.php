@@ -155,3 +155,13 @@ Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('or
 // xử lí mua sản phẩm đã chọn
 // Route::post('purchase', [CheckoutController::class, 'purchase'])->name('cart.purchase');
 Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+
+// Route để hiển thị trang bình luận
+Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
+// Route để lưu bình luận
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show');
+
+Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
+
+Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store');
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');

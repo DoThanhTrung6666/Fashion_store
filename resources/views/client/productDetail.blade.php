@@ -249,12 +249,6 @@ function updateColors(sizeId) {
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12">
                 <ul class="nav nav-tabs b-0 d-flex align-items-center justify-content-center simple_tab_links mb-4" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="description-tab" href="#description" data-toggle="tab" role="tab" aria-controls="description" aria-selected="true">Description</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#information" id="information-tab" data-toggle="tab" role="tab" aria-controls="information" aria-selected="false">Additional information</a>
-                    </li>
                     {{-- <li class="nav-item" role="presentation">
                         <a class="nav-link" href="#reviews" id="reviews-tab" data-toggle="tab" role="tab" aria-controls="reviews" aria-selected="false">Reviews</a>
                     </li> --}}
@@ -262,45 +256,7 @@ function updateColors(sizeId) {
 
                 <div class="tab-content" id="myTabContent">
 
-                    <!-- Description Content -->
-                    <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                        <div class="description_info">
-                            <p class="p-0 mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                            <p class="p-0">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.</p>
-                        </div>
-                    </div>
-
                     <!-- Additional Content -->
-                    <div class="tab-pane fade" id="information" role="tabpanel" aria-labelledby="information-tab">
-                        <div class="additionals">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                      <th class="ft-medium text-dark">ID</th>
-                                      <td>#1253458</td>
-                                    </tr>
-                                    <tr>
-                                      <th class="ft-medium text-dark">SKU</th>
-                                      <td>KUM125896</td>
-                                    </tr>
-                                    <tr>
-                                      <th class="ft-medium text-dark">Color</th>
-                                      <td>Sky Blue</td>
-                                    </tr>
-                                    <tr>
-                                      <th class="ft-medium text-dark">Size</th>
-                                      <td>Xl, 42</td>
-                                    </tr>
-                                    <tr>
-                                      <th class="ft-medium text-dark">Weight</th>
-                                      <td>450 Gr</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Reviews Content -->
 
 
 
@@ -338,105 +294,6 @@ function updateColors(sizeId) {
     @endforeach
 </div>
 
-<!-- Form gửi bình luận -->
-<div class="add-review">
-    <form action="{{ route('storeComment', $detail->id) }}" method="POST" class="row">
-        @csrf
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <h4>Submit Rating</h4>
-        </div>
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="revie_stars d-flex align-items-center justify-content-between px-2 py-2 gray rounded mb-2 mt-1">
-                <div class="srt_013">
-                    <div class="submit-rating">
-                        <!-- Rating Stars as Radio Buttons -->
-                        <input id="star-5" type="radio" name="rating" value="5" />
-                        <label for="star-5" title="5 stars">
-                            <i class="active fa fa-star" aria-hidden="true"></i>
-                        </label>
-                        <input id="star-4" type="radio" name="rating" value="4" />
-                        <label for="star-4" title="4 stars">
-                            <i class="active fa fa-star" aria-hidden="true"></i>
-                        </label>
-                        <input id="star-3" type="radio" name="rating" value="3" />
-                        <label for="star-3" title="3 stars">
-                            <i class="active fa fa-star" aria-hidden="true"></i>
-                        </label>
-                        <input id="star-2" type="radio" name="rating" value="2" />
-                        <label for="star-2" title="2 stars">
-                            <i class="active fa fa-star" aria-hidden="true"></i>
-                        </label>
-                        <input id="star-1" type="radio" name="rating" value="1" />
-                        <label for="star-1" title="1 star">
-                            <i class="active fa fa-star" aria-hidden="true"></i>
-                        </label>
-                    </div>
-                </div>
-                <div class="srt_014">
-                    <h6 class="mb-0">4 Star</h6>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="form-group">
-                <label class="medium text-dark ft-medium">Description</label>
-                <textarea class="form-control" name="content" rows="4" required></textarea>
-            </div>
-        </div>
-
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="form-group m-0">
-                <button type="submit" class="btn btn-white stretched-link hover-black">Submit Review <i class="lni lni-arrow-right"></i></button>
-            </div>
-        </div>
-    </form>
-
-
-    <script>
-        // Lấy tất cả các sao
-        const stars = document.querySelectorAll('.star-rating i');
-        const ratingInput = document.getElementById('rating');  // Input ẩn để lưu rating
-
-        // Lặp qua các sao và thêm sự kiện click
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                // Lấy giá trị của sao (1 - 5)
-                const rating = this.getAttribute('data-value');
-
-                // Cập nhật giá trị rating vào input ẩn
-                ratingInput.value = rating;
-
-                // Cập nhật giao diện sao
-                updateStars(rating);
-            });
-        });
-
-        // Hàm để cập nhật giao diện sao
-        function updateStars(rating) {
-            stars.forEach(star => {
-                if (star.getAttribute('data-value') <= rating) {
-                    star.classList.add('filled');  // Đổi sao thành màu vàng khi đã chọn
-                } else {
-                    star.classList.remove('filled');  // Đổi lại màu mặc định khi chưa chọn
-                }
-            });
-        }
-    </script>
-
-    <style>
-        .fas.fa-star.filled {
-            color: #ffcc00;  /* Màu vàng cho sao đã chọn */
-        }
-        .fas.fa-star {
-            color: #ddd;  /* Màu xám cho sao chưa chọn */
-            cursor: pointer;  /* Thêm con trỏ chuột khi hover */
-        }
-    </style>
-
-
-</div>
 
 
 
