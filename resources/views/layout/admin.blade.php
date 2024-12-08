@@ -302,7 +302,7 @@
           <li class="treeview">
             <a href="{{route("admin.statistics.index")}}">
                 <i class="fa fa-chart-bar"></i>
-            <span>Dashboard</span>
+            <span>Bảng điều khiển</span>
 
             </a>
 
@@ -324,7 +324,7 @@
 <li class="treeview">
     <a href="#">
         <i class="nav-icon fas fa-image"></i>
-    <span>Banner</span>
+    <span>Quản lý bannes</span>
     <i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
@@ -440,7 +440,7 @@
           <li class="treeview">
             <a href="#">
                 <i class="nav-icon fas fa-receipt"></i>
-            <span>Order</span>
+            <span>Quản lý đơn hàng</span>
             <i class="fa fa-angle-left pull-right"></i>
             </a>
             <ul class="treeview-menu">
