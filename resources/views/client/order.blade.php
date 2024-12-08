@@ -31,7 +31,7 @@
         <a href="?tab=pending" class="tab {{ request('tab') == 'pending' ? 'active' : '' }}">Chờ xác nhận</a>
         <a href="?tab=shipping" class="tab {{ request('tab') == 'shipping' ? 'active' : '' }}">Vận chuyển</a>
         <a href="?tab=delivery" class="tab {{ request('tab') == 'delivery' ? 'active' : '' }}">Chờ giao hàng</a>
-        <a href="?tab=completed" class="tab {{ request('tab') == 'completed' ? 'active' : '' }}">Đã giao</a>
+        <a href="?tab=completed" class="tab {{ request('tab') == 'completed' ? 'active' : '' }}">Hoàn thành</a>
         <a href="?tab=cancelled" class="tab {{ request('tab') == 'cancelled' ? 'active' : '' }}">Đã hủy</a>
         <a href="?tab=return" class="tab {{ request('tab') == 'return' ? 'active' : '' }}">Trả hàng/Hoàn tiền</a>
     </div>
@@ -123,6 +123,7 @@
                     <div class="order-card">
                         <div class="shop-info">
                             <span class="shop-name">Mã đơn hàng :#{{$order->id}}</span>
+                            <span class="shop-name">Tên khách hàng : {{$order->name_order}}</span>
                             <div class="shop-actions">
                                 {{-- <button class="chat-btn">Chat</button>
                                 <button class="view-shop-btn">Xem Shop</button> --}}
@@ -298,7 +299,7 @@
 
                         <div class="order-status">
                             {{-- <span class="status-label">Giao hàng thành công</span> --}}
-                            <span class="status">Đơn hàng đã được giao thành công</span>
+                            <span class="status">Đơn hàng đã được hoàn thành và giao thành công </span>
                         </div>
                         <div class="order-total">
                             <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>

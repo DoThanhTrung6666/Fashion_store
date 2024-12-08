@@ -79,7 +79,7 @@ class CartController extends Controller
         $sizeId = $request -> input('size_id');
         $quantity = $request -> input('quantity');
         if($request->quantity <= 0){
-            return redirect()->back()->with('error','Số lượng phải lớn hơn 1');
+            return redirect()->back()->with('error','Số lượng phải lớn hơn 0');
         }
         // sau đó tìm theo product_variant
         $productVariant = ProductVariant::where('product_id',$productId)
@@ -92,6 +92,9 @@ class CartController extends Controller
         if($quantity>$productVariant->stock_quantity){
             return redirect()->back()->with('error', 'Sản phẩm quá số lượng.Còn ' . $productVariant->stock_quantity .'sản phẩm');
         }
+        // // Sau khi kiểm tra, tiến hành trừ số lượng trong kho
+        //     $productVariant->stock_quantity -= $quantity;
+        //     $productVariant->save(); // Lưu lại sự thay đổi
         // sau khi so sánh xong thì kiểm tra nếu người dùng đã có giỏ hàng thì load giỏ hàng theo user_id
         $cart = Cart::firstOrCreate(
             ['user_id'=>auth()->id(),'status' => 1],
@@ -130,6 +133,11 @@ class CartController extends Controller
     {
         // tìm tới item để xoá theo id
         $cartItem = CartItem::findOrFail($id);
+        // $productVariant = $cartItem->productVariant;
+
+        // // Sau khi xóa sản phẩm khỏi giỏ hàng, tăng lại số lượng trong kho
+        // $productVariant->stock_quantity += $cartItem->quantity;
+        // $productVariant->save(); // Lưu lại sự thay đổi
         // sau khi tìm xong tiến hành xoá
         $cartItem->delete();
         return redirect()->route('cart.load')->with('success','Sản phẩm đã được xoá khỏi giỏ hàng');
