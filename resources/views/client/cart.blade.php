@@ -36,11 +36,7 @@
         </div>
 
 {{-- xử lí xoá nhiều bên ngoài if  --}}
-@if(session('error'))
-    <div>
-        {{ session('error') }}
-    </div>
-@endif
+
 @if($cart)
         <div class="row justify-content-between">
             <div class="col-12 col-lg-7 col-md-12">
@@ -69,15 +65,15 @@
 
                             @if($item['isOnFlashSale'])
                                 <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{($item['cartItem']->productVariant->product->price)*($item['cartItem']->quantity)}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{($item['finalPrice'])*($item['cartItem']->quantity)}}</span> vnđ</div>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{($item['cartItem']->productVariant->product->price)*($item['cartItem']->quantity)}}</span>VNĐ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{($item['finalPrice'])*($item['cartItem']->quantity)}}</span> VNĐ</div>
                             @else
-                                <h4 class="fs-md ft-medium mb-3 lh-1">{{$item['cartItem']->productVariant->product->price}}vnđ</h4>
+                                <h4 class="fs-md ft-medium mb-3 lh-1">{{number_format($item['cartItem']->productVariant->product->price)}} VNĐ</h4>
                             @endif
 
                                 {{-- <select class="mb-2 custom-select w-auto">
                                   <option value="1" selected="">{{$item->quanity}}</option>
                                 </select> --}}
-                                <input type="number" class="quantity-input" name="quantity" value="{{ $item['cartItem']->quantity }}" min="1" style="width: 60px;" disabled>
+                                <input type="number" class="quantity-input" name="quantity" value="{{ $item['cartItem']->quantity }}" min="1" style="width: 60px;">
                             </div>
                             <div class="fls_last">
                                 {{-- <form action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST">
@@ -86,24 +82,38 @@
                                     <button class="close_slide gray"><i class="ti-close"></i></button>
                                 </form> --}}
 
+                                {{-- <a href="javascript:void(0)"
+                                class="close_slide gray"
+                                onclick="event.preventDefault(); document.getElementById('remove-form-{{ $item['cartItem']->id }}').submit();">
+                                 <i class="ti-close"></i>
+                                </a>
+                                <form id="remove-form-{{ $item['cartItem']->id }}" action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form> --}}
                             </div>
                         </div>
                     </div>
                 </li>
                 @endforeach
                 </ul>
-                <button type="submit" class="btn btn-danger">Thanh toán</button>
-            </form>
             </div>
 
             <div class="col-12 col-md-12 col-lg-4">
+                <span style="color: red">
+                    @if(session('error'))
+                    <div>
+                        {{ session('error') }}
+                    </div>
+                @endif
+                </span>
                 <div class="card mb-4 gray mfliud">
                   <div class="card-body">
                     <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x">
 
                       <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                         <span>Tổng tiền : </span> <span class="ml-auto text-dark ft-medium">
-                            {{$totalAmount}}
+                            {{number_format($totalAmount)}} VNĐ
 
                         </span>
                       </li>
@@ -114,7 +124,10 @@
                   </div>
                 </div>
 
-                <a class="btn btn-block btn-dark mb-3" href="{{route('checkout')}}">Tiến hành thanh toán</a>
+                {{-- <a class="btn btn-block btn-dark mb-3" href="{{route('cart.proceedToCheckout')}}">Tiến hành thanh toán</a> --}}
+                <button type="submit"  class="btn btn-block btn-dark mb-3">Tiến hành thanh toán</button>
+                </form>
+                {{-- form xoá  --}}
 
                 <a class="btn-link text-dark ft-medium" href="shop.html">
                   <i class="ti-back-left mr-2"></i> Continue Shopping

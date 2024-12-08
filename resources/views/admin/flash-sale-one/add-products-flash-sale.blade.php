@@ -22,6 +22,7 @@
                                 <thead>
                                     <tr>
                                         <th style="text-align: center">Chọn</th>
+                                        <th style="text-align: center; width:10%">Nhập số lượng</th>
                                         <th style="text-align: center">Tên sản phẩm</th>
                                         <th style="text-align: center">Giá</th>
                                         <th style="text-align: center">Ảnh</th>
@@ -37,6 +38,12 @@
                                                 <!-- Checkbox để chọn sản phẩm -->
                                                 <input type="checkbox" name="products_id[]" value="{{ $product->id }}" id="product_{{ $product->id }}"
                                                     @if(in_array($product->id, old('products', []))) checked @endif>
+                                            </td>
+                                            <td>
+                                                <!-- Input để admin nhập số lượng giới hạn -->
+                                                <input type="number" name="quantities[{{ $product->id }}]" class="form-control"
+                                                       placeholder="Số lượng Flash Sale"
+                                                       min="1" value="{{ old('quantities.' . $product->id, 1) }}">
                                             </td>
                                             <td>
                                                 {{$product->name}}
