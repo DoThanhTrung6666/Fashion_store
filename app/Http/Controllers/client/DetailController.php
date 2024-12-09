@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,11 @@ class DetailController extends Controller
     public function show($id){
         // Tìm sản phẩm theo id
         $detail = Product::with('variants', 'category')->where('status', 1)->find($id);
-
+        if ($detail) {
+            // Tăng số lượt xem của sản phẩm
+            $detail->views += 1;
+            $detail->save();
+        }
 
         if (!$detail) {
             $detail1 = Product::find($id);
@@ -24,6 +29,7 @@ class DetailController extends Controller
             }
         }
 
+        // dd($detail);
         $variants = $detail->variants;
 
         $flashSales = FlashSaleItem::with('flashSale')
@@ -50,30 +56,69 @@ class DetailController extends Controller
 
 
     // Lưu bình luận
+    // public function storeComment(Request $request, $productId)
+    // {
+    //     // Kiểm tra dữ liệu đầu vào
+    //     $validated = $request->validate([
+    //         'rating' => 'required|integer|between:1,5', // Đánh giá từ 1 đến 5
+    //         'content' => 'required|string|max:1000', // Nội dung bình luận tối đa 1000 ký tự
+    //     ]);
+
+    //     // Kiểm tra nếu người dùng đã đăng nhập
+    //     if (!auth()->check()) {
+    //         return redirect()->route('login')->with('error', 'Please login to leave a review.');
+    //     }
+
+    //     // Lưu bình luận vào cơ sở dữ liệu
+    //     Comment::create([
+    //         'user_id' => auth()->id(), // Lấy id của người dùng hiện tại
+    //         'product_id' => $productId, // Id của sản phẩm
+    //         'rating' => $validated['rating'], // Đánh giá của người dùng
+    //         'content' => $validated['content'], // Nội dung bình luận
+    //     ]);
+
+
+    //     // Trả về trang trước với thông báo thành công
+    //     return back()->with('success', 'Your review has been submitted!');
+
+    // }
+
     public function storeComment(Request $request, $productId)
-    {
-        // Kiểm tra dữ liệu đầu vào
-        $validated = $request->validate([
-            'rating' => 'required|integer|between:1,5', // Đánh giá từ 1 đến 5
-            'content' => 'required|string|max:1000', // Nội dung bình luận tối đa 1000 ký tự
-        ]);
+{
+    // Kiểm tra dữ liệu đầu vào
+    $validated = $request->validate([
+        'rating' => 'required|integer|between:1,5', // Đánh giá từ 1 đến 5
+        'content' => 'required|string|max:1000', // Nội dung bình luận tối đa 1000 ký tự
+    ]);
 
-        // Kiểm tra nếu người dùng đã đăng nhập
-        if (!auth()->check()) {
-            return redirect()->route('login')->with('error', 'Please login to leave a review.');
-        }
-
-        // Lưu bình luận vào cơ sở dữ liệu
-        Comment::create([
-            'user_id' => auth()->id(), // Lấy id của người dùng hiện tại
-            'product_id' => $productId, // Id của sản phẩm
-            'rating' => $validated['rating'], // Đánh giá của người dùng
-            'content' => $validated['content'], // Nội dung bình luận
-        ]);
-
-
-        // Trả về trang trước với thông báo thành công
-        return back()->with('success', 'Your review has been submitted!');
-
+    // Kiểm tra nếu người dùng đã đăng nhập
+    if (!auth()->check()) {
+        return redirect()->route('login')->with('error', 'Please login to leave a review.');
     }
+
+    // Kiểm tra xem người dùng có đơn hàng hoàn thành với sản phẩm này không
+    $user = auth()->user();
+    $hasCompletedOrder = Order::where('user_id', $user->id)
+        ->where('status', 'Hoàn thành') // Kiểm tra trạng thái đơn hàng là "Hoàn thành"
+        ->whereHas('orderItems', function ($query) use ($productId) {
+            $query->where('product_id', $productId); // Kiểm tra xem sản phẩm có trong đơn hàng không
+        })
+        ->exists();
+
+    if (!$hasCompletedOrder) {
+        return redirect()->back()->with('error', 'Bạn chỉ có thể bình luận khi đã hoàn thành đơn hàng với sản phẩm này.');
+    }
+
+    // Lưu bình luận vào cơ sở dữ liệu
+    Comment::create([
+        'user_id' => auth()->id(), // Lấy id của người dùng hiện tại
+        'product_id' => $productId, // Id của sản phẩm
+        'rating' => $validated['rating'], // Đánh giá của người dùng
+        'content' => $validated['content'], // Nội dung bình luận
+    ]);
+
+    // Trả về trang trước với thông báo thành công
+    return back()->with('success', 'Your review has been submitted!');
+}
+
 }

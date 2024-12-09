@@ -1,11 +1,7 @@
 @extends('layout.admin')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+    
 
 
     <div class="content-wrapper">
@@ -18,16 +14,20 @@
             <div class="row container-fluid">
                 <div class="col-md-12">
                     <div class="box box-primary">
-
+                        @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                         <table class="table">
                             <tr>
                                 <th style="text-align: center" scope="col" style=""></th>
-                                <th style="text-align: center" scope="col" style="">Title</th>
-                                <th style="text-align: center" scope="col" style="">Description</th>
-                                <th style="text-align: center" scope="col" style="">Image</th>
-                                <th style="text-align: center" scope="col" style="">Position</th>
-                                <th style="text-align: center" scope="col" style="">Active</th>
-                                <th style="text-align: center" scope="col" style="">Actions</th>
+                                <th style="text-align: center" scope="col" style="">Tiêu đề</th>
+                                <th style="text-align: center" scope="col" style="">Mô tả</th>
+                                <th style="text-align: center" scope="col" style="">Ảnh</th>
+                                <th style="text-align: center" scope="col" style="">Vị trí</th>
+                                <th style="text-align: center" scope="col" style="">Trạng thái hoạt động</th>
+                                <th style="text-align: center" scope="col" style="">Hành động</th>
 
                             </tr>
 

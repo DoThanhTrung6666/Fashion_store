@@ -29,6 +29,7 @@
                                                 <td><input type="checkbox"></td>
                                                 <td>{{$product->id}}</td>
                                                 <td>{{$product->name}}</td>
+
                                                 <td><img src="{{ asset('storage/' . $product->image) }}"
                                                     alt="" width="100" height="100"></td>
                                                 <td>{{$product->category->name}}</td>

@@ -12,12 +12,12 @@
                         <!-- Slide Title -->
                         <div class="home-slider-desc">
                             <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2024</h1>
-                                <span class="trending">There's nothing like trend</span>
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
                             </div>
 
-                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -37,12 +37,12 @@
                         <!-- Slide Title -->
                         <div class="home-slider-desc">
                             <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2024</h1>
-                                <span class="trending">There's nothing like trend</span>
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
                             </div>
 
-                            <a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -62,12 +62,12 @@
                         <!-- Slide Title -->
                         <div class="home-slider-desc">
                             <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
-                                <span class="trending">There's nothing like trend</span>
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông  2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
                             </div>
 
-                            <a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
                         </div>
                         <!-- Slide Title / End -->
 
@@ -110,12 +110,12 @@
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
-                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale['salePercentage']) }}%</div>
+                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">{{ number_format($flashSale->sale->discount_percentage) }}%</div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
                             <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $item->product->id) }}"><img class="card-img-top" src="{{Storage::url($item->product->image)}}" alt="..."></a>
                             <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                <div class="edlio"><a href="#" data-toggle="modal" data-target="#quickview" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Quick View</a></div>
+                                <div class="edlio"><a href="{{ route('detail.show', $item->product->id) }}" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Xem chi tiết</a></div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                             <div class="elis_rty">
                                 <span class="ft-bold text-dark fs-sm" style="display: flex">
                                 <p style="text-decoration:line-through ; width:40%;color:red">{{ rtrim(rtrim(number_format($item->product->price, 2, '.', ','), '0'), '.') }}vnđ</p>
-                                <p style="width:60%">{{$item->price}}vnđ</p>
+                                <p style="width:60%">{{number_format($item->price)}}vnđ</p>
                                 </span>
                             </div>
                         </div>
@@ -153,14 +153,12 @@
 @foreach($flashSales as $flashSale)
 <script>
     window.onload = function () {
-
         // Lấy start_time và end_time của flashSale
         var startTime = new Date("{{ \Carbon\Carbon::parse($flashSale->start_time)->toIso8601String() }}").getTime();
         var endTime = new Date("{{ \Carbon\Carbon::parse($flashSale->end_time)->toIso8601String() }}").getTime();
         console.log(startTime);
         var countdown = setInterval(function () {
             var now = new Date().getTime();
-
             if (now < startTime) {
                 // Chương trình chưa bắt đầu, hiển thị thời gian chờ bắt đầu
                 var timeUntilStart = startTime - now;
@@ -265,28 +263,31 @@
                                                 <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $value->id) }}"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
                                                 <div class="product-left-hover-overlay">
                                                     <ul class="left-over-buttons">
-                                                        <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li>
+                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
                                                         <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"><i class="far fa-heart position-absolute"></i></a></li>
-                                                        <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li>
+                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
-                                            <div class="text-left">
+                                        <div style="text-align: center; margin-left:96px"  class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
+                                            <div class="text-left" >
                                                 <div class="text-left">
-                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span class="small">(5 Reviews)</span>
-                                                    </div> --}}
-                                                    <h5 class="fs-md mb-0 lh-1 mb-1"><a href="shop-single-v1.html">{{$value->name}}</a></h5>
+                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                        <div class="text-right">
+                                                        <div class="text-right">
+                                                            @foreach ($value->variants as $color)
+                                                            <div class="form-check form-option form-check-inline mb-1" >
+                                                                <img src="{{Storage::url($color->image_variant)}}" alt="" style="width: 20px; height: 20px; border-radius: 50%;">
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                    <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $value->id) }}">{{$value->name}}</a></h5>
 
 
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$value->price}}vnđ</span></div>
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -308,32 +309,35 @@
                                 @foreach ($category->productHome as $product)
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                                     <div class="product_grid card b-0">
-                                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                                        {{-- <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div> --}}
                                         <div class="card-body p-0">
                                             <div class="shop_thumb position-relative">
                                                 <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $product->id) }}"><img class="card-img-top" src="{{Storage::url($product->image)}}" alt="..."></a>
                                                 <div class="product-left-hover-overlay">
                                                     <ul class="left-over-buttons">
-                                                        <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li>
+                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
                                                         <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"><i class="far fa-heart position-absolute"></i></a></li>
-                                                        <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li>
+                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
+                                        <div style="text-align: center; margin-left:96px" class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left">
                                                 <div class="text-left">
-                                                    {{-- <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star filled"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <span class="small">(5 Reviews)</span>
-                                                    </div> --}}
+                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                        <div class="text-right">
+                                                        <div class="text-right">
+                                                            @foreach ($product->variants as $color)
+                                                            <div class="form-check form-option form-check-inline mb-1" >
+                                                                <img src="{{Storage::url($color->image_variant)}}" alt="" style="width: 20px; height: 20px; border-radius: 50%;">
+                                                            </div>
+                                                            @endforeach
+                                                        </div>
+                                                        </div>
+                                                    </div>
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $product->id) }}">{{$product->name}}</a></h5>
-                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$product->discount}}vnđ - {{$product->price}}vnđ</span></div>
+                                                    <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($product->price)}}vnđ</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -377,7 +381,7 @@
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
-                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>
+                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div>
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
                             <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show',$trending->id)}}"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
@@ -398,6 +402,9 @@
                                     {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
                                 {{-- </div>
                                 @endforeach --}}
+                                <div class="form-check form-option form-check-inline mb-1">
+                                    Lượt xem : {{$trending->views}}
+                                </div>
                             </div>
                             <div class="text-right">
                                 <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
@@ -405,7 +412,7 @@
                         </div>
                         <div class="text-left">
                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show',$trending->id)}}">{{$trending->name}}</a></h5>
-                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{$trending->price}} vnđ</span></div>
+                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($trending->price)}} vnđ</span></div>
                         </div>
                     </div>
                 </div>

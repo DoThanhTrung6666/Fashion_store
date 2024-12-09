@@ -64,18 +64,23 @@ class FlashSaleOneController extends Controller
 
         $validated = $request->validate([
             'products_id' => 'required|array',
+            'quantities' => 'required|array',
+            'quantities.*' => 'integer|min:1',
         ]);
 
 
         $flashSale = FlashSale::findOrFail($flashSaleId);
 
         foreach ($validated['products_id'] as $productId){
+            $quantity = $validated['quantities'][$productId] ?? 0;
             $product = Product::findOrFail($productId);
 
             FlashSaleItem::create([
                 'flash_sale_id' => $flashSale->id,
                 'product_id' => $product->id,
                 'price' => $product->price * (1-$flashSale->sale_id/100),
+                'flash_sale_quantity' => $quantity,
+                'sold_quantity' => 0, // Bắt đầu với số lượng đã bán là 0
             ]);
         }
         return redirect()->route('admin.listFlashSale')->with('success','Sản phẩm đã được thêm vào FlashSale');

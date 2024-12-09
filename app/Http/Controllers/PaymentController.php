@@ -14,13 +14,21 @@ class PaymentController extends Controller
         $user = Auth::user();
         $cart = Cart::with('cartItems.productVariant')->where('user_id', $user->id)->first();
 
-        if (!$cart || $cart->cartItems->isEmpty()) {
-            return redirect()->back()->with('error', 'Giỏ hàng của bạn đang trống.');
-        }
+        $selectedCartItemIds = $request->input('selectedCartItemIds', []); // Lấy danh sách các sản phẩm đã chọn
+        $selectedCartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
 
-        // Tính tổng tiền
-        $totalPrice = $cart->cartItems->sum(function ($item) {
-            return $item->quantity * $item->productVariant->product->price;
+        // Tính tổng tiền giỏ hàng cho các sản phẩm đã chọn
+        $totalPrice = $selectedCartItems->sum(function ($cartItem) {
+            $flashSaleItem = \App\Models\FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+                ->whereHas('flashSale', function ($query) {
+                    $query->where('start_time', '<=', now())
+                        ->where('end_time', '>=', now())
+                        ->where('status', 'active');
+                })
+                ->first();
+
+            $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
+            return $finalPrice * $cartItem->quantity;
         });
 
         $discountAmount = session()->has('voucher_discount') ? session()->get('voucher_discount')['discount_amount'] : 0;
@@ -30,7 +38,8 @@ class PaymentController extends Controller
         $vnp_TmnCode = "36NWPRAB"; // Mã website tại VNPAY
         $vnp_HashSecret = "KSA6N5HG030067AN7MJK54AA8U5JFH57"; // Chuỗi bí mật
 
-        $vnp_TxnRef = $cart->id; // Mã đơn hàng
+        // Mã đơn hàng
+        $vnp_TxnRef = $cart->id;
         $vnp_OrderInfo = "Thanh toán hóa đơn";
         $vnp_OrderType = "billpayment";
         $vnp_Amount = ($totalPrice - $discountAmount + 30000) * 100; // Tổng tiền (tính bằng đồng)
@@ -67,10 +76,12 @@ class PaymentController extends Controller
             'phone_order' => $request->input('phone_order'),
             'address_order' => $request->input('address_order'),
             'content_order' => $request->input('content_order', ''),
+            'selectedCartItemIds' => $selectedCartItemIds, // Lưu selectedCartItemIds vào session
         ]);
 
         return redirect($vnp_Url);
     }
+
 
     public function vnpay_callback(Request $request)
     {
@@ -97,9 +108,10 @@ class PaymentController extends Controller
                 'phone_order' => session('phone_order'),
                 'address_order' => session('address_order'),
                 'content_order' => session('content_order'),
+                'selectedCartItemIds' => session('selectedCartItemIds'), // Lấy selectedCartItemIds từ session
             ];
 
-            session()->forget(['vnp_TxnRef', 'cart_id', 'name_order', 'phone_order', 'address_order', 'content_order']); // Xóa session sau khi xử lý
+            session()->forget(['vnp_TxnRef', 'cart_id', 'name_order', 'phone_order', 'address_order', 'content_order', 'selectedCartItemIds']); // Xóa session sau khi xử lý
 
             return app(OrderController::class)->createOrderAfterPayment($cartId, $orderData);
         }

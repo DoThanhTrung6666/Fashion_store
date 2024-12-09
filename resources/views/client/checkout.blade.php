@@ -209,26 +209,30 @@
                         <h5 class="mb-4">Order Items (3)</h5>
                         <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
                             @if (Auth::user())
-                                @if ($cart && $cart->cartItems->count() > 0)
-                                    @foreach ($cart->cartItems as $item)
+                                @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
+                                    @foreach ($cartItemsWithSaleInfo as $item)
+                                        <input type="hidden" name="selectedCartItemIds[]"
+                                            value="{{ $item['cartItem']->id }}">
                                         <li class="list-group-item">
                                             <div class="row align-items-center">
                                                 <div class="col-3">
                                                     <!-- Image -->
                                                     <a href="product.html"><img
-                                                            src="{{ Storage::url($item->productVariant->product->image) }}"
+                                                            src="{{ Storage::url($item['cartItem']->productVariant->product->image) }}"
                                                             alt="..." class="img-fluid"></a>
                                                 </div>
                                                 <div class="col d-flex align-items-center">
                                                     <div class="cart_single_caption pl-2">
                                                         <h4 class="product_title fs-md ft-medium mb-1 lh-1">
-                                                            {{ $item->productVariant->product->name }}</h4>
+                                                            {{ $item['cartItem']->productVariant->product->name }}</h4>
                                                         <p class="mb-1 lh-1"><span class="text-dark">Size:
-                                                                {{ $item->productVariant->size->name }}</span></p>
+                                                                {{ $item['cartItem']->productVariant->size->name }}</span>
+                                                        </p>
                                                         <p class="mb-3 lh-1"><span class="text-dark">Color:
-                                                                {{ $item->productVariant->color->name }}</span></p>
+                                                                {{ $item['cartItem']->productVariant->color->name }}</span>
+                                                        </p>
                                                         <h4 class="fs-md ft-medium mb-3 lh-1">
-                                                            {{ $item->productVariant->price }}</h4>
+                                                            {{ $item['cartItem']->productVariant->price }}</h4>
                                                     </div>
                                                 </div>
                                             </div>
@@ -248,7 +252,7 @@
 
                                 {{-- tồn tại user  --}}
                                 @if (Auth::user())
-                                    @if ($cart && $cart->cartItems->count() > 0)
+                                    @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Subtotal</span> <span
                                                 class="ml-auto text-dark ft-medium">{{ $totalPrice }}</span>
@@ -311,6 +315,7 @@
                 </form>
                 <li class="list-group-item d-flex text-dark fs-sm ft-regular" style="margin-left: 15px">
                     <form method="POST" action="{{ route('applyVoucher') }}" class="d-flex">
+                        <input type="hidden" name="selectedCartItemIds[]" value="{{ $item['cartItem']->id }}">
                         @csrf
                         <input type="text" name="voucher" class="form-control form-control-sm me-2"
                             placeholder="Nhập mã voucher">

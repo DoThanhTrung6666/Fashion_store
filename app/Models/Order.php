@@ -32,5 +32,12 @@ class Order extends Model
 {
     return $this->hasMany(OrderItem::class, 'order_id', 'id');
 }
+// app/Models/Order.php
+
+public function products()
+{
+    return $this->hasMany(Product::class); // Một đơn hàng có nhiều sản phẩm
+}
+
 
 }

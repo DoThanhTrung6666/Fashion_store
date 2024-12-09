@@ -92,14 +92,14 @@
                                         <div class="collapse" id="mens" data-parent="#mens-categories">
                                             <div class="card-body">
                                                 <div class="inner_widget_link">
-                                                    <ul class="m-0 p-0">
+                                                    {{-- <ul class="m-0 p-0">
                                                         <li><a href="#">Pumps & high Heals<span>112</span></a></li>
                                                         <li><a href="#">Sandels<span>82</span></a></li>
                                                         <li><a href="#">Sneakers<span>56</span></a></li>
                                                         <li><a href="#">Boots<span>101</span></a></li>
                                                         <li><a href="#">Casual Shoes<span>212</span></a></li>
                                                         <li><a href="#">Flats Sandel<span>92</span></a></li>
-                                                    </ul>
+                                                    </ul> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -111,14 +111,14 @@
                                         <div class="collapse" id="womens" data-parent="#womens-categories">
                                             <div class="card-body">
                                                 <div class="inner_widget_link">
-                                                    <ul class="p-0 m-0">
+                                                    {{-- <ul class="p-0 m-0">
                                                         <li><a href="#">Pumps & high Heals<span>112</span></a></li>
                                                         <li><a href="#">Sandels<span>82</span></a></li>
                                                         <li><a href="#">Sneakers<span>56</span></a></li>
                                                         <li><a href="#">Boots<span>101</span></a></li>
                                                         <li><a href="#">Casual Shoes<span>212</span></a></li>
                                                         <li><a href="#">Flats Sandel<span>92</span></a></li>
-                                                    </ul>
+                                                    </ul> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -230,9 +230,12 @@
                                         class="far fa-heart"></i></button>
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
-                                        <a class="card-img-top d-block overflow-hidden" href=""><img
-                                                class="card-img-top" src="{{ asset('storage/' . $product->image) }}"
-                                                alt="..."></a>
+                                        <a class="card-img-top d-block overflow-hidden" href=""><img <<<<<<< HEAD
+                                                class="card-img-top"
+                                                src="{{ asset('storage/' . $product->image) }}"=======class="card-img-top"
+                                                src="{{ asset('storage/' . $product->image) }}">>>>>>>
+                                            aa08e2b82c27e1176201bfcc826f3453f54532ca
+                                            alt="..."></a>
                                         <div
                                             class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                             <div class="edlio"><a href="#" data-toggle="modal"
@@ -253,7 +256,6 @@
                                                     <p>
                                                         ${{ number_format($product->price, 2) }}
                                                     </p>
-
                                                 </span>
                                             </div>
                                         </div>

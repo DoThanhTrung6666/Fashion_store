@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
@@ -22,7 +23,10 @@ class HomeController extends Controller
         // load sản phẩm theo danh mục
         $categories = Category::with('productHome')->get();
         //load sản phẩm all
-        $allProducts = Product::with(['variants'])->where('status', 1)->get();
+        $allProducts = Product::with(['variants'])
+        ->where('status', 1)
+        ->orderBy('created_at', 'DESC')
+        ->get();
         //load sản phẩm thịnh hành
         $trendingProducts = Product::with('variants')
             ->where('status', 1)
@@ -32,7 +36,7 @@ class HomeController extends Controller
         //flashsale
         $flashSales = FlashSale::with('sale', 'product')
             ->where('status', 'active')
-            ->where('start_time', '<=', now())
+            ->where('start_time', '<=', Carbon::now()->addMonths())
             ->where('end_time', '>=', now())
             ->get();
         // Lấy tất cả các sản phẩm Flash Sale hiện tại

@@ -37,9 +37,7 @@ use App\Models\Order;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
 // bên admin
 Route::prefix('admin')
@@ -67,11 +65,6 @@ Route::prefix('admin')
 
 
         Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/pending', [AdOrderController::class, 'pendingOrders'])->name('orders.pending');
-        Route::get('/orders/confirmed', [AdOrderController::class, 'confirmedOrders'])->name('orders.confirmed');
-        Route::get('/orders/shipping', [AdOrderController::class, 'shippingOrders'])->name('orders.shipping');
-        Route::get('/orders/delivered', [AdOrderController::class, 'deliveredOrders'])->name('orders.delivered');
-        Route::get('/orders/canceled', [AdOrderController::class, 'canceledOrders'])->name('orders.canceled');
         Route::get('/orders/{id}', [AdOrderController::class, 'show'])->name('orders.show');
 
         Route::get('/order/update-status/{order}', [AdOrderController::class, 'update'])->name('order.update');
@@ -85,6 +78,8 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales', SaleController::class);
+
+
 
         //dành cho flashsale
         Route::get('list-product-flash-sale', [FlashSaleOneController::class, 'listProductFlashSale'])->name('listProductFlashSale');
@@ -153,8 +148,23 @@ Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
-
 Route::post('/vnpay_payment', [OrderController::class, 'createOrder'])->name('vnpay');
 Route::get('/vnpay/callback', [PaymentController::class, 'vnpay_callback'])->name('vnpay.callback');
 
 Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('applyVoucher');
+
+// xử lí mua lại trong order
+Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('orders.reorder');
+// xử lí mua sản phẩm đã chọn
+// Route::post('purchase', [CheckoutController::class, 'purchase'])->name('cart.purchase');
+Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+
+// Route để hiển thị trang bình luận
+Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
+// Route để lưu bình luận
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show');
+
+Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
+
+Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store');
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');

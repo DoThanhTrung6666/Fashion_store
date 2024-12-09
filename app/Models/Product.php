@@ -33,4 +33,12 @@ class Product extends Model
     {
         return $this->hasMany(FlashSaleItem::class);
     }
+    // app/Models/Product.php
+
+public function order()
+{
+    return $this->belongsTo(Order::class); // Mỗi sản phẩm thuộc về một đơn hàng
+}
+
+
 }

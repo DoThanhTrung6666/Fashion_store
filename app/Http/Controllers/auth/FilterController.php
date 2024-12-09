@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
@@ -79,3 +80,4 @@ class FilterController extends Controller
         return view('client.danhmucsp', compact('products', 'sizes', 'colors', 'categories'));
     }
 }
+
