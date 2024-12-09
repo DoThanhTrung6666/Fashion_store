@@ -18,67 +18,6 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
-    // voucher
-    // public function applyVoucher(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $cart = Cart::with('cartItems.productVariant')->where('user_id', $user->id)->first();
-    //     // Lấy mã voucher từ input
-    //     $voucherCode = $request->input('voucher');
-    //     $selectedCartItemIds = $request->input('selectedCartItemIds', []);
-    //     $selectedCartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
-    //     // dd($selectedCartItemIds);
-    //     // Kiểm tra mã voucher có hợp lệ không
-    //     $voucher = Voucher::where('name', $voucherCode)
-    //         ->where('status', 2) // Chỉ lấy voucher đang hoạt động
-    //         ->first();
-
-    //     if (!$voucher) {
-    //         return redirect()->back()->with('error', 'Mã giảm giá không hợp lệ.');
-    //     }
-
-    //     // Tính tổng giá trị đơn hàng
-
-    //     $totalPrice = $selectedCartItems->sum(function ($cartItem) {
-    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
-    //             ->whereHas('flashSale', function ($query) {
-    //                 $query->where('start_time', '<=', now())
-    //                     ->where('end_time', '>=', now())
-    //                     ->where('status', 'active');
-    //             })
-    //             ->first();
-
-    //         $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
-    //         return $finalPrice * $cartItem->quantity;
-    //     });
-
-    //     // Tính toán giá trị giảm giá
-    //     $discountAmount = ($totalPrice * $voucher->discount_percentage) / 100;
-
-    //     // Nếu giá trị giảm lớn hơn giá trị tối đa của voucher, áp dụng max_discount
-    //     if ($discountAmount > $voucher->max_discount) {
-    //         $discountAmount = $voucher->max_discount;
-    //     }
-
-    //     // Nếu tổng giá trị đơn hàng lớn hơn hoặc bằng min_order_value, áp dụng giảm theo min_order_value
-    //     if ($totalPrice >= $voucher->min_order_value) {
-    //         $discountAmount = min($voucher->min_order_value, $discountAmount);
-    //     }
-
-    //     // Lưu voucher vào session với giá trị giảm
-    //     session()->put('voucher_discount', [
-    //         'voucher_code' => $voucher->name,
-    //         'discount_percentage' => $voucher->discount_percentage,
-    //         'min_order_value' => $voucher->min_order_value,
-    //         'max_discount' => $voucher->max_discount,
-    //         'status' => $voucher->status,
-    //         'discount_amount' => $discountAmount // Lưu giá trị giảm
-    //     ]);
-    //     // dd($discountAmount);
-
-    //     // Redirect lại trang giỏ hàng với thông báo và cập nhật session
-    //     return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
-    // }
     public function applyVoucher(Request $request)
     {
         $user = Auth::user();
@@ -130,66 +69,6 @@ class OrderController extends Controller
 
         return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
     }
-
-
-    //thanh toán online
-    // public function createOrder(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $cart = Cart::with('cartItems.productVariant')->where('user_id', $user->id)->first();
-    //     $selectedCartItemIds = $request->input('selectedCartItemIds', []);
-    //     $selectedCartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
-
-    //     if (!$cart || $cart->cartItems->isEmpty()) {
-    //         return redirect()->back()->with('error', 'Giỏ hàng của bạn đang trống.');
-    //     }
-
-    //     // Xác thực dữ liệu đầu vào
-    //     $validate = $request->validate([
-    //         'name_order' => 'required|string|max:255',
-    //         'phone_order' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:15',
-    //         'address_order' => 'required|string|min:10|max:500',
-    //     ], [
-    //         'name_order.required' => 'Vui lòng nhập tên người đặt hàng.',
-    //         'name_order.string' => 'Tên phải là chuỗi ký tự.',
-    //         'name_order.max' => 'Tên không được dài hơn 255 ký tự.',
-
-    //         'phone_order.required' => 'Vui lòng nhập số điện thoại.',
-    //         'phone_order.regex' => 'Số điện thoại không đúng định dạng.',
-
-    //         'address_order.required' => 'Vui lòng nhập địa chỉ.',
-    //         'address_order.string' => 'Địa chỉ phải là chuỗi ký tự.',
-    //         'address_order.min' => 'Địa chỉ phải có ít nhất 10 ký tự.',
-    //         'address_order.max' => 'Địa chỉ không được dài hơn 500 ký tự.',
-    //     ]);
-
-    //     // Tính tổng tiền giỏ hàng
-    //     // $totalPrice = $cart->cartItems->sum(function ($cartItem) {
-    //     //     return $cartItem->quantity * $cartItem->productVariant->product->price;
-    //     // });
-    //     $totalPrice = $selectedCartItems->sum(function ($cartItem) {
-    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
-    //             ->whereHas('flashSale', function ($query) {
-    //                 $query->where('start_time', '<=', now())
-    //                     ->where('end_time', '>=', now())
-    //                     ->where('status', 'active');
-    //             })
-    //             ->first();
-
-    //         $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
-    //         return $finalPrice * $cartItem->quantity;
-    //     });
-
-    //     // Lấy discountAmount từ session
-    //     $discountAmount = session()->has('voucher_discount') ? session()->get('voucher_discount')['discount_amount'] : 0;
-
-    //     // Tính toán số tiền cần thanh toán (bao gồm phí giao hàng)
-    //     $vnp_Amount = ($totalPrice - $discountAmount + 30000) * 100;
-
-    //     // Chuyển hướng sang VnPay (cần truyền thêm `vnp_Amount` qua request)
-    //     $request->merge(['vnp_Amount' => $vnp_Amount]);
-    //     return app(PaymentController::class)->vnpay_payment($request);
-    // }
     public function createOrder(Request $request)
     {
         $user = Auth::user();
