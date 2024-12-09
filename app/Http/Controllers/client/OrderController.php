@@ -9,12 +9,14 @@ use App\Models\CartItem;
 use App\Models\FlashSaleItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
+
     public function Order(Request $request)
 {
     $user = Auth::user();
@@ -22,7 +24,7 @@ class OrderController extends Controller
     $cart = Cart::with('cartItems.productVariant.product')->where('user_id', $user->id)->first();
 
     if (!$cart || $cart->cartItems->isEmpty()) {
-        return redirect()->route('cart.index')->with('error', 'Giỏ hàng của bạn đang trống.');
+        return redirect()->route('cart.load')->with('error', 'Giỏ hàng của bạn đang trống.');
     }
 
     // Lấy danh sách các mục giỏ hàng được chọn
@@ -133,17 +135,36 @@ class OrderController extends Controller
     return redirect()->route('thankyou');
 }
 
-    public function loadOrderUser(){
-        $user = Auth::user();
-        $orders = Order::where('user_id',$user->id)->with('orderItems')->orderBy('id', 'desc')->get();
-        $orders_pending = Order::where('user_id', $user->id)->where('status', 'Chờ xác nhận')->with('orderItems')->orderBy('id', 'desc')->get(); // Chờ thanh toán
-        $orders_vanchuyen = Order::where('user_id', $user->id)->where('status', 'Vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get(); // Hoàn thành
-        $orders_chogiaohang = Order::where('user_id', $user->id)->where('status', 'Chờ giao hàng')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
-        $orders_hoanthanh = Order::where('user_id', $user->id)->where('status', 'Hoàn thành')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
-        $orders_dahuy = Order::where('user_id', $user->id)->where('status', 'Đã huỷ')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
-        $orders_danhan = Order::where('user_id', $user->id)->where('status', 'Đã nhận hàng')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
-        return view('client.order',compact('orders_dahuy','orders_pending','orders_vanchuyen','orders_chogiaohang','orders_hoanthanh','orders_danhan','orders'));
-    }
+    // public function loadOrderUser(){
+    //     $user = Auth::user();
+    //     $orders = Order::where('user_id',$user->id)->with('orderItems')->orderBy('id', 'desc')->get();
+    //     $orders_pending = Order::where('user_id', $user->id)->where('status', 'Chờ xác nhận')->with('orderItems')->orderBy('id', 'desc')->get(); // Chờ thanh toán
+    //     $orders_vanchuyen = Order::where('user_id', $user->id)->where('status', 'Vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get(); // Hoàn thành
+    //     $orders_chogiaohang = Order::where('user_id', $user->id)->where('status', 'Chờ giao hàng')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
+    //     $orders_hoanthanh = Order::where('user_id', $user->id)->where('status', 'Hoàn thành')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
+    //     $orders_dahuy = Order::where('user_id', $user->id)->where('status', 'Đã huỷ')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
+    //     $orders_danhan = Order::where('user_id', $user->id)->where('status', 'Đã nhận hàng')->with('orderItems')->orderBy('id', 'desc')->get(); // Đã hủy
+    //     return view('client.order',compact('orders_dahuy','orders_pending','orders_vanchuyen','orders_chogiaohang','orders_hoanthanh','orders_danhan','orders'));
+    // }
+
+    public function loadOrderUser()
+{
+    $user = Auth::user();
+    $orders = Order::where('user_id', $user->id)->with('orderItems')->orderBy('id', 'desc')->get();
+    $orders_pending = Order::where('user_id', $user->id)->where('status', 'Chờ xác nhận')->with('orderItems')->orderBy('id', 'desc')->get();
+    $orders_vanchuyen = Order::where('user_id', $user->id)->where('status', 'Vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get();
+    $orders_chogiaohang = Order::where('user_id', $user->id)->where('status', 'Chờ giao hàng')->with('orderItems')->orderBy('id', 'desc')->get();
+    $orders_hoanthanh = Order::where('user_id', $user->id)->where('status', 'Hoàn thành')->with('orderItems')->orderBy('id', 'desc')->get();
+    $orders_dahuy = Order::where('user_id', $user->id)->where('status', 'Đã huỷ')->with('orderItems')->orderBy('id', 'desc')->get();
+    $orders_danhan = Order::where('user_id', $user->id)->where('status', 'Đã nhận hàng')->with('orderItems')->orderBy('id', 'desc')->get();
+
+    // Nếu bạn cần truyền sản phẩm vào view, ví dụ như lấy sản phẩm đầu tiên từ một đơn hàng nào đó:
+    $product = Product::first();  // Chỉ ví dụ, bạn có thể chọn sản phẩm khác
+
+    return view('client.order', compact('orders_dahuy', 'orders_pending', 'orders_vanchuyen', 'orders_chogiaohang', 'orders_hoanthanh', 'orders_danhan', 'orders', 'product'));
+}
+
+
     // OrderController.php
 public function show($orderId)
 {
