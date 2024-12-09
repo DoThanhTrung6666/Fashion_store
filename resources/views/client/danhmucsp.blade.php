@@ -231,8 +231,7 @@
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
                                         <a class="card-img-top d-block overflow-hidden" href=""><img
-                                                class="card-img-top"
-                                                src="{{ asset('storage/' . $product->product->image) }}"
+                                                class="card-img-top" src="{{ asset('storage/' . $product->image) }}"
                                                 alt="..."></a>
                                         <div
                                             class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
@@ -247,18 +246,14 @@
                                     <div class="text-left">
                                         <div class="text-center">
                                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a
-                                                    href="">{{ $product->product->name ?? 'Product Name' }}</a>
+                                                    href="">{{ $product->name ?? 'Product Name' }}</a>
                                             </h5>
                                             <div class="elis_rty">
                                                 <span class="ft-bold fs-md text-dark">
-                                                    @if ($product->min_price === $product->max_price)
-                                                        ${{ number_format($product->min_price, 2) }}
-                                                        <!-- Nếu chỉ có một giá -->
-                                                    @else
-                                                        ${{ number_format($product->min_price, 2) }} -
-                                                        ${{ number_format($product->max_price, 2) }}
-                                                        <!-- Nếu có nhiều giá -->
-                                                    @endif
+                                                    <p>
+                                                        ${{ number_format($product->price, 2) }}
+                                                    </p>
+
                                                 </span>
                                             </div>
                                         </div>
