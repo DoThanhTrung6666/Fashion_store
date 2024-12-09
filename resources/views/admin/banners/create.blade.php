@@ -30,40 +30,40 @@
                             @csrf
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Title</label>
+                                    <label for="exampleInputEmail1">Tiêu đề</label>
                                     <input type="text" class="form-control" placeholder="Tiêu đề..." name="title"
                                         id="title" value="{{ old('title') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="description">Description</label>
+                                    <label for="description">Mô tả</label>
                                     <textarea class="form-control" rows="3" placeholder="Nôị dung..." name="description" id="description">{{ old('description') }}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Image</label>
+                                    <label for="exampleInputFile">Ảnh</label>
                                     <input type="file" name="image_path" id="image">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Link</label>
+                                    <label for="exampleInputEmail1">Đường dẫn</label>
                                     <input type="url" class="form-control" placeholder="Link..." name="link"
                                         id="link" value="{{ old('link') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Position</label>
+                                    <label for="exampleInputFile">Vị trí</label>
                                     <input type="number" class="form-control" name="position" id="position"
                                         value="{{ old('position', 0) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="start_date">Start Date</label>
+                                    <label for="start_date">Ngày bắt đầu</label>
                                     <input type="datetime-local" class="form-control" name="start_date" id="start_date"
                                         value="{{ old('start_date') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="end_date">End Date</label>
+                                    <label for="end_date">Ngày kết thúc</label>
                                     <input type="datetime-local" class="form-control" name="end_date" id="end_date"
                                         value="{{ old('end_date') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="is_active" class="form-check-label">Is Active</label>
+                                    <label for="is_active" class="form-check-label">Trạng thái hoạt động</label>
                                     <input type="checkbox" name="is_active" id="is_active" value="1"
                                         {{ old('is_active', true) ? 'checked' : '' }}>
 

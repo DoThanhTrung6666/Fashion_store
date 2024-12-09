@@ -32,43 +32,43 @@
                             @method('PUT')
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Title</label>
+                                    <label for="exampleInputEmail1">Tiêu đề</label>
                                     <input type="text" class="form-control" name="title" id="title"
                                         value="{{ old('title', $banner->title) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="description">Description</label>
+                                    <label for="description">Mô tả</label>
                                     <textarea class="form-control" rows="3" name="description" id="description">{{ old('description', $banner->description) }}</textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Image</label>
+                                    <label for="exampleInputFile">Ảnh</label>
                                     <input type="file" name="image_path" id="image">
                                     <br>
                                     <img src="{{ asset('storage/' . $banner->image_path) }}" alt="{{ $banner->title }}" width="100">
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Link</label>
+                                    <label for="exampleInputEmail1">Đường dẫn</label>
                                     <input type="url" class="form-control" placeholder="Link..." name="link"
                                         id="link" value="{{ old('link', $banner->link) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Position</label>
+                                    <label for="exampleInputFile">Vị trí</label>
                                     <input type="number" class="form-control" name="position" id="position"
                                         value="{{ old('position', $banner->position, 0) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="start_date">Start Date</label>
+                                    <label for="start_date">Ngày bắt đầu</label>
                                     <input type="datetime-local" class="form-control" name="start_date" id="start_date"
                                         value="{{ old('start_date', $banner->start_date) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="end_date">End Date</label>
+                                    <label for="end_date">Ngày kết thúc</label>
                                     <input type="datetime-local" class="form-control" name="end_date" id="end_date"
                                         value="{{ old('end_date', $banner->end_date) }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="is_active">Is Active</label>
+                                    <label for="is_active">Trạng thái hoạt động</label>
                                     <input type="checkbox" name="is_active" id="is_active" class="form-check-input"
                                         {{ old('is_active', $banner->is_active) ? 'checked' : '' }}>
                                 </div>
