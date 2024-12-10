@@ -39,7 +39,7 @@ class PaymentController extends Controller
         $vnp_HashSecret = "KSA6N5HG030067AN7MJK54AA8U5JFH57"; // Chuỗi bí mật
 
         // Mã đơn hàng
-        $vnp_TxnRef = 999;
+        $vnp_TxnRef = uniqid();
         $vnp_OrderInfo = "Thanh toán hóa đơn";
         $vnp_OrderType = "billpayment";
         $vnp_Amount = ($totalPrice - $discountAmount + 30000) * 100; // Tổng tiền (tính bằng đồng)
