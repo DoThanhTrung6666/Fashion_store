@@ -19,6 +19,7 @@
                                 <th style="text-align: center" scope="col">Tên người bình luận</th>
                                 <th style="text-align: center" scope="col">Nội dung</th>
                                 <th style="text-align: center" scope="col">Ngày bình luận</th>
+                                <th style="text-align: center" scope="col">Sao</th> <!-- Thêm cột để hiển thị sao -->
                                 <th style="text-align: center" scope="col"></th>
                             </tr>
 
@@ -29,6 +30,7 @@
                                     <td>{{ $comment->user->name }}</td> <!-- Sửa để lấy tên người dùng -->
                                     <td>{{ $comment->content }}</td>
                                     <td>{{ $comment->created_at }}</td>
+                                    <td>{{ $comment->rating }}</td> <!-- Hiển thị số sao -->
                                     <form action="{{ route('admin.comment.destroy', $comment->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')

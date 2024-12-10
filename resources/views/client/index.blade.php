@@ -1,5 +1,12 @@
 @extends('layout.client')
 @section('content')
+<span style="color: red">
+    @if(session('error'))
+    <div>
+        {{ session('error') }}
+    </div>
+@endif
+</span>
 <div class="home-slider margin-bottom-0">
 
     <!-- Slide -->
@@ -573,5 +580,7 @@
         </div>
     </div>
 </section>
+
+
 <!-- ======================= Customer Features ======================== -->
 @endsection

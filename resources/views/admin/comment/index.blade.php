@@ -18,7 +18,8 @@
                                 <th style="text-align: center" scope="col" style="">STT</th>
                                 <th style="text-align: center" scope="col" style="">Tên sản phẩm</th>
                                 <th style="text-align: center" scope="col" style="">Ảnh</th>
-                                <th style="text-align: center" scope="col" style="">Tổng số bình luận<th>
+                                <th style="text-align: center" scope="col" style="">Tổng số bình luận</th>
+                                <th style="text-align: center" scope="col" style="">Lượt đánh giá</th>
                             </tr>
 
                             @foreach ($products as $product)
@@ -26,11 +27,11 @@
                                     <td><input type="checkbox"></td>
                                     <td>{{ $product->id }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td><img src="{{ Storage::url($product->image) }}" width="100" height="100"
-                                            alt=""></td>
+                                    <td><img src="{{ Storage::url($product->image) }}" width="100" height="100" alt=""></td>
                                     <td>{{ $product->comments_count }}</td>
+                                    <td>{{ $product->average_rating ? number_format($product->average_rating, 1) : 'Chưa có bình luận' }}</td>
                                     <td>
-                                        <a href="{{route('admin.comment.show', $product->id)}}" class="btn btn-warning">Chi tiết</a>
+                                        <a href="{{ route('admin.comment.show', $product->id) }}" class="btn btn-warning">Chi tiết</a>
                                     </td>
                                 </tr>
                             @endforeach

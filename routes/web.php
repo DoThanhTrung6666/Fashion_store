@@ -168,3 +168,6 @@ Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm']
 
 Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store');
 Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
+
+Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail');
+
