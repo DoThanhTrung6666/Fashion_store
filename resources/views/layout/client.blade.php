@@ -136,7 +136,7 @@
                                     <a href="{{ route('danhmucsp') }}">Tất cả sản phẩm</a>
 								</li>
 
-								<li><a href="">Giới thiệu</a>
+								<li><a href="">Album</a>
 									{{-- <ul class="nav-dropdown nav-submenu">
 										<li><a href="shop-single-v1.html">Product Detail v01</a></li>
 										<li><a href="shop-single-v2.html">Product Detail v02</a></li>
@@ -145,16 +145,8 @@
 									</ul> --}}
 								</li>
 
-								<li><a href="">Góp ý</a>
-									<ul class="nav-dropdown nav-submenu">
-										<li><a href="blog.html">Blog Style</a></li>
-										<li><a href="about-us.html">About Us</a></li>
-										<li><a href="contact.html">Contact</a></li>
-										<li><a href="404.html">404 Page</a></li>
-										<li><a href="privacy.html">Privacy Policy</a></li>
-										<li><a href="faq.html">FAQs</a></li>
-									</ul>
-								</li>
+								{{-- <li><a href="{{route('cart.load')}}">Giỏ hàng</a>
+								</li> --}}
 
 								{{-- <li>
                                     <a href="docs.html">Liên hệ</a>
@@ -237,15 +229,19 @@
 									</ul>
 								</li>
                                 @endif
+                                {{-- sản phẩm yêu thích  --}}
 								<li>
 									<a href="#" onclick="openWishlist()">
-										<i class="lni lni-heart"></i><span class="dn-counter">2</span>
+										<i class="lni lni-heart"></i>
+                                        {{-- <span class="dn-counter">2</span> --}}
 									</a>
 								</li>
+                                {{-- Giỏ hàng --}}
 								<li>
                                     {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
 									<a href="{{route('cart.load')}}">
-										<i class="lni lni-shopping-basket"></i><span class="dn-counter theme-bg">3</span>
+										<i class="lni lni-shopping-basket"></i>Giỏ hàng
+                                        {{-- <span class="dn-counter theme-bg">3</span> --}}
 									</a>
 								</li>
 							</ul>
