@@ -22,8 +22,9 @@ use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
-
-
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\VoucherController;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,11 +36,6 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
@@ -96,11 +92,13 @@ Route::prefix('admin')
         Route::get('flash-sale/{flashSaleId}/products', [FlashSaleOneController::class, 'splienquan'])->name('view_products');
         //Xoá sản phẩm liên quan flash-sale mình thích
         Route::delete('flash-sale/{flashSaleId}/product/{productId}', [FlashSaleOneController::class, 'deleteProduct'])->name('delete_product');
+
+        Route::resource('vouchers', VoucherController::class);
     });
 
 
 // bên client
-Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
+Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
 Route::post('/product/{id}/comment', [DetailController::class, 'storeComment'])->name('storeComment');
 
@@ -150,6 +148,11 @@ Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
+Route::post('/vnpay_payment', [OrderController::class, 'createOrder'])->name('vnpay');
+Route::get('/vnpay/callback', [PaymentController::class, 'vnpay_callback'])->name('vnpay.callback');
+
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('applyVoucher');
+
 // xử lí mua lại trong order
 Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('orders.reorder');
 // xử lí mua sản phẩm đã chọn
@@ -165,5 +168,6 @@ Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm']
 
 Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store');
 Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
+
 Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail');
 

@@ -28,7 +28,7 @@ class BannerController extends Controller
             'description' => 'nullable|string',
             'image_path' => 'required|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048',
             'link' => 'nullable|url|max:255',
-            'position' => 'integer|min:0',
+            'position' => 'integer|min:0|max:5',
             'start_date' => 'nullable|date|after_or_equal:today',
             'end_date' => 'nullable|date|after:start_date',
             'is_active' => 'boolean',
@@ -44,6 +44,7 @@ class BannerController extends Controller
             'link.max' => 'Liên kết không được dài quá 255 ký tự.',
             'position.integer' => 'Vị trí phải là một số nguyên.',
             'position.min' => 'Vị trí phải lớn hơn hoặc bằng 0.',
+            'position.max' => 'Vị trí bé hơn hoặc bằng 4.',
             'start_date.date' => 'Ngày bắt đầu phải là một ngày hợp lệ.',
             'start_date.after_or_equal' => 'Ngày bắt đầu phải từ hôm nay trở đi.',
             'end_date.date' => 'Ngày kết thúc phải là một ngày hợp lệ.',
@@ -71,7 +72,7 @@ class BannerController extends Controller
         'description' => 'nullable|string',
         'image_path' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:3048', // Cho phép nullable
         'link' => 'nullable|url|max:255',
-        'position' => 'integer|min:0',
+        'position' => 'integer|min:0|max:4',
         'start_date' => 'nullable|date|after_or_equal:today',
         'end_date' => 'nullable|date|after:start_date',
         
@@ -87,6 +88,7 @@ class BannerController extends Controller
         'link.max' => 'Liên kết không được dài quá 255 ký tự.',
         'position.integer' => 'Vị trí phải là một số nguyên.',
         'position.min' => 'Vị trí phải lớn hơn hoặc bằng 0.',
+        'position.max' => 'Vị trí bé hơn hoặc bằng 4.',
         'start_date.date' => 'Ngày bắt đầu phải là một ngày hợp lệ.',
         'start_date.after_or_equal' => 'Ngày bắt đầu phải từ hôm nay trở đi.',
         'end_date.date' => 'Ngày kết thúc phải là một ngày hợp lệ.',

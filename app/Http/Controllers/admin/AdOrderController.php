@@ -30,15 +30,20 @@ public function update(Order $order)
     $status = request('status', 'Chờ xác nhận');
 
     // Kiểm tra nếu đơn hàng chưa được giao
-    if ($order->status != 'Đã giao hàng') {
+    if ($order->status != 'Hoàn thành') {
         $order->update(['status' => $status]);
 
         // Điều hướng tùy theo trạng thái mới
-        if ($status === 'Đã giao hàng') {
-            return redirect()->route('admin.orders.index', ['status' => 'Đã giao hàng'])->with('ok', 'Cập nhật trạng thái thành công');
-        } elseif ($status === 'Hủy đơn hàng') {
-            return redirect()->route('admin.orders.index', ['status' => 'Hủy đơn hàng'])->with('ok', 'Đơn hàng đã được hủy');
+        if ($status === 'Hoàn thành') {
+            return redirect()->route('admin.orders.index', ['status' => 'Hoàn thành'])->with('ok', 'Cập nhật trạng thái thành công');
+        } elseif ($status === 'Đã huỷ') {
+            return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy');
+        } elseif ($status === 'Vận chuyển') {
+            return redirect()->route('admin.orders.index', ['status' => 'Vận chuyển'])->with('ok', 'Đơn hàng đã vận chuyển');
+        } elseif ($status === 'Chờ giao hàng') {
+            return redirect()->route('admin.orders.index', ['status' => 'Chờ giao hàng'])->with('ok', 'Đơn hàng đang được giao');
         }
+        
     }
 
     // Nếu đơn hàng đã giao, không cho phép cập nhật
