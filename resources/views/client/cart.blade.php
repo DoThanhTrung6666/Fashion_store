@@ -88,21 +88,10 @@
                                                         style="width: 60px;">
                                                 </div>
                                                 <div class="fls_last">
-                                                    {{-- <form action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="close_slide gray"><i class="ti-close"></i></button>
-                                </form> --}}
-
-                                                    {{-- <a href="javascript:void(0)"
-                                class="close_slide gray"
-                                onclick="event.preventDefault(); document.getElementById('remove-form-{{ $item['cartItem']->id }}').submit();">
-                                 <i class="ti-close"></i>
-                                </a>
-                                <form id="remove-form-{{ $item['cartItem']->id }}" action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form> --}}
+                                                    <a href="javascript:void(0);" class="close_slide gray"
+                                                        onclick="event.preventDefault(); document.getElementById('remove-form-{{ $item['cartItem']->id }}').submit();">
+                                                        <i class="ti-close"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -139,6 +128,15 @@
                         {{-- <a class="btn btn-block btn-dark mb-3" href="{{route('cart.proceedToCheckout')}}">Tiến hành thanh toán</a> --}}
                         <button type="submit" class="btn btn-block btn-dark mb-3">Tiến hành thanh toán</button>
                         </form>
+
+                        @foreach ($cartItemsWithSaleInfo as $item)
+                            <form id="remove-form-{{ $item['cartItem']->id }}"
+                                action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        @endforeach
                         {{-- form xoá  --}}
 
                         <a class="btn-link text-dark ft-medium" href="shop.html">

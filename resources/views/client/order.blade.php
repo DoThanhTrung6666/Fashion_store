@@ -16,6 +16,7 @@
         </div>
     </div>
 
+<section>
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -24,7 +25,7 @@
                 </div>
             </div>
         </div>
-        
+
         {{-- Tabs --}}
         <div class="tabs">
             <a href="?tab=all" class="tab {{ request('tab') == 'all' || !request('tab') ? 'active' : '' }}">Tất cả</a>
@@ -513,4 +514,5 @@
             outline: none; /* Loại bỏ viền */
         }
     </style>
+    </section>
 @endsection
