@@ -231,7 +231,7 @@
                                 @endif
                                 {{-- sản phẩm yêu thích  --}}
 								<li>
-									<a href="#" onclick="openWishlist()">
+									<a href="{{route('favorites.index')}}">
 										<i class="lni lni-heart"></i>
                                         {{-- <span class="dn-counter">2</span> --}}
 									</a>

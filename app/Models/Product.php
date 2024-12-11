@@ -46,4 +46,8 @@ public function getAverageRatingAttribute()
 }
 
 
+// danh cho san pham yeu thich 
+    public function userFavorites(){
+        return $this->belongsToMany(User::class,'favorites');
+    }
 }
