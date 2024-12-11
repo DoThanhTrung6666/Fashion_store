@@ -18,6 +18,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\client\CheckoutController;
 use App\Http\Controllers\client\DetailController;
+use App\Http\Controllers\client\FavoriteController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\client\SearchController;
@@ -98,7 +99,11 @@ Route::prefix('admin')
 
 
     Route::middleware('auth')
-    ->group(function(){});
+    ->group(function(){
+        Route::get('favorites',[FavoriteController::class,'index'])->name('favorites.index');
+        Route::post('product/{id}/favorite',[FavoriteController::class,'addFavorite'])->name('favorites.add');
+        Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
+    });
 // bên client
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');

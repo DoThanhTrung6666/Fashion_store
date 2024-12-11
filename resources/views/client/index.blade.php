@@ -1,12 +1,6 @@
 @extends('layout.client')
 @section('content')
-<span style="color: red">
-    @if(session('error'))
-    <div>
-        {{ session('error') }}
-    </div>
-@endif
-</span>
+
 <div class="home-slider margin-bottom-0">
 
     <!-- Slide -->
@@ -271,7 +265,9 @@
                                                 <div class="product-left-hover-overlay">
                                                     <ul class="left-over-buttons">
                                                         {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
-                                                        <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"><i class="far fa-heart position-absolute"></i></a></li>
+                                                        <li>
+                                                            
+                                                        </li>
                                                         {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
                                                     </ul>
                                                 </div>
@@ -295,7 +291,14 @@
 
 
                                                     <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}}vnđ</span></div>
+                                                    {{-- <a href="" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"> --}}
+                                                        {{-- <form class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist" action="{{route('favorites.add',$value->id)}}" method="POST">
+                                                            @csrf
+                                                            <button type="submit">Them vao yeu thich</button>
+                                                        </form> --}}
+                                                    {{-- </a> --}}
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -414,7 +417,11 @@
                                 </div>
                             </div>
                             <div class="text-right">
-                                <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                                <form  action="{{route('favorites.add',$trending->id)}}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                                    {{-- <button type="submit">Them vao yeu thich</button> --}}
+                                </form>
                             </div>
                         </div>
                         <div class="text-left">
