@@ -6,13 +6,13 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="text-center py-5 mt-3 mb-3">
-                        <h1 class="ft-medium mb-3">Shop</h1>
+                        {{-- <h1 class="ft-medium mb-3">Shop</h1>
                         <ul class="shop_categories_list m-0 p-0">
                             <li><a href="#">Men</a></li>
                             <li><a href="#">Speakers</a></li>
                             <li><a href="#">Women</a></li>
                             <li><a href="#">Accessories</a></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
             </div>
@@ -28,9 +28,9 @@
                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">All product</li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Shop</a></li> --}}
+                            <li class="breadcrumb-item active" aria-current="page"><a href="">Tất cả sản phẩm</a></li>
                         </ol>
                     </nav>
                 </div>
@@ -59,7 +59,7 @@
                                                                 onchange="this.form.submit()">
                                                             <label for="category_all">Tất cả</label>
                                                         </li>
-                            
+
                                                         @foreach ($categories as $category)
                                                             <li>
                                                                 <input type="radio" name="category"
@@ -90,7 +90,7 @@
                                                                 {{ request('category') == '' ? 'checked' : '' }} onchange="this.form.submit()">
                                                             <label for="category_all">Tất cả</label>
                                                         </li>
-                                
+
                                                         @foreach ($categories as $category)
                                                             <li>
                                                                 <input type="radio" name="category" id="category{{ $category->id }}" value="{{ $category->id }}"
@@ -104,15 +104,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                            
+
+
                                 <!-- Choose Size and Color -->
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <form method="GET" action="{{ route('danhmucsp') }}" id="filterForm">
                                         <div class="row justify-content-between">
                                             <div class="col-md-6">
                                                 <div class="single_filter_title mb-2">
-                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Size</h6>
+                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Chọn kích cỡ</h6>
                                                 </div>
                                                 <div class="d-flex flex-wrap pt-2 pb-0">
                                                     @foreach ($sizes as $size)
@@ -127,10 +127,10 @@
                                                     @endforeach
                                                 </div>
                                             </div>
-                            
+
                                             <div class="col-md-6">
                                                 <div class="single_filter_title mb-2">
-                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Colors</h6>
+                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Chọn màu sắc</h6>
                                                 </div>
                                                 <div class="d-flex flex-wrap pt-2 pb-0">
                                                     @foreach ($colors as $color)
@@ -150,7 +150,7 @@
                                     </form>
                                 </div>
                             </div>
-                            
+
 
                         <script>
                             // Hàm kiểm tra xem người dùng đã chọn đủ cả size và màu chưa
@@ -205,7 +205,7 @@
     <div class="col-xl-3 col-lg-4 col-md-6 col-6">
         <div class="product_grid card b-0">
             <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">
-                Sale
+                {{-- Sale --}}
             </div>
             <button class="snackbar-wishlist btn btn_love position-absolute ab-right">
                 <i class="far fa-heart"></i>
@@ -234,7 +234,7 @@
                         </h5>
                         <div class="elis_rty">
                             <span class="ft-bold fs-md text-dark">
-                                <p>${{ number_format($product->price, 2) }}</p>
+                                <p>{{ number_format($product->price) }} VNĐ</p>
                             </span>
                         </div>
                     </div>
@@ -910,7 +910,7 @@
     </script>
     </div>
 
-    
+
 @endsection
 
 <style>

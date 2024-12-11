@@ -136,7 +136,7 @@
                                     <a href="{{ route('danhmucsp') }}">Tất cả sản phẩm</a>
 								</li>
 
-								<li><a href="">Album</a>
+								<li><a href="{{route('favorites.index')}}">Sản phẩm yêu thích</a>
 									{{-- <ul class="nav-dropdown nav-submenu">
 										<li><a href="shop-single-v1.html">Product Detail v01</a></li>
 										<li><a href="shop-single-v2.html">Product Detail v02</a></li>
@@ -240,7 +240,7 @@
 								<li>
                                     {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
 									<a href="{{route('cart.load')}}">
-										<i class="lni lni-shopping-basket"></i>Giỏ hàng
+										<i class="lni lni-shopping-basket"></i>
                                         {{-- <span class="dn-counter theme-bg">3</span> --}}
 									</a>
 								</li>
