@@ -43,15 +43,22 @@ class CheckoutController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 
+            $isOnFlashSale = $flashSale ? true : false;
+            $flashSalePrice = $isOnFlashSale ? $flashSale->price : null;
+            $originalPrice = $cartItem->productVariant->product->price;
+
+            // Nếu số lượng là 2 sản phẩm trở lên, áp dụng giá gốc
+            $finalPrice = $cartItem->quantity >= 2 ? $originalPrice : ($flashSalePrice ?? $originalPrice);
+
             return [
                 'cartItem' => $cartItem,
-                'isOnFlashSale' => $flashSale ? true : false,
+                'isOnFlashSale' => $isOnFlashSale,
                 'flashSale' => $flashSale,
-                'finalPrice' => $flashSale ? $flashSale->price : $cartItem->productVariant->product->price,
+                'finalPrice' => $finalPrice,
             ];
         });
 
@@ -61,6 +68,7 @@ class CheckoutController extends Controller
 
         return view('client.checkout', compact('cartItemsWithSaleInfo', 'totalPrice', 'user'));
     }
+
 
 
     public function thankyou()
