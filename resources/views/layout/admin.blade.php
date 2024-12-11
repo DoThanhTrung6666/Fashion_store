@@ -316,7 +316,7 @@
                     <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-tags"></i>
-                            <span>Category</span>
+                            <span>Danh mục</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -331,7 +331,7 @@
                     <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-image"></i>
-                            <span>Quản lý bannes</span>
+                            <span>Banner</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -347,7 +347,7 @@
                     <li class="treeview">
                         <a href="{{ route('admin.products.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Product</span>
+                            <span>Sản phẩm</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -363,7 +363,7 @@
                     <li class="treeview">
                         <a href="{{ route('admin.sizes.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Size</span>
+                            <span>Kích cỡ</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -378,7 +378,7 @@
                     <li class="treeview">
                         <a href="{{ route('admin.colors.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Color</span>
+                            <span>Màu sắc</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">

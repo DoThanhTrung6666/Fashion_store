@@ -25,6 +25,7 @@
         <div class="row align-items-start justify-content-between">
 
             <div class="col-12 col-md-12 col-lg-4 col-xl-4 text-center miliods">
+                @if($user)
                 <form class="" action="{{route('profile.update',$user->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -114,6 +115,11 @@
                         </div>
 
                     </form>
+                    @else
+                        <script>
+                            window.location.href = "{{ route('home') }}";
+                        </script>
+                    @endif
                 </div>
                 <!-- row -->
             </div>

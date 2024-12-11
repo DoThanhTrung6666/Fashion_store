@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-
+        
         {{-- Tabs --}}
         <div class="tabs">
             <a href="?tab=all" class="tab {{ request('tab') == 'all' || !request('tab') ? 'active' : '' }}">Tất cả</a>
@@ -133,6 +133,11 @@
                                 </span>
                                 <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
                             @elseif($order->status == 'Chờ giao hàng')
+                                <span>
+                                    @if (session('error_' . $order->id))
+                                        <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                    @endif
+                                </span>
                                 <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
                             @elseif($order->status == 'Đã huỷ')
                                 <button class="buy-again-btn" type="submit">Mua Lại</button>
@@ -385,8 +390,8 @@
                         </div>
                     @endforeach
                     </div>
-                    
-                    
+
+
                 </div>
             </div>
         @endforeach
