@@ -105,6 +105,7 @@ Route::prefix('admin')
         Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
     });
 // bên client
+Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
 Route::post('/product/{id}/comment', [DetailController::class, 'storeComment'])->name('storeComment');

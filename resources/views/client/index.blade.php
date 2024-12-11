@@ -82,9 +82,11 @@
 <!-- ============================ Hero Banner End ================================== -->
 
 <!-- ======================= Flash sale ======================== -->
-@if($flashSales->isEmpty())
-    {{-- <p>Chương trình đã kết thúc</p> --}}
-@else
+
+
+
+
+
 <section class="middle gray">
     <div class="container">
 
@@ -101,6 +103,12 @@
                 </div>
             </div>
         </div>
+
+        <div id="flash-sale" class="row align-items-center rows-products">
+
+        </div>
+
+
 
         <!-- row -->
         <div class="row align-items-center rows-products">
@@ -191,6 +199,7 @@
         }, 1000);
     };
 </script>
+
 @endforeach
         </div>
         <!-- row -->
@@ -205,7 +214,7 @@
 
     </div>
 </section>
-@endif
+
 
 <!-- ======================= All  ======================== -->
 <section class="space min">
@@ -266,7 +275,7 @@
                                                     <ul class="left-over-buttons">
                                                         {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
                                                         <li>
-                                                            
+
                                                         </li>
                                                         {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
                                                     </ul>
@@ -298,7 +307,7 @@
                                                         </form> --}}
                                                     {{-- </a> --}}
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -587,7 +596,62 @@
         </div>
     </div>
 </section>
+<script>
+    function fetchServerData() {
+        fetch('/load-flash-sale')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const container = document.getElementById('flash-sale');
+                container.innerHTML = '';
+                        for(let i=0 ; i<data.flash_sale_items.length ;i++){
+                            container.innerHTML+=`
 
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                                <div class="product_grid card b-0">
+                                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">${data.sale.discount_percentage}%</div>
+                                    <div class="card-body p-0">
+                                        <div class="shop_thumb position-relative">
+                                            <a class="card-img-top d-block overflow-hidden" href=""><img class="card-img-top" src="${data.flash_sale_items[i].product.image}" alt="..."></a>
+                                            <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                                <div class="edlio"><a href="${data.flash_sale_items[i].product.link}" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Xem chi tiết</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer b-0 p-0 pt-2">
+                                        <div class="d-flex align-items-start justify-content-between">
+                                            <div class="text-left">
+                                            </div>
+                                            <div class="text-right">
+                                                <button class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="">${data.flash_sale_items[i].product.name}</a></p>
+                                            <div class="elis_rty">
+                                                <span class="ft-bold text-dark fs-sm" style="display: flex">
+                                                <p style="text-decoration:line-through ; width:40%;color:red">${data.flash_sale_items[i].product.price}vnđ</p>
+                                                <p style="width:60%">${data.flash_sale_items[i].price}vnđ</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        }
 
+            })
+            .catch(error => {
+                console.error('Lỗi khi gọi API:', error);
+                document.getElementById('flash-sale').innerHTML = '<p>Lỗi khi tải dữ liệu.</p>';
+            });
+    }
+    // Gọi API mỗi 1 phút (60 giây)
+    // setInterval(fetchServerData,60*1000);
+    // setTimeout(fetchServerData, 60 * 100);
+    // Gọi API ngay khi trang vừa tải
+    fetchServerData();
+</script>
 <!-- ======================= Customer Features ======================== -->
 @endsection
