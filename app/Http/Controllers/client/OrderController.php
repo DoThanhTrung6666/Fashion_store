@@ -347,8 +347,8 @@ class OrderController extends Controller
         if ($cart->cartItems()->count() === 0) {
             $cart->delete();
         }
-        // $order_item = OrderItem::where('order_id', $order->id)->get();
-        // Mail::to($user->email)->send(new mailOrder($order, $order_item));
+        $order_item = OrderItem::where('order_id', $order->id)->get();
+        Mail::to($user->email)->send(new mailOrder($order, $order_item));
         return redirect()->route('thankyou');
     }
 

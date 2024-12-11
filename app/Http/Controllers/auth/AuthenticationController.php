@@ -86,6 +86,11 @@ class AuthenticationController extends Controller
     }
     public function update(Request $request)
 {
+    dd(123);
+    $user = Auth::user();
+    if(!$user){
+        return redirect()->route('/');
+    }
     // Validate dữ liệu đầu vào
     $validated = $request->validate([
         'name' => 'required|string|max:255',
@@ -111,7 +116,6 @@ class AuthenticationController extends Controller
     ]);
 
     // Lấy người dùng hiện tại
-    $user = Auth::user();
 
     if ($request->hasFile('avatar')) {
         if ($user->avatar) {

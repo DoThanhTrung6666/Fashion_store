@@ -206,7 +206,12 @@
 
                 <div class="col-12 col-lg-4 col-md-12">
                     <div class="d-block mb-3">
-                        <h5 class="mb-4">Order Items (3)</h5>
+                        <h5 class="mb-4">Chi tiết đơn hàng</h5>
+                        <span style="font-size: 15px">
+                            @if(session('error'))
+                                <p style="color: red">{{session('error')}}</p>
+                            @endif
+                        </span>
                         <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
                             @if (Auth::user())
                                 @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
