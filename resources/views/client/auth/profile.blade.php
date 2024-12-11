@@ -92,12 +92,18 @@
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Email ID *</label>
                                 <input type="text" class="form-control" placeholder="Nhập email " name="email" value="{{ old('email', $user->email) }}" />
+                                    @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                         </div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Nhập địa chỉ chi tiết *</label>
                                 <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ " value="{{ old('address', $user->address) }}" />
+                                    @error('address')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                         </div>
 
