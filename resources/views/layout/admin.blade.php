@@ -64,8 +64,8 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <div class="pull-left">/-strong/-heart:>:o:-((:-h <img
-                                                src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image" />
+                                        <div class="pull-left"><img src="dist/img/user3-128x128.jpg" class="img-circle"
+                                                alt="user image" />
                                         </div>
                                         <h4>
                                             AdminLTE Design Team
@@ -209,8 +209,8 @@
                                                 Some task I need to do
                                                 <small class="pull-right">60%</small>
                                             </h3>
-                                            <div class="progress xs">/-strong/-heart:>:o:-((:-h <div
-                                                    class="progress-bar progress-bar-red" style="width: 60%"
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-red" style="width: 60%"
                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
                                                     aria-valuemax="100">
                                                     <span class="sr-only">60% Complete</span>
@@ -284,7 +284,8 @@
             </nav>
         </header>
         <aside class="main-sidebar">
-            <section class="sidebar">/-strong/-heart:>:o:-((:-h <div class="user-panel">
+            <section class="sidebar">
+                <div class="user-panel">
                     <div class="pull-left image">
                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     </div>
@@ -368,8 +369,8 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('admin.sizes.index') }}"><i class="fa fa-circle-o"></i>Danh
-                                    sách</a></li>/-strong/-heart:>:o:-((:-h <li><a
-                                    href="{{ route('admin.sizes.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
+                                    sách</a></li>
+                            <li><a href="{{ route('admin.sizes.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
                             </li>
                         </ul>
                     </li>
@@ -436,6 +437,22 @@
                     </li>
                     {{-- kết thúc quản lí flash sale  --}}
 
+                    {{-- quản lí voucher --}}
+                    <li class="treeview">
+                        <a href="{{ route('admin.vouchers.index') }}">
+                            <i class="nav-icon fas fa-image"></i>
+                            <span>Quản lí Voucher</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('admin.vouchers.index') }}"><i class="fa fa-circle-o"></i>Danh sách
+                                    Voucher</a></li>
+                            <li><a href="{{ route('admin.vouchers.create') }}"><i class="fa fa-circle-o"></i>Tạo
+                                    Voucher</a></li>
+                        </ul>
+                    </li>
+                    {{-- kết thúc quản lí voucher  --}}
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-group"></i>
@@ -455,8 +472,8 @@
                             <span>Bình luận</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
-                        <ul class="treeview-menu">/-strong/-heart:>:o:-((:-h <li><a
-                                    href="{{ route('admin.comment.index') }}"><i class="fa fa-circle-o"></i>Danh
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('admin.comment.index') }}"><i class="fa fa-circle-o"></i>Danh
                                     sách</a></li>
                         </ul>
                     </li>
