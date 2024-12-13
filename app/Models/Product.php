@@ -20,6 +20,9 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -46,7 +49,7 @@ public function getAverageRatingAttribute()
 }
 
 
-// danh cho san pham yeu thich 
+// danh cho san pham yeu thich
     public function userFavorites(){
         return $this->belongsToMany(User::class,'favorites');
     }

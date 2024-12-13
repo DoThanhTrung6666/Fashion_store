@@ -37,8 +37,17 @@ class CheckoutController extends Controller
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.load')->with('error', 'Không có sản phẩm nào được chọn.');
         }
-
-        $cartItemsWithSaleInfo = $cartItems->map(function ($cartItem) {
+        // Tính tổng số lượng của tất cả sản phẩm trong giỏ hàng
+        $totalQuantity = $cartItems->sum('quantity');
+        // $cartItemsWithSaleInfo = $cartItems->map(function ($cartItem) {
+        //     $flashSale = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+        //         ->whereHas('flashSale', function ($query) {
+        //             $query->where('start_time', '<=', now())
+        //                 ->where('end_time', '>=', now())
+        //                 ->where('status', 'Đang diễn ra');
+        //         })
+        //         ->first();
+        $cartItemsWithSaleInfo = $cartItems->map(function ($cartItem) use ($totalQuantity) {
             $flashSale = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
@@ -52,7 +61,7 @@ class CheckoutController extends Controller
             $originalPrice = $cartItem->productVariant->product->price;
 
             // Nếu số lượng là 2 sản phẩm trở lên, áp dụng giá gốc
-            $finalPrice = $cartItem->quantity >= 2 ? $originalPrice : ($flashSalePrice ?? $originalPrice);
+            $finalPrice = $totalQuantity >= 2 ? $originalPrice : ($flashSalePrice ?? $originalPrice);
 
             return [
                 'cartItem' => $cartItem,
