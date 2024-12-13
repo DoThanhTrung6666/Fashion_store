@@ -230,12 +230,11 @@
                                         class="far fa-heart"></i></button>
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
-                                        <a class="card-img-top d-block overflow-hidden" href=""><img <<<<<<< HEAD
+                                        <a class="card-img-top d-block overflow-hidden" href=""><img
                                                 class="card-img-top"
-                                                src="{{ asset('storage/' . $product->image) }}"=======class="card-img-top"
-                                                src="{{ asset('storage/' . $product->image) }}">>>>>>>
-                                            aa08e2b82c27e1176201bfcc826f3453f54532ca
-                                            alt="..."></a>
+                                                src="{{ asset('storage/' . $product->image) }}"class="card-img-top"
+                                                src="{{ asset('storage/' . $product->image) }}">
+                                        </a>
                                         <div
                                             class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
                                             <div class="edlio"><a href="#" data-toggle="modal"
