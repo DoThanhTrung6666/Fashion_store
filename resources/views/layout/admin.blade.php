@@ -284,7 +284,9 @@
             </nav>
         </header>
         <aside class="main-sidebar">
-            <section class="sidebar"> <div class="user-panel">
+            <section class="sidebar">
+                <div class="user-panel">
+
                     <div class="pull-left image">
                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     </div>
@@ -368,8 +370,9 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('admin.sizes.index') }}"><i class="fa fa-circle-o"></i>Danh
-                                    sách</a></li> <li><a
-                                    href="{{ route('admin.sizes.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
+
+                                    sách</a></li>
+                            <li><a href="{{ route('admin.sizes.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
                             </li>
                         </ul>
                     </li>
@@ -435,21 +438,23 @@
                         </ul>
                     </li>
                     {{-- kết thúc quản lí flash sale  --}}
-{{-- quản lí voucher --}}
-<li class="treeview">
-    <a href="{{ route('admin.sales.index') }}">
-        <i class="nav-icon fas fa-image"></i>
-        <span>Quản lí Voucher</span>
-        <i class="fa fa-angle-left pull-right"></i>
-    </a>
-    <ul class="treeview-menu">
-        <li><a href="{{ route('admin.vouchers.index') }}"><i class="fa fa-circle-o"></i>Danh sách
-                Voucher</a></li>
-        <li><a href="{{ route('admin.vouchers.create') }}"><i class="fa fa-circle-o"></i>Tạo
-                Voucher</a></li>
-    </ul>
-</li>
-{{-- kết thúc quản lí voucher  --}}
+
+                    {{-- quản lí voucher --}}
+                    <li class="treeview">
+                        <a href="{{ route('admin.vouchers.index') }}">
+                            <i class="nav-icon fas fa-image"></i>
+                            <span>Quản lí Voucher</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('admin.vouchers.index') }}"><i class="fa fa-circle-o"></i>Danh sách
+                                    Voucher</a></li>
+                            <li><a href="{{ route('admin.vouchers.create') }}"><i class="fa fa-circle-o"></i>Tạo
+                                    Voucher</a></li>
+                        </ul>
+                    </li>
+                    {{-- kết thúc quản lí voucher  --}}
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-group"></i>
@@ -469,8 +474,9 @@
                             <span>Bình luận</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
-                        <ul class="treeview-menu"> <li><a
-                                    href="{{ route('admin.comment.index') }}"><i class="fa fa-circle-o"></i>Danh
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('admin.comment.index') }}"><i class="fa fa-circle-o"></i>Danh
+
                                     sách</a></li>
                         </ul>
                     </li>

@@ -318,15 +318,30 @@
                 </div>
 
                 </form>
-                <li class="list-group-item d-flex text-dark fs-sm ft-regular" style="margin-left: 15px">
-                    <form method="POST" action="{{ route('applyVoucher') }}" class="d-flex">
+                <li class="list-group-item d-flex text-dark fs-sm ft-regular"
+                    style="margin-left: 15px; position: relative;">
+                    <form method="POST" action="{{ route('applyVoucher') }}" class="d-flex w-100">
                         <input type="hidden" name="selectedCartItemIds[]" value="{{ $item['cartItem']->id }}">
                         @csrf
                         <input type="text" name="voucher" class="form-control form-control-sm me-2"
                             placeholder="Nhập mã voucher">
-                        <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 10px">Áp dụng</button>
+                        <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 10px">Áp
+                            dụng</button>
                     </form>
                 </li>
+                @if (session('success'))
+                    <script>
+                        alert('{{ session('success') }}');
+                    </script>
+                @endif
+
+                @if (session('error'))
+                    <script>
+                        alert('{{ session('error') }}');
+                    </script>
+                @endif
+
+
 
             </div>
 
