@@ -5,7 +5,7 @@
 <div class="content-wrapper">
       <section class="content-header">
         <h1>
-          Thêm Flash-Sale <a href="{{route('admin.listFlashSale')}}" class="btn btn-primary">Danh sách Flash-sale</a>
+          Thêm Flash-Sale mới
         </h1>
       </section>
             <span>
@@ -54,7 +54,8 @@
                             @enderror
                     </div>
                     <div class="box-footer">
-                        <button type="submit" name="" class="btn btn-primary">Tạo FlashSale</button>
+                        <button type="submit" name="" class="btn btn-success">Tạo FlashSale</button>
+                        <a href="{{route('admin.listFlashSale')}}" class="btn btn-primary">Danh sách Flash-sale</a>
                     </div>
               </form>
             </div>

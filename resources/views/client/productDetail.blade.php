@@ -59,9 +59,10 @@
 
                             @if($flashSales)
                                 <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{number_format($detail->price)}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$flashSales->price}}</span> vnđ</div>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{number_format($detail->price)}}</span>đ<br>
+                                                      Giá sau khi giảm : <span class="ft-bold theme-cl fs-lg">{{number_format($flashSales->price)}} đ</span></div>
                             @else
-                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{number_format($detail->price)}} VNĐ</span></div>
+                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{number_format($detail->price)}} đ</span></div>
                             @endif
 
                         </div>
@@ -244,7 +245,7 @@ function updateColors(sizeId) {
 <!-- ======================= Product Detail End ======================== -->
 
 <!-- ======================= Product Description ======================= -->
-<section class="middle">
+<section class="">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12">
@@ -307,7 +308,7 @@ function updateColors(sizeId) {
 <!-- ======================= Product Description End ==================== -->
 
 <!-- ======================= Similar Products Start ============================ -->
-<section class="middle pt-0">
+<section class=" pt-0">
     <div class="container">
 
         <div class="row justify-content-center">
