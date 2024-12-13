@@ -21,7 +21,7 @@
                     @endif
                         <table class="table">
                             <tr>
-                                <th style="text-align: center" scope="col" style=""></th>
+                                
                                 <th style="text-align: center" scope="col" style="">Tiêu đề</th>
                                 <th style="text-align: center" scope="col" style="">Mô tả</th>
                                 <th style="text-align: center" scope="col" style="">Ảnh</th>
@@ -33,7 +33,7 @@
 
                             @foreach ($banners as $banner)
                                 <tr style="text-align: center">
-                                    <td><input type="checkbox"></td>
+                                    
                                     <td>{{ $banner->title }}</td>
                                     <td>{{ $banner->description }}</td>
                                     <td><img src="{{ asset('storage/' . $banner->image_path) }}"

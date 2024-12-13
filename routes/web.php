@@ -46,6 +46,10 @@ Route::prefix('admin')
     ->as('admin.')
     ->group(function () {
         Route::get('/statistics', [thongkeController::class, 'index'])->name('statistics.index');
+        Route::post('/statistics/revenue', [thongkeController::class, 'revenue'])->name('statistics.revenue');
+        Route::post('/statistics/top-users', [thongkeController::class, 'topUsers'])->name('statistics.topUsers');
+        Route::post('/statistics/top-products', [thongkeController::class, 'topProducts'])->name('statistics.topProducts');
+        Route::post('/statistics/orders-summary', [thongkeController::class, 'ordersSummary'])->name('statistics.ordersSummary');
         Route::resource('banners', BannerController::class);
         // Route::get('/admin', [thongkeController::class, 'index']);
         Route::resource('products', ProductController::class);
