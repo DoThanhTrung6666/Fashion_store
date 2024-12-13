@@ -224,6 +224,18 @@ class OrderController extends Controller
             'name_order' => 'required|string|max:255',
             'phone_order' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:15',
             'address_order' => 'required|string|min:10|max:500',
+        ], [
+            'name_order.required' => 'Vui lòng nhập tên người đặt hàng.',
+            'name_order.string' => 'Tên phải là chuỗi ký tự.',
+            'name_order.max' => 'Tên không được dài hơn 255 ký tự.',
+
+            'phone_order.required' => 'Vui lòng nhập số điện thoại.',
+            'phone_order.regex' => 'Số điện thoại không đúng định dạng.',
+
+            'address_order.required' => 'Vui lòng nhập địa chỉ.',
+            'address_order.string' => 'Địa chỉ phải là chuỗi ký tự.',
+            'address_order.min' => 'Địa chỉ phải có ít nhất 10 ký tự.',
+            'address_order.max' => 'Địa chỉ không được dài hơn 500 ký tự.',
         ]);
 
         // Tính tổng tiền cho các sản phẩm đã chọn
@@ -469,8 +481,8 @@ class OrderController extends Controller
         if ($cart->cartItems()->count() === 0) {
             $cart->delete();
         }
-        // $order_item = OrderItem::where('order_id', $order->id)->get();
-        // Mail::to($user->email)->send(new mailOrder($order, $order_item));
+        $order_item = OrderItem::where('order_id', $order->id)->get();
+        Mail::to($user->email)->send(new mailOrder($order, $order_item));
         return redirect()->route('thankyou');
     }
 

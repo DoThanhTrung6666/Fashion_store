@@ -135,7 +135,7 @@ function getRandomColor() {
             var data = google.visualization.arrayToDataTable([
                 ['Tên sản phẩm', 'Số lượng đã bán'],
                 @foreach ($topProducts as $order)
-                    ['{{ $order->productvariant->product->name }}', {{ $order->total_sold }}],
+                    ['{{ $order->product_name }}', {{ $order->total_sold }}],
                     
                 @endforeach
                 

@@ -63,17 +63,18 @@
                                                 <div class="cart_single_caption pl-2">
                                                     <h4 class="product_title fs-md ft-medium mb-1 lh-1">
                                                         {{ $item['cartItem']->productVariant->product->name }}</h4>
-                                                    <p class="mb-1 lh-1"><span class="text-dark">Size:
+                                                    <div style="display:flex">
+                                                        <p class="mb-1 lh-1"><span class="text-dark">Kích cỡ:
                                                             {{ $item['cartItem']->productVariant->size->name }}</span></p>
-                                                    <p class="mb-1 lh-1"><span class="text-dark">Color:
+                                                        <p class="mb-1 lh-1 ml-2" ><span class="text-dark">Màu sắc:
                                                             {{ $item['cartItem']->productVariant->color->name }}</span></p>
+                                                    </div>
                                                     @if ($item['isOnFlashSale'])
-                                                        <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                                        <div class="elis_rty">Giá gốc :<span
-                                                                class="ft-medium text-muted line-through fs-md mr-2">{{ $item['cartItem']->productVariant->product->price * $item['cartItem']->quantity }}</span>VNĐ<br>Giá
-                                                            sau khi giảm:<span
-                                                                class="ft-bold theme-cl fs-lg">{{ $item['finalPrice'] * $item['cartItem']->quantity }}</span>
-                                                            VNĐ</div>
+                                                        <h5 style="color: red">Đang diễn ra chương trình flash-sale</h5>
+                                                        <div class="elis_rty">
+                                                            Giá gốc : <span class="line-through">{{number_format( $item['cartItem']->productVariant->product->price * $item['cartItem']->quantity )}}</span>đ<br>
+                                                            Giá ưu đãi : <span style="color:red">{{number_format( $item['finalPrice'] * $item['cartItem']->quantity) }}đ</span>
+                                                        </div>
                                                     @else
                                                         <h4 class="fs-md ft-medium mb-3 lh-1">
                                                             {{ number_format($item['cartItem']->productVariant->product->price) }}
@@ -88,21 +89,10 @@
                                                         style="width: 60px;">
                                                 </div>
                                                 <div class="fls_last">
-                                                    {{-- <form action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="close_slide gray"><i class="ti-close"></i></button>
-                                </form> --}}
-
-                                                    {{-- <a href="javascript:void(0)"
-                                class="close_slide gray"
-                                onclick="event.preventDefault(); document.getElementById('remove-form-{{ $item['cartItem']->id }}').submit();">
-                                 <i class="ti-close"></i>
-                                </a>
-                                <form id="remove-form-{{ $item['cartItem']->id }}" action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form> --}}
+                                                    <a href="javascript:void(0);" class="close_slide gray"
+                                                        onclick="event.preventDefault(); document.getElementById('remove-form-{{ $item['cartItem']->id }}').submit();">
+                                                        <i class="ti-close"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -139,6 +129,15 @@
                         {{-- <a class="btn btn-block btn-dark mb-3" href="{{route('cart.proceedToCheckout')}}">Tiến hành thanh toán</a> --}}
                         <button type="submit" class="btn btn-block btn-dark mb-3">Tiến hành thanh toán</button>
                         </form>
+
+                        @foreach ($cartItemsWithSaleInfo as $item)
+                            <form id="remove-form-{{ $item['cartItem']->id }}"
+                                action="{{ route('cart.remove', $item['cartItem']->id) }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                        @endforeach
                         {{-- form xoá  --}}
 
                         <a class="btn-link text-dark ft-medium" href="shop.html">

@@ -85,7 +85,7 @@
                 }
             });
         }
-        
+
     </script>
 
     <style>
@@ -100,3 +100,4 @@
 
 
 </div>
+@endsection

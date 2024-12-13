@@ -6,7 +6,7 @@
     <title>AdminLTE 2 | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
-
+    <link href="{{ asset('dist/css/SizeColorStatus.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
@@ -64,8 +64,8 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <div class="pull-left"><img src="dist/img/user3-128x128.jpg" class="img-circle"
-                                                alt="user image" />
+                                        <div class="pull-left"> <img
+                                                src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image" />
                                         </div>
                                         <h4>
                                             AdminLTE Design Team
@@ -136,7 +136,7 @@
                                             <i class="fa fa-warning text-yellow"></i> Very long description here that
                                             may not fit into the
                                             page and may cause design problems
-                                        </a>/-strong/-heart:>:o:-((:-h
+                                        </a>
                                     </li>
                                     <li>
                                         <a href="#">
@@ -209,8 +209,8 @@
                                                 Some task I need to do
                                                 <small class="pull-right">60%</small>
                                             </h3>
-                                            <div class="progress xs">
-                                                <div class="progress-bar progress-bar-red" style="width: 60%"
+                                            <div class="progress xs"> <div
+                                                    class="progress-bar progress-bar-red" style="width: 60%"
                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
                                                     aria-valuemax="100">
                                                     <span class="sr-only">60% Complete</span>
@@ -286,6 +286,7 @@
         <aside class="main-sidebar">
             <section class="sidebar">
                 <div class="user-panel">
+
                     <div class="pull-left image">
                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     </div>
@@ -317,7 +318,7 @@
                     <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-tags"></i>
-                            <span>Category</span>
+                            <span>Danh mục</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -332,7 +333,7 @@
                     <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-image"></i>
-                            <span>Quản lý bannes</span>
+                            <span>Banner</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -348,7 +349,7 @@
                     <li class="treeview">
                         <a href="{{ route('admin.products.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Product</span>
+                            <span>Sản phẩm</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -364,11 +365,12 @@
                     <li class="treeview">
                         <a href="{{ route('admin.sizes.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Size</span>
+                            <span>Kích cỡ</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('admin.sizes.index') }}"><i class="fa fa-circle-o"></i>Danh
+
                                     sách</a></li>
                             <li><a href="{{ route('admin.sizes.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
                             </li>
@@ -379,7 +381,7 @@
                     <li class="treeview">
                         <a href="{{ route('admin.colors.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Color</span>
+                            <span>Màu sắc</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -474,6 +476,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('admin.comment.index') }}"><i class="fa fa-circle-o"></i>Danh
+
                                     sách</a></li>
                         </ul>
                     </li>

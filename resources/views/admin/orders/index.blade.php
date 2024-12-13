@@ -71,11 +71,11 @@
     </div>
 @endif
     <section class="content">
-        
+
         <div class="row container-fluid">
 
-            
-            
+
+
         </div>
 
         <div class="table-wrapper">
@@ -130,7 +130,7 @@
 
                                         </td>
                                     <td>
-                                        @if ($order->payment == 1)
+                                        @if ($order->payment == 2)
                                         <span class="status-badge badge-vnpay">VNPAY</span>
                                     @else
                                         <span class="status-badge badge-ttknh">Thanh toán khi nhận hàng</span>
@@ -142,7 +142,7 @@
                                     </td>
                                 </tr>
                             @endforeach
-                    
+
                 </tbody>
             </table>
         </div>
