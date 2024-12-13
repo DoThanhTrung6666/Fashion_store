@@ -44,16 +44,22 @@ class HomeController extends Controller
         $flashSaleItems = FlashSaleItem::whereIn('flash_sale_id', $flashSales->pluck('id'))->get();
         // dd($flashSaleItems);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cf67ba8748dd61581d9e602332d626f71715cd39
 
         $topBanner = Banner::where('position', 1)->where('is_active', 1)->first();  
 $bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
         $sliderBanners = Banner::where('position', 3)->where('is_active', 1)->get();
         return view('client.index', compact('flashSales', 'categories', 'allProducts', 'trendingProducts','sliderBanners','bottomBanner','topBanner'));
 }
+<<<<<<< HEAD
 =======
         return view('client.index', compact( 'flashSales','categories', 'allProducts', 'trendingProducts'));
     }
 >>>>>>> ae86903a95c8b15d9a36fc7319cc1e0d850abd83
+=======
+>>>>>>> cf67ba8748dd61581d9e602332d626f71715cd39
 
     public function getFlashSale(){
         $flashSales = FlashSale::with('sale', 'product','flashSaleItems.product')
@@ -100,8 +106,12 @@ $bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
                                         ->get();
         return view('client.list-flash-sale',compact('flashSales_dangdienra','flashSales_sapdienra'));
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> ae86903a95c8b15d9a36fc7319cc1e0d850abd83
+=======
+
+>>>>>>> cf67ba8748dd61581d9e602332d626f71715cd39
     }
 }
