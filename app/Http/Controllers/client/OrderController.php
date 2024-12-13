@@ -31,13 +31,6 @@ class OrderController extends Controller
     //         ->where('status', 2) // Voucher đang hoạt động
     //         ->first();
 
-    //     // if (!$voucher) {
-    //     //     return redirect()->back()->with(
-    //     //         'error',
-    //     //         'Mã giảm giá không hợp lệ.'
-    //     //     );
-    //     // }
-
     //     // Kiểm tra xem người dùng đã sử dụng voucher này chưa
     //     $isVoucherUsed = DB::table('voucher_uses')
     //         ->where('user_id', $user->id)
@@ -46,6 +39,23 @@ class OrderController extends Controller
 
     //     if ($isVoucherUsed) {
     //         return redirect()->back()->with('error', 'Bạn đã sử dụng mã giảm giá này.');
+    //     }
+
+    //     // Kiểm tra xem có sản phẩm nào trong flash sale không
+    //     $hasFlashSaleItem = $selectedCartItems->contains(function ($cartItem) {
+    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+    //             ->whereHas('flashSale', function ($query) {
+    //                 $query->where('start_time', '<=', now())
+    //                     ->where('end_time', '>=', now())
+    //                     ->where('status', 'active');
+    //             })
+    //             ->first();
+
+    //         return $flashSaleItem !== null; // Nếu có sản phẩm trong Flash Sale, trả về true
+    //     });
+
+    //     if ($hasFlashSaleItem) {
+    //         return redirect()->back()->with('error', 'Không thể sử dụng mã giảm giá cho sản phẩm đang trong Flash Sale.');
     //     }
 
     //     // Tính tổng giá trị của các sản phẩm đã chọn
@@ -68,7 +78,9 @@ class OrderController extends Controller
     //         $discountAmount = $voucher->max_discount;
     //     }
 
-    //     if ($totalPrice >= $voucher->min_order_value) {
+    //     if (
+    //         $totalPrice >= $voucher->min_order_value
+    //     ) {
     //         $discountAmount = min($totalPrice, $discountAmount);
     //     }
 
@@ -89,7 +101,6 @@ class OrderController extends Controller
     //         'discount_amount' => $discountAmount
     //     ]);
 
-    //     // Trong controller sau khi xử lý voucher
     //     if ($voucher) {
     //         // Thông báo thành công
     //         return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
@@ -106,16 +117,18 @@ class OrderController extends Controller
         $selectedCartItemIds = $request->input('selectedCartItemIds', []);
         $selectedCartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
 
-        $voucher = Voucher::where('name', $voucherCode)
-            ->where('status', 2) // Voucher đang hoạt động
-            ->first();
+        $voucher = Voucher::where('name', $voucherCode)->first();
 
-        // if (!$voucher) {
-        //     return redirect()->back()->with(
-        //         'error',
-        //         'Mã giảm giá không hợp lệ.'
-        //     );
-        // }
+        // Kiểm tra trạng thái của voucher
+        if (!$voucher) {
+            return redirect()->back()->with('error', 'Mã giảm giá không hợp lệ.');
+        } elseif ($voucher->status == 1) {
+            return redirect()->back()->with('error', 'Mã giảm giá chưa bắt đầu.');
+        } elseif ($voucher->status == 3) {
+            return redirect()->back()->with('error', 'Mã giảm giá đã kết thúc.');
+        } elseif ($voucher->status != 2) {
+            return redirect()->back()->with('error', 'Mã giảm giá không khả dụng.');
+        }
 
         // Kiểm tra xem người dùng đã sử dụng voucher này chưa
         $isVoucherUsed = DB::table('voucher_uses')
@@ -164,9 +177,7 @@ class OrderController extends Controller
             $discountAmount = $voucher->max_discount;
         }
 
-        if (
-            $totalPrice >= $voucher->min_order_value
-        ) {
+        if ($totalPrice >= $voucher->min_order_value) {
             $discountAmount = min($totalPrice, $discountAmount);
         }
 
@@ -187,14 +198,9 @@ class OrderController extends Controller
             'discount_amount' => $discountAmount
         ]);
 
-        if ($voucher) {
-            // Thông báo thành công
-            return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
-        } else {
-            // Thông báo lỗi
-            return redirect()->back()->with('error', 'Mã giảm giá không hợp lệ.');
-        }
+        return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
     }
+
 
 
     public function createOrder(Request $request)

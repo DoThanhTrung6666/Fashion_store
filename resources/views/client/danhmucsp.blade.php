@@ -30,7 +30,8 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
                             {{-- <li class="breadcrumb-item"><a href="#">Shop</a></li> --}}
-                            <li class="breadcrumb-item active" aria-current="page"><a href="">Tất cả sản phẩm</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="">Tất cả sản phẩm</a>
+                            </li>
                         </ol>
                     </nav>
                 </div>
@@ -78,7 +79,9 @@
                                 </div> --}}
 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
+                                    <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                            role="button">Chọn danh mục<i
+                                                class="accordion-indicator ti-angle-down"></i></a></h5>
                                     <div class="collapse" id="categories">
                                         <div class="card-body">
                                             <div class="inner_widget_link">
@@ -86,16 +89,22 @@
                                                     <ul class="m-0 p-0 category-list">
                                                         <!-- Nút "Tất cả" -->
                                                         <li>
-                                                            <input type="radio" name="category" id="category_all" value=""
-                                                                {{ request('category') == '' ? 'checked' : '' }} onchange="this.form.submit()">
+                                                            <input type="radio" name="category" id="category_all"
+                                                                value=""
+                                                                {{ request('category') == '' ? 'checked' : '' }}
+                                                                onchange="this.form.submit()">
                                                             <label for="category_all">Tất cả</label>
                                                         </li>
 
                                                         @foreach ($categories as $category)
                                                             <li>
-                                                                <input type="radio" name="category" id="category{{ $category->id }}" value="{{ $category->id }}"
-                                                                    {{ request('category') == $category->id ? 'checked' : '' }} onchange="this.form.submit()">
-                                                                <label for="category{{ $category->id }}">{{ $category->name }}</label>
+                                                                <input type="radio" name="category"
+                                                                    id="category{{ $category->id }}"
+                                                                    value="{{ $category->id }}"
+                                                                    {{ request('category') == $category->id ? 'checked' : '' }}
+                                                                    onchange="this.form.submit()">
+                                                                <label
+                                                                    for="category{{ $category->id }}">{{ $category->name }}</label>
                                                             </li>
                                                         @endforeach
                                                     </ul>
@@ -139,7 +148,8 @@
                                                                 id="color{{ $color->id }}" value="{{ $color->id }}"
                                                                 {{ request('color') == $color->id ? 'checked' : '' }}
                                                                 onchange="checkAndSubmit()">
-                                                            <label class="form-option-label" for="color{{ $color->id }}">
+                                                            <label class="form-option-label"
+                                                                for="color{{ $color->id }}">
                                                                 {{ $color->name }}
                                                             </label>
                                                         </div>
@@ -152,23 +162,23 @@
                             </div>
 
 
-                        <script>
-                            // Hàm kiểm tra xem người dùng đã chọn đủ cả size và màu chưa
-                            function checkAndSubmit() {
-                                const sizeSelected = document.querySelector('input[name="size"]:checked');
-                                const colorSelected = document.querySelector('input[name="color"]:checked');
+                            <script>
+                                // Hàm kiểm tra xem người dùng đã chọn đủ cả size và màu chưa
+                                function checkAndSubmit() {
+                                    const sizeSelected = document.querySelector('input[name="size"]:checked');
+                                    const colorSelected = document.querySelector('input[name="color"]:checked');
 
-                                // Nếu cả size và màu đều được chọn, thì submit form
-                                if (sizeSelected && colorSelected) {
-                                    document.getElementById('filterForm').submit();
+                                    // Nếu cả size và màu đều được chọn, thì submit form
+                                    if (sizeSelected && colorSelected) {
+                                        document.getElementById('filterForm').submit();
+                                    }
                                 }
-                            }
-                        </script>
+                            </script>
 
 
 
-                        <!-- Choose Category -->
-                        {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                            <!-- Choose Category -->
+                            {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="single_filter_title mb-2">
                                         <h6 class="mb-0 fs-sm ft-medium text-muted">Filter By Price</h6>
                                     </div>
@@ -180,10 +190,10 @@
                                     </div>
                                 </div> --}}
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
         </div>
@@ -201,48 +211,54 @@
                 <!-- Single -->
                 <div class="row align-items-center rows-products">
                     @foreach ($products as $product)
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                            <div class="product_grid card b-0">
+                                <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">
+                                    {{-- Sale --}}
+                                </div>
+                                <button class="snackbar-wishlist btn btn_love position-absolute ab-right">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <div class="card-body p-0">
+                                    <div class="shop_thumb position-relative">
+                                        <!-- Link ảnh sản phẩm trỏ đến chi tiết sản phẩm -->
+                                        <a class="card-img-top d-block overflow-hidden"
+                                            href="{{ route('product.detail', $product->id) }}">
+                                            <img class="card-img-top" src="{{ asset('storage/' . $product->image) }}"
+                                                alt="...">
+                                        </a>
+                                        <div
+                                            class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                            <div class="edlio">
+                                                <!-- Quick View link trỏ đến chi tiết sản phẩm -->
+                                                <a href="{{ route('product.detail', $product->id) }}"
+                                                    class="text-white fs-sm ft-medium">
+                                                    <i class="fas fa-eye mr-1"></i>Quick View
+                                                </a>
 
-    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
-        <div class="product_grid card b-0">
-            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">
-                {{-- Sale --}}
-            </div>
-            <button class="snackbar-wishlist btn btn_love position-absolute ab-right">
-                <i class="far fa-heart"></i>
-            </button>
-            <div class="card-body p-0">
-                <div class="shop_thumb position-relative">
-                    <!-- Link ảnh sản phẩm trỏ đến chi tiết sản phẩm -->
-                    <a class="card-img-top d-block overflow-hidden" href="{{ route('product.detail', $product->id) }}">
-                        <img class="card-img-top" src="{{ asset('storage/' . $product->image) }}" alt="...">
-                    </a>
-                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                        <div class="edlio">
-                            <!-- Quick View link trỏ đến chi tiết sản phẩm -->
-                            <a href="{{ route('product.detail', $product->id) }}" class="text-white fs-sm ft-medium">
-                                <i class="fas fa-eye mr-1"></i>Quick View
-                            </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
+                                    <div class="text-left">
+                                        <div class="text-center">
+                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
+                                                <a
+                                                    href="{{ route('product.detail', $product->id) }}">{{ $product->name ?? 'Product Name' }}</a>
+                                            </h5>
+                                            <div class="elis_rty">
+                                                <span class="ft-bold fs-md text-dark">
+                                                    <p>{{ number_format($product->price) }} VNĐ</p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
-                <div class="text-left">
-                    <div class="text-center">
-                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
-                            <a href="{{ route('product.detail', $product->id) }}">{{ $product->name ?? 'Product Name' }}</a>
-                        </h5>
-                        <div class="elis_rty">
-                            <span class="ft-bold fs-md text-dark">
-                                <p>{{ number_format($product->price) }} VNĐ</p>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endforeach
+                    @endforeach
 
 
                 </div>
@@ -909,30 +925,31 @@
         }
     </script>
     </div>
-
-
 @endsection
 
 <style>
     /* Cấu hình cho danh sách các danh mục */
-.category-list {
-    display: flex;
-    flex-wrap: wrap; /* Cho phép các mục xuống dòng khi không đủ chỗ */
-    gap: 15px; /* Khoảng cách giữa các phần tử */
-}
+    .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        /* Cho phép các mục xuống dòng khi không đủ chỗ */
+        gap: 15px;
+        /* Khoảng cách giữa các phần tử */
+    }
 
-/* Mỗi mục trong danh sách */
-.category-list li {
-    list-style-type: none;
-    flex-basis: calc(33.33% - 10px); /* Chia đều 3 cột mỗi hàng và tính khoảng cách */
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
+    /* Mỗi mục trong danh sách */
+    .category-list li {
+        list-style-type: none;
+        flex-basis: calc(33.33% - 10px);
+        /* Chia đều 3 cột mỗi hàng và tính khoảng cách */
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
 
-/* Đảm bảo các input được căn chỉnh với label */
-.category-list input {
-    margin-right: 5px; /* Khoảng cách giữa input và label */
-}
-
+    /* Đảm bảo các input được căn chỉnh với label */
+    .category-list input {
+        margin-right: 5px;
+        /* Khoảng cách giữa input và label */
+    }
 </style>
