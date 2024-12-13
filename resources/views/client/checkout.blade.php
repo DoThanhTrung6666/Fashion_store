@@ -12,9 +12,9 @@
                 <div class="colxl-12 col-lg-12 col-md-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Support</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Support</a></li> --}}
+                            <li class="breadcrumb-item active" aria-current="page">Kiểm tra thông tin</li>
                         </ol>
                     </nav>
                 </div>
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="text-center d-block mb-5">
-                        <h2>Checkout</h2>
+                        <h2>Kiểm tra thông tin</h2>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <div class="col-12 col-lg-7 col-md-12">
                     <form action="" id="paymentForm" method="POST">
                         @csrf
-                        <h5 class="mb-4 ft-medium">Billing Details</h5>
+                        <h5 class="mb-4 ft-medium">Thông tin cá nhân</h5>
                         <div class="row mb-2">
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -75,7 +75,7 @@
 
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="form-group">
-                                    <label class="text-dark">Mobile Number *</label>
+                                    <label class="text-dark">Số điện thoại *</label>
                                     <input type="text" class="form-control" name="phone_order"
                                         placeholder="Mobile Number"
                                         value="@if ($user !== null) {{ $user->phone }} @endif" />
@@ -94,12 +94,12 @@
 
                         </div>
 
-                        <div class="row mb-4">
+                        {{-- <div class="row mb-4">
                             <div class="col-12 d-block">
                                 <input id="createaccount" class="checkbox-custom" name="createaccount" type="checkbox">
                                 <label for="createaccount" class="checkbox-custom-label">Create An Account?</label>
                             </div>
-                        </div>
+                        </div> --}}
 
 
                         <div class="row mb-4">
@@ -206,7 +206,12 @@
 
                 <div class="col-12 col-lg-4 col-md-12">
                     <div class="d-block mb-3">
-                        <h5 class="mb-4">Order Items (3)</h5>
+                        <h5 class="mb-4">Chi tiết đơn hàng</h5>
+                        <span style="font-size: 15px">
+                            @if(session('error'))
+                                <p style="color: red">{{session('error')}}</p>
+                            @endif
+                        </span>
                         <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
                             @if (Auth::user())
                                 @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
@@ -217,7 +222,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-3">
                                                     <!-- Image -->
-                                                    <a href="product.html"><img
+                                                    <a href="#"><img
                                                             src="{{ Storage::url($item['cartItem']->productVariant->product->image) }}"
                                                             alt="..." class="img-fluid"></a>
                                                 </div>
@@ -255,16 +260,16 @@
                                     @if (!empty($cartItemsWithSaleInfo) && count($cartItemsWithSaleInfo) > 0)
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Subtotal</span> <span
-                                                class="ml-auto text-dark ft-medium">{{ $totalPrice }}</span>
+                                                class="ml-auto text-dark ft-medium">{{ number_format($totalPrice) }}</span>
                                         </li>
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Giảm giá voucher</span> <span
-                                                class="ml-auto text-dark ft-medium">-{{ number_format(Session::get('voucher_discount')['discount_amount']) }}
-                                                vnđ</span>
+                                                class="ml-auto text-dark ft-medium">{{ number_format(Session::get('voucher_discount')['discount_amount']) }}
+                                                </span>
                                         </li>
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Phí vận chuyển</span> <span class="ml-auto text-dark ft-medium">30,000
-                                                vnđ</span>
+                                                </span>
                                         </li>
                                         @php
                                             $discountAmount = session()->has('voucher_discount')

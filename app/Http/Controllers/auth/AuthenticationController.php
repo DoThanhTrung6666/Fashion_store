@@ -86,23 +86,29 @@ class AuthenticationController extends Controller
     }
     public function update(Request $request)
 {
+    // dd(123);
+    $user = Auth::user();
+    if(!$user){
+        return redirect()->route('/');
+    }
     // Validate dữ liệu đầu vào
     $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . auth()->id(),
-        'phone' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|max:15|min:10',
-        'address' => 'nullable|string|max:255',
-        'password' => 'nullable|min:8',
+        'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|max:15|min:10',
+        'address' => 'required|string|max:255',
+        // 'password' => 'nullable|min:8',
         'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ], [
         'name.required' => 'Tên không được bỏ trống',
         'email.required' => 'Email không được bỏ trống',
         'email.email' => 'Vui lòng nhập email hợp lệ',
         'email.unique' => 'Email này đã tồn tại',
-        // 'phone.integer' => 'Phải là số',
+        'phone.required' => 'Không được bỏ trống',
         'phone.regex' => 'Số điện thoại không hợp lệ',
         'phone.max' => 'Số điện thoại tối đa 15 số',
         'phone.min' => 'Số điện thoại phải là 10 số',
+        'address.required' => 'Không được bỏ trống',
         'address.max' => 'Địa chỉ không được quá 255 ký tự',
         'password.min' => 'Mật khẩu phải ít nhất 8 ký tự',
         'avatar.image' => 'Tệp tải lên phải là hình ảnh',
@@ -111,7 +117,6 @@ class AuthenticationController extends Controller
     ]);
 
     // Lấy người dùng hiện tại
-    $user = Auth::user();
 
     if ($request->hasFile('avatar')) {
         if ($user->avatar) {

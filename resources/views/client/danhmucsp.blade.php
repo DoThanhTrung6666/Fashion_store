@@ -6,13 +6,13 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="text-center py-5 mt-3 mb-3">
-                        <h1 class="ft-medium mb-3">Shop</h1>
+                        {{-- <h1 class="ft-medium mb-3">Shop</h1>
                         <ul class="shop_categories_list m-0 p-0">
                             <li><a href="#">Men</a></li>
                             <li><a href="#">Speakers</a></li>
                             <li><a href="#">Women</a></li>
                             <li><a href="#">Accessories</a></li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
             </div>
@@ -28,49 +28,11 @@
                 <div class="col-xl-3 col-lg-4 col-md-5 col-sm-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">All product</li>
+                            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                            {{-- <li class="breadcrumb-item"><a href="#">Shop</a></li> --}}
+                            <li class="breadcrumb-item active" aria-current="page"><a href="">Tất cả sản phẩm</a></li>
                         </ol>
                     </nav>
-                </div>
-                <div class="col-xl-9 col-lg-8 col-md-7 col-sm-12">
-                    <div class="filter_wraps elspo_wrap d-flex align-items-center justify-content-end">
-                        <div class="single_fitres elspo_filter mr-2 br-right">
-                            <a href="#filterBox" class="simple-button px-2" role="button"><i
-                                    class="lni lni-text-align-right mr-2"></i><span class="hide_mob">Filters</span></a>
-                        </div>
-                        <div class="single_fitres mr-2 br-right">
-                            <form action="{{ route('danhmucsp') }}" method="GET">
-                                <select class="custom-select simple" name="sort_by" onchange="this.form.submit()">
-                                    <option value="1" {{ request('sort_by') == 1 ? 'selected' : '' }}>Default Sorting
-                                    </option>
-                                    <option value="2" {{ request('sort_by') == 2 ? 'selected' : '' }}>Low price
-                                    </option>
-                                    <option value="3" {{ request('sort_by') == 3 ? 'selected' : '' }}>High price
-                                    </option>
-                                    <option value="price_below_100"
-                                        {{ request('sort_by') == 'price_below_100' ? 'selected' : '' }}>Dưới 100.000 VNĐ
-                                    </option>
-                                    <option value="price_100_500"
-                                        {{ request('sort_by') == 'price_100_500' ? 'selected' : '' }}>100.000 - 500.000 VNĐ
-                                    </option>
-                                    <option value="price_500_1000"
-                                        {{ request('sort_by') == 'price_500_1000' ? 'selected' : '' }}>500.000 - 1.000.000
-                                        VNĐ</option>
-                                    <option value="price_above_1000"
-                                        {{ request('sort_by') == 'price_above_1000' ? 'selected' : '' }}>Trên 1.000.000 VNĐ
-                                    </option>
-                                </select>
-                            </form>
-                        </div>
-
-                        <div class="single_fitres">
-                            <a href="shop-style-4.html" class="simple-button mr-1"><i class="ti-layout-grid3"></i></a>
-                            <a href="shop-grid-3.html" class="simple-button mr-1"><i class="ti-layout-grid2"></i></a>
-                            <a href="shop-list-view.html" class="simple-button active"><i class="ti-view-list"></i></a>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -78,61 +40,79 @@
                 <div class="col-xl-12 col-lg-12 col-md-12">
                     <div class="collapse show" id="filterBox">
                         <div class="card py-3 b-0">
-                            <div class="row">
 
+                            <div class="row">
                                 <!-- Choose Category -->
-                                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                                    <div class="single_filter_title mb-2">
-                                        <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Categories</h6>
-                                    </div>
-                                    <div class="single_filter_card mb-2">
-                                        <h5><a href="#mens" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                                role="button">Áo nam<i class="accordion-indicator ti-angle-down"></i></a>
-                                        </h5>
-                                        <div class="collapse" id="mens" data-parent="#mens-categories">
-                                            <div class="card-body">
-                                                <div class="inner_widget_link">
-                                                    {{-- <ul class="m-0 p-0">
-                                                        <li><a href="#">Pumps & high Heals<span>112</span></a></li>
-                                                        <li><a href="#">Sandels<span>82</span></a></li>
-                                                        <li><a href="#">Sneakers<span>56</span></a></li>
-                                                        <li><a href="#">Boots<span>101</span></a></li>
-                                                        <li><a href="#">Casual Shoes<span>212</span></a></li>
-                                                        <li><a href="#">Flats Sandel<span>92</span></a></li>
-                                                    </ul> --}}
-                                                </div>
+                                {{-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                            role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
+                                    <div class="collapse" id="categories">
+                                        <div class="card-body">
+                                            <div class="inner_widget_link">
+                                                <form method="GET" action="{{ route('danhmucsp') }}">
+                                                    <ul class="m-0 p-0">
+                                                        <!-- Nút "Tất cả" -->
+                                                        <li>
+                                                            <input type="radio" name="category" id="category_all"
+                                                                value=""
+                                                                {{ request('category') == '' ? 'checked' : '' }}
+                                                                onchange="this.form.submit()">
+                                                            <label for="category_all">Tất cả</label>
+                                                        </li>
+
+                                                        @foreach ($categories as $category)
+                                                            <li>
+                                                                <input type="radio" name="category"
+                                                                    id="category{{ $category->id }}"
+                                                                    value="{{ $category->id }}"
+                                                                    {{ request('category') == $category->id ? 'checked' : '' }}
+                                                                    onchange="this.form.submit()">
+                                                                <label for="category{{ $category->id }}">{{ $category->name }}</label>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="single_filter_card">
-                                        <h5><a href="#womens" data-toggle="collapse" class="collapsed" aria-expanded="false"
-                                                role="button">Quần nam<i class="accordion-indicator ti-angle-down"></i></a>
-                                        </h5>
-                                        <div class="collapse" id="womens" data-parent="#womens-categories">
-                                            <div class="card-body">
-                                                <div class="inner_widget_link">
-                                                    {{-- <ul class="p-0 m-0">
-                                                        <li><a href="#">Pumps & high Heals<span>112</span></a></li>
-                                                        <li><a href="#">Sandels<span>82</span></a></li>
-                                                        <li><a href="#">Sneakers<span>56</span></a></li>
-                                                        <li><a href="#">Boots<span>101</span></a></li>
-                                                        <li><a href="#">Casual Shoes<span>212</span></a></li>
-                                                        <li><a href="#">Flats Sandel<span>92</span></a></li>
-                                                    </ul> --}}
-                                                </div>
+                                </div> --}}
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
+                                    <div class="collapse" id="categories">
+                                        <div class="card-body">
+                                            <div class="inner_widget_link">
+                                                <form method="GET" action="{{ route('danhmucsp') }}">
+                                                    <ul class="m-0 p-0 category-list">
+                                                        <!-- Nút "Tất cả" -->
+                                                        <li>
+                                                            <input type="radio" name="category" id="category_all" value=""
+                                                                {{ request('category') == '' ? 'checked' : '' }} onchange="this.form.submit()">
+                                                            <label for="category_all">Tất cả</label>
+                                                        </li>
+
+                                                        @foreach ($categories as $category)
+                                                            <li>
+                                                                <input type="radio" name="category" id="category{{ $category->id }}" value="{{ $category->id }}"
+                                                                    {{ request('category') == $category->id ? 'checked' : '' }} onchange="this.form.submit()">
+                                                                <label for="category{{ $category->id }}">{{ $category->name }}</label>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Choose Category -->
+
                                 <!-- Choose Size and Color -->
-                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <form method="GET" action="{{ route('danhmucsp') }}" id="filterForm">
                                         <div class="row justify-content-between">
                                             <div class="col-md-6">
                                                 <div class="single_filter_title mb-2">
-                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Size</h6>
+                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Chọn kích cỡ</h6>
                                                 </div>
                                                 <div class="d-flex flex-wrap pt-2 pb-0">
                                                     @foreach ($sizes as $size)
@@ -150,18 +130,16 @@
 
                                             <div class="col-md-6">
                                                 <div class="single_filter_title mb-2">
-                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Choose Colors</h6>
+                                                    <h6 class="mb-0 fs-sm ft-medium text-muted">Chọn màu sắc</h6>
                                                 </div>
                                                 <div class="d-flex flex-wrap pt-2 pb-0">
                                                     @foreach ($colors as $color)
                                                         <div class="form-check form-option form-check-inline mb-1 mr-2">
                                                             <input class="form-check-input" type="radio" name="color"
-                                                                id="color{{ $color->id }}"
-                                                                value="{{ $color->id }}"
+                                                                id="color{{ $color->id }}" value="{{ $color->id }}"
                                                                 {{ request('color') == $color->id ? 'checked' : '' }}
                                                                 onchange="checkAndSubmit()">
-                                                            <label class="form-option-label"
-                                                                for="color{{ $color->id }}">
+                                                            <label class="form-option-label" for="color{{ $color->id }}">
                                                                 {{ $color->name }}
                                                             </label>
                                                         </div>
@@ -169,27 +147,28 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </form>
                                 </div>
-
-                                <script>
-                                    // Hàm kiểm tra xem người dùng đã chọn đủ cả size và màu chưa
-                                    function checkAndSubmit() {
-                                        const sizeSelected = document.querySelector('input[name="size"]:checked');
-                                        const colorSelected = document.querySelector('input[name="color"]:checked');
-
-                                        // Nếu cả size và màu đều được chọn, thì submit form
-                                        if (sizeSelected && colorSelected) {
-                                            document.getElementById('filterForm').submit();
-                                        }
-                                    }
-                                </script>
+                            </div>
 
 
+                        <script>
+                            // Hàm kiểm tra xem người dùng đã chọn đủ cả size và màu chưa
+                            function checkAndSubmit() {
+                                const sizeSelected = document.querySelector('input[name="size"]:checked');
+                                const colorSelected = document.querySelector('input[name="color"]:checked');
 
-                                <!-- Choose Category -->
-                                {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                                // Nếu cả size và màu đều được chọn, thì submit form
+                                if (sizeSelected && colorSelected) {
+                                    document.getElementById('filterForm').submit();
+                                }
+                            }
+                        </script>
+
+
+
+                        <!-- Choose Category -->
+                        {{-- <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                                     <div class="single_filter_title mb-2">
                                         <h6 class="mb-0 fs-sm ft-medium text-muted">Filter By Price</h6>
                                     </div>
@@ -201,11 +180,11 @@
                                     </div>
                                 </div> --}}
 
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
 
         </div>
     </section>
@@ -222,48 +201,50 @@
                 <!-- Single -->
                 <div class="row align-items-center rows-products">
                     @foreach ($products as $product)
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-6">
-                            <div class="product_grid card b-0">
-                                <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">
-                                    Sale</div>
-                                <button class="snackbar-wishlist btn btn_love position-absolute ab-right"><i
-                                        class="far fa-heart"></i></button>
-                                <div class="card-body p-0">
-                                    <div class="shop_thumb position-relative">
-                                        <a class="card-img-top d-block overflow-hidden" href=""><img <<<<<<< HEAD
-                                                class="card-img-top"
-                                                src="{{ asset('storage/' . $product->image) }}"=======class="card-img-top"
-                                                src="{{ asset('storage/' . $product->image) }}">>>>>>>
-                                            aa08e2b82c27e1176201bfcc826f3453f54532ca
-                                            alt="..."></a>
-                                        <div
-                                            class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                            <div class="edlio"><a href="#" data-toggle="modal"
-                                                    data-target="#quickview" class="text-white fs-sm ft-medium"><i
-                                                        class="fas fa-eye mr-1"></i>Quick View</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
-                                    <div class="text-left">
-                                        <div class="text-center">
-                                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a
-                                                    href="">{{ $product->name ?? 'Product Name' }}</a>
-                                            </h5>
-                                            <div class="elis_rty">
-                                                <span class="ft-bold fs-md text-dark">
-                                                    <p>
-                                                        ${{ number_format($product->price, 2) }}
-                                                    </p>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+        <div class="product_grid card b-0">
+            <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">
+                {{-- Sale --}}
+            </div>
+            <button class="snackbar-wishlist btn btn_love position-absolute ab-right">
+                <i class="far fa-heart"></i>
+            </button>
+            <div class="card-body p-0">
+                <div class="shop_thumb position-relative">
+                    <!-- Link ảnh sản phẩm trỏ đến chi tiết sản phẩm -->
+                    <a class="card-img-top d-block overflow-hidden" href="{{ route('product.detail', $product->id) }}">
+                        <img class="card-img-top" src="{{ asset('storage/' . $product->image) }}" alt="...">
+                    </a>
+                    <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                        <div class="edlio">
+                            <!-- Quick View link trỏ đến chi tiết sản phẩm -->
+                            <a href="{{ route('product.detail', $product->id) }}" class="text-white fs-sm ft-medium">
+                                <i class="fas fa-eye mr-1"></i>Quick View
+                            </a>
                         </div>
-                    @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="card-footers b-0 pt-3 px-2 bg-white d-flex align-items-start justify-content-center">
+                <div class="text-left">
+                    <div class="text-center">
+                        <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1">
+                            <a href="{{ route('product.detail', $product->id) }}">{{ $product->name ?? 'Product Name' }}</a>
+                        </h5>
+                        <div class="elis_rty">
+                            <span class="ft-bold fs-md text-dark">
+                                <p>{{ number_format($product->price) }} VNĐ</p>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+
                 </div>
             </div>
             <!-- Phân trang -->
@@ -928,4 +909,30 @@
         }
     </script>
     </div>
+
+
 @endsection
+
+<style>
+    /* Cấu hình cho danh sách các danh mục */
+.category-list {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các mục xuống dòng khi không đủ chỗ */
+    gap: 15px; /* Khoảng cách giữa các phần tử */
+}
+
+/* Mỗi mục trong danh sách */
+.category-list li {
+    list-style-type: none;
+    flex-basis: calc(33.33% - 10px); /* Chia đều 3 cột mỗi hàng và tính khoảng cách */
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Đảm bảo các input được căn chỉnh với label */
+.category-list input {
+    margin-right: 5px; /* Khoảng cách giữa input và label */
+}
+
+</style>

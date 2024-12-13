@@ -36,13 +36,14 @@ class thongkeController extends Controller
             ->get();
 
         // Sản phẩm bán chạy nhất
-        $topProducts = OrderItem::select('product_variant_id', \DB::raw('SUM(quantity) as total_sold'))
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->groupBy('product_variant_id')
-            ->orderByDesc('total_sold')
-            ->take(5)
-            ->with(['product:id,name'])
-            ->get();
+        $topProducts = OrderItem::select('products.id as product_id', 'products.name as product_name', \DB::raw('SUM(order_items.quantity) as total_sold'))
+        ->join('product_variants', 'order_items.product_variant_id', '=', 'product_variants.id') // Kết nối với bảng product_variants
+        ->join('products', 'product_variants.product_id', '=', 'products.id') // Kết nối với bảng products thông qua product_variant
+        ->whereBetween('order_items.created_at', [$startDate, $endDate])
+        ->groupBy('products.id', 'products.name') // Nhóm theo products.id và products.name
+        ->orderByDesc('total_sold')
+        ->take(5)
+        ->get();
 
         return view('admin.dashboard.index', compact(
             'startDate', 'endDate', 'revenueDates', 'revenueValues', 'topUsers', 'topProducts'

@@ -18,7 +18,7 @@
 <!-- ======================= Top Breadcrubms ======================== -->
 
 <!-- ======================= Login Detail ======================== -->
-<section class="middle">
+<section class="">
     <div class="container">
         <div class="login-container">
             <div class="login-image">
@@ -26,12 +26,12 @@
             </div>
             <div class="login-form">
                 <h2>Đăng kí tài khoản</h2>
-                <span style="font-size: 15px">
+                <span style="font-size: 10px">
                     @if(session('error'))
                         <p style="color: red">{{session('error')}}</p>
                     @endif
                 </span>
-                <span style="font-size: 15px">
+                <span style="font-size: 10px">
                     @if(session('success'))
                         <p style="color: red">{{session('success')}}</p>
                     @endif

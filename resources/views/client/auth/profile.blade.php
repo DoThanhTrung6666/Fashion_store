@@ -25,6 +25,7 @@
         <div class="row align-items-start justify-content-between">
 
             <div class="col-12 col-md-12 col-lg-4 col-xl-4 text-center miliods">
+                @if($user)
                 <form class="" action="{{route('profile.update',$user->id)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -91,12 +92,18 @@
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Email ID *</label>
                                 <input type="text" class="form-control" placeholder="Nhập email " name="email" value="{{ old('email', $user->email) }}" />
+                                    @error('email')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                         </div>
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label class="small text-dark ft-medium">Nhập địa chỉ chi tiết *</label>
                                 <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ " value="{{ old('address', $user->address) }}" />
+                                    @error('address')
+                                    <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                             </div>
                         </div>
 
@@ -114,6 +121,11 @@
                         </div>
 
                     </form>
+                    @else
+                        <script>
+                            window.location.href = "{{ route('home') }}";
+                        </script>
+                    @endif
                 </div>
                 <!-- row -->
             </div>
