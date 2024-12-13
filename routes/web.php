@@ -103,6 +103,8 @@ Route::prefix('admin')
         Route::get('favorites',[FavoriteController::class,'index'])->name('favorites.index');
         Route::post('product/{id}/favorite',[FavoriteController::class,'addFavorite'])->name('favorites.add');
         Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
+
+        Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
