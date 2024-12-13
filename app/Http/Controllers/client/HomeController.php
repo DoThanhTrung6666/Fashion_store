@@ -43,12 +43,17 @@ class HomeController extends Controller
         // Lấy tất cả các sản phẩm Flash Sale hiện tại
         $flashSaleItems = FlashSaleItem::whereIn('flash_sale_id', $flashSales->pluck('id'))->get();
         // dd($flashSaleItems);
+<<<<<<< HEAD
 
         $topBanner = Banner::where('position', 1)->where('is_active', 1)->first();  
 $bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
         $sliderBanners = Banner::where('position', 3)->where('is_active', 1)->get();
         return view('client.index', compact('flashSales', 'categories', 'allProducts', 'trendingProducts','sliderBanners','bottomBanner','topBanner'));
 }
+=======
+        return view('client.index', compact( 'flashSales','categories', 'allProducts', 'trendingProducts'));
+    }
+>>>>>>> ae86903a95c8b15d9a36fc7319cc1e0d850abd83
 
     public function getFlashSale(){
         $flashSales = FlashSale::with('sale', 'product','flashSaleItems.product')
@@ -94,6 +99,9 @@ $bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
                                         ->where('status','Đang diễn ra')
                                         ->get();
         return view('client.list-flash-sale',compact('flashSales_dangdienra','flashSales_sapdienra'));
+<<<<<<< HEAD
 
+=======
+>>>>>>> ae86903a95c8b15d9a36fc7319cc1e0d850abd83
     }
 }
