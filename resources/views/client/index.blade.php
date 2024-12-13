@@ -286,8 +286,8 @@
                                         <div style=""  class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left" >
                                                 <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                                        <div class="text-right">
+                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0" style="display:flex;">
+                                                        {{-- <div class="text-right"> --}}
                                                         <div class="text-right">
                                                             @foreach ($value->variants as $color)
                                                             <div class="form-check form-option form-check-inline mb-1" >
@@ -295,14 +295,8 @@
                                                             </div>
                                                             @endforeach
                                                         </div>
-                                                        </div>
-                                                        <div class="text-left">
-                                                            <form  action="{{route('favorites.add',$value->id)}}" method="POST">
-                                                                @csrf
-                                                                <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
-                                                                {{-- <button type="submit">Them vao yeu thich</button> --}}
-                                                            </form>
-                                                        </div>
+                                                        {{-- </div> --}}
+
                                                     </div>
 
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $value->id) }}">{{$value->name}}</a></h5>
@@ -327,6 +321,13 @@
                                                     {{-- </a> --}}
                                                 </div>
 
+                                            </div>
+                                            <div class="text-right">
+                                                <form  action="{{route('favorites.add',$value->id)}}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                                                    {{-- <button type="submit">Them vao yeu thich</button> --}}
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -431,7 +432,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Trendy Products</h2>
+                    <h2 class="off_title">Sản phẩm thịnh hành</h2>
                     <h3 class="ft-bold pt-3">Sản phẩm thịnh hành</h3>
                 </div>
             </div>
@@ -485,7 +486,7 @@
                                 {{-- </div>
                                 @endforeach --}}
                                 <div class="form-check form-option form-check-inline mb-1">
-                                    Lượt xem : {{$trending->views}}
+                                    <i class="fas fa-eye"></i> {{$trending->views}}
                                 </div>
                             </div>
                             <div class="text-right">
@@ -704,12 +705,12 @@
                                         <div class="text-left">
                                             <div style="display:flex;">
                                                 <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="${data.flash_sale_items[i].product.link}">${data.flash_sale_items[i].product.name}</a></p>
-                                                <p style="margin-left:80px;" class="fw-bolder fs-md mb-0 lh-1 mb-1"><a   href="${data.flash_sale_items[i].product.link}">Xem chi tiết</a></p>
                                             </div>
                                             <div class="elis_rty" class="ft-bold text-dark fs-sm" style="display: flex">
                                                 <p style="text-decoration:line-through ;color:red">${data.flash_sale_items[i].product.price}đ</p>
-                                                <p style="margin-left:5%">${data.flash_sale_items[i].price}đ</p>
+                                                <p style="margin-left:5%">${data.flash_sale_items[i].price}đ</p><br>
                                             </div>
+                                            <p style="margin-left:80px;" class="fw-bolder fs-md mb-0 lh-1 mb-1"><a class="detail-link"  href="${data.flash_sale_items[i].product.link}">Xem chi tiết</a></p>
                                         </div>
                                     </div>
                                 </div>
@@ -752,3 +753,22 @@
 </script>
 <!-- ======================= Customer Features ======================== -->
 @endsection
+<style>
+    .detail-link {
+    display: inline-block;
+    margin-top: 5px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.detail-link:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+
+
+</style>

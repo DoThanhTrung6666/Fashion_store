@@ -383,6 +383,47 @@ class OrderController extends Controller
             return redirect()->route('cart.load')->with('error', 'Các sản phẩm sau đã ngừng kinh doanh: ' . $inactiveProductNames . '. Vui lòng xoá chúng khỏi giỏ hàng.');
         }
 
+        // // Kiểm tra Flash Sale hết hạn
+        // foreach ($selectedCartItems as $cartItem) {
+        //     $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+        //         ->whereHas('flashSale', function ($query) {
+        //             $query->where('start_time', '<=', now())
+        //                 ->where('end_time', '>=', now())
+        //                 ->where('status', 'Đang diễn ra');
+        //         })
+        //         ->first();
+
+        //     if (!$flashSaleItem) {
+        //         return redirect()->back()->with('error_flash_sale', 'Flash Sale cho sản phẩm ' . $cartItem->productVariant->product->name . ' đã hết hạn. Bạn vẫn muốn tiếp tục ?');
+        //     }
+        // }
+        // Kiểm tra Flash Sale hết hạn
+        // $expiredFlashSales = [];
+
+        // foreach ($selectedCartItems as $cartItem) {
+        //     $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+        //         ->whereHas('flashSale', function ($query) {
+        //             $query->where('start_time', '<=', now())
+        //                 ->where('end_time', '>=', now())
+        //                 ->where('status', 'Đang diễn ra');
+        //         })
+        //         ->first();
+
+        //     if (!$flashSaleItem) {
+        //         $expiredFlashSales[] = $cartItem->productVariant->product->name;
+        //     }
+        // }
+
+        // // Nếu có sản phẩm hết hạn Flash Sale, báo lỗi và cho phép người dùng quyết định
+        // if (count($expiredFlashSales) > 0) {
+        //     $expiredProducts = implode(', ', $expiredFlashSales);
+        //     return redirect()->back()->with([
+        //         'error_flash_sale' => "Flash Sale cho các sản phẩm sau đã hết hạn: $expiredProducts. Bạn vẫn muốn tiếp tục đặt hàng không?",
+        //         'allow_continue' => true // Cờ để đánh dấu cho phép tiếp tục
+        //     ]);
+        // }
+
+
         // Tính tổng tiền
         $totalPrice = $selectedCartItems->sum(function ($cartItem) {
             $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)

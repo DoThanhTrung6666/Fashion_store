@@ -22,7 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('variants','category')
+        $products = Product::with('variants','category','brand')
         ->where('status',1)
         ->get();
         return view('admin.product.index',compact('products'));
