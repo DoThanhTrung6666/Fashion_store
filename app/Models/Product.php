@@ -33,4 +33,21 @@ class Product extends Model
     {
         return $this->hasMany(FlashSaleItem::class);
     }
+    // app/Models/Product.php
+
+public function order()
+{
+    return $this->belongsTo(Order::class); // Mỗi sản phẩm thuộc về một đơn hàng
+}
+
+public function getAverageRatingAttribute()
+{
+    return $this->comments()->avg('rating'); // Tính trung bình rating của các bình luận
+}
+
+
+// danh cho san pham yeu thich 
+    public function userFavorites(){
+        return $this->belongsToMany(User::class,'favorites');
+    }
 }

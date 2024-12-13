@@ -9,18 +9,19 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class mailOrder extends Mailable
+class statuscancel extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public $order, $order_item;
-    public function __construct($order, $order_item)
+    public $user, $order;
+    public function __construct($user , $order)
     {
-        $this->order = $order;
-        $this->order_item = $order_item;
+        //
+        $this->user = $user;
+        $this->order = $user;
     }
 
     /**
@@ -29,7 +30,7 @@ class mailOrder extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Đơn hàng ' . $this->order->id . ' được đặt thành công',
+            subject: 'Huỷ đơn hàng',
         );
     }
 
@@ -39,7 +40,7 @@ class mailOrder extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'client.mail.mailOrder',
+            view: 'client.mail.emailCancel',
         );
     }
 

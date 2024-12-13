@@ -42,7 +42,7 @@
         </div>
         <p>Xin chào {{ $order->name_order}},</p>
         <p>Chúng tôi đã nhận được đơn hàng của bạn. Dưới đây là thông tin chi tiết:</p>
-        <div class="order-details">
+        {{-- <div class="order-details">
             <p><strong>Mã đơn hàng:</strong> {{ $order->id }}</p>
             <p><strong>Sản phẩm:</strong></p>
             <ul>
@@ -54,7 +54,7 @@
             </ul>
             <p><strong>Tổng tiền:</strong> {{$order->total_amount }} VND</p>
             <p><strong>Địa chỉ giao hàng:</strong> {{$order->address_order }}</p>
-        </div>
+        </div> --}}
         <p>Chúng tôi sẽ giao hàng trong thời gian sớm nhất!</p>
         <div class="footer">
             <p>Fashion Store - Cảm ơn bạn đã tin tưởng mua sắm!</p>
