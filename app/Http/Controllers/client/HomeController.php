@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\Category;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
@@ -42,6 +43,9 @@ class HomeController extends Controller
         // Lấy tất cả các sản phẩm Flash Sale hiện tại
         $flashSaleItems = FlashSaleItem::whereIn('flash_sale_id', $flashSales->pluck('id'))->get();
         // dd($flashSaleItems);
-        return view('client.index', compact('flashSales', 'categories', 'allProducts', 'trendingProducts'));
+        $topBanner = Banner::where('position', 1)->where('is_active', 1)->first();  
+$bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
+        $sliderBanners = Banner::where('position', 3)->where('is_active', 1)->get();
+        return view('client.index', compact('flashSales', 'categories', 'allProducts', 'trendingProducts','sliderBanners','bottomBanner','topBanner'));
     }
 }

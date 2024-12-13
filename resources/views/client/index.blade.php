@@ -3,79 +3,36 @@
 <div class="home-slider margin-bottom-0">
 
     <!-- Slide -->
-    <div data-background-image="assets/img/bannershop.jpg" class="item">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="home-slider-container">
+    @foreach($sliderBanners as $sliderBanner)
+ <div data-background-image="{{ asset('storage/' . $sliderBanner->image_path) }}">
+         <img 
+             src="{{ asset('storage/' . $sliderBanner->image_path) }}" 
+             alt="{{ $sliderBanner->title }}" width="100%" height="100%" class="item">
+     <div class="container">
+         <div class="row">
+             <div class="col-md-12">
+                 <div class="home-slider-container">
 
-                        <!-- Slide Title -->
-                        <div class="home-slider-desc">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
-                                {{-- <span class="trending">There's nothing like trend</span> --}}
-                            </div>
+                     <!-- Slide Title -->
+                     <div class="home-slider-desc">
+                         <div class="home-slider-title mb-4">
+                             <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                             <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                             {{-- <span class="trending">There's nothing like trend</span> --}}
+                         </div>
 
-                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
-                        </div>
-                        <!-- Slide Title / End -->
+                         <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
+                     </div>
+                     <!-- Slide Title / End -->
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+ @endforeach
 
-    <!-- Slide -->
-    <div data-background-image="{{asset('assets/img/bannershop1.jpg')}}" class="item">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="home-slider-container">
-
-                        <!-- Slide Title -->
-                        <div class="home-slider-desc">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
-                                {{-- <span class="trending">There's nothing like trend</span> --}}
-                            </div>
-
-                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
-                        </div>
-                        <!-- Slide Title / End -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide -->
-    <div data-background-image="assets/img/b-3.png" class="item">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="home-slider-container">
-
-                        <!-- Slide Title -->
-                        <div class="home-slider-desc">
-                            <div class="home-slider-title mb-4">
-                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
-                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông  2024</h1>
-                                {{-- <span class="trending">There's nothing like trend</span> --}}
-                            </div>
-
-                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
-                        </div>
-                        <!-- Slide Title / End -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 </div>
 <!-- ============================ Hero Banner End ================================== -->

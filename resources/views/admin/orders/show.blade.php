@@ -121,7 +121,7 @@
                                 
 
                                 @if (
-                            $order->status != 'Đã huỷ' &&
+                           
                                 $order->status != 'Chờ giao hàng' &&
                                 $order->status != 'Hoàn thành' &&
                                 $order->status != 'Vận chuyển')
@@ -137,11 +137,7 @@
                             <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
                                 <a href="{{ route('admin.order.update', $order->id) }}?status=Chờ giao hàng" onclick="return confirm('xác nhận')"><button class="btn btn-success btn-confirm">Chờ giao hàng</button></a>
                                 </div>
-                        @elseif($order->status == 'Đã huỷ')
-                            <div class="mt-4 text-center " style="margin-left: 15px; margin-bottom:10px">
-                                <a href="{{ route('admin.order.update', $order->id) }}?status=Chờ xác nhận" onclick="return confirm('xác nhận')"><button class="btn btn-warning btn-confirm">Khôi phục</button></a>
-                                <
-                            </div>
+                       
                         @endif
 
                             </div>
