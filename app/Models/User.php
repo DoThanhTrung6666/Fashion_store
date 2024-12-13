@@ -74,5 +74,9 @@ public function orders()
         return $this->hasMany(Order::class,'user_id');
     }
 
+    // san pham yeu thich
+    public function favorites(){
+        return $this->belongsToMany(Product::class,'favorites');
+    }
 
 }

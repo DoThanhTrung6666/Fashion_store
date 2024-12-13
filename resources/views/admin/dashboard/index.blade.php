@@ -98,7 +98,9 @@
                         <div class="col-md-3">
                             <div class="card bg-primary text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Doanh Thu Hôm Nay</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-money-bill-wave"></i> Doanh Thu Hôm Nay
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ number_format($todayRevenue, 0, ',', '.') }} đ</strong></p>
                                 </div>
                             </div>
@@ -106,7 +108,9 @@
                         <div class="col-md-3">
                             <div class="card bg-success text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Đơn Hàng Trong Tuần</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-box"></i> Đơn Hàng Trong Tuần
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $weeklyOrders }}</strong></p>
                                 </div>
                             </div>
@@ -114,7 +118,9 @@
                         <div class="col-md-3">
                             <div class="card bg-warning text-dark">
                                 <div class="card-body">
-                                    <h5 class="card-title">Khách Hàng</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-users"></i> Khách Hàng
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $totalCustomers }}</strong></p>
                                 </div>
                             </div>
@@ -122,7 +128,9 @@
                         <div class="col-md-3">
                             <div class="card bg-danger text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Doanh Thu Tháng Này</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-calendar-day"></i> Doanh Thu Tháng Này
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $formattedCurrentMonthRevenue }}</strong></p>
                                 </div>
                             </div>
@@ -130,7 +138,9 @@
                         <div class="col-md-3">
                             <div class="card bg-info text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Đơn Hàng</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-clipboard-list"></i> Đơn Hàng
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $totalOrders }}</strong></p>
                                     <a class="text-white " href="{{route('admin.orders.index')}}">Xem Tất Cả</a>
                                 </div>
@@ -139,7 +149,9 @@
                         <div class="col-md-3">
                             <div class="card bg-warning text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Sản Phẩm</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-cogs"></i> Sản Phẩm
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $totalProducts }}</strong></p>
                                     <a class="text-white " href="{{route('admin.products.index')}}">Xem Tất Cả</a>
                                 </div>
@@ -148,20 +160,25 @@
                         <div class="col-md-3">
                             <div class="card bg-success text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Sản Phẩm Đã Bán</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-check-circle"></i> Sản Phẩm Đã Bán
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $totalProductsSold }}</strong></p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card .bg-secondary-subtle text-white">
+                            <div class="card bg-warning text-white">
                                 <div class="card-body">
-                                    <h5 class="card-title">Số Sản Phẩm Sale</h5>
+                                    <h5 class="card-title">
+                                        <i class="fas fa-tags"></i> Số Sản Phẩm Sale
+                                    </h5>
                                     <p class="card-text fs-4"><strong>{{ $totalProductsOnSale }}</strong></p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
 
                     <div class="row">
                         <div class="col-md-6 mb-4">
@@ -194,6 +211,7 @@
 </div>
 
 <!-- Google Charts Scripts -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

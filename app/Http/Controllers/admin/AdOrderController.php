@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\mailOrder;
+use App\Mail\statuscancel;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AdOrderController extends Controller
 {
@@ -45,6 +50,8 @@ class AdOrderController extends Controller
 
 public function update(Order $order)
 {
+    $user = User::where('id',$order->user_id)->first();
+    // dd($user);
     // Lấy trạng thái từ request, mặc định là 'chờ xác nhận'
     $status = request('status', 'Chờ xác nhận');
 
@@ -56,13 +63,14 @@ public function update(Order $order)
         if ($status === 'Hoàn thành') {
             return redirect()->route('admin.orders.index', ['status' => 'Hoàn thành'])->with('ok', 'Cập nhật trạng thái thành công');
         } elseif ($status === 'Đã huỷ') {
+            Mail::to($user->email)->send(new statuscancel ($user,$order));
             return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy');
         } elseif ($status === 'Vận chuyển') {
             return redirect()->route('admin.orders.index', ['status' => 'Vận chuyển'])->with('ok', 'Đơn hàng đã vận chuyển');
         } elseif ($status === 'Chờ giao hàng') {
             return redirect()->route('admin.orders.index', ['status' => 'Chờ giao hàng'])->with('ok', 'Đơn hàng đang được giao');
         }
-        
+
     }
 
     // Nếu đơn hàng đã giao, không cho phép cập nhật

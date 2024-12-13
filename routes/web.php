@@ -18,12 +18,14 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\client\CheckoutController;
 use App\Http\Controllers\client\DetailController;
+use App\Http\Controllers\client\FavoriteController;
 use App\Http\Controllers\client\HomeController;
 use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
-
-
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\VoucherController;
+use App\Models\Order;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,6 @@ use App\Http\Controllers\CommentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 
 Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
@@ -96,10 +97,21 @@ Route::prefix('admin')
         Route::get('flash-sale/{flashSaleId}/products', [FlashSaleOneController::class, 'splienquan'])->name('view_products');
         //Xoá sản phẩm liên quan flash-sale mình thích
         Route::delete('flash-sale/{flashSaleId}/product/{productId}', [FlashSaleOneController::class, 'deleteProduct'])->name('delete_product');
+
+        Route::resource('vouchers', VoucherController::class);
     });
 
 
+    Route::middleware('auth')
+    ->group(function(){
+        Route::get('favorites',[FavoriteController::class,'index'])->name('favorites.index');
+        Route::post('product/{id}/favorite',[FavoriteController::class,'addFavorite'])->name('favorites.add');
+        Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
+
+        Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
+    });
 // bên client
+Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
 Route::get('/home', [HomeController::class, 'getProductHome'])->name('home');
 Route::get('detail/{id}', [DetailController::class, 'show'])->name('detail.show');
 Route::post('/product/{id}/comment', [DetailController::class, 'storeComment'])->name('storeComment');
@@ -110,7 +122,7 @@ Route::post('login', [AuthenticationController::class, 'login']);
 Route::get('register', [AuthenticationController::class, 'showFormRegister'])->name('register');
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('logout', [AuthenticationController::class, 'logout'])->name('logout');
-Route::resource('profile', AuthenticationController::class);
+Route::resource('profile', AuthenticationController::class)->middleware('auth');
 
 
 
@@ -125,33 +137,51 @@ Route::get('/danhmucsp', [FilterController::class, 'danhmucsp'])->name('danhmucs
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 
-Route::get('/cart', [CartController::class, 'index'])->name('cart.load');
-Route::delete('cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
-Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
-Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.load')->middleware('auth');
+Route::delete('cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove')->middleware('auth');
+Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout')->middleware('auth');
+Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order')->middleware('auth');
+Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou')->middleware('auth');
 
 
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
+Route::post('/orders/{id}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus')->middleware('auth');
 
-Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout');
-Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order');
+Route::get('checkout', [CheckoutController::class, 'viewCheckout'])->name('checkout')->middleware('auth');
+Route::post('/checkout', [OrderController::class, 'Order'])->name('checkout.order')->middleware('auth');
 
-Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou');
-Route::get('/orders', [OrderController::class, 'loadOrderUser'])->name('orders.loadUser');
+Route::get('thankyou', [CheckoutController::class, 'thankyou'])->name('thankyou')->middleware('auth');
+Route::get('/orders', [OrderController::class, 'loadOrderUser'])->name('orders.loadUser')->middleware('auth');
 
 
 
-Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel');
-Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel')->middleware('auth');
+Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase')->middleware('auth');
 
 // tìm kiếm sản phẩm
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
+Route::post('/vnpay_payment', [OrderController::class, 'createOrder'])->name('vnpay')->middleware('auth');
+Route::get('/vnpay/callback', [PaymentController::class, 'vnpay_callback'])->name('vnpay.callback')->middleware('auth');
+
+Route::post('/apply-voucher', [OrderController::class, 'applyVoucher'])->name('applyVoucher')->middleware('auth');
+
 // xử lí mua lại trong order
-Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('orders.reorder');
+Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('orders.reorder')->middleware('auth');
 // xử lí mua sản phẩm đã chọn
 // Route::post('purchase', [CheckoutController::class, 'purchase'])->name('cart.purchase');
-Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout');
+Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout')->middleware('auth');
+
+// Route để hiển thị trang bình luận
+Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
+// Route để lưu bình luận
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
+
+Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
+
+Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+
+Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
+
