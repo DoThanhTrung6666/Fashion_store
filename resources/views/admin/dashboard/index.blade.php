@@ -200,11 +200,11 @@
 
 
                         <div class="row">
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-12 mb-4">
                                 <h3 class="text-center">Doanh Thu Theo Ngày</h3>
                                 <div id="revenue_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-12 mb-4">
                                 <h3 class="text-center">Người dùng đặt hàng nhiều nhất</h3>
                                 <div id="top_users_chart" style="width: 100%; height: 400px;"></div>
                             </div>

@@ -332,7 +332,7 @@
                             dụng</button>
                     </form>
                 </li>
-                @if (session('success'))
+                {{-- @if (session('success'))
                     <script>
                         alert('{{ session('success') }}');
                     </script>
@@ -342,7 +342,7 @@
                     <script>
                         alert('{{ session('error') }}');
                     </script>
-                @endif
+                @endif --}}
 
 
 

@@ -21,10 +21,10 @@
               <form role="form" method="post" action="{{ route('admin.products.store')}}" enctype="multipart/form-data">
               @csrf
                 <div class="box-body">
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="exampleInputEmail1">id</label>
                     <input type="text" class="form-control" placeholder="" disabled>
-                  </div>
+                  </div> --}}
             {{-- Tên sản phẩm  --}}
                   <div class="form-group">
                     <label for="">Tên sản phẩm</label>

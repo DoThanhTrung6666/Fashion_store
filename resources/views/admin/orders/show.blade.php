@@ -44,7 +44,7 @@
     .badge-shipping { background-color: #6c757d; color: white; }
     .badge-delivered { background-color: #28a745; color: white; }
     .badge-cancelled { background-color: #dc3545; color: white; }
-    
+
     .divider {
     border: none;
     border-top: 1px solid #ddd; /* Màu sắc đường gạch ngang */
@@ -61,20 +61,20 @@
             <div class="row container-fluid">
                 <div class="col-md-12">
                     <div class="">
-                        
 
 
-                        
+
+
 
                         <div class="container">
                             <div class="order-detail-wrapper">
                                 <div class="order-title">Chi tiết đơn hàng</div>
-                    
+
                                 <!-- Thông tin đơn hàng -->
                                 <div class="order-info">
                                     <p><strong>Mã đơn hàng:</strong>  #{{ $order->id }}</p>
                                     <p><strong>Ngày đặt:</strong> {{ $order->order_date }}</p>
-                                    <p><strong>Trạng thái:</strong> 
+                                    <p><strong>Trạng thái:</strong>
                                         @if ($order->status == 'Chờ xác nhận')
                                         <span class="status-badge badge-pending">Chờ xác nhận</span>
                                     @elseif ($order->status == 'Vận chuyển')
@@ -91,7 +91,7 @@
                                     <p><strong>Số điện thoại:</strong> {{ $order->phone_order }}</p>
                                     <p><strong>Địa chỉ:</strong> {{ $order->address_order }}</p>
                                 </div>
-                    
+
                                 <!-- Danh sách sản phẩm -->
                                 <div class="product-list">
                                     <h5><strong>Sản phẩm:</strong></h5>
@@ -102,7 +102,7 @@
                                             Số lượng: {{ $item->quantity }}
                                         </div>
                                         <div>
-                                            Giá: {{ $item->price }} VND
+                                            Giá: {{ number_format($item->price) }} VND
                                         </div>
                                         <div class="divider-row">
                                             <div colspan="3">
@@ -111,20 +111,20 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                    
+
                                 </div>
-                    
+
                                 <!-- Tổng giá -->
                                 <div class="total-price">Tổng cộng: {{ $order->total_amount }} VND</div>
-                    
+
                                 <!-- Hành động -->
-                                
+
 
                                 @if (
-                           
-                                $order->status != 'Chờ giao hàng' &&
-                                $order->status != 'Hoàn thành' &&
-                                $order->status != 'Vận chuyển')
+                                    $order->status != 'Đã huỷ' &&
+                                    $order->status != 'Chờ giao hàng' &&
+                                    $order->status != 'Hoàn thành' &&
+                                    $order->status != 'Vận chuyển')
                             <div class="mt-4 text-center">
                                 <a href="{{ route('admin.order.update', $order->id) }}?status=Đã huỷ" onclick="return confirm('xác nhận')"> <button class="btn btn-danger btn-cancel">Hủy đơn hàng</button></a>
                                  <a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển" onclick="return confirm('xác nhận')"><button class="btn btn-success btn-confirm">Xác nhận đơn hàng</button></a>
@@ -137,7 +137,11 @@
                             <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
                                 <a href="{{ route('admin.order.update', $order->id) }}?status=Chờ giao hàng" onclick="return confirm('xác nhận')"><button class="btn btn-success btn-confirm">Chờ giao hàng</button></a>
                                 </div>
-                       
+                        @elseif($order->status == 'Đã huỷ')
+                        <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
+                            <a href="{{ route('admin.orders.index') }}?status=Đã huỷ" onclick="return confirm('xác nhận')"><button class="btn btn-success btn-confirm">Quay về trang quản trị</button></a>
+                            </div>
+
                         @endif
 
                             </div>

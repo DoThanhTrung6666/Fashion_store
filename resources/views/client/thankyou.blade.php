@@ -1,7 +1,7 @@
 @extends('layout.client')
 @section('content')
 
-<section class="">
+<section class="middle">
     <div class="container">
 
         <div class="container text-center mt-0">
