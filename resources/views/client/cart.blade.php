@@ -77,7 +77,7 @@
                                                         </div>
                                                     @else
                                                         <h4 class="fs-md ft-medium mb-3 lh-1">
-                                                            {{ number_format($item['cartItem']->productVariant->product->price) }}
+                                                            {{ number_format($item['cartItem']->productVariant->product->price* $item['cartItem']->quantity) }}
                                                             VNĐ</h4>
                                                     @endif
 

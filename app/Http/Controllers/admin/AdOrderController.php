@@ -19,7 +19,7 @@ class AdOrderController extends Controller
         // Lấy các tham số từ request
         $status = $request->input('status', ''); // Trạng thái
         $search = $request->input('search', ''); // Từ khóa tìm kiếm
-    
+
         // Lọc và phân trang đơn hàng
         $orders = Order::orderBy('id', 'DESC')
             ->when($status, function ($query) use ($status) {
@@ -35,11 +35,11 @@ class AdOrderController extends Controller
             })
             ->paginate()
             ->appends(['status' => $status, 'search' => $search]); // Giữ các tham số tìm kiếm khi phân trang
-    
+
         // Trả về view với dữ liệu đơn hàng
         return view('admin.orders.index', compact('orders', 'status', 'search'));
     }
-    
+
 
 
 

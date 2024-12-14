@@ -47,7 +47,8 @@
 
                             </table>
                                     <a class="" href=""><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm biến thể mới</a><br><br>
-                                    <a href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #007bff;"></i> Sửa</a>
+                                    <a href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a><br><br>
+                                    <a href="{{route('admin.products.index')}}" class="" style="color: black"><i class="fas fa-arrow-left"></i> Quay lại</a>
                             @else
                                 <p>Sản phẩm không tồn tại.</p>
                             @endif
