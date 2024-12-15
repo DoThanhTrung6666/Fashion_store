@@ -54,6 +54,45 @@
     .divider-row {
     height: 0;
     }
+
+    .product-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background-color: #fafafa;
+}
+
+.product-table th, .product-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.product-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.product-table img {
+  max-width: 50px;
+  height: auto;
+}
+
+.order-total {
+  margin-top: 20px;
+  font-size: 18px;
+  text-align: right;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.order-total p {
+  margin-top: 10px;
+}
 </style>
     <div class="content-wrapper">
 
@@ -95,27 +134,38 @@
                                 <!-- Danh sách sản phẩm -->
                                 <div class="product-list">
                                     <h5><strong>Sản phẩm:</strong></h5>
-                                    <div class="product-item d-flex justify-content-between">
-                                        @foreach ($order->orderItems as $item)
-                                        <div>
-                                            {{ $item->productvariant->product->name }}<br>
-                                            Số lượng: {{ $item->quantity }}
-                                        </div>
-                                        <div>
-                                            Giá: {{ $item->price }} VND
-                                        </div>
-                                        <div class="divider-row">
-                                            <div colspan="3">
-                                                <hr class="divider">
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
+
+                                    <table class="product-table">
+                                        <thead>
+                                          <tr>
+                                            <th>ID</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Ảnh</th>
+                                            <th>Giá tiền</th>
+                                            <th>Số lượng</th>
+                                            <th>Tổng tiền</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($order->orderItems as $item)
+                                          <tr>
+                                            <td>#{{$item->productvariant->product->id}}</td>
+                                            <td>{{ $item->productvariant->product->name }}</td>
+                                            <td><img src="{{ asset('storage/' . $item->productvariant->product->image) }}"></td>
+                                            <td>{{number_format($item->price)  }}</td>
+                                            <td>{{ $item->quantity }}</td>
+                                            <td>{{number_format($item->price * $item->quantity)}}</td>
+                                          </tr>
+                                          @endforeach
+                                          
+                                        </tbody>
+                                      </table>
+
                                     
                                 </div>
                     
                                 <!-- Tổng giá -->
-                                <div class="total-price">Tổng cộng: {{ $order->total_amount }} VND</div>
+                                <div class="total-price">Tổng cộng: {{number_format($order->total_amount)  }} VND</div>
                     
                                 <!-- Hành động -->
                                 
