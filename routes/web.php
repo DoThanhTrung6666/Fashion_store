@@ -109,6 +109,8 @@ Route::prefix('admin')
         Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
 
         Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
+        Route::get('/change-password',[AuthenticationController::class,'showFormChangePassWord'])->name('showFormChangePassWord');
+        Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
