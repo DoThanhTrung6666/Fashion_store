@@ -13,6 +13,9 @@ use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -22,9 +25,10 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::with('variants','category')
+        $products = Product::with('variants','category','brand')
         ->where('status',1)
-        ->get();
+        ->orderBy('id', 'desc')
+        ->paginate(10);
         return view('admin.product.index',compact('products'));
     }
 
@@ -293,4 +297,205 @@ class ProductController extends Controller
         }
         return redirect()->back()->with('success','Sản phẩm đã ngừng kinh doanh');
     }
+
+    // thêm biến thể mới
+    public function createVariant($productId)
+    {
+        $product = Product::findOrFail($productId);
+        $colors = Color::all(); // Giả sử bạn có model Color
+        $sizes = Size::all();   // Giả sử bạn có model Size
+
+        return view('admin.product.create-variant', compact('product', 'colors', 'sizes'));
+    }
+
+
+// public function storeVariant(Request $request, $productId)
+// {
+//     $product = Product::findOrFail($productId);
+
+//     $validator = Validator::make($request->all(), [
+//         'variant.*.color_id' => 'required|exists:colors,id',
+//         'variant.*.size_id' => 'required|exists:sizes,id',
+//         'variant.*.stock_quantity' => 'required|integer|min:1',
+//         'variant.*.image_variant' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+//     ]);
+
+//     if ($validator->fails()) {
+//         return redirect()
+//             ->back()
+//             ->withErrors($validator)
+//             ->withInput();
+//     }
+
+//     $variants = $request->input('variant', []);
+//     $images = $request->file('variant', []);
+
+//     foreach ($variants as $key => $variant) {
+//         $imagePath = null;
+
+//         // Check if image exists for this variant
+//         if (isset($images[$key]['image_variant'])) {
+//             $image = $images[$key]['image_variant'];
+//             $imagePath = $image->store('variants', 'public'); // Save to `storage/app/public/variants`
+//         }
+
+//         // Save variant to the database
+//         $product->variants()->create([
+//             'color_id' => $variant['color_id'],
+//             'size_id' => $variant['size_id'],
+//             'stock_quantity' => $variant['stock_quantity'],
+//             'image_variant' => $imagePath,
+//         ]);
+//     }
+
+//     return redirect()
+//         ->route('admin.products.show', $product->id)
+//         ->with('success', 'Biến thể đã được thêm thành công!');
+// }
+
+
+// public function storeVariant(Request $request)
+// {
+//     // Validate dữ liệu
+//     $request->validate([
+//         'variant.*.color_id' => [
+//             'required',
+//             'exists:colors,id',
+//         ],
+//         'variant.*.size_id' => [
+//             'required',
+//             'exists:sizes,id',
+//         ],
+//         'variant.*.stock_quantity' => 'required|integer|min:1',
+//         'variant.*.image_variant' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+//     ]);
+
+//     // Validate trùng tổ hợp (product_id, color_id, size_id)
+//     foreach ($request->variant as $index => $variant) {
+//         $rules = [
+//             'product_id' => 'required|exists:products,id',
+//             "variant.$index.color_id" => [
+//                 'required',
+//                 'exists:colors,id',
+//                 Rule::unique('product_variants', 'color_id')
+//                     ->where('size_id', $variant['size_id'])
+//                     ->where('product_id', $request->product_id),
+//             ],
+//         ];
+
+//         $messages = [
+//             "variant.$index.color_id.unique" => 'Biến thể màu sắc và kích thước đã tồn tại.',
+//         ];
+
+//         // Apply thêm từng biến thể
+//         validator(['variant' => $request->variant], $rules, $messages)->validate();
+//     }
+
+//     // Lưu dữ liệu biến thể
+//     foreach ($request->variant as $variant) {
+//         \DB::table('product_variants')->insert([
+//             'product_id' => $request->product_id,
+//             'color_id' => $variant['color_id'],
+//             'size_id' => $variant['size_id'],
+//             'stock_quantity' => $variant['stock_quantity'],
+//             'image_variant' => $variant['image_variant'] ?? null,
+//             'created_at' => now(),
+//             'updated_at' => now(),
+//         ]);
+//     }
+
+//     return redirect()->back()->with('success', 'Biến thể đã được thêm thành công.');
+// }
+
+// use Illuminate\Support\Facades\Validator;
+
+public function storeVariant(Request $request, $productId)
+{
+    $product = Product::findOrFail($productId);
+
+    $validator = Validator::make($request->all(), [
+        'variant.*.color_id' => 'required|exists:colors,id',
+        'variant.*.size_id' => 'required|exists:sizes,id',
+        'variant.*.stock_quantity' => 'required|integer|min:1',
+        'variant.*.image_variant' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()
+            ->back()
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    $variants = $request->input('variant', []);
+    $images = $request->file('variant', []);
+
+    foreach ($variants as $key => $variant) {
+        // Kiểm tra trùng lặp trong database
+        $exists = $product->variants()->where('color_id', $variant['color_id'])
+            ->where('size_id', $variant['size_id'])
+            ->exists();
+
+        if ($exists) {
+            // dd(123);
+            return redirect()
+                ->back()
+                ->withErrors([
+                    "variant.$key" => "Biến thể với màu sắc và kích thước này đã tồn tại.",
+                ])
+                ->withInput();
+            // return redirect()->back()->with('error','Biến thể này đã tồn tại');
+        }
+
+        $imagePath = null;
+
+        // Kiểm tra và lưu ảnh nếu có
+        if (isset($images[$key]['image_variant'])) {
+            $image = $images[$key]['image_variant'];
+            $imagePath = $image->store('variants', 'public'); // Lưu tại `storage/app/public/variants`
+        }
+
+        // Lưu biến thể mới vào database
+        $product->variants()->create([
+            'color_id' => $variant['color_id'],
+            'size_id' => $variant['size_id'],
+            'stock_quantity' => $variant['stock_quantity'],
+            'image_variant' => $imagePath,
+        ]);
+    }
+
+    return redirect()
+        ->route('admin.products.show', $product->id)
+        ->with('success', 'Biến thể đã được thêm thành công!');
+}
+
+
+// tiến hành xoá biến thể
+    public function deleteVariant($id){
+        $variant = ProductVariant::find($id);
+        if(!$variant){
+            return redirect()->back()->withErrors(['error'=>'Biến thể không tồn tại .']);
+        }
+        if ($variant->image_variant && Storage::exists('public/' . $variant->image_variant)) {
+            Storage::delete('public/' . $variant->image_variant);
+        }
+        $variant->delete();
+        return redirect()->back()->with('success','Xoá thành công biến thể');
+    }
+// tìm kiếm sản phẩm
+    public function search(Request $request){
+        $search = $request->input('search');
+        $products = Product::query();
+        if($search){
+            $products = $products->where('name','like','%'.$search.'%')
+                                 ->orWhere('id','like','%'.$search.'%');
+        }
+        $products = $products->orderBy('id','desc')->paginate(10);
+        return view('admin.product.index',compact('products'));
+    }
+
+
+
+
+
 }

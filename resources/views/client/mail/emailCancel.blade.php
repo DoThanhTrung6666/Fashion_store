@@ -41,23 +41,23 @@
             <h2>Cảm ơn bạn đã đặt hàng tại Fashion Store!</h2>
         </div>
         <p>Xin chào {{ $order->name_order}},</p>
-        <p>Chúng tôi đã nhận được đơn hàng của bạn. Dưới đây là thông tin chi tiết:</p>
-        {{-- <div class="order-details">
+        <p>Chúng tôi đã huỷ đơn hàng của bạn. Dưới đây là thông tin chi tiết:</p>
+        <div class="order-details">
             <p><strong>Mã đơn hàng:</strong> {{ $order->id }}</p>
             <p><strong>Sản phẩm:</strong></p>
             <ul>
-                @foreach($order_item as $item)
+                {{-- @foreach($order->orderItems as $item)
                     <li>
-                        {{ $item->productVariant->product->name }} (x{{ $item->quantity }}) - {{ number_format($item->price, 0) }} VND
+                        {{ $item['orderItems']->productVariant->product->name }} (x{{ $item['orderItems']->quantity }}) - {{ number_format($item['orderItems']->price, 0) }} VND
                     </li>
-                @endforeach
+                @endforeach --}}
             </ul>
             <p><strong>Tổng tiền:</strong> {{$order->total_amount }} VND</p>
             <p><strong>Địa chỉ giao hàng:</strong> {{$order->address_order }}</p>
-        </div> --}}
-        <p>Chúng tôi sẽ giao hàng trong thời gian sớm nhất!</p>
+        </div>
+        <p>Chúng tôi xin lỗi vì sự cố ngoài ý muốn , Hãy quay lại sau nhé ❤!</p>
         <div class="footer">
-            <p>Fashion Store - Cảm ơn bạn đã tin tưởng mua sắm!</p>
+            <p>Fashion Store - Mong bạn thông cảm nhé 💖!</p>
         </div>
     </div>
     <footer style="margin-top: 1.5rem; width: 100%; text-align: center; color: #718096;">© 2024 Fashion_store. All rights

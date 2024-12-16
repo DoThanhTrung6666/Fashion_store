@@ -92,7 +92,7 @@
             @endforeach --}}
             @foreach($variants->groupBy('color.id') as $colorId => $colorVariants)
             <label class="size-option">
-                <input type="radio" name="color_id" value="{{ $colorId }}" onclick="updateSizes({{ $colorId }})" />
+                <input class="active" type="radio" name="color_id" value="{{ $colorId }}" onclick="updateSizes({{ $colorId }})" />
                 <span>{{ $colorVariants->first()->color->name }}</span>
             </label>
         @endforeach

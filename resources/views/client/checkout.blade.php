@@ -211,6 +211,9 @@
                             @if(session('error'))
                                 <p style="color: red">{{session('error')}}</p>
                             @endif
+                            @if(session('error_flash_sale'))
+                                <p style="color: red">{{session('error_flash_sale')}}</p>
+                            @endif
                         </span>
                         <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
                             @if (Auth::user())
@@ -329,7 +332,7 @@
                             dụng</button>
                     </form>
                 </li>
-                @if (session('success'))
+                {{-- @if (session('success'))
                     <script>
                         alert('{{ session('success') }}');
                     </script>
@@ -339,7 +342,7 @@
                     <script>
                         alert('{{ session('error') }}');
                     </script>
-                @endif
+                @endif --}}
 
 
 

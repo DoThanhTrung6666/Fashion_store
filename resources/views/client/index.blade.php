@@ -4,36 +4,78 @@
 <div class="home-slider margin-bottom-0">
 
     <!-- Slide -->
-    @foreach($sliderBanners as $sliderBanner)
- <div data-background-image="{{ asset('storage/' . $sliderBanner->image_path) }}">
-         <img 
-             src="{{ asset('storage/' . $sliderBanner->image_path) }}" 
-             alt="{{ $sliderBanner->title }}" width="100%" height="100%" class="item">
-     <div class="container">
-         <div class="row">
-             <div class="col-md-12">
-                 <div class="home-slider-container">
+    <div data-background-image="assets/img/bannershop.jpg" class="item">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="home-slider-container">
 
-                     <!-- Slide Title -->
-                     <div class="home-slider-desc">
-                         <div class="home-slider-title mb-4">
-                             <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
-                             <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
-                             {{-- <span class="trending">There's nothing like trend</span> --}}
-                         </div>
+                        <!-- Slide Title -->
+                        <div class="home-slider-desc">
+                            <div class="home-slider-title mb-4">
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
+                            </div>
 
-                         <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
-                     </div>
-                     <!-- Slide Title / End -->
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
+                        </div>
+                        <!-- Slide Title / End -->
 
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
- @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    
+    <!-- Slide -->
+    <div data-background-image="{{asset('assets/img/bannershop1.jpg')}}" class="item">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="home-slider-container">
+
+                        <!-- Slide Title -->
+                        <div class="home-slider-desc">
+                            <div class="home-slider-title mb-4">
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
+                            </div>
+
+                            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
+                        </div>
+                        <!-- Slide Title / End -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide -->
+    <div data-background-image="assets/img/b-3.png" class="item">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="home-slider-container">
+
+                        <!-- Slide Title -->
+                        <div class="home-slider-desc">
+                            <div class="home-slider-title mb-4">
+                                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông  2024</h1>
+                                {{-- <span class="trending">There's nothing like trend</span> --}}
+                            </div>
+                        <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
+                        </div>
+                        <!-- Slide Title / End -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 <!-- ============================ Hero Banner End ================================== -->
@@ -243,8 +285,8 @@
                                         <div style=""  class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                             <div class="text-left" >
                                                 <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                                        <div class="text-right">
+                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0" style="display:flex;">
+                                                        {{-- <div class="text-right"> --}}
                                                         <div class="text-right">
                                                             @foreach ($value->variants as $color)
                                                             <div class="form-check form-option form-check-inline mb-1" >
@@ -252,14 +294,8 @@
                                                             </div>
                                                             @endforeach
                                                         </div>
-                                                        </div>
-                                                        <div class="text-left">
-                                                            <form  action="{{route('favorites.add',$value->id)}}" method="POST">
-                                                                @csrf
-                                                                <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
-                                                                {{-- <button type="submit">Them vao yeu thich</button> --}}
-                                                            </form>
-                                                        </div>
+                                                        {{-- </div> --}}
+
                                                     </div>
 
                                                     <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $value->id) }}">{{$value->name}}</a></h5>
@@ -285,11 +321,19 @@
                                                 </div>
 
                                             </div>
+                                            <div class="text-right">
+                                                <form  action="{{route('favorites.add',$value->id)}}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
+                                                    {{-- <button type="submit">Them vao yeu thich</button> --}}
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
+                            {{-- {{ $allProducts->links() }} --}}
                         </div>
                     </div>
 
@@ -388,7 +432,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Trendy Products</h2>
+                    <h2 class="off_title">Sản phẩm thịnh hành</h2>
                     <h3 class="ft-bold pt-3">Sản phẩm thịnh hành</h3>
                 </div>
             </div>
@@ -442,7 +486,7 @@
                                 {{-- </div>
                                 @endforeach --}}
                                 <div class="form-check form-option form-check-inline mb-1">
-                                    Lượt xem : {{$trending->views}}
+                                    <i class="fas fa-eye"></i> {{$trending->views}}
                                 </div>
                             </div>
                             <div class="text-right">
@@ -474,9 +518,8 @@
 
             @endforeach
 
-            {{-- {{ $trendingProducts->links() }} --}}
         </div>
-        {{ $trendingProducts->links() }}
+        {{-- {{ $trendingProducts->links() }} --}}
         <!-- row -->
 
 
@@ -661,12 +704,12 @@
                                         <div class="text-left">
                                             <div style="display:flex;">
                                                 <p class="fw-bolder fs-md mb-0 lh-1 mb-1"><a  href="${data.flash_sale_items[i].product.link}">${data.flash_sale_items[i].product.name}</a></p>
-                                                <p style="margin-left:80px;" class="fw-bolder fs-md mb-0 lh-1 mb-1"><a   href="${data.flash_sale_items[i].product.link}">Xem chi tiết</a></p>
                                             </div>
                                             <div class="elis_rty" class="ft-bold text-dark fs-sm" style="display: flex">
                                                 <p style="text-decoration:line-through ;color:red">${data.flash_sale_items[i].product.price}đ</p>
-                                                <p style="margin-left:5%">${data.flash_sale_items[i].price}đ</p>
+                                                <p style="margin-left:5%">${data.flash_sale_items[i].price}đ</p><br>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -709,3 +752,22 @@
 </script>
 <!-- ======================= Customer Features ======================== -->
 @endsection
+<style>
+    .detail-link {
+    display: inline-block;
+    margin-top: 5px;
+    color: #000000;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.detail-link:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+
+
+</style>

@@ -27,7 +27,7 @@ class HomeController extends Controller
         $allProducts = Product::with(['variants','flashSaleItems.flashSale.sale'])
         ->where('status', 1)
         ->orderBy('created_at', 'DESC')
-        ->get();
+        ->paginate(8);
         //load sản phẩm thịnh hành
         $trendingProducts = Product::with('variants','flashSaleItems.flashSale.sale')
             ->where('status', 1)
@@ -48,7 +48,7 @@ class HomeController extends Controller
 
 
 
-        $topBanner = Banner::where('position', 1)->where('is_active', 1)->first();  
+        $topBanner = Banner::where('position', 1)->where('is_active', 1)->first();
 $bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
         $sliderBanners = Banner::where('position', 3)->where('is_active', 1)->get();
         return view('client.index', compact('flashSales', 'categories', 'allProducts', 'trendingProducts','sliderBanners','bottomBanner','topBanner'));
