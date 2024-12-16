@@ -333,6 +333,7 @@
                                 </div>
                                 @endforeach
                             </div>
+                            {{-- {{ $allProducts->links() }} --}}
                         </div>
                     </div>
 
@@ -517,9 +518,8 @@
 
             @endforeach
 
-            {{-- {{ $trendingProducts->links() }} --}}
         </div>
-        {{ $trendingProducts->links() }}
+        {{-- {{ $trendingProducts->links() }} --}}
         <!-- row -->
 
 
