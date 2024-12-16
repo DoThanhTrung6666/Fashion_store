@@ -129,7 +129,7 @@
         }
 
         .product-table th,
-        .product-table td {
+.product-table td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
@@ -202,7 +202,7 @@
                                 </div>
 
                                 <!-- Danh sách sản phẩm -->
-                                <div class="product-list">
+<div class="product-list">
                                     <h5><strong>Sản phẩm:</strong></h5>
 
 
@@ -256,7 +256,7 @@
                                         <a href="{{ route('admin.order.update', $order->id) }}?status=Đã huỷ"
                                             onclick="return confirm('xác nhận')"> <button
                                                 class="btn btn-danger btn-cancel">Hủy đơn hàng</button></a>
-                                        <a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển"
+<a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển"
                                             onclick="return confirm('xác nhận')"><button
                                                 class="btn btn-success btn-confirm">Xác nhận đơn hàng</button></a>
                                     </div>
