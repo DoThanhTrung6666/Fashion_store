@@ -195,4 +195,34 @@ class AuthenticationController extends Controller
         DB::table('password_reset_tokens')->where('email', $email)->delete();
         return redirect()->route('home');
     }
+
+
+    // xu li doi mat khau
+    public function showFormChangePassWord(){
+        return view('client.auth.changePassword');
+    }
+
+    public function changePassword(Request $request){
+        $request->validate([
+            'current_password' => 'required', // mat khau cu
+            'new_password' => 'required|min:8|confirmed' // mat khau moi toi thieu 8 ki tu dung voi xac nhan lai
+        ],[
+            'current_password.required' => 'Khong duoc bo trong',
+            'new_password.required' => 'Khong duoc bo trong',
+            'new_password.min' => 'Toi thieu 8 ki tu',
+            'new_password.confirmed' => 'Mat khau chua khop',
+        ]);
+
+        if(!Hash::check($request->current_password,Auth::user()->password)){
+            return redirect()->route('showFormChangePassWord')
+            ->withErrors(['current_password'=>'Mat khau khong dung'])
+            ->withInput();
+        }
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+        return redirect()->route('showFormChangePassWord')->with('success','Mat khau duoc doi thanh cong');
+    }
+
+
 }
