@@ -29,4 +29,16 @@ class ProductVariant extends Model
     {
         return $this->hasMany(CartItem::class);
     }
+
+        // Các thuộc tính và phương thức khác
+
+        public function orderItems()
+        {
+            return $this->hasMany(OrderItem::class, 'product_variant_id');
+        }
+        public function comments()
+{
+    return $this->hasMany(Comment::class, 'product_variant_id', 'id');
+}
+
 }

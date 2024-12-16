@@ -11,30 +11,46 @@
             <div class="row container-fluid">
                 <div class="col-md-12">
                     <div class="box box-primary">
-
-                        <table class="table">
-                            <tr>
-                                <th style="text-align: center" scope="col" style=""></th>
-                                <th style="text-align: center" scope="col" style="">STT</th>
-                                <th style="text-align: center" scope="col" style="">Tên sản phẩm</th>
-                                <th style="text-align: center" scope="col" style="">Ảnh</th>
-                                <th style="text-align: center" scope="col" style="">Tổng số bình luận</th>
-                                <th style="text-align: center" scope="col" style="">Lượt đánh giá</th>
-                            </tr>
-
-                            @foreach ($products as $product)
-                                <tr style="text-align: center">
-                                    <td><input type="checkbox"></td>
-                                    <td>{{ $product->id }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td><img src="{{ Storage::url($product->image) }}" width="100" height="100" alt=""></td>
-                                    <td>{{ $product->comments_count }}</td>
-                                    <td>{{ $product->average_rating ? number_format($product->average_rating, 1) : 'Chưa có bình luận' }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.comment.show', $product->id) }}" class="btn btn-warning">Chi tiết</a>
-                                    </td>
+                        <table class="table table-striped table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="text-align: center">Mã đơn hàng</th>
+                                    <th style="text-align: center">Tên sản phẩm</th>
+                                    <th style="text-align: center">Ảnh</th>
+                                    <th style="text-align: center">Lượt đánh giá</th>
+                                    <th style="text-align: center">Chi tiết</th>
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                @foreach ($orders as $index => $order)
+                                    @php
+                                        $orderDisplayed = false;
+                                        $rowClass = $index % 2 == 0 ? 'bg-light' : ''; // Thêm class để tạo màu nền phân biệt
+                                    @endphp
+                                    @foreach ($order->orderItems as $item)
+                                        <tr class="{{ $rowClass }}" style="text-align: center">
+                                            <!-- Chỉ hiển thị mã đơn hàng trong lần lặp đầu tiên của mỗi đơn hàng -->
+                                            @if (!$orderDisplayed)
+                                                <td>{{ $order->id }}</td>
+                                                @php $orderDisplayed = true; @endphp
+                                            @else
+                                                <td></td> <!-- Không hiển thị mã đơn hàng ở các lần sau -->
+                                            @endif
+                                            
+                                            <td>{{ $item->productVariant->product->name }}</td>
+                                            <td>
+                                                <img src="{{ Storage::url($item->productVariant->product->image) }}" width="100" height="100" alt="Ảnh sản phẩm">
+                                            </td>
+                                            <td>
+                                                {{ $item->productVariant->comments->avg('rating') ? number_format($item->productVariant->comments->avg('rating'), 1) : 'Chưa có bình luận' }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.comment.show', ['order_id' => $order->id, 'product_id' => $item->productVariant->product->id, 'product_variant_id' => $item->product_variant_id]) }}" class="btn btn-warning btn-sm">Chi tiết</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>

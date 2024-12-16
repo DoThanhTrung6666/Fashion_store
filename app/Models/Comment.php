@@ -11,9 +11,10 @@ class Comment extends Model
 
     protected $fillable = [
         'user_id',
-        'product_id',
+        'product_variant_id', // Thay đổi từ 'product_id' thành 'product_variant_id'
         'content',
-        'rating'
+        'rating',
+        'order_id', // Nếu bạn đang lưu thông tin đơn hàng
     ];
 
     // Quan hệ với model User
@@ -22,9 +23,15 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Quan hệ với model Product
-    public function product()
+    // Quan hệ với model ProductVariant thay vì Product
+    public function productVariant()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(ProductVariant::class, 'product_variant_id'); // Thay đổi tên quan hệ để liên kết với ProductVariant
+    }
+
+    // Quan hệ với model Order (nếu có liên kết với order)
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

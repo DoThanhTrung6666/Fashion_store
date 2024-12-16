@@ -48,10 +48,12 @@ class DetailController extends Controller
             ->get();
 
         // Lấy các bình luận của sản phẩm
-        $comments = Comment::where('product_id', $id)->with('user')->get();
+        $comments = Comment::whereIn('product_variant_id', $variants->pluck('id'))
+        ->with('user')
+        ->get();
 
-        // Trả về view với các dữ liệu đã truy vấn
-        return view('client.productDetail', compact('comments', 'relatedProducts', 'variants', 'flashSales', 'detail'));
+    // Trả về view với các dữ liệu đã truy vấn
+    return view('client.productDetail', compact('comments', 'relatedProducts', 'variants', 'flashSales', 'detail'));
     }
 
 

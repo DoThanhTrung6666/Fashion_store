@@ -35,10 +35,13 @@ class Product extends Model
     }
     // app/Models/Product.php
 
-public function order()
+// app/Models/Product.php
+
+public function orders()
 {
-    return $this->belongsTo(Order::class); // Mỗi sản phẩm thuộc về một đơn hàng
+    return $this->belongsToMany(Order::class, 'order_items'); // Thêm bảng trung gian order_items
 }
+
 
 public function getAverageRatingAttribute()
 {

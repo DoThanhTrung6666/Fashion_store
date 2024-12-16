@@ -268,31 +268,39 @@ function updateColors(sizeId) {
 
 <!-- Bình luận về sản phẩm -->
 <div class="reviews_info">
-    @foreach($comments as $comment)
-        <div class="single_rev d-flex align-items-start br-bottom py-3">
-            <div class="single_rev_thumb">
-                <img src="assets/img/team-1.jpg" class="img-fluid circle" width="90" alt="" />
-            </div>
-            <div class="single_rev_caption d-flex align-items-start pl-3">
-                <div class="single_capt_left">
-                    <h5 class="mb-0 fs-md ft-medium lh-1">{{ $comment->user->name }}</h5>
-                    <span class="small">{{ $comment->created_at->format('d M Y') }}</span>
-                    <p>{{ $comment->content }}</p>
+    @if($comments->isEmpty())
+        <p>Không có đánh giá nào cho sản phẩm này.</p>
+    @else
+        @foreach($comments as $comment)
+            <div class="single_rev d-flex align-items-start br-bottom py-3">
+                <div class="single_rev_thumb">
+                    <img src="assets/img/team-1.jpg" class="img-fluid circle" width="90" alt="" />
                 </div>
-                <div class="single_capt_right">
-                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                        @for($i = 0; $i < $comment->rating; $i++)
-                            <i class="fas fa-star filled"></i>
-                        @endfor
-                        @for($i = $comment->rating; $i < 5; $i++)
-                            <i class="fas fa-star"></i>
-                        @endfor
+                <div class="single_rev_caption d-flex align-items-start pl-3">
+                    <div class="single_capt_left">
+                        <h5 class="mb-0 fs-md ft-medium lh-1">{{ $comment->user->name ?? 'Khách hàng' }}</h5>
+                        <span class="small">{{ $comment->created_at->format('d M Y') }}</span>
+                        <p>{{ $comment->content }}</p>
+                    </div>
+                    <div class="single_capt_right">
+                        <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                            @for($i = 0; $i < $comment->rating; $i++)
+                                <i class="fas fa-star filled"></i>
+                            @endfor
+                            @for($i = $comment->rating; $i < 5; $i++)
+                                <i class="fas fa-star"></i>
+                            @endfor
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    @endif
 </div>
+
+
+
+
 
 
 

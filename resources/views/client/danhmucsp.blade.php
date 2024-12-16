@@ -78,8 +78,8 @@
                                 </div> --}}
 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                    <div class="collapse" id="categories">
+                                    {{-- <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
+                                    <div class="collapse" id="categories"> --}}
                                         <div class="card-body">
                                             <div class="inner_widget_link">
                                                 <form method="GET" action="{{ route('danhmucsp') }}">
@@ -102,7 +102,7 @@
                                                 </form>
                                             </div>
                                         </div>
-                                    </div>
+                                    {{-- </div> --}}
                                 </div>
 
 

@@ -1,11 +1,10 @@
+@extends('layout.client')
 
-
- @extends('layout.client')
- @section('content')
+@section('content') <!-- Bắt đầu section 'content' -->
 
 <!-- Form gửi bình luận -->
 <div class="add-review">
-    <form action="{{ route('comment.store', ['productId' => $product->id]) }}" method="POST">
+    <form action="{{ route('comment.store', ['orderId' => $order->id, 'productVariantId' => $product_variant_id]) }}" method="POST">
         @csrf
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <h4>Submit Rating</h4>
@@ -43,61 +42,58 @@
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="form-group">
-                <label class="medium text-dark ft-medium">Description</label>
-                <textarea class="form-control" name="content" rows="4" required></textarea>
+                <label for="content">Your Comment</label>
+                <textarea name="content" id="content" class="form-control" rows="4"></textarea>
             </div>
         </div>
 
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-            <div class="form-group m-0">
-                <button type="submit" class="btn btn-white stretched-link hover-black">Submit Review <i class="lni lni-arrow-right"></i></button>
-            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
-
-
-    <script>
-        // Lấy tất cả các sao
-        const stars = document.querySelectorAll('.star-rating i');
-        const ratingInput = document.getElementById('rating');  // Input ẩn để lưu rating
-
-        // Lặp qua các sao và thêm sự kiện click
-        stars.forEach(star => {
-            star.addEventListener('click', function() {
-                // Lấy giá trị của sao (1 - 5)
-                const rating = this.getAttribute('data-value');
-
-                // Cập nhật giá trị rating vào input ẩn
-                ratingInput.value = rating;
-
-                // Cập nhật giao diện sao
-                updateStars(rating);
-            });
-        });
-
-        // Hàm để cập nhật giao diện sao
-        function updateStars(rating) {
-            stars.forEach(star => {
-                if (star.getAttribute('data-value') <= rating) {
-                    star.classList.add('filled');  // Đổi sao thành màu vàng khi đã chọn
-                } else {
-                    star.classList.remove('filled');  // Đổi lại màu mặc định khi chưa chọn
-                }
-            });
-        }
-
-    </script>
-
-    <style>
-        .fas.fa-star.filled {
-            color: #ffcc00;  /* Màu vàng cho sao đã chọn */
-        }
-        .fas.fa-star {
-            color: #ddd;  /* Màu xám cho sao chưa chọn */
-            cursor: pointer;  /* Thêm con trỏ chuột khi hover */
-        }
-    </style>
-
-
 </div>
-@endsection
+
+@endsection <!-- Kết thúc section 'content' -->
+
+
+<script>
+    // Lấy tất cả các sao
+    const stars = document.querySelectorAll('.star-rating i');
+    const ratingInput = document.getElementById('rating');  // Input ẩn để lưu rating
+
+    // Lặp qua các sao và thêm sự kiện click
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            // Lấy giá trị của sao (1 - 5)
+            const rating = this.getAttribute('data-value');
+
+            // Cập nhật giá trị rating vào input ẩn
+            ratingInput.value = rating;
+
+            // Cập nhật giao diện sao
+            updateStars(rating);
+        });
+    });
+
+    // Hàm để cập nhật giao diện sao
+    function updateStars(rating) {
+        stars.forEach(star => {
+            if (star.getAttribute('data-value') <= rating) {
+                star.classList.add('filled');  // Đổi sao thành màu vàng khi đã chọn
+            } else {
+                star.classList.remove('filled');  // Đổi lại màu mặc định khi chưa chọn
+            }
+        });
+    }
+
+</script>
+
+<style>
+    .fas.fa-star.filled {
+        color: #ffcc00;  /* Màu vàng cho sao đã chọn */
+    }
+    .fas.fa-star {
+        color: #ddd;  /* Màu xám cho sao chưa chọn */
+        cursor: pointer;  /* Thêm con trỏ chuột khi hover */
+    }
+</style>

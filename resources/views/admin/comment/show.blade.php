@@ -11,7 +11,6 @@
             <div class="row container-fluid">
                 <div class="col-md-12">
                     <div class="box box-primary">
-
                         <table class="table">
                             <tr>
                                 <th style="text-align: center" scope="col"></th>
@@ -19,7 +18,7 @@
                                 <th style="text-align: center" scope="col">Tên người bình luận</th>
                                 <th style="text-align: center" scope="col">Nội dung</th>
                                 <th style="text-align: center" scope="col">Ngày bình luận</th>
-                                <th style="text-align: center" scope="col">Sao</th> <!-- Thêm cột để hiển thị sao -->
+                                <th style="text-align: center" scope="col">Sao</th>
                                 <th style="text-align: center" scope="col"></th>
                             </tr>
 
@@ -27,10 +26,10 @@
                                 <tr style="text-align: center">
                                     <td><input type="checkbox"></td>
                                     <td>{{ $comment->id }}</td>
-                                    <td>{{ $comment->user->name }}</td> <!-- Sửa để lấy tên người dùng -->
+                                    <td>{{ $comment->user->name }}</td>
                                     <td>{{ $comment->content }}</td>
                                     <td>{{ $comment->created_at }}</td>
-                                    <td>{{ $comment->rating }}</td> <!-- Hiển thị số sao -->
+                                    <td>{{ $comment->rating }}</td>
                                     <form action="{{ route('admin.comment.destroy', $comment->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')

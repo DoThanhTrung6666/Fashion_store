@@ -12,7 +12,7 @@
         <!-- Custom CSS -->
         <link href="{{ asset('assets/css/styles.css')}}" rel="stylesheet">
         <link href="{{ asset('dist/css/SizeColorStatus.css')}}" rel="stylesheet" type="text/css" />
-
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
     <body>

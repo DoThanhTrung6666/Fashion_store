@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\error;
@@ -15,10 +17,21 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $products = Product::withCount('comments')->get();
-        return view('admin.comment.index', compact('products'));
-
+        // Lấy các đơn hàng có bình luận
+        $orders = Order::whereHas('comments', function ($query) {
+            $query->whereNotNull('rating'); // Kiểm tra xem có bình luận với rating không
+        })
+        ->with('orderItems.productVariant.product', 'comments') // Eager load các quan hệ cần thiết
+        ->get();
+    
+        return view('admin.comment.index', compact('orders'));
     }
+    
+    
+    
+    
+    
+    
 
     /**
      * Display the specified resource.
@@ -33,37 +46,45 @@ class CommentController extends Controller
     //     return view('admin.comment.show', compact('comments'));
     // }
 
-    public function show(string $id)
+    public function show($order_id, $product_id, $product_variant_id)
     {
-        $product = Product::find($id);
-        if (!$product) {
-            return redirect()->back()->with('errors', 'Sản phẩm không tồn tại!');
-        }
-    
-        // Eager load user để lấy tên người dùng
-        $comments = $product->comments()->with('user')->get();
-    
+        $comments = Comment::where('order_id', $order_id)
+                           ->where('product_variant_id', $product_variant_id)
+                           ->get();
+        
         return view('admin.comment.show', compact('comments'));
     }
     
-    public function showCommentForm($productId)
+    
+    
+    
+    public function showCommentForm($orderId)
     {
-        // Lấy thông tin sản phẩm
-        $product = Product::find($productId);
-        if (!$product) {
-            return redirect()->route('home')->with('error', 'Sản phẩm không tồn tại');
+        // Lấy thông tin đơn hàng theo order_id
+        $order = Order::find($orderId);
+        if (!$order) {
+            return redirect()->route('home')->with('error', 'Đơn hàng không tồn tại');
         }
     
-        // Hiển thị trang bình luận
-        return view('client.comment', compact('product'));
+        // Lấy danh sách các sản phẩm hoặc biến thể sản phẩm từ đơn hàng
+        $orderItems = $order->orderItems; // Giả sử quan hệ giữa Order và OrderItem đã được định nghĩa
+    
+        // Lấy product_variant_id từ orderItems (ví dụ lấy từ sản phẩm đầu tiên)
+        $product_variant_id = $orderItems->first()->productVariant->id ?? null;
+    
+        // Chuyển tới trang comment.blade.php với dữ liệu đơn hàng và các item
+        return view('client.comment', compact('order', 'orderItems', 'product_variant_id'));
     }
     
-    
-    
-    
+
+
 
     
-
+    
+    
+    
+    
+    
 
 public function destroy(string $id)
 {
@@ -75,80 +96,51 @@ public function destroy(string $id)
     return redirect()->back()->with('success', 'Xóa bình luận thành công!');
 }
 
-// public function store(Request $request, $productId)
-// {
-//     // Validate input
-//     $validated = $request->validate([
-//         'content' => 'required|string',
-//         'rating' => 'required|integer|between:0,5',  // Cho phép giá trị rating từ 0 đến 5
-//     ]);
-
-//     // Lấy thông tin sản phẩm
-//     $product = Product::findOrFail($productId);
-
-//     // Lưu bình luận vào cơ sở dữ liệu
-//     Comment::create([
-//         'product_id' => $productId,
-//         'user_id' => auth()->id(),
-//         'content' => $validated['content'],
-//         'rating' => $validated['rating'],
-//     ]);
-
-//     // Lấy đơn hàng từ sản phẩm
-//     $order = $product->order;  // Lấy đơn hàng liên quan đến sản phẩm
-
-//     if ($order) {
-//         // Nếu có đơn hàng, redirect về trang chi tiết đơn hàng
-//         return redirect()->route('orders.show', ['orderId' => $order->id])
-//             ->with('success', 'Bình luận của bạn đã được gửi');
-//     }
-
-//     // Nếu không có đơn hàng, trả về một thông báo lỗi hoặc trang lỗi
-//     return redirect()->route('orders.loadUser')
-//         ->with('error', 'Không tìm thấy đơn hàng liên quan.');
-// }
-
-public function store(Request $request, $productId)
+public function store(Request $request, $orderId)
 {
     // Validate input
     $validated = $request->validate([
         'content' => 'required|string',
-        'rating' => 'required|integer|between:0,5',  // Cho phép giá trị rating từ 0 đến 5
+        'rating' => 'required|integer|between:0,5', // Cho phép giá trị rating từ 0 đến 5
     ]);
 
-    // Lấy thông tin sản phẩm
-    $product = Product::findOrFail($productId);
+    // Lấy thông tin đơn hàng
+    $order = Order::with('orderItems.productVariant')->findOrFail($orderId);
+    
 
-    // Kiểm tra xem người dùng đã bình luận sản phẩm này chưa
-    $existingComment = Comment::where('user_id', auth()->id())
-        ->where('product_id', $productId)
-        ->exists();
+    // Lấy sản phẩm đầu tiên từ danh sách orderItems
+    $productVariant = $order->orderItems->first()->productVariant ?? null;
 
-    if ($existingComment) {
-        return redirect()->back()->with('error', 'Bạn đã bình luận sản phẩm này trước đó.');
+    // Kiểm tra nếu không tìm thấy biến thể sản phẩm
+    if (!$productVariant) {
+        return redirect()->back()->with('error', 'Không tìm thấy sản phẩm trong đơn hàng.');
     }
+     // Kiểm tra nếu đã đánh giá sản phẩm này
+$existingComment = Comment::where('user_id', auth()->id())
+    ->where('order_id', $orderId)
+    ->where('product_variant_id', $productVariant->id) // Sử dụng $productVariant->id để kiểm tra
+    ->exists();
+
+if ($existingComment) {
+    // Nếu đã đánh giá cùng sản phẩm trong đơn hàng, trả về trang orders.blade.php với thông báo
+    return redirect()->route('orders.loadUser')->with('alert', 'Quý khách chỉ có thể đánh giá sản phẩm này 1 lần trong đơn hàng.');
+}
+
 
     // Lưu bình luận vào cơ sở dữ liệu
     Comment::create([
-        'product_id' => $productId,
+        'product_variant_id' => $productVariant->id,
         'user_id' => auth()->id(),
         'content' => $validated['content'],
         'rating' => $validated['rating'],
+        'order_id' => $orderId,
     ]);
 
-    // Lấy đơn hàng từ sản phẩm
-    $order = $product->order;  // Lấy đơn hàng liên quan đến sản phẩm
-
-    if ($order) {
-        // Nếu có đơn hàng, redirect về trang chi tiết đơn hàng
-        return redirect()->route('orders.show', ['orderId' => $order->id])
-            ->with('success', 'Bình luận của bạn đã được gửi.');
-    }
-
-    // Nếu không có đơn hàng, trả về một thông báo lỗi hoặc trang lỗi
-    return redirect()->route('orders.loadUser')
-        ->with('error', 'Không tìm thấy đơn hàng liên quan.');
+    // Trả về thông báo thành công và chuyển hướng
+    return redirect()->route('orders.loadUser', ['orderId' => $orderId])
+        ->with('success', 'Cảm ơn quý khách đã mua hàng.');
 }
+
 
 
 

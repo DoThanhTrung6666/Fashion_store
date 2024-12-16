@@ -168,14 +168,29 @@ Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('or
 Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout')->middleware('auth');
 
 // Route để hiển thị trang bình luận
-Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
-// Route để lưu bình luận
-Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
+//Route::get('/comment/{orderId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
+Route::get('/comment/{orderId}/{productVariantId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
 
-Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
-
-Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
+// Route để xem đơn hàng
 Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 
+// Các route khác
 Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
+
+// Route để lưu bình luận
+//Route::post('/comment/{orderId}', [CommentController::class, 'store'])->name('comment.store');
+Route::post('/comment/{orderId}/{productVariantId}', [CommentController::class, 'store'])->name('comment.store');
+
+
+Route::get('/product/{productId}/comment', [ProductController::class, 'showCommentForm'])->name('product.showCommentForm');
+
+Route::get('admin/comment/{order_id}/{product_id}/{product_variant_id}', [CommentController::class, 'show'])->name('admin.comment.show');
+
+
+
+
+
+
+
+
 

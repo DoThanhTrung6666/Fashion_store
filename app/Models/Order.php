@@ -39,5 +39,10 @@ public function products()
     return $this->hasMany(Product::class); // Một đơn hàng có nhiều sản phẩm
 }
 
+public function comments()
+{
+    return $this->hasMany(Comment::class, 'order_id'); // Liên kết với comment qua 'order_id'
+}
+
 
 }
