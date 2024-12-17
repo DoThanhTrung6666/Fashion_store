@@ -57,7 +57,7 @@ $bottomBanner = Banner::where('position', 2)->where('is_active', 1)->first();
 
     public function getFlashSale(){
         $flashSales = FlashSale::with('sale', 'product','flashSaleItems.product')
-            ->where('status', 'Đang diễn ra')
+            // ->where('status', 'Đang diễn ra')
             ->where('start_time', '<=', Carbon::now()->addMonths())
             ->where('end_time', '>=', now())
             ->first();
