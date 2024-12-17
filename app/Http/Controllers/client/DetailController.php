@@ -52,8 +52,8 @@ class DetailController extends Controller
         ->with('user')
         ->get();
 
-    // Trả về view với các dữ liệu đã truy vấn
-    return view('client.productDetail', compact('comments', 'relatedProducts', 'variants', 'flashSales', 'detail'));
+        // Trả về view với các dữ liệu đã truy vấn
+        return view('client.productDetail', compact('comments', 'relatedProducts', 'variants', 'flashSales', 'detail'));
     }
 
 

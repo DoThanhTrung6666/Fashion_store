@@ -70,6 +70,7 @@
                             <a href="?tab=Đang diễn ra" class="tab {{ request('tab') == 'Đang diễn ra' ? 'active' : '' }}"> <i class="fas fa-play-circle" style="color: green;"></i> Đang diễn ra</a>
                             <a href="?tab=Sắp diễn ra" class="tab {{ request('tab') == 'Sắp diễn ra' ? 'active' : '' }}"><i class="fas fa-clock" style="color: orange;"></i> Sắp diễn ra</a>
                             <a href="?tab=Đã kết thúc" class="tab {{ request('tab') == 'Đã kết thúc' ? 'active' : '' }}"> <i class="fas fa-times-circle" style="color: red;"></i> Đã kết thúc</a>
+                            <a href="{{route('admin.createFlashSale')}}" class=""><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm Flash-Sale mới</a>
                         </div>
                         <div class="box box-primary">
                                 <table class="table table-bordered">
@@ -79,35 +80,35 @@
                                             <th style="text-align: center">% giảm giá</th>
                                             <th style="text-align: center">Thời gian bắt đầu</th>
                                             <th style="text-align: center">Thời gian kết thúc</th>
-                                            <th style="text-align: center">Status</th>
-                                            <th style="text-align: center">Thao tác</th>
+                                            <th style="text-align: center">Trạng thái</th>
+                                            {{-- <th style="text-align: center">Thao tác</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if (request('tab') == 'all' || !request('tab'))
                                         @foreach($flashSales as $flashSale)
                                             <tr style="">
-                                                <td>{{ $flashSale->name }}</td>
-                                                <td>{{ number_format($flashSale->sale->discount_percentage) }} %</td>
-                                                <td>{{ $flashSale->start_time}}</td>
-                                                <td>{{ $flashSale->end_time}}</td>
+                                                <td style="text-align: center">{{ $flashSale->name }}</td>
+                                                <td style="text-align: center">{{ number_format($flashSale->sale->discount_percentage) }} %</td>
+                                                <td style="text-align: center">{{ \Carbon\Carbon::parse($flashSale->start_time)->format('d/m/Y H:i:s') }}</td>
+                                                <td style="text-align: center">{{ \Carbon\Carbon::parse($flashSale->end_time)->format('d/m/Y H:i:s') }}</td>
                                                 {{-- <td><span class="badge rounded-pill bg-success">{{ $flashSale->status}}</span></td> --}}
-                                                <td>
+                                                <td style="text-align: center">
                                                     @if($flashSale->status == 'Đang diễn ra')
                                                     <span class="badge rounded-pill" style="background-color: rgb(50, 211, 50);">{{ $flashSale->status }}</span>
                                                     @elseif($flashSale->status == 'Sắp diễn ra')
-                                                    <span class="badge rounded-pill" style="background-color: rgb(237, 32, 32);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: orange;">{{ $flashSale->status }}</span>
                                                     @else
-                                                    <span class="badge rounded-pill" style="background-color: rgb(147, 141, 141);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: red;">{{ $flashSale->status }}</span>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <a href="{{ route('admin.add_products', $flashSale->id) }}" class="btn btn-success">Áp dụng</a>
                                                     <a href="{{ route('admin.view_products',$flashSale->id)}}" class="btn btn-warning">Đã áp dụng</a>
                                                     @if($flashSale->status == 'Sắp diễn ra')
                                                     <a href="" class="btn btn-danger">Sửa</a>
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
 
@@ -123,9 +124,9 @@
                                                     @if($flashSale->status == 'Đang diễn ra')
                                                     <span class="badge rounded-pill" style="background-color: rgb(50, 211, 50);">{{ $flashSale->status }}</span>
                                                     @elseif($flashSale->status == 'Sắp diễn ra')
-                                                    <span class="badge rounded-pill" style="background-color: rgb(237, 32, 32);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: orange;">{{ $flashSale->status }}</span>
                                                     @else
-                                                    <span class="badge rounded-pill" style="background-color: rgb(147, 141, 141);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: red">{{ $flashSale->status }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -149,9 +150,9 @@
                                                     @if($flashSale->status == 'Đang diễn ra')
                                                     <span class="badge rounded-pill" style="background-color: rgb(50, 211, 50);">{{ $flashSale->status }}</span>
                                                     @elseif($flashSale->status == 'Sắp diễn ra')
-                                                    <span class="badge rounded-pill" style="background-color: rgb(237, 32, 32);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: orange;">{{ $flashSale->status }}</span>
                                                     @else
-                                                    <span class="badge rounded-pill" style="background-color: rgb(147, 141, 141);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: red">{{ $flashSale->status }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -175,24 +176,21 @@
                                                     @if($flashSale->status == 'Đang diễn ra')
                                                     <span class="badge rounded-pill" style="background-color: rgb(50, 211, 50);">{{ $flashSale->status }}</span>
                                                     @elseif($flashSale->status == 'Sắp diễn ra')
-                                                    <span class="badge rounded-pill" style="background-color: rgb(237, 32, 32);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: orange;">{{ $flashSale->status }}</span>
                                                     @else
-                                                    <span class="badge rounded-pill" style="background-color: rgb(147, 141, 141);">{{ $flashSale->status }}</span>
+                                                    <span class="badge rounded-pill" style="background-color: red">{{ $flashSale->status }}</span>
                                                     @endif
                                                 </td>
                                                 <td>
                                                     {{-- <a href="{{ route('admin.add_products', $flashSale->id) }}" class="btn btn-success">Áp dụng</a> --}}
                                                     <a href="{{ route('admin.view_products',$flashSale->id)}}" class="btn btn-warning">Đã áp dụng</a>
-                                                    @if($flashSale->status == 'Sắp diễn ra')
-                                                    <a href="" class="btn btn-danger">Sửa</a>
-                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
                                         @endif
                                     </tbody>
                                 </table>
-                                <a class="btn btn-success" href="{{route('admin.createFlashSale')}}">Thêm mới Flash-sale</a>
+                                {{-- <a class="btn btn-success" href="{{route('admin.createFlashSale')}}">Thêm mới Flash-sale</a> --}}
                         </div>
                     </div>
                 </div>

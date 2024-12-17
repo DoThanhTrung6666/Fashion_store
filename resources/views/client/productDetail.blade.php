@@ -59,9 +59,10 @@
 
                             @if($flashSales)
                                 <h3 style="color: red">Đang diễn ra chương trình flash-sale</h3>
-                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{number_format($detail->price)}}</span>vnđ<br>Giá sau khi giảm:<span class="ft-bold theme-cl fs-lg">{{$flashSales->price}}</span> vnđ</div>
+                                <div class="elis_rty">Giá gốc :<span class="ft-medium text-muted line-through fs-md mr-2">{{number_format($detail->price)}}</span>đ<br>
+                                                      Giá sau khi giảm : <span class="ft-bold theme-cl fs-lg">{{number_format($flashSales->price)}} đ</span></div>
                             @else
-                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{number_format($detail->price)}} VNĐ</span></div>
+                                <div class="elis_rty"><span class="ft-bold theme-cl fs-lg">Giá sản phẩm : {{number_format($detail->price)}} đ</span></div>
                             @endif
 
                         </div>
@@ -91,7 +92,7 @@
             @endforeach --}}
             @foreach($variants->groupBy('color.id') as $colorId => $colorVariants)
             <label class="size-option">
-                <input type="radio" name="color_id" value="{{ $colorId }}" onclick="updateSizes({{ $colorId }})" />
+                <input class="active" type="radio" name="color_id" value="{{ $colorId }}" onclick="updateSizes({{ $colorId }})" />
                 <span>{{ $colorVariants->first()->color->name }}</span>
             </label>
         @endforeach
@@ -244,7 +245,7 @@ function updateColors(sizeId) {
 <!-- ======================= Product Detail End ======================== -->
 
 <!-- ======================= Product Description ======================= -->
-<section class="middle">
+<section class="">
     <div class="container">
         <div class="row align-items-center justify-content-center">
             <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12">
@@ -297,10 +298,44 @@ function updateColors(sizeId) {
         @endforeach
     @endif
 </div>
-
-
-
-
+<style>
+    /* Thay đổi phông chữ cho toàn bộ phần đánh giá */
+    .reviews_info {
+        font-family: "Times New Roman", serif;
+    }
+    
+    /* Thay đổi kích thước chữ trong tiêu đề và nội dung đánh giá */
+    .reviews_info h5 {
+        font-size: 20px; /* Kích thước chữ cho tên người dùng */
+        font-weight: bold;
+    }
+    
+    .reviews_info p {
+        font-size: 16px; /* Kích thước chữ cho nội dung đánh giá */
+    }
+    
+    .reviews_info span {
+        font-size: 14px; /* Kích thước chữ cho ngày tháng */
+    }
+    
+    /* Điều chỉnh kích thước sao đánh giá */
+    .star-rating i {
+        font-size: 24px; /* Làm sao lớn hơn */
+        color: #e4e4e4; /* Màu vàng cho sao */
+    }
+    
+    .star-rating i.filled {
+        color: #f2b600; /* Màu cho sao đã đánh giá */
+    }
+    
+    /* Tăng kích thước ảnh đại diện */
+    .single_rev_thumb img {
+        width: 120px; /* Tăng kích thước ảnh đại diện */
+        height: 120px; /* Đảm bảo ảnh tròn */
+        object-fit: cover;
+    }
+    </style>
+    
 
 
 
@@ -315,7 +350,7 @@ function updateColors(sizeId) {
 <!-- ======================= Product Description End ==================== -->
 
 <!-- ======================= Similar Products Start ============================ -->
-<section class="middle pt-0">
+<section class=" pt-0">
     <div class="container">
 
         <div class="row justify-content-center">

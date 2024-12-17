@@ -16,4 +16,7 @@ class Brand extends Model
         'country',
         'website_url',
     ];
+    public function product(){
+        return $this->hasMany(Product::class);
+    }
 }

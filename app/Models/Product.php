@@ -20,6 +20,9 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -35,13 +38,10 @@ class Product extends Model
     }
     // app/Models/Product.php
 
-// app/Models/Product.php
-
-public function orders()
+public function order()
 {
-    return $this->belongsToMany(Order::class, 'order_items'); // Thêm bảng trung gian order_items
+    return $this->belongsTo(Order::class); // Mỗi sản phẩm thuộc về một đơn hàng
 }
-
 
 public function getAverageRatingAttribute()
 {
@@ -49,7 +49,7 @@ public function getAverageRatingAttribute()
 }
 
 
-// danh cho san pham yeu thich 
+// danh cho san pham yeu thich
     public function userFavorites(){
         return $this->belongsToMany(User::class,'favorites');
     }

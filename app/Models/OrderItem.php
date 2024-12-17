@@ -24,15 +24,10 @@ class OrderItem extends Model
 {
     return $this->belongsTo(Order::class,'order_id','id');
 }
-// app/Models/OrderItem.php
-
 public function product()
 {
-    return $this->belongsTo(Product::class);  // Mỗi order item thuộc về một sản phẩm
+    return $this->belongsTo(Product::class, 'product_id', 'id');
 }
-
-
-
 }
 
 
