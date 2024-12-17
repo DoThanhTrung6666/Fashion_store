@@ -29,11 +29,14 @@
                     @if(session('error'))
                         <p style="color: red">{{session('error')}}</p>
                     @endif
+                    @if(session('success'))
+                        <p style="color: red">{{session('success')}}</p>
+                    @endif
                 </span></h2>
                 <form action="{{route('changePassWord')}}" method="POST">
                     @csrf
                     <label for="current_password"></label>
-                    <input type="text" id="current_password" name="current_password" placeholder="Nhập mat khau cu" class="@error('current_password') is-invalid @enderror">
+                    <input type="text" id="current_password" name="current_password" placeholder="Nhập mat khau cu" >
                         @error('current_password')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

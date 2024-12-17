@@ -233,14 +233,25 @@
                                                     <div class="cart_single_caption pl-2">
                                                         <h4 class="product_title fs-md ft-medium mb-1 lh-1">
                                                             {{ $item['cartItem']->productVariant->product->name }}</h4>
-                                                        <p class="mb-1 lh-1"><span class="text-dark">Size:
+                                                        <p class="mb-1 lh-1"><span class="text-dark">Kích cỡ:
                                                                 {{ $item['cartItem']->productVariant->size->name }}</span>
                                                         </p>
-                                                        <p class="mb-3 lh-1"><span class="text-dark">Color:
+                                                        <p class="mb-1 lh-1"><span class="text-dark">Màu sắc:
                                                                 {{ $item['cartItem']->productVariant->color->name }}</span>
                                                         </p>
-                                                        <h4 class="fs-md ft-medium mb-3 lh-1">
-                                                            {{ $item['cartItem']->productVariant->price }}</h4>
+                                                        {{-- <h4 class="fs-md ft-medium mb-3 lh-1">
+                                                            {{ $item['cartItem']->productVariant->price }}</h4> --}}
+                                                        @if ($item['isOnFlashSale'])
+                                                            <p class="mb-1 lh-1"><span class="text-dark">Giá sale:
+                                                             {{ number_format($item['flashSale']->price, 0, ',', '.') }}đ</span>
+                                                            </p>
+                                                            {{-- <p class="flash-sale-price">Giá Flash Sale: {{ number_format($item['flashSale']->price, 0, ',', '.') }} đ</p> --}}
+                                                        @else
+                                                            <p class="mb-1 lh-1"><span class="text-dark">Giá gốc: {{ number_format($item['cartItem']->productVariant->product->price, 0, ',', '.') }} đ</span>
+                                                           </p>
+                                                            {{-- <p class="original-price">Giá gốc: {{ number_format($item['cartItem']->productVariant->product->price, 0, ',', '.') }} đ</p> --}}
+                                                        @endif
+                                                        {{-- <p class="final-price">Giá cuối: {{ number_format($item['finalPrice'], 0, ',', '.') }} đ</p> --}}
                                                     </div>
                                                 </div>
                                             </div>

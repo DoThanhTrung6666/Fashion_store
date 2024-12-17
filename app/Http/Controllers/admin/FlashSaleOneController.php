@@ -124,11 +124,19 @@ private function determineFlashSaleStatus($startTime, $endTime)
         foreach ($validated['products_id'] as $productId){
             $quantity = $validated['quantities'][$productId] ?? 0;
             $product = Product::findOrFail($productId);
+            // dd($product->price * (1-$flashSale->sale_id->discount_percentage/100));
+            $sale = Sale::find($flashSale->sale_id);
+            $discountPercentage = $sale->discount_percentage;
 
+            // Tính toán giá sau giảm
+            $discountedPrice = $product->price * (1 - $discountPercentage / 100);
+
+            // Kiểm tra kết quả
+            // dd($discountedPrice);
             FlashSaleItem::create([
                 'flash_sale_id' => $flashSale->id,
                 'product_id' => $product->id,
-                'price' => $product->price * (1-$flashSale->sale_id/100),
+                'price' => $discountedPrice,
                 'flash_sale_quantity' => $quantity,
                 'sold_quantity' => 0, // Bắt đầu với số lượng đã bán là 0
             ]);
