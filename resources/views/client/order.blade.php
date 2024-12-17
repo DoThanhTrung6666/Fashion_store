@@ -601,28 +601,21 @@
                                         </form>
                                         <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
                                         <div class="dropdown">
-                                            <!-- Nút "Đánh giá Tất Cả" -->
                                             <button class="btn btn-Light dropdown-toggle" type="button"
                                                 id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                bạn có hài lòng với sản phẩm?
+                                                Bạn có hài lòng với sản phẩm?
                                             </button>
-                                            @foreach ($order->orderItems as $item)
-                                                    <!-- Menu dropdown sẽ hiển thị khi di chuột vào -->
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        @foreach ($order->orderItems as $item)
-                                                            <li>
-                                                                <form
-                                                                    action="{{ route('comment.form', ['productId' => $item->productVariant->product->id]) }}"
-                                                                    method="GET">
-                                                                    <button class="dropdown-item" type="submit">
-                                                                        {{ $item->productVariant->product->name }}
-                                                                    </button>
-                                                                </form>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-
-                                            @endforeach
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @foreach ($order->orderItems as $item)
+                                                    <li>
+                                                        <a href="{{ route('comment.form', ['orderId' => $order->id, 'productVariantId' => $item->product_variant_id]) }}"
+                                                            class="dropdown-item">
+                                                            {{ $item->productVariant->product->name }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+        
+                                            </ul>
                                         </div>
                                     </div>
 
