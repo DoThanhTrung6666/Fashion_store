@@ -208,17 +208,33 @@
             <!-- row -->
             <div class="row align-items-center rows-products">
 
+
                 <!-- Single -->
                 <div class="row align-items-center rows-products">
                     @foreach ($products as $product)
+                    @php
+                    // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
+                    $flashSaleItem = $product->flashSaleItems->firstWhere(function ($item) {
+                        return $item->flashSale && $item->flashSale->status == 'Đang diễn ra'
+                            && $item->flashSale->start_time <= now()
+                            && $item->flashSale->end_time >= now();
+                    });
+                @endphp
                         <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                             <div class="product_grid card b-0">
-                                <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">
-                                    {{-- Sale --}}
-                                </div>
+                                @if($flashSaleItem)
+                                    <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
+                                    <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                        {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
+                                    </div>
+                                @else
+                                    <!-- Không có flash sale hoặc không đang diễn ra -->
+                                    <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
+                                @endif
                                 <button class="snackbar-wishlist btn btn_love position-absolute ab-right">
                                     <i class="far fa-heart"></i>
                                 </button>
+
                                 <div class="card-body p-0">
                                     <div class="shop_thumb position-relative">
                                         <!-- Link ảnh sản phẩm trỏ đến chi tiết sản phẩm -->
@@ -248,11 +264,16 @@
                                                 <a
                                                     href="{{ route('product.detail', $product->id) }}">{{ $product->name ?? 'Product Name' }}</a>
                                             </h5>
-                                            <div class="elis_rty">
-                                                <span class="ft-bold fs-md text-dark">
-                                                    <p>{{ number_format($product->price) }} VNĐ</p>
-                                                </span>
-                                            </div>
+                                            @if($flashSaleItem)
+                            <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
+                            <div style="display:flex">
+                                <div style="text-decoration:line-through ;margin-right:20px"  class="elis_rty"><p style="color:red" >{{number_format($product->price)}}đ</p></div>
+                                <div  class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($flashSaleItem->price)}}đ</span></div>
+                            </div>
+                            @else
+                                <!-- Không có flash sale hoặc không đang diễn ra -->
+                                <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($product->price)}}đ</span></div>
+                            @endif
                                         </div>
                                     </div>
                                 </div>

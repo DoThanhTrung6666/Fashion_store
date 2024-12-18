@@ -16,12 +16,28 @@
         <div class="row align-items-center rows-products">
 
             @foreach ($favorites as $value)
-
+                @php
+                // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
+                $flashSaleItem = $value->flashSaleItems->firstWhere(function ($item) {
+                    return $item->flashSale && $item->flashSale->status == 'Đang diễn ra'
+                        && $item->flashSale->start_time <= now()
+                        && $item->flashSale->end_time >= now();
+                });
+            @endphp
 
             <!-- Single -->
             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                 <div class="product_grid card b-0">
-                    <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div>
+                    {{-- <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div> --}}
+                    @if($flashSaleItem)
+                        <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
+                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                            {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
+                        </div>
+                    @else
+                        <!-- Không có flash sale hoặc không đang diễn ra -->
+                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
+                    @endif
                     <div class="card-body p-0">
                         <div class="shop_thumb position-relative">
                             <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show',$value->id)}}"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
@@ -57,7 +73,17 @@
                         </div>
                         <div class="text-left">
                             <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show',$value->id)}}">{{$value->name}}</a></h5>
-                            <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}} vnđ</span></div>
+                            @if($flashSaleItem)
+                            <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
+                            <div style="display:flex">
+                                <div style="text-decoration:line-through ; width:30%;"  class="elis_rty"><p style="color:red" >{{number_format($value->price)}}đ</p></div>
+                                <div  class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($flashSaleItem->price)}}đ</span></div>
+                            </div>
+                            @else
+                                <!-- Không có flash sale hoặc không đang diễn ra -->
+                                <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}}đ</span></div>
+                            @endif
+                            {{-- <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}} vnđ</span></div> --}}
                         </div>
                     </div>
                 </div>

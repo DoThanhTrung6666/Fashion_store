@@ -38,12 +38,12 @@
 <body>
     <div class="container">
         <div class="header">
-            <h2>Cảm ơn bạn đã đặt hàng tại Fashion Store!</h2>
+            <h2>Cảm ơn bạn đã đặt hàng tại Fashion Store! TEST KHO HÀNG</h2>
         </div>
-        <p>Xin chào {{ $order->name_order}},</p>
+        {{-- <p>Xin chào {{ $order->name_order}},</p> --}}
         <p>Chúng tôi đã huỷ đơn hàng của bạn. Dưới đây là thông tin chi tiết:</p>
         <div class="order-details">
-            <p><strong>Mã đơn hàng:</strong> {{ $order->id }}</p>
+            {{-- <p><strong>Mã đơn hàng:</strong> {{ $order->id }}</p> --}}
             <p><strong>Sản phẩm:</strong></p>
             <ul>
                 {{-- @foreach($order->orderItems as $item)
@@ -52,8 +52,8 @@
                     </li>
                 @endforeach --}}
             </ul>
-            <p><strong>Tổng tiền:</strong> {{$order->total_amount }} VND</p>
-            <p><strong>Địa chỉ giao hàng:</strong> {{$order->address_order }}</p>
+            {{-- <p><strong>Tổng tiền:</strong> {{$order->total_amount }} VND</p> --}}
+            {{-- <p><strong>Địa chỉ giao hàng:</strong> {{$order->address_order }}</p> --}}
         </div>
         <p>Chúng tôi xin lỗi vì sự cố ngoài ý muốn , Hãy quay lại sau nhé ❤!</p>
         <div class="footer">

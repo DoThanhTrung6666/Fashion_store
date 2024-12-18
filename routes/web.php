@@ -46,6 +46,10 @@ Route::prefix('admin')
     ->as('admin.')
     ->group(function () {
         Route::get('/statistics', [thongkeController::class, 'index'])->name('statistics.index');
+        Route::post('/statistics/revenue', [thongkeController::class, 'revenue'])->name('statistics.revenue');
+        Route::post('/statistics/top-users', [thongkeController::class, 'topUsers'])->name('statistics.topUsers');
+        Route::post('/statistics/top-products', [thongkeController::class, 'topProducts'])->name('statistics.topProducts');
+        Route::post('/statistics/orders-summary', [thongkeController::class, 'ordersSummary'])->name('statistics.ordersSummary');
         Route::resource('banners', BannerController::class);
         // Route::get('/admin', [thongkeController::class, 'index']);
         Route::resource('products', ProductController::class);
@@ -95,6 +99,15 @@ Route::prefix('admin')
         Route::delete('flash-sale/{flashSaleId}/product/{productId}', [FlashSaleOneController::class, 'deleteProduct'])->name('delete_product');
 
         Route::resource('vouchers', VoucherController::class);
+
+        // thêm biến thể admin
+        Route::get('admin/products/{product}/variants/create', [ProductController::class, 'createVariant'])
+            ->name('products.variants.create');
+        Route::post('admin/products/{product}/variants', [ProductController::class, 'storeVariant'])
+            ->name('products.variants.store');
+        Route::delete('/variants/{id}', [ProductController::class, 'deleteVariant'])->name('variants.destroy');
+        Route::get('/admin/products', [ProductController::class, 'search'])->name('search.product');
+
     });
 
 
@@ -105,6 +118,12 @@ Route::prefix('admin')
         Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
 
         Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
+        Route::get('/change-password',[AuthenticationController::class,'showFormChangePassWord'])->name('showFormChangePassWord');
+        Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
+
+        // cập nhật số lượng giỏ hàng
+        Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
@@ -152,7 +171,7 @@ Route::get('/orders', [OrderController::class, 'loadOrderUser'])->name('orders.l
 
 
 
-Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+// Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel')->middleware('auth');
 Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase')->middleware('auth');
 
@@ -172,12 +191,13 @@ Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheck
 // Route để hiển thị trang bình luận
 Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
 // Route để lưu bình luận
-Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
+// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
 
 Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
 
 Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
-Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 
 Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
 
+Route::get('/orders/search', [OrderController::class, 'search'])->name('orders.search');

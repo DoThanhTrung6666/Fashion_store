@@ -25,11 +25,12 @@
                 <img src="{{asset('assets/img/bannershop1.jpg')}}" width="100%" height="100%" alt="">
             </div>
             <div class="login-form">
-                <h2>Đăng nhập <span>
+                <h2>Đăng nhập </h2>
+                <span>
                     @if(session('error'))
                         <p style="color: red">{{session('error')}}</p>
                     @endif
-                </span></h2>
+                </span>
                 <form action="{{route('login')}}" method="POST">
                     @csrf
                     <label for="email"></label>
@@ -43,11 +44,11 @@
                         @error('password')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    <button type="submit">Đăng nhập</button>
+                    <button type="submit" class="btn-gray">Đăng nhập</button>
 
                     <div class="forgot">
                         <a href="{{route('showForgotPassword')}}">Quên mật khẩu?</a>
-                        <a href="{{route('register')}}">Đăng ký tài khoản</a>
+                        {{-- <a href="{{route('register')}}">Quên mật khẩu</a> --}}
                     </div>
 
                 </form>
@@ -61,3 +62,26 @@
 </section>
 
 @endsection
+<style>
+    .btn-gray {
+            background-color: #808080; /* Màu xám */
+            color: white; /* Màu chữ trắng */
+            border: none;
+            border-radius: 5px; /* Bo góc */
+            padding: 12px 24px; /* Khoảng cách bên trong */
+            font-size: 16px;
+            cursor: pointer; /* Con trỏ chuột thành dạng tay */
+            transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+        }
+
+        /* Hiệu ứng hover */
+        .btn-gray:hover {
+            background-color: #666666; /* Màu xám đậm khi hover */
+        }
+
+        /* Hiệu ứng focus */
+        .btn-gray:focus {
+            outline: none; /* Loại bỏ viền khi focus */
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2); /* Hiệu ứng bóng */
+        }
+</style>

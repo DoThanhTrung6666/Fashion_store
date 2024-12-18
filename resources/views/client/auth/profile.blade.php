@@ -51,8 +51,8 @@
                         <h4 class="px-3 py-2 mb-0 lh-2 gray fs-sm ft-medium text-muted text-uppercase text-left">Tài khoản của tôi</h4>
                         <ul class="dahs_navbar">
                             <li><a href="{{route('orders.loadUser')}}"><i class="lni lni-shopping-basket mr-2"></i>Đơn hàng</a></li>
-                            {{-- <li><a href="addresses.html"><i class="lni lni-map-marker mr-2"></i>Addresses</a></li>
-                            <li><a href="payment-methode.html"><i class="lni lni-mastercard mr-2"></i>Payment Methode</a></li> --}}
+                            <li><a href="{{route('showFormChangePassWord')}}"><i class="lni lni-map-marker mr-2"></i>Doi mat khau</a></li>
+                            {{-- <li><a href="payment-methode.html"><i class="lni lni-mastercard mr-2"></i>Payment Methode</a></li> --}}
                             <li><a href="{{route('logout')}}"><i class="lni lni-power-switch mr-2"></i>Đăng xuất</a></li>
                         </ul>
                     </div>
