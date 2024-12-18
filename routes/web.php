@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthenticationController;
 use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\client\CartController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Order;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,23 @@ use App\Models\Order;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::routes(['verify' => true]);
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home'); // Hoặc trang bạn muốn chuyển đến sau xác minh
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'verification-link-sent');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
