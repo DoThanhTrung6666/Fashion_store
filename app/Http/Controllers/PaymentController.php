@@ -30,7 +30,6 @@ class PaymentController extends Controller
             $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
             return $finalPrice * $cartItem->quantity;
         });
-
         $discountAmount = session()->has('voucher_discount') ? session()->get('voucher_discount')['discount_amount'] : 0;
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
