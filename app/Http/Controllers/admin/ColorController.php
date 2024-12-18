@@ -14,7 +14,7 @@ class ColorController extends Controller
     // Danh sách color
     public function index()
     {
-        $colors = Color::all();
+        $colors = Color::where('status',1)->get();
         return view('admin.color.index', compact('colors'));
     }
 

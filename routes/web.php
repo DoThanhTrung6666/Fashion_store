@@ -105,7 +105,7 @@ Route::prefix('admin')
         Route::resource('/sales', SaleController::class);
         // cập nhật trạng thái size và color 
         Route::post('/size/{id}',[SizeController::class,'updateStatus'])->name('size.update.status');
-
+        Route::post('/color/{id}',[ColorController::class,'updateStatus'])->name('color.update.status');
 
         //dành cho flashsale
         Route::get('list-product-flash-sale', [FlashSaleOneController::class, 'listProductFlashSale'])->name('listProductFlashSale');
