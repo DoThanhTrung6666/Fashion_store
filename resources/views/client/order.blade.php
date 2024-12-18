@@ -42,8 +42,12 @@
                 @csrf
                 <div style="display:flex">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Bạn có thể tìm kiếm theo ID đơn hàng hoặc Tên Sản phẩm">
-                    <input type="submit" style="width:100px" value="Tìm kiếm">
+                    <input type="submit" style="width:100px" value="Tìm kiếm"><br>
+
                 </div>
+                @error('search')
+                        <div class="text-danger">{{ $message }}</div>
+                @enderror
             </form>
         </div>
 

@@ -660,7 +660,15 @@ public function Order(Request $request)
     if ($selectedCartItems->isEmpty()) {
         return redirect()->route('cart.load')->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
     }
+    foreach($selectedCartItems as $cartItem){
+        $product = $cartItem->productVariant->product;
+        // dd($product);
+        // // dd($product->status ==1);
 
+        if($product->status == 2){
+            return redirect()->route('cart.load')->with('error','Sản phẩm ' .$product->name. ' đã ngừng bán . hãy xoá khỏi giỏ hàng');
+        }
+    }
     // Khởi tạo tổng tiền và trạng thái áp dụng Flash Sale
     $totalPrice = 0;
     $isFlashSaleApplied = false;
@@ -671,7 +679,11 @@ public function Order(Request $request)
     $productVariantIds = [];
     foreach ($selectedCartItems as $cartItem) {
         $product = $cartItem->productVariant->product;
-
+        $productVariant = $cartItem->productVariant;
+        if ($productVariant->stock_quantity < $cartItem->quantity) {
+            return redirect()->route('cart.load')
+                ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+        }
         // Kiểm tra Flash Sale nếu chưa áp dụng
         $flashSaleItem = null;
         $flashSalePrice = null;
@@ -690,6 +702,11 @@ public function Order(Request $request)
                 $flashSalePrice = $flashSaleItem->price;
                 $flashSaleQuantity = min(1, $cartItem->quantity); // Chỉ áp dụng Flash Sale cho 1 sản phẩm
                 $isFlashSaleApplied = true;
+                // Kiểm tra tồn kho Flash Sale
+            if ($flashSaleItem->flash_sale_quantity < $flashSaleQuantity) {
+                return redirect()->route('cart.load')
+                    ->with('error', "{$product->name} không đủ số lượng trong chương trình Flash Sale.");
+            }
             }
         }
 
@@ -934,6 +951,13 @@ public function Order(Request $request)
     public function search(Request $request)
     {
         // Lấy tất cả đơn hàng
+        // $request->validate([
+        //     'search' => 'required'
+        // ],
+        // [
+        //     'search.required'=>'Vui lòng nhập để tìm kiếm',
+
+        // ]);
         $ordersQuery = Order::with('orderItems.productVariant.product', 'orderItems.productVariant.color', 'orderItems.productVariant.size');
 
         // Nếu có từ khóa tìm kiếm (search), filter theo ID hoặc tên sản phẩm
@@ -941,12 +965,16 @@ public function Order(Request $request)
             $searchTerm = $request->search;
 
             // Tìm kiếm theo ID đơn hàng hoặc tên sản phẩm
-            $ordersQuery->where(function($query) use ($searchTerm) {
+            $search=$ordersQuery->where(function($query) use ($searchTerm) {
                 $query->where('id', 'like', '%' . $searchTerm . '%')
                       ->orWhereHas('orderItems.productVariant.product', function($q) use ($searchTerm) {
                           $q->where('name', 'like', '%' . $searchTerm . '%');
                       });
             });
+            if(!$search){
+                return redirect()->back()->with('error','Từ khoá tìm kiếm không hợp lệ');
+            }
+
         }
 
         // Lấy kết quả đơn hàng

@@ -239,6 +239,9 @@
                                                         <p class="mb-1 lh-1"><span class="text-dark">Màu sắc:
                                                                 {{ $item['cartItem']->productVariant->color->name }}</span>
                                                         </p>
+                                                        <p class="mb-1 lh-1"><span class="text-dark">Số lượng:
+                                                            {{ $item['cartItem']->quantity }}x</span>
+                                                        </p>
                                                         {{-- <h4 class="fs-md ft-medium mb-3 lh-1">
                                                             {{ $item['cartItem']->productVariant->price }}</h4> --}}
                                                         @if ($item['isOnFlashSale'])
@@ -247,7 +250,7 @@
                                                             </p>
                                                             {{-- <p class="flash-sale-price">Giá Flash Sale: {{ number_format($item['flashSale']->price, 0, ',', '.') }} đ</p> --}}
                                                         @else
-                                                            <p class="mb-1 lh-1"><span class="text-dark">Giá gốc: {{ number_format($item['cartItem']->productVariant->product->price, 0, ',', '.') }} đ</span>
+                                                            <p class="mb-1 lh-1"><span class="text-dark">Giá gốc: {{ number_format(($item['cartItem']->productVariant->product->price ) * ($item['cartItem']->quantity))}} đ</span>
                                                            </p>
                                                             {{-- <p class="original-price">Giá gốc: {{ number_format($item['cartItem']->productVariant->product->price, 0, ',', '.') }} đ</p> --}}
                                                         @endif
