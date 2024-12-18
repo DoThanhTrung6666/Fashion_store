@@ -28,6 +28,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Order;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Auth::routes(['verify' => true]);
+// Auth::routes(['verify' => true]);
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -102,7 +103,8 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales', SaleController::class);
-
+        // cập nhật trạng thái size và color 
+        Route::post('/size/{id}',[SizeController::class,'updateStatus'])->name('size.update.status');
 
 
         //dành cho flashsale
