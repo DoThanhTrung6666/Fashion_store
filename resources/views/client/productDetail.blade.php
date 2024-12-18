@@ -269,73 +269,31 @@ function updateColors(sizeId) {
 
 <!-- Bình luận về sản phẩm -->
 <div class="reviews_info">
-    @if($comments->isEmpty())
-        <p>Không có đánh giá nào cho sản phẩm này.</p>
-    @else
-        @foreach($comments as $comment)
-            <div class="single_rev d-flex align-items-start br-bottom py-3">
-                <div class="single_rev_thumb">
-                    <img src="assets/img/team-1.jpg" class="img-fluid circle" width="90" alt="" />
+    @foreach($comments as $comment)
+        <div class="single_rev d-flex align-items-start br-bottom py-3">
+            <div class="single_rev_thumb">
+                <img src="assets/img/team-1.jpg" class="img-fluid circle" width="90" alt="" />
+            </div>
+            <div class="single_rev_caption d-flex align-items-start pl-3">
+                <div class="single_capt_left">
+                    <h5 class="mb-0 fs-md ft-medium lh-1">{{ $comment->user->name }}</h5>
+                    <span class="small">{{ $comment->created_at->format('d M Y') }}</span>
+                    <p>{{ $comment->content }}</p>
                 </div>
-                <div class="single_rev_caption d-flex align-items-start pl-3">
-                    <div class="single_capt_left">
-                        <h5 class="mb-0 fs-md ft-medium lh-1">{{ $comment->user->name ?? 'Khách hàng' }}</h5>
-                        <span class="small">{{ $comment->created_at->format('d M Y') }}</span>
-                        <p>{{ $comment->content }}</p>
-                    </div>
-                    <div class="single_capt_right">
-                        <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                            @for($i = 0; $i < $comment->rating; $i++)
-                                <i class="fas fa-star filled"></i>
-                            @endfor
-                            @for($i = $comment->rating; $i < 5; $i++)
-                                <i class="fas fa-star"></i>
-                            @endfor
-                        </div>
+                <div class="single_capt_right">
+                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                        @for($i = 0; $i < $comment->rating; $i++)
+                            <i class="fas fa-star filled"></i>
+                        @endfor
+                        @for($i = $comment->rating; $i < 5; $i++)
+                            <i class="fas fa-star"></i>
+                        @endfor
                     </div>
                 </div>
             </div>
-        @endforeach
-    @endif
+        </div>
+    @endforeach
 </div>
-<style>
-    /* Thay đổi phông chữ cho toàn bộ phần đánh giá */
-    .reviews_info {
-        font-family: "Times New Roman", serif;
-    }
-    
-    /* Thay đổi kích thước chữ trong tiêu đề và nội dung đánh giá */
-    .reviews_info h5 {
-        font-size: 20px; /* Kích thước chữ cho tên người dùng */
-        font-weight: bold;
-    }
-    
-    .reviews_info p {
-        font-size: 16px; /* Kích thước chữ cho nội dung đánh giá */
-    }
-    
-    .reviews_info span {
-        font-size: 14px; /* Kích thước chữ cho ngày tháng */
-    }
-    
-    /* Điều chỉnh kích thước sao đánh giá */
-    .star-rating i {
-        font-size: 24px; /* Làm sao lớn hơn */
-        color: #e4e4e4; /* Màu vàng cho sao */
-    }
-    
-    .star-rating i.filled {
-        color: #f2b600; /* Màu cho sao đã đánh giá */
-    }
-    
-    /* Tăng kích thước ảnh đại diện */
-    .single_rev_thumb img {
-        width: 120px; /* Tăng kích thước ảnh đại diện */
-        height: 120px; /* Đảm bảo ảnh tròn */
-        object-fit: cover;
-    }
-    </style>
-    
 
 
 

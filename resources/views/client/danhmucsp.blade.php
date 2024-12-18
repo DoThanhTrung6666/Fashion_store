@@ -79,31 +79,39 @@
                                 </div> --}}
 
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    {{-- <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false" role="button">Chọn danh mục<i class="accordion-indicator ti-angle-down"></i></a></h5>
-                                    <div class="collapse" id="categories"> --}}
+                                    <h5><a href="#categories" data-toggle="collapse" class="collapsed" aria-expanded="false"
+                                            role="button">Chọn danh mục<i
+                                                class="accordion-indicator ti-angle-down"></i></a></h5>
+                                    <div class="collapse" id="categories">
                                         <div class="card-body">
                                             <div class="inner_widget_link">
                                                 <form method="GET" action="{{ route('danhmucsp') }}">
                                                     <ul class="m-0 p-0 category-list">
                                                         <!-- Nút "Tất cả" -->
                                                         <li>
-                                                            <input type="radio" name="category" id="category_all" value=""
-                                                                {{ request('category') == '' ? 'checked' : '' }} onchange="this.form.submit()">
+                                                            <input type="radio" name="category" id="category_all"
+                                                                value=""
+                                                                {{ request('category') == '' ? 'checked' : '' }}
+                                                                onchange="this.form.submit()">
                                                             <label for="category_all">Tất cả</label>
                                                         </li>
 
                                                         @foreach ($categories as $category)
                                                             <li>
-                                                                <input type="radio" name="category" id="category{{ $category->id }}" value="{{ $category->id }}"
-                                                                    {{ request('category') == $category->id ? 'checked' : '' }} onchange="this.form.submit()">
-                                                                <label for="category{{ $category->id }}">{{ $category->name }}</label>
+                                                                <input type="radio" name="category"
+                                                                    id="category{{ $category->id }}"
+                                                                    value="{{ $category->id }}"
+                                                                    {{ request('category') == $category->id ? 'checked' : '' }}
+                                                                    onchange="this.form.submit()">
+                                                                <label
+                                                                    for="category{{ $category->id }}">{{ $category->name }}</label>
                                                             </li>
                                                         @endforeach
                                                     </ul>
                                                 </form>
                                             </div>
                                         </div>
-                                    {{-- </div> --}}
+                                    </div>
                                 </div>
 
 

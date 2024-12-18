@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthenticationController;
 use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\client\CartController;
@@ -26,6 +27,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Order;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +40,23 @@ use App\Models\Order;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Auth::routes(['verify' => true]);
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home'); // Hoặc trang bạn muốn chuyển đến sau xác minh
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'verification-link-sent');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
@@ -83,8 +103,9 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales', SaleController::class);
-
-
+        // cập nhật trạng thái size và color 
+        Route::post('/size/{id}',[SizeController::class,'updateStatus'])->name('size.update.status');
+        Route::post('/color/{id}',[ColorController::class,'updateStatus'])->name('color.update.status');
 
         //dành cho flashsale
         Route::get('list-product-flash-sale', [FlashSaleOneController::class, 'listProductFlashSale'])->name('listProductFlashSale');
@@ -120,6 +141,10 @@ Route::prefix('admin')
         Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
         Route::get('/change-password',[AuthenticationController::class,'showFormChangePassWord'])->name('showFormChangePassWord');
         Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
+
+        // cập nhật số lượng giỏ hàng
+        Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
@@ -183,21 +208,9 @@ Route::post('/reorder/{orderId}', [OrderController::class, 'reorder'])->name('or
 // xử lí mua sản phẩm đã chọn
 // Route::post('purchase', [CheckoutController::class, 'purchase'])->name('cart.purchase');
 Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheckout'])->name('cart.proceedToCheckout')->middleware('auth');
-
-// Route để hiển thị trang bình luận
-Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
-// Route để lưu bình luận
-// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
-
-Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
-
-Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
-// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
-
-Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
-
 Route::get('/orders/search', [OrderController::class, 'search'])->name('orders.search');
 
+Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
 // Route để hiển thị trang bình luận
 Route::get('/comment/{orderId}/{productVariantId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
 
@@ -208,3 +221,4 @@ Route::post('/comment/{orderId}/{productVariantId}', [CommentController::class, 
 Route::get('/product/{productId}/comment', [ProductController::class, 'showCommentForm'])->name('product.showCommentForm');
 
 Route::get('admin/comment/{order_id}/{product_id}/{product_variant_id}', [CommentController::class, 'show'])->name('admin.comment.show');
+

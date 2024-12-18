@@ -14,6 +14,7 @@
                         <table class="table table-striped table-bordered">
                             <thead class="thead-dark">
                                 <tr>
+                                    <th style="text-align: center">cập nhật mới nhất ngày</th>
                                     <th style="text-align: center">Mã đơn hàng</th>
                                     <th style="text-align: center">Tên sản phẩm</th>
                                     <th style="text-align: center">Ảnh</th>
@@ -29,6 +30,12 @@
                                     @endphp
                                     @foreach ($order->orderItems as $item)
                                         <tr class="{{ $rowClass }}" style="text-align: center">
+                                            <td>
+                                                @php
+                                                    $latestCommentDate = $item->productVariant->comments->max('updated_at');
+                                                @endphp
+                                                {{ $latestCommentDate ? \Carbon\Carbon::parse($latestCommentDate)->format('d/m/Y H:i') : ' ' }}
+                                            </td>
                                             <!-- Chỉ hiển thị mã đơn hàng trong lần lặp đầu tiên của mỗi đơn hàng -->
                                             @if (!$orderDisplayed)
                                                 <td>{{ $order->id }}</td>
@@ -51,6 +58,7 @@
                                     @endforeach
                                 @endforeach
                             </tbody>
+                            
                         </table>
                     </div>
                 </div>

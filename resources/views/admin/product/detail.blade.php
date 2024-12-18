@@ -39,15 +39,15 @@
                                                 <td><p class="custom-name">{{$variant->size->name}}</p></td>
                                                 <td><p class="custom-name">{{number_format($variant->product->price)}}đ</p></td>
                                                 <td><p class="custom-name">{{$variant->stock_quantity}}</p></td>
-                                                <td>
+                                                {{-- <td> --}}
                                                     {{-- <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-warning">Sửa</a> --}}
-                                                    <form action="{{route('admin.variants.destroy',$variant->id)}}" method="POST">
+                                                    {{-- <form action="{{route('admin.variants.destroy',$variant->id)}}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
 
                                                         <button type="submit">Xoá</button>
-                                                    </form>
-                                                </td>
+                                                    </form> --}}
+                                                {{-- </td> --}}
                                             </tr>
                                     @endforeach
 

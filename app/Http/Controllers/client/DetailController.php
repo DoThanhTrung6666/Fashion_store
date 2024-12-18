@@ -85,42 +85,6 @@ class DetailController extends Controller
 
     // }
 
-    public function storeComment(Request $request, $productId)
-{
-    // Kiểm tra dữ liệu đầu vào
-    $validated = $request->validate([
-        'rating' => 'required|integer|between:1,5', // Đánh giá từ 1 đến 5
-        'content' => 'required|string|max:1000', // Nội dung bình luận tối đa 1000 ký tự
-    ]);
 
-    // Kiểm tra nếu người dùng đã đăng nhập
-    if (!auth()->check()) {
-        return redirect()->route('login')->with('error', 'Please login to leave a review.');
-    }
-
-    // Kiểm tra xem người dùng có đơn hàng hoàn thành với sản phẩm này không
-    $user = auth()->user();
-    $hasCompletedOrder = Order::where('user_id', $user->id)
-        ->where('status', 'Hoàn thành') // Kiểm tra trạng thái đơn hàng là "Hoàn thành"
-        ->whereHas('orderItems', function ($query) use ($productId) {
-            $query->where('product_id', $productId); // Kiểm tra xem sản phẩm có trong đơn hàng không
-        })
-        ->exists();
-
-    if (!$hasCompletedOrder) {
-        return redirect()->back()->with('error', 'Bạn chỉ có thể bình luận khi đã hoàn thành đơn hàng với sản phẩm này.');
-    }
-
-    // Lưu bình luận vào cơ sở dữ liệu
-    Comment::create([
-        'user_id' => auth()->id(), // Lấy id của người dùng hiện tại
-        'product_id' => $productId, // Id của sản phẩm
-        'rating' => $validated['rating'], // Đánh giá của người dùng
-        'content' => $validated['content'], // Nội dung bình luận
-    ]);
-
-    // Trả về trang trước với thông báo thành công
-    return back()->with('success', 'Your review has been submitted!');
-}
 
 }

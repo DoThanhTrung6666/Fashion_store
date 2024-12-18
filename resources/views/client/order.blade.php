@@ -42,8 +42,12 @@
                 @csrf
                 <div style="display:flex">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Bạn có thể tìm kiếm theo ID đơn hàng hoặc Tên Sản phẩm">
-                    <input type="submit" style="width:100px" value="Tìm kiếm">
+                    <input type="submit" style="width:100px" value="Tìm kiếm"><br>
+
                 </div>
+                @error('search')
+                        <div class="text-danger">{{ $message }}</div>
+                @enderror
             </form>
         </div>
 
@@ -299,7 +303,7 @@
                                                         </a>
                                                     </li>
                                                 @endforeach
-
+        
                                             </ul>
                                         </div>
 
@@ -749,24 +753,25 @@
             outline: none; /* Loại bỏ viền */
         }
     </style>
-    <script>
-        @if (session('alert'))
-            Swal.fire({
-                title: 'Thông báo',
-                text: "{{ session('alert') }}",
-                icon: 'warning',
-                confirmButtonText: 'OK'
-            });
-        @endif
-    
-        @if (session('success'))
-            Swal.fire({
-                title: 'Thành công',
-                text: "{{ session('success') }}",
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        @endif
-    </script>
+
+<script>
+    @if (session('alert'))
+        Swal.fire({
+            title: 'Thông báo',
+            text: "{{ session('alert') }}",
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    @endif
+
+    @if (session('success'))
+        Swal.fire({
+            title: 'Thành công',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
     </section>
 @endsection
