@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+ use Illuminate\Support\Facades\Mail;
+ use Laravel\Sanctum\HasApiTokens;
+ use Illuminate\Support\Facades\URL;
+ use App\Mail\CustomEmailVerification;
 
-class User extends Authenticatable
+
+ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -78,5 +82,14 @@ public function orders()
     public function favorites(){
         return $this->belongsToMany(Product::class,'favorites');
     }
+     public function sendEmailVerificationNotification()
+     {
+         $verificationUrl = URL::temporarySignedRoute(
+             'verification.verify',
+             now()->addMinutes(60),
+             ['id' => $this->id, 'hash' => sha1($this->email)]
+         );
 
+         Mail::to($this->email)->send(new CustomEmailVerification($verificationUrl));
+     }
 }

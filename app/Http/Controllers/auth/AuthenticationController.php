@@ -8,6 +8,7 @@ use App\Mail\mailPassword;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -64,12 +65,14 @@ class AuthenticationController extends Controller
             'password.required'=>'Không được bỏ trống password',
             'password.min'=>'Mật khẩu phải ít nhất 8 ký tự'
         ]);
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role_id' => 2,
         ]);
+        event(new Registered($user));
+
         return redirect()->back()->with('success','Đăng kí thành công tài khoản');
     }
 
