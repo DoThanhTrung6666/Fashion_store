@@ -120,6 +120,10 @@ Route::prefix('admin')
         Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
         Route::get('/change-password',[AuthenticationController::class,'showFormChangePassWord'])->name('showFormChangePassWord');
         Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
+
+        // cập nhật số lượng giỏ hàng
+        Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');

@@ -31,7 +31,7 @@
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Nhập email của bạn" >
 
-                    <button type="submit">Gửi</button>
+                    <button type="submit" class="btn-gray">Gửi</button>
 
                 </form>
                 <div class="register">

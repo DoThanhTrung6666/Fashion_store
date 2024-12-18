@@ -43,7 +43,7 @@ class CartController extends Controller
                     'flashSale' => $flashSale, // Thông tin Flash Sale nếu có
                     'finalPrice' => $flashSale ? $flashSale->price : $cartItem->productVariant->product->price,
                 ];
-            });
+            })->filter();
             $totalAmount = $cartItemsWithSaleInfo->sum(function ($item) {
                 return $item['finalPrice'] * $item['cartItem']->quantity;
             });
@@ -173,5 +173,31 @@ class CartController extends Controller
         }
 
         return redirect()->route('checkout', ['selectedCartItemIds' => $selectedCartItemIds]);
+    }
+
+    // cập nhật số lượng
+    public function updateQuantityCart(Request $request , $id){
+        $validated = $request->validate([
+            'quantity' => 'required|integer|min:1|max:10'
+        ]);
+        $cartItems = CartItem::findOrFail($id);
+        if($cartItems->cart->user_id !== auth()->id()){
+            return redirect()->back()->with('error','Không thể  cập nhật sản phẩm này');
+        }
+        $productVariant = ProductVariant::where('product_id',$cartItems->productVariant->product_id)
+            ->where('color_id',$cartItems->productVariant->color_id)
+            ->where('size_id',$cartItems->productVariant->size_id)
+            ->first();
+        // dd($cartItems->productVariant->product_id);
+        // dd($cartItems->productVariant->color_id);
+        if(!$productVariant){
+            return redirect()->back()->with('error','Không tìm thấy sản phẩm');
+        }
+        if($validated['quantity']>$productVariant->stock_quantity){
+            return redirect()->back()->with('error','Số lượng yêu cầu vượt quá tồn kho. Chỉ còn' .$productVariant->stock_quantity.'sản phẩm');
+        }
+        $cartItems->quantity = $validated['quantity'];
+        $cartItems->save();
+        return redirect()->back()->with('success','Cập nhật số lượng thành công');
     }
 }

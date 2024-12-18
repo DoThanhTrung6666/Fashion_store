@@ -21,10 +21,10 @@
               <form role="form" method="post" action="{{ route('admin.colors.store')}}" enctype="multipart/form-data">
               @csrf
                 <div class="box-body">
-                  <div class="form-group">
+                  {{-- <div class="form-group">
                     <label for="">id</label>
                     <input type="text" class="form-control" placeholder="" disabled>
-                  </div>
+                  </div> --}}
                   <div class="form-group">
                     <label for="">Tên color</label>
                     <input type="text" class="form-control" placeholder="Nhập tên color" name="name">
