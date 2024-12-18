@@ -67,10 +67,10 @@ class SizeController extends Controller
     }
 
     public function updateStatus($id){
-        $color = Size::find($id);
-        if($color){
-            $color->status = 2;
-            $color->save();
+        $size = Size::find($id);
+        if($size){
+            $size->status = 2;
+            $size->save();
         }
         return redirect()->back()->with('success','Đã ngừng hoạt động');
     }

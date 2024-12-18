@@ -32,7 +32,7 @@
                                 <td style="text-align: center">{{$color->id}}</td> --}}
                                 <td style="text-align: center">{{$color->name}}</td>
                                 <td style="text-align: center;">
-                                    <form action="{{route('admin.size.update.status',$color->id)}}" method="POST">
+                                    <form action="{{route('admin.color.update.status',$color->id)}}" method="POST">
                                         @csrf
                                         <button class="btn btn-danger" type="submit">Ngừng hoạt động</button>
                                     </form>
@@ -40,7 +40,7 @@
                                 </tr>
                                @endforeach
                             </table>
-                            <a class="btn btn-success" href="{{route('admin.colors.create')}}">Thêm mới màu sắc</a>
+                            <a style="text-align: center" class="btn btn-success" href="{{route('admin.colors.create')}}">Thêm mới màu sắc</a>
                         </div>
                     </div>
                 </div>
