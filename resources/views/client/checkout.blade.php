@@ -208,8 +208,8 @@
                     <div class="d-block mb-3">
                         <h5 class="mb-4">Chi tiết đơn hàng</h5>
                         <span style="font-size: 15px">
-                            @if(session('error'))
-                                <p style="color: red">{{session('error')}}</p>
+                            @if (session('error'))
+                                <p style="color: red">{{ session('error') }}</p>
                             @endif
                         </span>
                         <ul class="list-group list-group-sm list-group-flush-y list-group-flush-x mb-4">
@@ -265,11 +265,11 @@
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Giảm giá voucher</span> <span
                                                 class="ml-auto text-dark ft-medium">{{ number_format(Session::get('voucher_discount')['discount_amount']) }}
-                                                </span>
+                                            </span>
                                         </li>
                                         <li class="list-group-item d-flex text-dark fs-sm ft-regular">
                                             <span>Phí vận chuyển</span> <span class="ml-auto text-dark ft-medium">30,000
-                                                </span>
+                                            </span>
                                         </li>
                                         @php
                                             $discountAmount = session()->has('voucher_discount')
@@ -321,30 +321,17 @@
                 <li class="list-group-item d-flex text-dark fs-sm ft-regular"
                     style="margin-left: 15px; position: relative;">
                     <form method="POST" action="{{ route('applyVoucher') }}" class="d-flex w-100">
-                        <input type="hidden" name="selectedCartItemIds[]" value="{{ $item['cartItem']->id }}">
                         @csrf
+                        @foreach ($cartItemsWithSaleInfo as $item)
+                            <input type="hidden" name="selectedCartItemIds[]" value="{{ $item['cartItem']->id }}">
+                        @endforeach
                         <input type="text" name="voucher" class="form-control form-control-sm me-2"
                             placeholder="Nhập mã voucher">
                         <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 10px">Áp
                             dụng</button>
                     </form>
                 </li>
-                @if (session('success'))
-                    <script>
-                        alert('{{ session('success') }}');
-                    </script>
-                @endif
-
-                @if (session('error'))
-                    <script>
-                        alert('{{ session('error') }}');
-                    </script>
-                @endif
-
-
-
             </div>
-
         </div>
     </section>
 @endsection

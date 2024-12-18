@@ -19,96 +19,6 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
-    // public function applyVoucher(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $cart = Cart::with('cartItems.productVariant')->where('user_id', $user->id)->first();
-    //     $voucherCode = $request->input('voucher');
-    //     $selectedCartItemIds = $request->input('selectedCartItemIds', []);
-    //     $selectedCartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
-
-    //     $voucher = Voucher::where('name', $voucherCode)
-    //         ->where('status', 2) // Voucher đang hoạt động
-    //         ->first();
-
-    //     // Kiểm tra xem người dùng đã sử dụng voucher này chưa
-    //     $isVoucherUsed = DB::table('voucher_uses')
-    //         ->where('user_id', $user->id)
-    //         ->where('voucher_id', $voucher->id)
-    //         ->exists();
-
-    //     if ($isVoucherUsed) {
-    //         return redirect()->back()->with('error', 'Bạn đã sử dụng mã giảm giá này.');
-    //     }
-
-    //     // Kiểm tra xem có sản phẩm nào trong flash sale không
-    //     $hasFlashSaleItem = $selectedCartItems->contains(function ($cartItem) {
-    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
-    //             ->whereHas('flashSale', function ($query) {
-    //                 $query->where('start_time', '<=', now())
-    //                     ->where('end_time', '>=', now())
-    //                     ->where('status', 'active');
-    //             })
-    //             ->first();
-
-    //         return $flashSaleItem !== null; // Nếu có sản phẩm trong Flash Sale, trả về true
-    //     });
-
-    //     if ($hasFlashSaleItem) {
-    //         return redirect()->back()->with('error', 'Không thể sử dụng mã giảm giá cho sản phẩm đang trong Flash Sale.');
-    //     }
-
-    //     // Tính tổng giá trị của các sản phẩm đã chọn
-    //     $totalPrice = $selectedCartItems->sum(function ($cartItem) {
-    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
-    //             ->whereHas('flashSale', function ($query) {
-    //                 $query->where('start_time', '<=', now())
-    //                     ->where('end_time', '>=', now())
-    //                     ->where('status', 'active');
-    //             })
-    //             ->first();
-
-    //         $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
-    //         return $finalPrice * $cartItem->quantity;
-    //     });
-
-    //     $discountAmount = ($totalPrice * $voucher->discount_percentage) / 100;
-
-    //     if ($discountAmount > $voucher->max_discount) {
-    //         $discountAmount = $voucher->max_discount;
-    //     }
-
-    //     if (
-    //         $totalPrice >= $voucher->min_order_value
-    //     ) {
-    //         $discountAmount = min($totalPrice, $discountAmount);
-    //     }
-
-    //     // Lưu thông tin voucher đã sử dụng vào cơ sở dữ liệu
-    //     DB::table('voucher_uses')->insert([
-    //         'user_id' => $user->id,
-    //         'voucher_id' => $voucher->id,
-    //         'created_at' => now(),
-    //         'updated_at' => now(),
-    //     ]);
-
-    //     session()->put('voucher_discount', [
-    //         'voucher_code' => $voucher->name,
-    //         'discount_percentage' => $voucher->discount_percentage,
-    //         'min_order_value' => $voucher->min_order_value,
-    //         'max_discount' => $voucher->max_discount,
-    //         'status' => $voucher->status,
-    //         'discount_amount' => $discountAmount
-    //     ]);
-
-    //     if ($voucher) {
-    //         // Thông báo thành công
-    //         return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
-    //     } else {
-    //         // Thông báo lỗi
-    //         return redirect()->back()->with('error', 'Mã giảm giá không hợp lệ.');
-    //     }
-    // }
     public function applyVoucher(Request $request)
     {
         $user = Auth::user();
@@ -121,13 +31,18 @@ class OrderController extends Controller
 
         // Kiểm tra trạng thái của voucher
         if (!$voucher) {
-            return redirect()->back()->with('error', 'Mã giảm giá không hợp lệ.');
-        } elseif ($voucher->status == 1) {
+            return redirect()->back()->with('error', 'Mã giảm giá không tồn tại.');
+        } elseif (
+            $voucher->status == 1
+        ) {
             return redirect()->back()->with('error', 'Mã giảm giá chưa bắt đầu.');
         } elseif ($voucher->status == 3) {
             return redirect()->back()->with('error', 'Mã giảm giá đã kết thúc.');
         } elseif ($voucher->status != 2) {
-            return redirect()->back()->with('error', 'Mã giảm giá không khả dụng.');
+            return redirect()->back()->with(
+                'error',
+                'Mã giảm giá không khả dụng.'
+            );
         }
 
         // Kiểm tra xem người dùng đã sử dụng voucher này chưa
@@ -146,7 +61,7 @@ class OrderController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 
@@ -163,7 +78,7 @@ class OrderController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 
@@ -200,7 +115,6 @@ class OrderController extends Controller
 
         return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
     }
-
 
 
     public function createOrder(Request $request)
@@ -267,9 +181,6 @@ class OrderController extends Controller
         return app(PaymentController::class)->vnpay_payment($request);
     }
 
-
-
-
     public function createOrderAfterPayment($cartId, $orderData)
     {
         // Lấy giỏ hàng từ ID
@@ -293,8 +204,6 @@ class OrderController extends Controller
         return $this->createOrderOnline($cart, $orderData);
     }
 
-
-
     public function createOrderOnline($cart, $orderData)
     {
         $user = Auth::user();
@@ -308,7 +217,7 @@ class OrderController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 
@@ -395,7 +304,7 @@ class OrderController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 

@@ -23,14 +23,13 @@ class PaymentController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 
             $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
             return $finalPrice * $cartItem->quantity;
         });
-
         $discountAmount = session()->has('voucher_discount') ? session()->get('voucher_discount')['discount_amount'] : 0;
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
