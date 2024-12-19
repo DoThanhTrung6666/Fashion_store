@@ -316,6 +316,13 @@
                                         <span class="dn-counter theme-bg">{{ $cartCount }}</span>
 									</a>
 								</li>
+                                <li>
+                                    {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
+									<a href="{{route('shipper.orders.index2')}}">
+										<i class="fas fa-shipping-fast"></i>
+                                        {{-- <span class="dn-counter theme-bg">{{ $cartCount }}</span> --}}
+									</a>
+								</li>
 							</ul>
 						</div>
 					</nav>

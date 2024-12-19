@@ -25,6 +25,7 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\shipper\ShipperController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Order;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -103,7 +104,7 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales', SaleController::class);
-        // cập nhật trạng thái size và color 
+        // cập nhật trạng thái size và color
         Route::post('/size/{id}',[SizeController::class,'updateStatus'])->name('size.update.status');
         Route::post('/color/{id}',[ColorController::class,'updateStatus'])->name('color.update.status');
 
@@ -129,6 +130,9 @@ Route::prefix('admin')
         Route::delete('/variants/{id}', [ProductController::class, 'deleteVariant'])->name('variants.destroy');
         Route::get('/admin/products', [ProductController::class, 'search'])->name('search.product');
 
+        // gán đơn hàng cho shipper
+        Route::post('/orders/{id}/assign', [AdOrderController::class, 'assignShipper'])->name('orders.assign');
+
     });
 
 
@@ -144,7 +148,7 @@ Route::prefix('admin')
 
         // cập nhật số lượng giỏ hàng
         Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
-
+        Route::post('/orders/{id}/dagiao', [OrderController::class, 'dagiaoUser'])->name('dagiaoUser');
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
@@ -222,3 +226,20 @@ Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('
 Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
 
 Route::get('/orders/search', [OrderController::class, 'search'])->name('orders.search');
+
+
+// bên thứ 3 shipper
+// Route::middleware('role:third_party')->prefix('third-party')->group(function () {
+Route::get('login/shipper',[ShipperController::class,'loginShowFormShipper'])->name('login.shipper');
+Route::post('login/shipper',[ShipperController::class,'loginShipper'])->name('login.shipper.post');
+Route::middleware(['shipper'])->group(function(){
+    Route::get('/orders/shipper', [ShipperController::class, 'index'])->name('shipper.orders.index');
+    Route::get('/orders/shipper/dabroad', [ShipperController::class, 'index2'])->name('shipper.orders.index2');
+    Route::post('/orders/{id}/shipper', [ShipperController::class, 'update'])->name('shipper.orders.update');
+    Route::post('/orders/{id}/shipper2', [ShipperController::class, 'update2'])->name('shipper.orders.update2');
+    Route::get('/orders/{id}/detail/shipper', [ShipperController::class, 'show'])->name('shipper.orders.show');
+
+});
+
+// });
+

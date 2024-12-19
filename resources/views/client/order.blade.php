@@ -30,8 +30,10 @@
         <div class="tabs">
             <a href="?tab=all" class="tab {{ request('tab') == 'all' || !request('tab') ? 'active' : '' }}">Tất cả</a>
             <a href="?tab=pending" class="tab {{ request('tab') == 'pending' ? 'active' : '' }}">Chờ xác nhận</a>
+            <a href="?tab=daxacnhan" class="tab {{ request('tab') == 'daxacnhan' ? 'active' : '' }}">Đã xác nhận</a>
             <a href="?tab=shipping" class="tab {{ request('tab') == 'shipping' ? 'active' : '' }}">Vận chuyển</a>
-            <a href="?tab=delivery" class="tab {{ request('tab') == 'delivery' ? 'active' : '' }}">Chờ giao hàng</a>
+            <a href="?tab=dangvanchuyen" class="tab {{ request('tab') == 'dangvanchuyen' ? 'active' : '' }}">Đang vận chuyển</a>
+            <a href="?tab=dagiao" class="tab {{ request('tab') == 'dagiao' ? 'active' : '' }}">Đã giao</a>
             <a href="?tab=completed" class="tab {{ request('tab') == 'completed' ? 'active' : '' }}">Hoàn thành</a>
             <a href="?tab=cancelled" class="tab {{ request('tab') == 'cancelled' ? 'active' : '' }}">Đã hủy</a>
             <a href="?tab=return" class="tab {{ request('tab') == 'return' ? 'active' : '' }}">Trả hàng/Hoàn tiền</a>
@@ -454,6 +456,58 @@
                             </div>
                         @endforeach
                     @endif
+                @elseif (request('tab') === 'daxacnhan')
+                {{-- Hiển thị đơn hàng đang chờ xác nhận --}}
+                @if ($orders_pending->isEmpty())
+                    <p>Hiện tại không có đơn hàng nào đã xác nhận.</p>
+                @else
+                    @foreach ($orders_daxacnhan as $order)
+                        <div class="order-wrapper" style="margin-top: 20px">
+                            <div class="order-card">
+                                <div class="shop-info">
+                                    <span class="shop-name">Mã đơn hàng :#{{ $order->id }}</span>
+                                    {{-- <span class="shop-name">Tên khách hàng : {{ $order->name_order }}</span> --}}
+                                    <div class="shop-actions">
+                                        {{-- <button class="chat-btn">Chat</button>
+                                            <button class="view-shop-btn">Xem Shop</button> --}}
+                                        <span class="discounted-price">Ngày đặt hàng :
+                                            {{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</span>
+                                    </div>
+                                </div>
+
+                                @foreach ($order->orderItems as $item)
+                                    <div class="order-info">
+                                        <img src="{{ Storage::url($item->productVariant->image_variant) }}" alt="Bag Image"
+                                            class="product-image">
+                                        <div class="product-details">
+                                            <p class="product-name">{{ $item->productVariant->product->name }}</p>
+                                            <p class="product-variant">Phân loại hàng:
+                                                {{ $item->productVariant->color->name }}</p>
+                                            <p class="product-quantity">x{{ $item->quantity }}</p>
+                                        </div>
+                                        <div class="product-price">
+                                            <span
+                                                class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                            <span
+                                                class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                <div class="order-status">
+                                    {{-- <span class="status-label">Giao hàng thành công</span> --}}
+                                    <span class="status">Trạng thái đơn hàng: {{ $order->status }}</span>
+                                </div>
+                                <div class="order-total">
+                                    <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
                 @elseif (request('tab') == 'shipping')
                     {{-- Hiển thị đơn hàng đang vận chuyển --}}
                     @if ($orders_vanchuyen->isEmpty())
@@ -493,8 +547,7 @@
 
                                     <div class="order-status">
                                         {{-- <span class="status-label">Giao hàng thành công</span> --}}
-                                        <span class="status">Đơn hàng đã được xác nhận và đang trong quá trình vận
-                                            chuyển</span>
+                                        <span class="status">Đơn hàng đã được xác nhận và đang trong quá trình xử lí</span>
                                     </div>
                                     <div class="order-total">
                                         <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>
@@ -509,12 +562,12 @@
                             </div>
                         @endforeach
                     @endif
-                @elseif (request('tab') == 'delivery')
-                    {{-- Hiển thị đơn hàng đang chờ giao --}}
-                    @if ($orders_chogiaohang->isEmpty())
-                        <p>Hiện tại không có đơn hàng nào đang chờ giao.</p>
+                @elseif (request('tab') == 'dangvanchuyen')
+                    {{-- Hiển thị đơn hàng đang vận chuyển --}}
+                    @if ($orders_dangvanchuyen->isEmpty())
+                        <p>Hiện tại không có đơn hàng nào đang vận chuyển.</p>
                     @else
-                        @foreach ($orders_chogiaohang as $order)
+                        @foreach ($orders_dangvanchuyen as $order)
                             <div class="order-wrapper" style="margin-top: 20px">
                                 <div class="order-card">
                                     <div class="shop-info">
@@ -555,6 +608,61 @@
                                     </div>
                                     <div class="order-actions">
                                         <form action="">
+                                            {{-- <button class="buy-again-btn" type="submit">Mua Lại</button> --}}
+                                            <button class="contact-seller-btn" type="submit">Liên hệ với người bán</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                @endif
+                @elseif (request('tab') == 'dagiao')
+                    {{-- Hiển thị đơn hàng đã giao --}}
+                    @if ($orders_dagiao->isEmpty())
+                        <p>Hiện tại không có đơn hàng nào đã giao.</p>
+                    @else
+                        @foreach ($orders_dagiao as $order)
+                            <div class="order-wrapper" style="margin-top: 20px">
+                                <div class="order-card">
+                                    <div class="shop-info">
+                                        <span class="shop-name">Mã đơn hàng :#{{ $order->id }}</span>
+                                        <div class="shop-actions">
+                                            {{-- <button class="chat-btn">Chat</button>
+                                                <button class="view-shop-btn">Xem Shop</button> --}}
+                                            <span class="discounted-price">Ngày đặt hàng :
+                                                {{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</span>
+                                        </div>
+                                    </div>
+
+                                    @foreach ($order->orderItems as $item)
+                                        <div class="order-info">
+                                            <img src="{{ Storage::url($item->productVariant->image_variant) }}" alt="Bag Image"
+                                                class="product-image">
+                                            <div class="product-details">
+                                                <p class="product-name">{{ $item->productVariant->product->name }}</p>
+                                                <p class="product-variant">Phân loại hàng:
+                                                    {{ $item->productVariant->color->name }}</p>
+                                                <p class="product-quantity">x{{ $item->quantity }}</p>
+                                            </div>
+                                            <div class="product-price">
+                                                <span
+                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <span
+                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <div class="order-status">
+                                        {{-- <span class="status-label">Giao hàng thành công</span> --}}
+                                        <span class="status">Đơn hàng đang trên đường và chờ giao tới bạn</span>
+                                    </div>
+                                    <div class="order-total">
+                                        <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>
+                                    </div>
+                                    <div class="order-actions">
+                                        <form action="{{route('dagiaoUser',$order->id)}}" method="POST">
+                                            @csrf
                                             {{-- <button class="buy-again-btn" type="submit">Mua Lại</button> --}}
                                             <button class="contact-seller-btn" type="submit">Đã nhận được hàng</button>
                                         </form>
@@ -758,7 +866,7 @@
 
         .tabs a {
             text-align: center;
-            margin-left: 4%
+            /* margin-left: 4% */
         }
 
         /* Hiển thị dropdown khi di chuột vào */
