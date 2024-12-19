@@ -14,7 +14,7 @@ class ColorController extends Controller
     // Danh sách color
     public function index()
     {
-        $colors = Color::all();
+        $colors = Color::where('status',1)->get();
         return view('admin.color.index', compact('colors'));
     }
 
@@ -68,5 +68,15 @@ class ColorController extends Controller
     {
         $color->delete();
         return redirect()->route('admin.colors.index')->with('success', 'color deleted successfully.');
+    }
+
+    // xóa mềm 
+    public function updateStatus($id){
+        $color = Color::find($id);
+        if($color){
+            $color->status = 2;
+            $color->save();
+        }
+        return redirect()->back()->with('success','Đã ngừng hoạt động');
     }
 }

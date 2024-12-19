@@ -28,7 +28,7 @@
     .badge-shipping { background-color: #6c757d; color: white; }
     .badge-delivered { background-color: #28a745; color: white; }
     .badge-cancelled { background-color: #dc3545; color: white; }
-    .badge-vnpay { background-color: #dc3545; color: white; }
+    .badge-vnpay { background-color: #1090e6; color: white; }
     .badge-ttknh { background-color: #28a745; color: white; }
 
     .order-tabs .nav-link {
@@ -46,16 +46,48 @@
     color: #fff;
     background-color: #00ff11; /* Màu nền khi hover */
 }
-
 .order-tabs .nav-link.active {
     color: #fff;
-    background-color: #ff0000; /* Màu nền tab đang chọn */
+    background-color: #00ff11; /* Màu nền tab đang chọn */
+    border-color: #007bff;
+}
+
+.order-tabs .nav-link.pending {
+    color: #fff;
+    background-color: #ffc107; /* Màu nền tab đang chọn */
+    border-color: #007bff;
+}
+.order-tabs .nav-link.confirmed {
+    color: #fff;
+    background-color: #17a2b8; /* Màu nền tab đang chọn */
+    border-color: #007bff;
+}
+.order-tabs .nav-link.shipping {
+    color: #fff;
+    background-color: #6c757d; /* Màu nền tab đang chọn */
+    border-color: #007bff;
+}
+.order-tabs .nav-link.delivered {
+    color: #fff;
+    background-color: #28a745; /* Màu nền tab đang chọn */
+    border-color: #007bff;
+}
+.order-tabs .nav-link.cancelled {
+    color: #fff;
+    background-color: #ff0000dd; /* Màu nền tab đang chọn */
     border-color: #007bff;
 }
 
 .order-tabs .nav-link i {
     font-size: 18px; /* Kích thước icon */
 }
+
+.search-container {
+    margin-top: 25px;
+    margin-left: 10px; /* Cách lề trái 10px */
+    margin-bottom: 15px; /* Khoảng cách dưới nếu cần */
+}
+
 </style>
 
 
@@ -79,24 +111,47 @@
         </div>
 
         <div class="table-wrapper">
+
            <!-- Tab Navigation -->
            <ul class="nav nav-tabs order-tabs">
             <li class="nav-item">
-                <a class="nav-link {{ request('status') == 'Chờ xác nhận' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Chờ xác nhận"><i class="fas fa-clock"></i> Chờ xác nhận</a>
+                <a class="nav-link  {{ request('status') == 'Chờ xác nhận' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Chờ xác nhận"><i class="fas fa-clock"></i> Chờ xác nhận</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request('status') == 'Vận chuyển' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Vận chuyển"><i class="fas fa-truck"></i> Vận chuyển</a>
+                <a class="nav-link  {{ request('status') == 'Đã xác nhận' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Đã xác nhận"><i class="fas fa-truck"></i> Đã xác nhận</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request('status') == 'Chờ giao hàng' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Chờ giao hàng"><i class="fas fa-box"></i> Chờ giao hàng</a>
+                <a class="nav-link  {{ request('status') == 'Vận chuyển' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Vận chuyển"><i class="fas fa-truck"></i> Vận chuyển</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request('status') == 'Hoàn thành' ? 'active' : '' }}" href="{{route('admin.orders.index')}}?status=Hoàn thành"><i class="fas fa-check-circle"></i> Hoàn thành</a>
+                <a class="nav-link  {{ request('status') == 'Đang vận chuyển' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Đang vận chuyển"><i class="fas fa-box"></i> Đang vận chuyển</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request('status') == 'Đã huỷ' ? 'active' : '' }}" href="{{route('admin.orders.index')}}?status=Đã huỷ"><i class="fas fa-times-circle"></i> Đơn bị hủy</a>
+                <a class="nav-link  {{ request('status') == 'Đã giao' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Đã giao"><i class="fas fa-box"></i> Đã giao</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link  {{ request('status') == 'Hoàn thành' ? 'active' : '' }}" href="{{route('admin.orders.index')}}?status=Hoàn thành"><i class="fas fa-check-circle"></i> Hoàn thành</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link  {{ request('status') == 'Đã huỷ' ? 'active' : '' }}" href="{{route('admin.orders.index')}}?status=Đã huỷ"><i class="fas fa-times-circle"></i> Đơn bị hủy</a>
             </li>
         </ul>
+        <div class="search-container">
+            <form method="GET" action="{{ route('admin.orders.index') }}" class="search-form">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="text" name="search" onclick="openSearch()" class="form-control" placeholder="Tìm mã đơn hoặc tên khách hàng" value="{{ $searchTerm ?? '' }}">
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -118,12 +173,16 @@
                                     <td>
                                         @if ($order->status == 'Chờ xác nhận')
                                         <span class="status-badge badge-pending">Chờ xác nhận</span>
+                                        @elseif ($order->status == 'Đã xác nhận')
+                                    <span class="status-badge badge-confirmed">Đã xác nhận</span>
                                     @elseif ($order->status == 'Vận chuyển')
                                     <span class="status-badge badge-confirmed">Vận chuyển</span>
-                                    @elseif ($order->status == 'Chờ giao hàng')
-                                    <span class="status-badge badge-shipping">Chờ giao hàng</span>
+                                    @elseif ($order->status == 'Đang vận chuyển')
+                                    <span class="status-badge badge-shipping">Đang vận chuyển</span>
                                     @elseif ($order->status == 'Hoàn thành')
                                     <span class="status-badge badge-delivered">Hoàn thành</span>
+                                    @elseif ($order->status == 'Đã giao')
+                                    <span class="status-badge badge-delivered">Đã giao</span>
                                     @else
                                     <span class="status-badge badge-cancelled">Đã hủy</span>
                                     @endif
@@ -152,5 +211,13 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+<script>
+    function openSearch() {
+        document.getElementById("Search").style.display = "block";
+    }
+    function closeSearch() {
+        document.getElementById("Search").style.display = "none";
+    }
+</script>
 
 @endsection

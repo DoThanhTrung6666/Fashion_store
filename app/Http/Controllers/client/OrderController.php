@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PaymentController;
+use App\Jobs\InventoryCheckJob;
 use App\Mail\mailOrder;
 use App\Models\Cart;
 use App\Models\CartItem;
@@ -96,14 +97,6 @@ class OrderController extends Controller
             $discountAmount = min($totalPrice, $discountAmount);
         }
 
-        // Lưu thông tin voucher đã sử dụng vào cơ sở dữ liệu
-        DB::table('voucher_uses')->insert([
-            'user_id' => $user->id,
-            'voucher_id' => $voucher->id,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
         session()->put('voucher_discount', [
             'voucher_code' => $voucher->name,
             'discount_percentage' => $voucher->discount_percentage,
@@ -115,7 +108,6 @@ class OrderController extends Controller
 
         return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
     }
-
 
     public function createOrder(Request $request)
     {
@@ -159,7 +151,7 @@ class OrderController extends Controller
                 ->whereHas('flashSale', function ($query) {
                     $query->where('start_time', '<=', now())
                         ->where('end_time', '>=', now())
-                        ->where('status', 'active');
+                        ->where('status', 'Đang diễn ra');
                 })
                 ->first();
 
@@ -260,8 +252,22 @@ class OrderController extends Controller
             $item->productVariant->decrement('stock_quantity', $item->quantity);
         }
 
+        // Lưu thông tin sử dụng voucher nếu có
+        $voucherDiscount = session()->get('voucher_discount');
+        if ($voucherDiscount) {
+            DB::table('voucher_uses')->insert([
+                'user_id' => $user->id,
+                'voucher_id' => $voucherDiscount['voucher_id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         // Xóa các sản phẩm đã chọn trong giỏ hàng
         $cart->cartItems()->whereIn('id', $orderData['selectedCartItemIds'])->delete();
+
+        // Xóa voucher khỏi session sau khi hoàn thành
+        session()->forget('voucher_discount');
 
         // Chuyển hướng đến trang cảm ơn
         return redirect()->route('thankyou')->with('success', 'Đặt hàng thành công.');
@@ -269,11 +275,12 @@ class OrderController extends Controller
 
 
 
-    //thanh toán khi nhận hàng
+
     public function Order(Request $request)
     {
         $user = Auth::user();
 
+        // Lấy giỏ hàng của người dùng
         $cart = Cart::with('cartItems.productVariant.product')->where('user_id', $user->id)->first();
 
         if (!$cart || $cart->cartItems->isEmpty()) {
@@ -287,32 +294,95 @@ class OrderController extends Controller
         if ($selectedCartItems->isEmpty()) {
             return redirect()->route('cart.load')->with('error', 'Không có sản phẩm nào được chọn để đặt hàng.');
         }
+        foreach ($selectedCartItems as $cartItem) {
+            $product = $cartItem->productVariant->product;
+            // dd($product);
+            // // dd($product->status ==1);
 
-        // Kiểm tra sản phẩm ngừng kinh doanh
-        $inactiveItems = $selectedCartItems->filter(function ($cartItem) {
-            return $cartItem->productVariant->product->status == 2;
-        });
+            if ($product->status == 2) {
+                return redirect()->route('cart.load')->with('error', 'Sản phẩm ' . $product->name . ' đã ngừng bán . hãy xoá khỏi giỏ hàng');
+            }
+        }
+        // Khởi tạo tổng tiền và trạng thái áp dụng Flash Sale
+        $totalPrice = 0;
+        $isFlashSaleApplied = false;
 
-        if ($inactiveItems->count() > 0) {
-            $inactiveProductNames = $inactiveItems->pluck('productVariant.product.name')->join(', ');
-            return redirect()->route('cart.load')->with('error', 'Các sản phẩm sau đã ngừng kinh doanh: ' . $inactiveProductNames . '. Vui lòng xoá chúng khỏi giỏ hàng.');
+        $orderItemsData = []; // Dữ liệu để tạo OrderItem
+        $stockUpdates = [];  // Lưu trữ cập nhật tồn kho
+
+        $productVariantIds = [];
+        foreach ($selectedCartItems as $cartItem) {
+            $product = $cartItem->productVariant->product;
+            $productVariant = $cartItem->productVariant;
+            if ($productVariant->stock_quantity < $cartItem->quantity) {
+                return redirect()->route('cart.load')
+                    ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+            }
+            // Kiểm tra Flash Sale nếu chưa áp dụng
+            $flashSaleItem = null;
+            $flashSalePrice = null;
+            $flashSaleQuantity = 0;
+
+            if (!$isFlashSaleApplied) {
+                $flashSaleItem = FlashSaleItem::where('product_id', $product->id)
+                    ->whereHas('flashSale', function ($query) {
+                        $query->where('start_time', '<=', now())
+                            ->where('end_time', '>=', now())
+                            ->where('status', 'Đang diễn ra');
+                    })
+                    ->first();
+
+                if ($flashSaleItem) {
+                    $flashSalePrice = $flashSaleItem->price;
+                    $flashSaleQuantity = min(1, $cartItem->quantity); // Chỉ áp dụng Flash Sale cho 1 sản phẩm
+                    $isFlashSaleApplied = true;
+                    // Kiểm tra tồn kho Flash Sale
+                    if ($flashSaleItem->flash_sale_quantity < $flashSaleQuantity) {
+                        return redirect()->route('cart.load')
+                            ->with('error', "{$product->name} không đủ số lượng trong chương trình Flash Sale.");
+                    }
+                }
+            }
+
+            $originalPrice = $product->price;
+
+            // Tính giá cuối cùng cho mục giỏ hàng
+            $finalPrice = ($flashSaleQuantity * $flashSalePrice) + (($cartItem->quantity - $flashSaleQuantity) * $originalPrice);
+
+            $totalPrice += $finalPrice;
+
+            $productVariantIds[] = $cartItem->productVariant->id;
+            // Thêm dữ liệu tạo OrderItem
+            $orderItemsData[] = [
+                'product_variant_id' => $cartItem->productVariant->id,
+                'quantity' => $cartItem->quantity,
+                'price' => $finalPrice / $cartItem->quantity, // Đơn giá
+            ];
+
+            // Lưu cập nhật tồn kho
+            $stockUpdates[] = [
+                'productVariant' => $cartItem->productVariant,
+                'quantity' => $cartItem->quantity,
+            ];
+            // Nếu có Flash Sale cho sản phẩm đầu tiên, trừ số lượng và tăng lượt bán
+            if ($flashSaleItem) {
+                // Trừ số lượng trong bảng flash_sale_items
+                $flashSaleItem->flash_sale_quantity -= $flashSaleQuantity;
+
+                // Tăng lượt bán (sold_quantity)
+                $flashSaleItem->sold_quantity += $flashSaleQuantity;
+
+                // Lưu cập nhật vào bảng flash_sale_items
+                $flashSaleItem->save();
+            }
         }
 
-        // Tính tổng tiền
-        $totalPrice = $selectedCartItems->sum(function ($cartItem) {
-            $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
-                ->whereHas('flashSale', function ($query) {
-                    $query->where('start_time', '<=', now())
-                        ->where('end_time', '>=', now())
-                        ->where('status', 'Đang diễn ra');
-                })
-                ->first();
-
-            $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
-
-            return $finalPrice * $cartItem->quantity;
-        });
+        // Lấy giảm giá từ voucher (nếu có)
         $discountAmount = session()->has('voucher_discount') ? session()->get('voucher_discount')['discount_amount'] : 0;
+
+        // Tính tổng tiền cuối cùng
+        $totalPrice = $totalPrice - $discountAmount + 30000; // Cộng phí vận chuyển (30,000)
+
         // Validate thông tin đơn hàng
         $validate = $request->validate([
             'name_order' => 'required|string|max:255',
@@ -320,16 +390,8 @@ class OrderController extends Controller
             'address_order' => 'required|string|min:10|max:500',
         ], [
             'name_order.required' => 'Vui lòng nhập tên người đặt hàng.',
-            'name_order.string' => 'Tên phải là chuỗi ký tự.',
-            'name_order.max' => 'Tên không được dài hơn 255 ký tự.',
-
             'phone_order.required' => 'Vui lòng nhập số điện thoại.',
-            'phone_order.regex' => 'Số điện thoại không đúng định dạng.',
-
             'address_order.required' => 'Vui lòng nhập địa chỉ.',
-            'address_order.string' => 'Địa chỉ phải là chuỗi ký tự.',
-            'address_order.min' => 'Địa chỉ phải có ít nhất 10 ký tự.',
-            'address_order.max' => 'Địa chỉ không được dài hơn 500 ký tự.',
         ]);
 
         // Tạo đơn hàng
@@ -338,91 +400,70 @@ class OrderController extends Controller
             'payment' => 1,
             'order_date' => now(),
             'status' => 'Chờ xác nhận',
-            'total_amount' => $totalPrice - $discountAmount + 30000,
+            'total_amount' => $totalPrice,  // Tổng tiền sau khi tính giảm giá và phí vận chuyển
             'name_order' => $request->name_order,
             'phone_order' => $request->phone_order,
             'address_order' => $request->address_order,
             'content_order' => $request->content_order,
         ]);
 
-        // Tạo các mục đơn hàng
-        foreach ($selectedCartItems as $item) {
-            $productVariant = $item->productVariant;
-            if (!$productVariant) {
-                return redirect()->back()->with('error', 'Sản phẩm không tồn tại hoặc không có sẵn.');
-            }
-
-            // Kiểm tra số lượng tồn kho
-            if ($productVariant->stock_quantity < $item->quantity) {
-                return redirect()->back()->with('error', 'Sản phẩm ' . $productVariant->product->name . ' không đủ số lượng trong kho.');
-            }
-
-            // Trừ số lượng tồn kho
-            $productVariant->stock_quantity -= $item->quantity;
-            $productVariant->save();
-
-            $flashSaleItem = FlashSaleItem::where('product_id', $productVariant->product->id)
-                ->whereHas('flashSale', function ($query) {
-                    $query->where('start_time', '<=', now())
-                        ->where('end_time', '>=', now())
-                        ->where('status', 'active');
-                })
-                ->first();
-
-            $finalPrice = $flashSaleItem ? $flashSaleItem->price : $productVariant->product->price;
-
-            // Tạo mục đơn hàng
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_variant_id' => $productVariant->id,
-                'quantity' => $item->quantity,
-                'price' => $finalPrice,
-            ]);
+        // Tạo các mục đơn hàng (OrderItem)
+        foreach ($orderItemsData as $itemData) {
+            $itemData['order_id'] = $order->id; // Thêm order_id vào từng mục
+            OrderItem::create($itemData);
         }
 
-        // Xóa các mục đã mua khỏi giỏ hàng
-        $selectedCartItemIds = $request->input('selectedCartItemIds', []);
+        // Cập nhật tồn kho
+        foreach ($stockUpdates as $update) {
+            $update['productVariant']->stock_quantity -= $update['quantity'];
+            $update['productVariant']->save();
+        }
 
-        // Xóa các sản phẩm đã được chọn khỏi giỏ hàng
+        // Xóa các sản phẩm đã mua khỏi giỏ hàng
         $cart->cartItems()->whereIn('id', $selectedCartItemIds)->delete();
 
         // Nếu giỏ hàng không còn sản phẩm nào, xóa luôn giỏ hàng
         if ($cart->cartItems()->count() === 0) {
             $cart->delete();
         }
+
+        // Gửi email thông báo đơn hàng
         $order_item = OrderItem::where('order_id', $order->id)->get();
         Mail::to($user->email)->send(new mailOrder($order, $order_item));
+        InventoryCheckJob::dispatch($productVariantIds);
+        // Chuyển hướng người dùng tới trang cảm ơn
         return redirect()->route('thankyou');
     }
+
+
+
+
+
 
     public function loadOrderUser()
     {
         $user = Auth::user();
         $orders = Order::where('user_id', $user->id)->with('orderItems')->orderBy('id', 'desc')->get();
-        $orders_pending = Order::where('user_id', $user->id)->where('status', 'Chờ xác nhận')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_pending = Order::where('user_id', $user->id)
+            ->where('status', 'Chờ xác nhận')
+            ->with('orderItems.productVariant.product.flashSaleItems')  // Sửa lại đây
+            ->orderBy('id', 'desc')
+            ->get();
         $orders_vanchuyen = Order::where('user_id', $user->id)->where('status', 'Vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get();
-        $orders_chogiaohang = Order::where('user_id', $user->id)->where('status', 'Chờ giao hàng')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_dangvanchuyen = Order::where('user_id', $user->id)->where('status', 'Đang vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_hoanthanh = Order::where('user_id', $user->id)->where('status', 'Hoàn thành')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_dahuy = Order::where('user_id', $user->id)->where('status', 'Đã huỷ')->with('orderItems')->orderBy('id', 'desc')->get();
-        $orders_danhan = Order::where('user_id', $user->id)->where('status', 'Đã nhận hàng')->with('orderItems')->orderBy('id', 'desc')->get();
-
+        $orders_dagiao = Order::where('user_id', $user->id)->where('status', 'Đã giao')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_daxacnhan = Order::where('user_id', $user->id)->where('status', 'Đã xác nhận')->with('orderItems')->orderBy('id', 'desc')->get();
         // Nếu bạn cần truyền sản phẩm vào view, ví dụ như lấy sản phẩm đầu tiên từ một đơn hàng nào đó:
         $product = Product::first();  // Chỉ ví dụ, bạn có thể chọn sản phẩm khác
 
-        return view('client.order', compact('orders_dahuy', 'orders_pending', 'orders_vanchuyen', 'orders_chogiaohang', 'orders_hoanthanh', 'orders_danhan', 'orders', 'product'));
+        return view('client.order', compact('orders_dahuy', 'orders_daxacnhan', 'orders_pending', 'orders_vanchuyen', 'orders_dangvanchuyen', 'orders_hoanthanh', 'orders_dagiao', 'orders', 'product'));
     }
 
 
     // OrderController.php
-    public function show($orderId)
-    {
-        $order = Order::with(['orderItems.productVariant.size', 'orderItems.productVariant.color'])
-            ->where('user_id', auth()->id())
-            ->where('id', $orderId)
-            ->first();
 
-        return view('client.orderdetail', compact('order'));
-    }
 
     public function cancelOrder($orderId, Request $request)
     {
@@ -442,10 +483,27 @@ class OrderController extends Controller
                 return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã hoàn thành .');
             }
 
+            $request->validate(
+                [
+                    'cancel_reason.' . $order->id => 'required|string|max:255', // Lý do huỷ là bắt buộc
+                ],
+                [
+                    'cancel_reason.' . $order->id . '.required' => 'Lý do huỷ là bắt buộc.',
+                    'cancel_reason.' . $order->id . '.string' => 'Lý do huỷ phải là chuỗi ký tự.',
+                    'cancel_reason.' . $order->id . '.max' => 'Lý do huỷ không được dài quá 255 ký tự.',
+                ]
+            );
+
+            $order->status = 'Đã huỷ';
+            // user huỷ phải nhập
+            $order->cancel_reason = $request->input('cancel_reason.' . $order->id); // Lấy lý do huỷ cho từng đơn hàng
+            // $order->save();
+            // $order->cancel_reason = $request->cancel_reason;
             $order->status = 'Đã huỷ';
             $order->save();
 
-            return redirect()->route('orders.loadUser')->with('success', 'Đơn hàng đã được hủy.');
+            return redirect()->route('orders.loadUser')
+                ->with('success_' . $order->id, 'Đơn hàng ' . $order->id . ' đã được huỷ thành công.');
         }
 
         return redirect()->route("orders.loadUser")->with('error', 'Không thể hủy đơn hàng này.');
@@ -522,5 +580,64 @@ class OrderController extends Controller
         }
 
         return redirect()->route('orders.loadUser')->with('error', 'Đơn hàng không tồn tại.');
+    }
+
+    // tìm kiếm đơn hàng
+    public function search(Request $request)
+    {
+        // Lấy tất cả đơn hàng
+        // $request->validate([
+        //     'search' => 'required'
+        // ],
+        // [
+        //     'search.required'=>'Vui lòng nhập để tìm kiếm',
+
+        // ]);
+        $ordersQuery = Order::with('orderItems.productVariant.product', 'orderItems.productVariant.color', 'orderItems.productVariant.size');
+
+        // Nếu có từ khóa tìm kiếm (search), filter theo ID hoặc tên sản phẩm
+        if ($request->has('search') && $request->search != '') {
+            $searchTerm = $request->search;
+
+            // Tìm kiếm theo ID đơn hàng hoặc tên sản phẩm
+            $search = $ordersQuery->where(function ($query) use ($searchTerm) {
+                $query->where('id', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('orderItems.productVariant.product', function ($q) use ($searchTerm) {
+                        $q->where('name', 'like', '%' . $searchTerm . '%');
+                    });
+            });
+            if (!$search) {
+                return redirect()->back()->with('error', 'Từ khoá tìm kiếm không hợp lệ');
+            }
+        }
+
+        // Lấy kết quả đơn hàng
+        $orders = $ordersQuery->get();
+        $user = Auth::user();
+        $orders_pending = Order::where('user_id', $user->id)
+            ->where('status', 'Chờ xác nhận')
+            ->with('orderItems.productVariant.product.flashSaleItems')  // Sửa lại đây
+            ->orderBy('id', 'desc')
+            ->get();
+        $orders_daxacnhan = Order::where('user_id', $user->id)->where('status', 'Đã xác nhận')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_vanchuyen = Order::where('user_id', $user->id)->where('status', 'Vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_chogiaohang = Order::where('user_id', $user->id)->where('status', 'Chờ giao hàng')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_hoanthanh = Order::where('user_id', $user->id)->where('status', 'Hoàn thành')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_dahuy = Order::where('user_id', $user->id)->where('status', 'Đã huỷ')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_danhan = Order::where('user_id', $user->id)->where('status', 'Đã nhận hàng')->with('orderItems')->orderBy('id', 'desc')->get();
+        // Trả về view với danh sách đơn hàng và các tham số cần thiết
+        return view('client.order', compact('orders', 'orders_daxacnhan', 'orders_dahuy', 'orders_pending', 'orders_vanchuyen', 'orders_chogiaohang', 'orders_hoanthanh', 'orders_danhan'));
+    }
+
+    public function dagiaoUser($id)
+    {
+        $user = Auth::user();
+        $order = Order::where('id', $id)
+            ->where('user_id', $user->id)
+            ->firstOrFail();
+        $order->update([
+            'status' => 'Hoàn thành'
+        ]);
+        return redirect()->back()->with('success', 'Đã hoàn thành đơn hàng');
     }
 }

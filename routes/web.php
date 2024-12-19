@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\auth\AuthenticationController;
 use App\Http\Controllers\auth\FilterController;
 use App\Http\Controllers\BrandController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\client\CartController;
@@ -24,8 +25,11 @@ use App\Http\Controllers\Client\OrderController;
 use App\Http\Controllers\client\SearchController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\shipper\ShipperController;
 use App\Http\Controllers\VoucherController;
 use App\Models\Order;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +41,23 @@ use App\Models\Order;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Auth::routes(['verify' => true]);
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/home'); // Hoặc trang bạn muốn chuyển đến sau xác minh
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'verification-link-sent');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 Route::get('/', [HomeController::class, 'getProductHome'])->name('home');
 
@@ -46,6 +67,10 @@ Route::prefix('admin')
     ->as('admin.')
     ->group(function () {
         Route::get('/statistics', [thongkeController::class, 'index'])->name('statistics.index');
+        Route::post('/statistics/revenue', [thongkeController::class, 'revenue'])->name('statistics.revenue');
+        Route::post('/statistics/top-users', [thongkeController::class, 'topUsers'])->name('statistics.topUsers');
+        Route::post('/statistics/top-products', [thongkeController::class, 'topProducts'])->name('statistics.topProducts');
+        Route::post('/statistics/orders-summary', [thongkeController::class, 'ordersSummary'])->name('statistics.ordersSummary');
         Route::resource('banners', BannerController::class);
         // Route::get('/admin', [thongkeController::class, 'index']);
         Route::resource('products', ProductController::class);
@@ -79,8 +104,9 @@ Route::prefix('admin')
 
         // dành cho quản lí flash sale bên phía admin
         Route::resource('/sales', SaleController::class);
-
-
+        // cập nhật trạng thái size và color
+        Route::post('/size/{id}',[SizeController::class,'updateStatus'])->name('size.update.status');
+        Route::post('/color/{id}',[ColorController::class,'updateStatus'])->name('color.update.status');
 
         //dành cho flashsale
         Route::get('list-product-flash-sale', [FlashSaleOneController::class, 'listProductFlashSale'])->name('listProductFlashSale');
@@ -95,6 +121,18 @@ Route::prefix('admin')
         Route::delete('flash-sale/{flashSaleId}/product/{productId}', [FlashSaleOneController::class, 'deleteProduct'])->name('delete_product');
 
         Route::resource('vouchers', VoucherController::class);
+
+        // thêm biến thể admin
+        Route::get('admin/products/{product}/variants/create', [ProductController::class, 'createVariant'])
+            ->name('products.variants.create');
+        Route::post('admin/products/{product}/variants', [ProductController::class, 'storeVariant'])
+            ->name('products.variants.store');
+        Route::delete('/variants/{id}', [ProductController::class, 'deleteVariant'])->name('variants.destroy');
+        Route::get('/admin/products', [ProductController::class, 'search'])->name('search.product');
+
+        // gán đơn hàng cho shipper
+        Route::post('/orders/{id}/assign', [AdOrderController::class, 'assignShipper'])->name('orders.assign');
+
     });
 
 
@@ -105,6 +143,12 @@ Route::prefix('admin')
         Route::delete('product/{id}/favorites',[FavoriteController::class,'deleteFavorite'])->name('favorites.delete');
 
         Route::get('list-flash-sale-home',[HomeController::class,'getFlashSaleHome'])->name('getFlashSaleHome');
+        Route::get('/change-password',[AuthenticationController::class,'showFormChangePassWord'])->name('showFormChangePassWord');
+        Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
+
+        // cập nhật số lượng giỏ hàng
+        Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+        Route::post('/orders/{id}/dagiao', [OrderController::class, 'dagiaoUser'])->name('dagiaoUser');
     });
 // bên client
 Route::get('/load-flash-sale',[HomeController::class,'getFlashSale'])->name('getFlashSale');
@@ -152,7 +196,7 @@ Route::get('/orders', [OrderController::class, 'loadOrderUser'])->name('orders.l
 
 
 
-Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+// Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 Route::post('/orders/{orderId}/cancel', [OrderController::class, 'cancelOrder'])->name('orders.cancel')->middleware('auth');
 Route::get('order/repurchase/{orderId}', [OrderController::class, 'repurchase'])->name('order.repurchase')->middleware('auth');
 
@@ -172,12 +216,30 @@ Route::post('/cart/proceed-to-checkout', [CartController::class, 'proceedToCheck
 // Route để hiển thị trang bình luận
 Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
 // Route để lưu bình luận
-Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
+// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
 
 Route::get('/comment/{productId}', [CommentController::class, 'showCommentForm'])->name('comment.form')->middleware('auth');
 
 Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
-Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 
 Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('product.detail')->middleware('auth');
+
+Route::get('/orders/search', [OrderController::class, 'search'])->name('orders.search');
+
+
+// bên thứ 3 shipper
+// Route::middleware('role:third_party')->prefix('third-party')->group(function () {
+Route::get('login/shipper',[ShipperController::class,'loginShowFormShipper'])->name('login.shipper');
+Route::post('login/shipper',[ShipperController::class,'loginShipper'])->name('login.shipper.post');
+Route::middleware(['shipper'])->group(function(){
+    Route::get('/orders/shipper', [ShipperController::class, 'index'])->name('shipper.orders.index');
+    Route::get('/orders/shipper/dabroad', [ShipperController::class, 'index2'])->name('shipper.orders.index2');
+    Route::post('/orders/{id}/shipper', [ShipperController::class, 'update'])->name('shipper.orders.update');
+    Route::post('/orders/{id}/shipper2', [ShipperController::class, 'update2'])->name('shipper.orders.update2');
+    Route::get('/orders/{id}/detail/shipper', [ShipperController::class, 'show'])->name('shipper.orders.show');
+
+});
+
+// });
 

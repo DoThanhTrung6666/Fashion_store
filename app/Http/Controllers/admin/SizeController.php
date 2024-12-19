@@ -14,7 +14,7 @@ class SizeController extends Controller
     // Danh sách size
     public function index()
     {
-        $sizes = Size::all();
+        $sizes = Size::where('status',1)->get();
         return view('admin.size.index', compact('sizes'));
     }
 
@@ -64,5 +64,14 @@ class SizeController extends Controller
     {
         $size->delete();
         return redirect()->route('admin.sizes.index')->with('success', 'Xóa thành công.');
+    }
+
+    public function updateStatus($id){
+        $size = Size::find($id);
+        if($size){
+            $size->status = 2;
+            $size->save();
+        }
+        return redirect()->back()->with('success','Đã ngừng hoạt động');
     }
 }

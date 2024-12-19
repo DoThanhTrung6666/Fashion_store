@@ -19,7 +19,8 @@ class Order extends Model
         'name_order',
         'phone_order',
         'address_order',
-        'content_order'
+        'content_order',
+        'shipper_id'
     ];
 
 

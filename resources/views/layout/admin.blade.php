@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>Quản trị Fashion-Store</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="{{ asset('dist/css/SizeColorStatus.css') }}" rel="stylesheet" type="text/css" />
@@ -44,7 +44,7 @@
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
+                                <span class="label label-success"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="header">You have 4 messages</li>
@@ -119,51 +119,14 @@
                     <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
-                            <span class="label label-warning">10</span>
+                            <span class="label label-warning"></span>
                         </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">You have 10 notifications</li>
-                            <li>
-                                <!-- inner menu: contains the actual data -->
-                                <ul class="menu">
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-warning text-yellow"></i> Very long description here that
-                                            may not fit into the
-                                            page and may cause design problems
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-users text-red"></i> 5 new members joined
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="fa fa-user text-red"></i> You changed your username
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="footer"><a href="#">View all</a></li>
-                        </ul>
                     </li>
                     <!-- Tasks: style can be found in dropdown.less -->
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-flag-o"></i>
-                            <span class="label label-danger">9</span>
+                            <span class="label label-danger"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="header">You have 9 tasks</li>
@@ -242,31 +205,45 @@
                         </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
+                    <style>
+                        .user-image {
+                            width: 100px;
+                            /* Chiều rộng của ảnh */
+                            height: 100px;
+                            /* Chiều cao của ảnh */
+                            border-radius: 50%;
+                            /* Tạo hình tròn */
+                            object-fit: cover;
+                            /* Đảm bảo ảnh phủ kín khung mà không bị biến dạng */
+                        }
+                    </style>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image" />
+                            <img src="{{ Storage::url(Auth::user()->avatar) }}" class="user-image"
+                                alt="User Image" />
                             <span class="hidden-xs">Hello - {{ Auth::user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="{{ Storage::url(Auth::user()->avatar) }}" class="user-image"
+                                    alt="User Image" />
                                 <p>
                                     {{ Auth::user()->name }}
-                                    <small>Member since Nov. 2012</small>
+                                    <small>{{ Auth::user()->address }}</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
+                                <div class="col-xs-12 text-center">
+                                    <a href="{{ route('home') }}">Trang mua hàng</a>
                                 </div>
-                                <div class="col-xs-4 text-center">
+                                {{-- <div class="col-xs-4 text-center">
                                     <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
+                                </div> --}}
+                                {{-- <div class="col-xs-6 text-center">
                                     <a href="#">Friends</a>
-                                </div>
+                                </div> --}}
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
@@ -274,7 +251,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Đăng xuất</a>
                                 </div>
                             </li>
                         </ul>
@@ -288,14 +265,14 @@
                 <div class="user-panel">
 
                     <div class="pull-left image">
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                        <img src="{{ Storage::url(Auth::user()->avatar) }}" class="user-image" alt="User Image" />
                     </div>
                     <div class="pull-left info">
                         <p>{{ Auth::user()->name }}</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
-                <form action="#" method="get" class="sidebar-form">
+                {{-- <form action="#" method="get" class="sidebar-form">
                     <div class="input-group">
                         <input type="text" name="q" class="form-control" placeholder="Search..." />
                         <span class="input-group-btn">
@@ -303,9 +280,9 @@
                                     class="fa fa-search"></i></button>
                         </span>
                     </div>
-                </form>
+                </form> --}}
                 <ul class="sidebar-menu">
-                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="header">Tất cả chức năng</li>
                     <li class="treeview">
                         <a href="{{ route('admin.statistics.index') }}">
                             <i class="fa fa-chart-bar"></i>
@@ -314,42 +291,22 @@
                         </a>
 
                     </li>
-                    {{-- category --}}
                     <li class="treeview">
                         <a href="#">
-                            <i class="nav-icon fas fa-tags"></i>
-                            <span>Danh mục</span>
+                            <i class="nav-icon fas fa-receipt"></i>
+                            <span>Quản lý đơn hàng</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i>Danh
+                            <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i>Danh
                                     sách</a></li>
-                            <li><a href="{{ route('admin.categories.create') }}"><i
-                                        class="fa fa-circle-o"></i>Thêm</a></li>
                         </ul>
                     </li>
-                    {{-- kết thúc category  --}}
-                    {{-- quản lí banner --}}
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="nav-icon fas fa-image"></i>
-                            <span>Banner</span>
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="{{ route('admin.banners.index') }}"><i class="fa fa-circle-o"></i>Danh
-                                    sách</a></li>
-                            <li><a href="{{ route('admin.banners.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
-                            </li>
-                        </ul>
-                    </li>
-                    {{-- kết thúc quản lí banner  --}}
-
                     {{-- quản lí sản phẩm --}}
                     <li class="treeview">
                         <a href="{{ route('admin.products.index') }}">
                             <i class="fas fa-box"></i>
-                            <span>Sản phẩm</span>
+                            <span>Quản lí sản phẩm</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -360,12 +317,27 @@
                         </ul>
                     </li>
                     {{-- kết thúc quản lí sản phẩm  --}}
+                    {{-- category --}}
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="nav-icon fas fa-tags"></i>
+                            <span>Quản lí danh mục</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ route('admin.categories.index') }}"><i class="fa fa-circle-o"></i>Danh
+                                    sách</a></li>
+                            <li><a href="{{ route('admin.categories.create') }}"><i
+                                        class="fa fa-circle-o"></i>Thêm</a></li>
+                        </ul>
+                    </li>
+                    {{-- kết thúc category  --}}
 
                     {{-- quản lí Size --}}
                     <li class="treeview">
                         <a href="{{ route('admin.sizes.index') }}">
-                            <i class="fas fa-box"></i>
-                            <span>Kích cỡ</span>
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>Quản lí kích cỡ</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -380,8 +352,8 @@
                     {{-- quản lí Color --}}
                     <li class="treeview">
                         <a href="{{ route('admin.colors.index') }}">
-                            <i class="fas fa-box"></i>
-                            <span>Màu sắc</span>
+                            <i class="fas fa-palette"></i>
+                            <span>Quản lí màu sắc</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -396,8 +368,8 @@
                     {{-- quản lí brand --}}
                     <li class="treeview">
                         <a href="{{ route('admin.brands.index') }}">
-                            <i class="nav-icon fas fa-image"></i>
-                            <span>Thương hiệu</span>
+                            <i class="fas fa-tags"></i>
+                            <span>Quản lí thương hiệu</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -411,8 +383,8 @@
                     {{-- quản lí  sale --}}
                     <li class="treeview">
                         <a href="{{ route('admin.sales.index') }}">
-                            <i class="nav-icon fas fa-image"></i>
-                            <span>Quản lí Sale</span>
+                            <i class="fas fa-percent"></i>
+                            <span>Quản lí Sale(%)</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -426,7 +398,7 @@
                     {{-- quản lí flash sale --}}
                     <li class="treeview">
                         <a href="{{ route('admin.sales.index') }}">
-                            <i class="nav-icon fas fa-image"></i>
+                            <i class="fas fa-bolt"></i>
                             <span>Quản lí Flash-Sale</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
@@ -442,7 +414,7 @@
                     {{-- quản lí voucher --}}
                     <li class="treeview">
                         <a href="{{ route('admin.vouchers.index') }}">
-                            <i class="nav-icon fas fa-image"></i>
+                            <i class="fas fa-gift"></i>
                             <span>Quản lí Voucher</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
@@ -454,11 +426,10 @@
                         </ul>
                     </li>
                     {{-- kết thúc quản lí voucher  --}}
-
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-group"></i>
-                            <span>Người dùng</span>
+                            <span>Quản lí người dùng</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -471,7 +442,7 @@
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-comment"></i>
-                            <span>Bình luận</span>
+                            <span>Quản lí bình luận</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
@@ -480,18 +451,21 @@
                                     sách</a></li>
                         </ul>
                     </li>
-
+                    {{-- quản lí banner --}}
                     <li class="treeview">
                         <a href="#">
-                            <i class="nav-icon fas fa-receipt"></i>
-                            <span>Quản lý đơn hàng</span>
+                            <i class="nav-icon fas fa-image"></i>
+                            <span>Quản lí ảnh banner</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-circle-o"></i>Danh
+                            <li><a href="{{ route('admin.banners.index') }}"><i class="fa fa-circle-o"></i>Danh
                                     sách</a></li>
+                            <li><a href="{{ route('admin.banners.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
+                            </li>
                         </ul>
                     </li>
+                    {{-- kết thúc quản lí banner  --}}
 
                 </ul>
             </section>
