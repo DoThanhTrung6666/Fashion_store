@@ -118,10 +118,16 @@
                 <a class="nav-link  {{ request('status') == 'Chờ xác nhận' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Chờ xác nhận"><i class="fas fa-clock"></i> Chờ xác nhận</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link  {{ request('status') == 'Đã xác nhận' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Đã xác nhận"><i class="fas fa-truck"></i> Đã xác nhận</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link  {{ request('status') == 'Vận chuyển' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Vận chuyển"><i class="fas fa-truck"></i> Vận chuyển</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  {{ request('status') == 'Chờ giao hàng' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Chờ giao hàng"><i class="fas fa-box"></i> Chờ giao hàng</a>
+                <a class="nav-link  {{ request('status') == 'Đang vận chuyển' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Đang vận chuyển"><i class="fas fa-box"></i> Đang vận chuyển</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link  {{ request('status') == 'Đã giao' ? 'active' : '' }}" href="{{ route('admin.orders.index')}}?status=Đã giao"><i class="fas fa-box"></i> Đã giao</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link  {{ request('status') == 'Hoàn thành' ? 'active' : '' }}" href="{{route('admin.orders.index')}}?status=Hoàn thành"><i class="fas fa-check-circle"></i> Hoàn thành</a>
@@ -136,7 +142,7 @@
                     <div class="col-md-3">
                         <input type="text" name="search" onclick="openSearch()" class="form-control" placeholder="Tìm mã đơn hoặc tên khách hàng" value="{{ $searchTerm ?? '' }}">
                     </div>
-                    
+
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                     </div>
@@ -144,8 +150,8 @@
             </form>
         </div>
 
-        
-        
+
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -167,12 +173,16 @@
                                     <td>
                                         @if ($order->status == 'Chờ xác nhận')
                                         <span class="status-badge badge-pending">Chờ xác nhận</span>
+                                        @elseif ($order->status == 'Đã xác nhận')
+                                    <span class="status-badge badge-confirmed">Đã xác nhận</span>
                                     @elseif ($order->status == 'Vận chuyển')
                                     <span class="status-badge badge-confirmed">Vận chuyển</span>
-                                    @elseif ($order->status == 'Chờ giao hàng')
-                                    <span class="status-badge badge-shipping">Chờ giao hàng</span>
+                                    @elseif ($order->status == 'Đang vận chuyển')
+                                    <span class="status-badge badge-shipping">Đang vận chuyển</span>
                                     @elseif ($order->status == 'Hoàn thành')
                                     <span class="status-badge badge-delivered">Hoàn thành</span>
+                                    @elseif ($order->status == 'Đã giao')
+                                    <span class="status-badge badge-delivered">Đã giao</span>
                                     @else
                                     <span class="status-badge badge-cancelled">Đã hủy</span>
                                     @endif

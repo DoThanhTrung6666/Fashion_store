@@ -11,6 +11,11 @@ class SearchController extends Controller
 {
     //
     public function search(Request $request){
+        $request->validate([
+            'keyword'=> 'required',
+        ],[
+            'keyword.required'=>'Hãy nhập từ khoá tìm kiếm'
+        ]);
         $keyword = $request->input('keyword','');
         $products = Product::query()
             ->where('name','LIKE',"%{$keyword}%")

@@ -29,27 +29,30 @@
                     @if(session('error'))
                         <p style="color: red">{{session('error')}}</p>
                     @endif
+                    @if(session('success'))
+                        <p style="color: red">{{session('success')}}</p>
+                    @endif
                 </span></h2>
                 <form action="{{route('changePassWord')}}" method="POST">
                     @csrf
                     <label for="current_password"></label>
-                    <input type="text" id="current_password" name="current_password" placeholder="Nhập mat khau cu" class="@error('current_password') is-invalid @enderror">
+                    <input type="text" id="current_password" name="current_password" placeholder="Nhập mat khau cu" value="{{old('current_password')}}">
                         @error('current_password')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="text-danger">{{ $message }}</div>
                         @enderror
                     <label for="new_password"></label>
-                    <input type="password" id="new_password" name="new_password" placeholder="Nhập mật khẩu moi" >
+                    <input type="password" id="new_password" name="new_password" placeholder="Nhập mật khẩu moi" value="{{old('new_password')}}">
 
                         @error('new_password')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                         <label for="new_password_confirmation"></label>
-                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" placeholder="Nhập lai mật khẩu moi" >
+                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" placeholder="Nhập lai mật khẩu moi" value="{{old('new_password_confirmation')}}">
 
                         @error('new_password_confirmation')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    <button type="submit">Đoi mat khau</button>
+                    <button type="submit" class="btn-gray">Đổi mật khẩu</button>
 
                     <div class="forgot">
                         <a href="{{route('showForgotPassword')}}">Quên mật khẩu?</a>

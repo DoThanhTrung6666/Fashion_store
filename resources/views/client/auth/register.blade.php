@@ -26,12 +26,12 @@
             </div>
             <div class="login-form">
                 <h2>Đăng kí tài khoản</h2>
-                <span style="font-size: 10px">
+                <span>
                     @if(session('error'))
                         <p style="color: red">{{session('error')}}</p>
                     @endif
                 </span>
-                <span style="font-size: 10px">
+                <span>
                     @if(session('success'))
                         <p style="color: red">{{session('success')}}</p>
                     @endif
@@ -63,7 +63,7 @@
 
 
 
-                    <button type="submit">Đăng kí</button>
+                    <button type="submit" class="btn-gray">Đăng kí</button>
                 </form>
 
                 <div class="register">

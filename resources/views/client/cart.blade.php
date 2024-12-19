@@ -84,9 +84,22 @@
                                                     {{-- <select class="mb-2 custom-select w-auto">
                                   <option value="1" selected="">{{$item->quanity}}</option>
                                 </select> --}}
-                                                    <input type="number" class="quantity-input" name="quantity"
+                                                    {{-- <input type="number" class="quantity-input" name="quantity"
                                                         value="{{ $item['cartItem']->quantity }}" min="1"
-                                                        style="width: 60px;">
+                                                        style="width: 60px;"> --}}
+                                                        <div style="display: flex; align-items: center;">
+                                                            {{-- Nút trừ số lượng --}}
+                                                            <a href="javascript:void(0);" class="quantity-button decrease"
+                                                               onclick="event.preventDefault(); document.getElementById('decrease-form-{{ $item['cartItem']->id }}').submit();">-</a>
+
+                                                            {{-- Hiển thị số lượng --}}
+                                                            <input type="number" class="quantity-input text-center" name="quantity"
+                                                                   value="{{ $item['cartItem']->quantity }}" readonly style="width: 60px;">
+
+                                                            {{-- Nút tăng số lượng --}}
+                                                            <a href="javascript:void(0);" class="quantity-button increase"
+                                                               onclick="event.preventDefault(); document.getElementById('increase-form-{{ $item['cartItem']->id }}').submit();">+</a>
+                                                        </div>
                                                 </div>
                                                 <div class="fls_last">
                                                     <a href="javascript:void(0);" class="close_slide gray"
@@ -139,9 +152,26 @@
                             </form>
                         @endforeach
                         {{-- form xoá  --}}
+                        @foreach ($cartItemsWithSaleInfo as $item)
+                            {{-- Form giảm số lượng --}}
+                            <form id="decrease-form-{{ $item['cartItem']->id }}"
+                                action="{{ route('cart.update', $item['cartItem']->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="quantity" value="{{ $item['cartItem']->quantity - 1 }}">
+                            </form>
 
-                        <a class="btn-link text-dark ft-medium" href="shop.html">
-                            <i class="ti-back-left mr-2"></i> Continue Shopping
+                            {{-- Form tăng số lượng --}}
+                            <form id="increase-form-{{ $item['cartItem']->id }}"
+                                action="{{ route('cart.update', $item['cartItem']->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="quantity" value="{{ $item['cartItem']->quantity + 1 }}">
+                            </form>
+                        @endforeach
+                        {{-- form cập nhật số lượng  --}}
+                        <a class="btn-link text-dark ft-medium" href="{{route('home')}}">
+                            <i class="ti-back-left mr-2"></i> Tiếp tục đặt hàng
                         </a>
                     </div>
 
@@ -155,3 +185,55 @@
     </section>
     <!-- ======================= Product Detail End ======================== -->
 @endsection
+<style>
+    /* Thiết lập giao diện cho nút tăng/giảm */
+.quantity-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    color: #495057;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/* Hiệu ứng khi rê chuột vào */
+.quantity-button:hover {
+    background-color: #e2e6ea;
+    border-color: #adb5bd;
+    color: #212529;
+}
+
+/* Thêm khoảng cách giữa các nút */
+.quantity-button.decrease {
+    /* margin-right: 5px; */
+}
+
+.quantity-button.increase {
+    /* margin-left: 5px; */
+}
+
+/* Giao diện của input số lượng */
+.quantity-input {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #495057;
+    background-color: #fff;
+    padding: 0;
+    /* margin: 0 5px; */
+    cursor: not-allowed;
+}
+
+</style>

@@ -146,9 +146,15 @@
                                         </form>
                                     </li>
                                     <li>
+                                        @if(empty(Auth::check()))
                                         <a href="{{route('login')}}">
                                             <i class="lni lni-user"></i>
                                         </a>
+                                        @else
+                                        <a href="{{route('login')}}">
+                                            Hello - {{Auth::user()->name}}
+                                        </a>
+                                        @endif
                                     </li>
                                     <li>
                                         <a href="{{route('getFlashSaleHome')}}">
@@ -160,7 +166,7 @@
                                         {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
                                         <a href="{{route('cart.load')}}">
                                             <i class="lni lni-shopping-basket"></i>
-                                            {{-- <span class="dn-counter theme-bg">3</span> --}}
+                                            <span class="dn-counter theme-bg" >{{ $cartCount }}</span>
                                         </a>
                                     </li>
 								</ul>
@@ -197,8 +203,9 @@
 
 							<ul class="nav-menu nav-menu-social align-to-right">
 								<li>
-									<form method="GET" action="{{ route('products.search') }}" style="display: flex; align-items: center; gap: 10px;">
+									<form method="GET" id="searchForm" action="{{ route('products.search') }}" style="display: flex; align-items: center; gap: 10px;">
 										<input
+                                            id="search"
 											type="text"
 											name="keyword"
 											placeholder="Nhập từ khóa tìm kiếm"
@@ -213,7 +220,10 @@
 											"
 											onfocus="this.style.borderBottomColor='#007BFF'"
 											onblur="this.style.borderBottomColor='#ccc'"
-										/>
+                                            class="@error('keyword') is-invalid @enderror"
+										/>@error('keyword')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
 										<button
 											type="submit"
 											style="
@@ -237,7 +247,28 @@
 												<path d="M10 2a8 8 0 105.292 14.707l4.122 4.121a1 1 0 101.414-1.414l-4.121-4.122A8 8 0 0010 2zm0 2a6 6 0 11-4.243 10.243A6 6 0 0110 4z"/>
 											</svg>
 										</button>
+
 									</form>
+                                    <script>
+                                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                                            var searchInput = document.getElementById('search');
+
+                                            // Chặn gửi form nếu trường không hợp lệ
+                                            if (!searchInput.checkValidity()) {
+                                                event.preventDefault(); // Ngừng hành động submit của form
+                                                // Lắng nghe sự kiện invalid để thay đổi thông báo lỗi
+                                                if (searchInput.validity.valueMissing) {
+                                                    searchInput.setCustomValidity("Vui lòng nhập từ khóa tìm kiếm.");
+                                                }
+                                                searchInput.reportValidity(); // Hiển thị thông báo lỗi
+                                            }
+                                        });
+
+                                        // Lắng nghe sự kiện input để xóa thông báo lỗi khi người dùng nhập
+                                        document.getElementById('search').addEventListener('input', function() {
+                                            this.setCustomValidity(""); // Xóa thông báo lỗi khi nhập
+                                        });
+                                    </script>
 								</li>
                                 @if(empty(Auth::check()))
                                 <li>
@@ -282,7 +313,14 @@
                                     {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
 									<a href="{{route('cart.load')}}">
 										<i class="lni lni-shopping-basket"></i>
-                                        {{-- <span class="dn-counter theme-bg">3</span> --}}
+                                        <span class="dn-counter theme-bg">{{ $cartCount }}</span>
+									</a>
+								</li>
+                                <li>
+                                    {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
+									<a href="{{route('shipper.orders.index2')}}">
+										<i class="fas fa-shipping-fast"></i>
+                                        {{-- <span class="dn-counter theme-bg">{{ $cartCount }}</span> --}}
 									</a>
 								</li>
 							</ul>

@@ -13,7 +13,7 @@ class FlashSaleItem extends Model
         'product_id',
         'price',
         'flash_sale_quantity',
-        'sold_quatity'
+        'sold_quantity'
     ];
 
     public function flashSale()

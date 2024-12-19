@@ -77,7 +77,7 @@
                         </div>
 
 
-                        <button type="submit" class="btn btn-success">Đặt lại mật khẩu</button>
+                        <button type="submit" class="btn-gray">Đặt lại mật khẩu</button>
                     </form>
 
                     <div class="register">
