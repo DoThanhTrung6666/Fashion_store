@@ -31,7 +31,7 @@
                                 <input type="text" class="form-control" value="" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="">Username</label>
+                                <label for="">Tên tài khoản</label>
                                 <input type="text" class="form-control" value="{{ $model->name }}" name="name">
                             </div>
                             <div class="form-group">

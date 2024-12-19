@@ -16,7 +16,7 @@
                                 <tr>
                                     <th style="text-align: center" scope="col" style=""></th>
                                     <th style="text-align: center" scope="col" style="">id</th>
-                                    <th style="text-align: center" scope="col" style="">Username</th>
+                                    <th style="text-align: center" scope="col" style="">Tên tài khoản</th>
                                     <th style="text-align: center" scope="col" style="">Email</th>
                                     <th style="text-align: center" scope="col" style="">Số điện thoại</th>
                                     <th style="text-align: center" scope="col" style="">Địa chỉ</th>
