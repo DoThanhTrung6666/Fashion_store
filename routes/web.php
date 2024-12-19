@@ -242,6 +242,12 @@ Route::middleware(['shipper'])->group(function(){
     Route::post('/orders/{id}/shipper2', [ShipperController::class, 'update2'])->name('shipper.orders.update2');
     Route::get('/orders/{id}/detail/shipper', [ShipperController::class, 'show'])->name('shipper.orders.show');
 
+    // đổi mật khẩu 
+    Route::get('/shipper/change-password', [ShipperController::class, 'showChangePasswordForm'])->name('shipper.change-password');
+
+    // Route để xử lý yêu cầu đổi mật khẩu
+    Route::post('/shipper/change-password', [ShipperController::class, 'changePassword'])->name('changePassword');
+
 });
 
 // });
