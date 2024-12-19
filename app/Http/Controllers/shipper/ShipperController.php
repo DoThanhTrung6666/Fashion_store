@@ -60,7 +60,7 @@ class ShipperController extends Controller
     public function show(string $id)
     {
         //
-        $detailOrder = Order::find($id);
+        $detailOrder = Order::with('orderItems.productVariant.product')->find($id);
         return view('shipper.detail',compact('detailOrder'));
     }
 
