@@ -33,9 +33,10 @@ class SaleController extends Controller
     {
         //
         $validated = $request->validate([
-            'discount_percentage' => 'required|integer|min:1|max:40',
+            'discount_percentage' => 'required|integer|min:1|max:40|unique:sales,discount_percentage',
         ],[
             'discount_percentage.required' => 'Không được bỏ trống',
+            'discount_percentage.unique' => '% giảm giá đã tồn tại',
             'discount_percentage.interger' => '% giảm giá phải là số',
             'discount_percentage.min' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 40',
             'discount_percentage.max' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 40',
@@ -71,8 +72,9 @@ class SaleController extends Controller
     {
         //
         $validated = $request->validate([
-            'discount_percentage' => 'required|integer|min:1|max:99',
+            'discount_percentage' => 'required|integer|min:1|max:99|unique:sales,discount_percentage',
         ], [
+            'discount_percentage.unique' => '% giảm giá đã tồn tại',
             'discount_percentage.required' => 'Không được bỏ trống',
             'discount_percentage.integer' => '% giảm giá phải là số',
             'discount_percentage.min' => '% giảm giá phải lớn hơn 1 và nhỏ hơn 100',

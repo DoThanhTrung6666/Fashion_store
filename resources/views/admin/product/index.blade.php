@@ -63,8 +63,8 @@
                             <div style="text-align: center; ">{{ $products->links() }}</div>
 
                             <hr>
-                            <a class="btn btn-success btn-sm" style="color: white;" href=""><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm sản phẩm mới</a><br><br>
-                            <a class="btn btn-warning btn-sm" style="color: white;" href="{{route('admin.listEndProduct')}}" ><i class="fas fa-list" style="color: rgb(157, 157, 2)"></i> Sản phẩm ngừng kinh doanh</a>
+                            <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-success btn-sm" style="color: white;" href=""><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm sản phẩm mới</a><br><br>
+                            <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-warning btn-sm" style="color: white;" href="{{route('admin.listEndProduct')}}" ><i class="fas fa-list" style="color: rgb(157, 157, 2)"></i> Sản phẩm ngừng kinh doanh</a>
                         </div>
                     </div>
                 </div>

@@ -4,9 +4,15 @@ namespace App\Http\Controllers\shipper;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Shipper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Auth\Authenticatable;
+// use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Validator;
+
 class ShipperController extends Controller
 {
     /**
@@ -108,4 +114,30 @@ class ShipperController extends Controller
     }
 
 
+    public function registerShowFormShipper(){
+        return view('shipper.register');
+    }
+
+    public function registerShipper(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:shippers,email',
+            'password' => 'required|string|min:6',
+            // 'gender' => 'required|in:male,female,other',
+            // 'date_of_birth' => 'required|date',
+            'phone_number' => 'required|string|max:15',
+        ]);
+
+        Shipper::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'gender' => $request->gender,
+            'date_of_birth' => $request->date_of_birth,
+            'phone_number' => $request->phone_number,
+        ]);
+
+        return redirect()->back()->with('success', 'Đăng ký thành công!');
+    }
 }
