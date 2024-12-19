@@ -56,7 +56,7 @@ class thongkeController extends Controller
         $products = Product::with(['variants' => function ($query) {
             $query->select('product_id', DB::raw('SUM(stock_quantity) as total_stock'))
                 ->groupBy('product_id');
-        }])->get();
+        }])->paginate(10); // Show 10 items per page
 
         $orderStatuses = Order::select('status', DB::raw('COUNT(*) as total'))
             ->groupBy('status')

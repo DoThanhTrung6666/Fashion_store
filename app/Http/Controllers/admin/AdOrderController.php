@@ -51,49 +51,55 @@ class AdOrderController extends Controller
 
 public function update(Order $order)
 {
-    $user = User::where('id',$order->user_id)->first();
-    // dd($user);
-    // Lấy trạng thái từ request, mặc định là 'chờ xác nhận'
+    $user = User::where('id', $order->user_id)->first();
     $status = request('status', 'Chờ xác nhận');
 
-    // Kiểm tra nếu đơn hàng chưa được giao
     if ($order->status != 'Hoàn thành') {
+        // If order is being cancelled, restore product quantities
+        if ($status === 'Đã huỷ') {
+            foreach ($order->orderItems as $orderItem) {
+                $productVariant = $orderItem->productVariant;
+                $productVariant->stock_quantity += $orderItem->quantity;
+                $productVariant->save();
+            }
+            Mail::to($user->email)->send(new statuscancel($user, $order));
+            $order->update(['status' => $status]);
+            return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy và số lượng sản phẩm đã được hoàn lại');
+        }
+
         $order->update(['status' => $status]);
 
-        // Điều hướng tùy theo trạng thái mới
+        // Other status redirects remain the same
         if ($status === 'Hoàn thành') {
             return redirect()->route('admin.orders.index', ['status' => 'Hoàn thành'])->with('ok', 'Cập nhật trạng thái thành công');
-        } elseif ($status === 'Đã huỷ') {
-            Mail::to($user->email)->send(new statuscancel ($user,$order));
-            return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy');
         } elseif ($status === 'Vận chuyển') {
             return redirect()->route('admin.orders.index', ['status' => 'Vận chuyển'])->with('ok', 'Đơn hàng đã vận chuyển');
         } elseif ($status === 'Chờ giao hàng') {
             return redirect()->route('admin.orders.index', ['status' => 'Chờ giao hàng'])->with('ok', 'Đơn hàng đang được giao');
-        }elseif ($status === 'Đã xác nhận') {
+        } elseif ($status === 'Đã xác nhận') {
             return redirect()->route('admin.orders.index', ['status' => 'Đã xác nhận'])->with('ok', 'Đơn hàng đã được xác nhận');
-        }elseif ($status === 'Đã giao') {
+        } elseif ($status === 'Đã giao') {
             return redirect()->route('admin.orders.index', ['status' => 'Đã giao'])->with('ok', 'Đơn hàng đã được giao');
         }
-
     }
 
-    // Nếu đơn hàng đã giao, không cho phép cập nhật
     return redirect()->route('admin.orders.index')->with('no', 'Không thể cập nhật đơn hàng đã giao');
 }
-
-
-    public function show($id)
+public function show($id)
 {
-
-
-
-    // Fetch the order by ID
-    $order = Order::with('user', 'orderItems')->findOrFail($id); // Include relationships like 'user' and 'items' if available
+    $order = Order::with([
+        'user', 
+        'orderItems.productvariant.product',
+        'orderItems.productvariant.size',
+        'orderItems.productvariant.color',
+        
+    ])->findOrFail($id);
+    
     $shippers = Shipper::all();
-    // Pass the order data to the view
-    return view('admin.orders.show', compact('order','shippers'));
-}
+    
+    return view('admin.orders.show', compact('order', 'shippers'));
+
+    }
 
 // gán cho shipper
 public function assignShipper(Request $request , $id){

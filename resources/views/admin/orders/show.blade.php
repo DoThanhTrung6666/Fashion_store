@@ -245,8 +245,11 @@
                                                 <th>ID</th>
                                                 <th>Tên sản phẩm</th>
                                                 <th>Ảnh</th>
+                                                <th>Size</th>
+                                                <th>Màu</th>
                                                 <th>Giá tiền</th>
                                                 <th>Số lượng</th>
+                                                
                                                 <th>Tổng tiền</th>
                                             </tr>
                                         </thead>
@@ -255,25 +258,22 @@
                                                 <tr>
                                                     <td>#{{ $item->productvariant->product->id }}</td>
                                                     <td>{{ $item->productvariant->product->name }}</td>
-                                                    <td><img
-                                                            src="{{ asset('storage/' . $item->productvariant->product->image) }}">
-                                                    </td>
+                                                    <td><img src="{{ asset('storage/' . $item->productvariant->image_variant) }}"></td>
+                                                    <td>{{ $item->productvariant->size->name }}</td>
+                                                    <td>{{ $item->productvariant->color->name }}</td>
                                                     <td>{{ number_format($item->price) }}</td>
                                                     <td>{{ $item->quantity }}</td>
+                                                   
                                                     <td>{{ number_format($item->price * $item->quantity) }}</td>
                                                 </tr>
                                             @endforeach
-
                                         </tbody>
                                     </table>
-
-
-
-                                </div>
-
-                                <!-- Tổng giá -->
-
-                                <div class="total-price">Tổng cộng: {{ number_format($order->total_amount) }} VND</div>
+                                    
+                                    <div class="total-price">
+                                        
+                                        <p>Tổng cộng: {{ number_format($order->total_amount ) }} VND</p>
+                                        </div>
 
 
                                 <!-- Hành động -->
