@@ -74,4 +74,6 @@ class SizeController extends Controller
         }
         return redirect()->back()->with('success','Đã ngừng hoạt động');
     }
+
 }
+

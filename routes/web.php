@@ -215,10 +215,20 @@ Route::get('product/detail/{id}', [DetailController::class, 'show'])->name('prod
 Route::get('/comment/{orderId}/{productVariantId}', [CommentController::class, 'showCommentForm'])->name('comment.form');
 
 // Route để lưu bình luận
+
 Route::post('/comment/{orderId}/{productVariantId}', [CommentController::class, 'store'])->name('comment.store');
+
+// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('order.show')->middleware('auth');
+
+
 
 
 Route::get('/product/{productId}/comment', [ProductController::class, 'showCommentForm'])->name('product.showCommentForm');
 
+Route::post('/comment/{productId}', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
+// Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+
+
 Route::get('admin/comment/{order_id}/{product_id}/{product_variant_id}', [CommentController::class, 'show'])->name('admin.comment.show');
 
+Route::get('/orders/search', [OrderController::class, 'search'])->name('orders.search');

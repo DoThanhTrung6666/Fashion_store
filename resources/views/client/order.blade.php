@@ -113,6 +113,7 @@
                             </div>
                         @endforeach
 
+
                         <div class="order-status">
                             {{-- <span class="status-label">Giao hàng thành công</span> --}}
                             <span class="status">Trang thái đơn hàng : {{ $order->status }}</span>
@@ -149,6 +150,7 @@
 
                                     </ul>
                                 </div>
+
 
                             @elseif($order->status == 'Chờ xác nhận')
                                 {{-- <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
@@ -305,6 +307,7 @@
                                                 @endforeach
         
                                             </ul>
+
                                         </div>
 
                                 @elseif($order->status == 'Chờ xác nhận')
@@ -605,6 +608,7 @@
                                         </form>
                                         <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
                                         <div class="dropdown">
+
                                             <button class="btn btn-Light dropdown-toggle" type="button"
                                                 id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Bạn có hài lòng với sản phẩm?
@@ -620,6 +624,8 @@
                                                 @endforeach
         
                                             </ul>
+
+                                            
                                         </div>
                                     </div>
 
