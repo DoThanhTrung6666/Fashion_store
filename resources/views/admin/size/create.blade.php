@@ -7,6 +7,11 @@
         <h1 style="text-align:center">
           Thêm mới kích cỡ
         </h1>
+        <span>
+            @if(session('success'))
+                <p style="color: green">{{session('success')}}</p>
+            @endif
+        </span>
       </section>
       <section class="content">
 

@@ -28,9 +28,10 @@ class SizeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:sizes,name',
         ],
         [
+            'name.unique' => 'Kích cỡ đã tồn tại',
            'name.required' => 'Tên kích cỡ là bắt buộc',
            'name.max' => 'Tên kích cỡ  không được dài hơn 255 ký tự.',
         ]);
@@ -49,8 +50,9 @@ class SizeController extends Controller
     public function update(Request $request, Size $size)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:sizes,name',
         ],[
+            'name.unique' => 'Kích cỡ đã tồn tại',
             'name.required' => 'Tên kích cỡ là bắt buộc',
             'name.max' => 'Tên kích cỡ  không được dài hơn 255 ký tự.',
          ]);

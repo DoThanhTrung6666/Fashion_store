@@ -171,7 +171,11 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{route('logout')}}" class="btn btn-default btn-flat">Đăng xuất</a>
+                                    <a class="btn btn-default btn-flat" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
+                                    {{-- <a href="{{route('logout')}}" class="btn btn-default btn-flat">Đăng xuất</a> --}}
                                 </div>
                             </li>
                         </ul>
