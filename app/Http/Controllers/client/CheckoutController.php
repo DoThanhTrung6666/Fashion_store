@@ -97,13 +97,13 @@ class CheckoutController extends Controller
         }
 
         $cartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
-        foreach($cartItems as $cartItem){
+        foreach ($cartItems as $cartItem) {
             $product = $cartItem->productVariant->product;
             // dd($product);
             // // dd($product->status ==1);
 
-            if($product->status == 2){
-                return redirect()->back()->with('error','Sản phẩm ' .$product->name. 'đã ngừng bán . hãy xoá khỏi giỏ hàng');
+            if ($product->status == 2) {
+                return redirect()->back()->with('error', 'Sản phẩm ' . $product->name . 'đã ngừng bán . hãy xoá khỏi giỏ hàng');
             }
         }
         if ($cartItems->isEmpty()) {

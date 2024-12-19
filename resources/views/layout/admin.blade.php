@@ -6,7 +6,7 @@
     <title>Quản trị Fashion-Store</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
-    <link href="{{ asset('dist/css/SizeColorStatus.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('dist/css/SizeColorStatus.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
@@ -64,8 +64,8 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <div class="pull-left"> <img
-                                                src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image" />
+                                        <div class="pull-left"> <img src="dist/img/user3-128x128.jpg" class="img-circle"
+                                                alt="user image" />
                                         </div>
                                         <h4>
                                             AdminLTE Design Team
@@ -128,35 +128,115 @@
                             <i class="fa fa-flag-o"></i>
                             <span class="label label-danger"></span>
                         </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 9 tasks</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <ul class="menu">
+                                    <li>
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <h3>
+                                                Design some buttons
+                                                <small class="pull-right">20%</small>
+                                            </h3>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%"
+                                                    role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                    aria-valuemax="100">
+                                                    <span class="sr-only">20% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li><!-- end task item -->
+                                    <li>
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <h3>
+                                                Create a nice theme
+                                                <small class="pull-right">40%</small>
+                                            </h3>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-green" style="width: 40%"
+                                                    role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                    aria-valuemax="100">
+                                                    <span class="sr-only">40% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li><!-- end task item -->
+                                    <li>
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <h3>
+                                                Some task I need to do
+                                                <small class="pull-right">60%</small>
+                                            </h3>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-red" style="width: 60%"
+                                                    role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                    aria-valuemax="100">
+                                                    <span class="sr-only">60% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li><!-- end task item -->
+                                    <li>
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <h3>
+                                                Make beautiful transitions
+                                                <small class="pull-right">80%</small>
+                                            </h3>
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-yellow" style="width: 80%"
+                                                    role="progressbar" aria-valuenow="20" aria-valuemin="0"
+                                                    aria-valuemax="100">
+                                                    <span class="sr-only">80% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li><!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="#">View all tasks</a>
+                            </li>
+                        </ul>
                     </li>
                     <!-- User Account: style can be found in dropdown.less -->
                     <style>
                         .user-image {
-                            width: 100px; /* Chiều rộng của ảnh */
-                            height: 100px; /* Chiều cao của ảnh */
-                            border-radius: 50%; /* Tạo hình tròn */
-                            object-fit: cover; /* Đảm bảo ảnh phủ kín khung mà không bị biến dạng */
+                            width: 100px;
+                            /* Chiều rộng của ảnh */
+                            height: 100px;
+                            /* Chiều cao của ảnh */
+                            border-radius: 50%;
+                            /* Tạo hình tròn */
+                            object-fit: cover;
+                            /* Đảm bảo ảnh phủ kín khung mà không bị biến dạng */
                         }
-
                     </style>
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{Storage::url(Auth::user()->avatar)}}" class="user-image" alt="User Image" />
+                            <img src="{{ Storage::url(Auth::user()->avatar) }}" class="user-image"
+                                alt="User Image" />
                             <span class="hidden-xs">Hello - {{ Auth::user()->name }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="{{Storage::url(Auth::user()->avatar)}}" class="user-image" alt="User Image" />
+                                <img src="{{ Storage::url(Auth::user()->avatar) }}" class="user-image"
+                                    alt="User Image" />
                                 <p>
                                     {{ Auth::user()->name }}
-                                    <small>{{Auth::user()->address}}</small>
+                                    <small>{{ Auth::user()->address }}</small>
                                 </p>
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
                                 <div class="col-xs-12 text-center">
-                                    <a href="{{route('home')}}">Trang mua hàng</a>
+                                    <a href="{{ route('home') }}">Trang mua hàng</a>
                                 </div>
                                 {{-- <div class="col-xs-4 text-center">
                                     <a href="#">Sales</a>
@@ -171,11 +251,13 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
+
                                     <a class="btn btn-default btn-flat" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng xuất</a>
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                                     @csrf
                                                 </form>
                                     {{-- <a href="{{route('logout')}}" class="btn btn-default btn-flat">Đăng xuất</a> --}}
+
                                 </div>
                             </li>
                         </ul>
@@ -189,7 +271,7 @@
                 <div class="user-panel">
 
                     <div class="pull-left image">
-                        <img src="{{Storage::url(Auth::user()->avatar)}}" class="user-image" alt="User Image" />
+                        <img src="{{ Storage::url(Auth::user()->avatar) }}" class="user-image" alt="User Image" />
                     </div>
                     <div class="pull-left info">
                         <p>{{ Auth::user()->name }}</p>
@@ -375,8 +457,8 @@
                                     sách</a></li>
                         </ul>
                     </li>
-                     {{-- quản lí banner --}}
-                     <li class="treeview">
+                    {{-- quản lí banner --}}
+                    <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-image"></i>
                             <span>Quản lí ảnh banner</span>
