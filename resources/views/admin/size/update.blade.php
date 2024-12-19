@@ -7,6 +7,11 @@
         <h1>
           Cập nhật kích cỡ <a href="{{route('admin.sizes.index')}}" class="btn btn-primary">Danh sách kích cỡ</a>
         </h1>
+        <span>
+            @if(session('success'))
+                <p style="color: green">{{session('success')}}</p>
+            @endif
+        </span>
       </section>
       <section class="content">
 
