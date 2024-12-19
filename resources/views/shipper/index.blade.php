@@ -36,7 +36,7 @@
     <div style="display:flex">
         <div class="stats-card">
             <h4>Số Đơn Đang Xử Lý</h4>
-            <p>12</p>
+            <p>{{$totalOrders}}</p>
         </div>
         <div class="stats-card">
             <h4>Số Đơn Hoàn Thành</h4>

@@ -28,23 +28,25 @@ class ShipperController extends Controller
     }
 
     public function index2(){
-        return view('shipper.index');
+        if (auth('shipper')->check()) {
+            // Lấy ID của shipper đang đăng nhập
+            $shipperId = auth('shipper')->user()->id;
+    
+            // Đếm tổng số đơn hàng giao cho shipper này
+            $totalOrders = Order::where('shipper_id', $shipperId)->count();
+     
+            // Trả về kết quả (có thể là view hoặc API response)
+            return view('shipper.index', compact('totalOrders')); // Hoặc có thể return response dạng JSON nếu cần
+        } else {
+            // Nếu shipper chưa đăng nhập, chuyển hướng đến trang đăng nhập
+            return redirect()->route('shipper.login');
+        }
+        // return view('shipper.index');
     }
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+ 
 
     /**
      * Display the specified resource.
@@ -59,10 +61,6 @@ class ShipperController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -95,11 +93,6 @@ class ShipperController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function loginShowFormShipper(){
         return view('shipper.login');
     }
@@ -140,4 +133,24 @@ class ShipperController extends Controller
 
         return redirect()->back()->with('success', 'Đăng ký thành công!');
     }
+    public function listShipper(){
+        $shipper = Shipper::all();
+        return view('shipper.listshipper',compact('shipper'));
+    }
+    public function getTotalOrders()
+{
+    if (auth('shipper')->check()) {
+        // Lấy ID của shipper đang đăng nhập
+        $shipperId = auth('shipper')->user()->id;
+
+        // Đếm tổng số đơn hàng giao cho shipper này
+        $totalOrders = Order::where('shipper_id', $shipperId)->count();
+
+        // Trả về kết quả (có thể là view hoặc API response)
+        return view('shipper.indexindex', compact('totalOrders')); // Hoặc có thể return response dạng JSON nếu cần
+    } else {
+        // Nếu shipper chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        return redirect()->route('shipper.login');
+    }
+}
 }
