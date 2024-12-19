@@ -26,42 +26,30 @@
 
                             <table class="table">
                                 <tr>
-                                    {{-- <th style="text-align: center" scope="col" style=""></th> --}}
-                                    {{-- <th style="text-align: center" scope="col" style="">id</th> --}}
-                                    <th style="text-align: center" scope="col" style="">Tên sản phẩm</th>
-                                    <th style="text-align: center" scope="col" style="">Image</th>
-                                    <th style="text-align: center" scope="col" style="">Giá sản phẩm</th>
-                                    <th style="text-align: center" scope="col" style="">Thương hiệu</th>
-                                    <th style="text-align: center" scope="col" style="">Danh mục</th>
+                                    <th style="text-align: center" scope="col" style="">Tên shipper</th>
+                                    <th style="text-align: center" scope="col" style="">Email</th>
+                                    <th style="text-align: center" scope="col" style="">Số điện thoại </th>
+                                    <th style="text-align: center" scope="col" style="">Giới tính </th>
+                                    <th style="text-align: center" scope="col" style="">Ngày sinh </th>
                                 </tr>
 
-                               @foreach ($products as $product)
+                               @foreach ($shipper as $shipper)
 
                                             <tr style="text-align: center">
                                                 {{-- <td><input type="checkbox"></td> --}}
                                                 {{-- <td>{{$product->id}}</td> --}}
-                                                <td>{{$product->name}}</td>
-                                                <td><img src="{{Storage::url($product->image)}}" width="50" alt=""></td>
-                                                <td><p class="custom-badge">{{number_format($product->price)}}đ</p></td>
-                                                <td><p class="custom-name">{{$product->brand->name}}</p></td>
-                                                <td>{{$product->category->name}}</td>
-                                                <td>
-                                                    {{-- <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-danger">Sửa</a> --}}
-                                                    <a href="{{route('admin.products.show', $product->id)}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                                    <form action="{{ route('admin.product.updateStatus', $product->id) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit" class="btn btn-warning">
-                                                            Tiếp tục bán
-                                                        </button>
-                                                    </form>
-                                                </td>
+                                                <td>{{$shipper->name}}</td>
+                                                <td>{{$shipper->email}}</td>
+                                                <td>{{$shipper->phone_number}}</td>
+                                                <td>{{$shipper->gender}}</td>
+                                                <td>{{$shipper->date_of_birth}}</td>
+                                                <td></td>
                                             </tr>
 
 
                                @endforeach
                             </table>
-                            <a href="{{route('admin.products.index')}}"><i class="ti-back-left mr-2"></i> Quay lại</a>
+                            {{-- <a href="{{route('admin.products.index')}}"><i class="ti-back-left mr-2"></i> Quay lại</a> --}}
                         </div>
                     </div>
                 </div>

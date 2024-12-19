@@ -76,6 +76,7 @@
                         @endif
                     </span>
                 </form>
+                <img src="" alt="">
             </div>
         </div>
         </section>
