@@ -1,7 +1,7 @@
 @extends('layout.admin')
 
 @section('content')
- 
+
 <style>
     body {
         background-color: #f8f9fa;
@@ -186,10 +186,14 @@
                                     <p><strong>Trạng thái:</strong>
                                         @if ($order->status == 'Chờ xác nhận')
                                             <span class="status-badge badge-pending">Chờ xác nhận</span>
+                                        @elseif ($order->status == 'Đã xác nhận')
+                                            <span class="status-badge badge-confirmed">Đã xác nhận</span>
                                         @elseif ($order->status == 'Vận chuyển')
-                                            <span class="status-badge badge-confirmed">Vận chuyển</span>
-                                        @elseif ($order->status == 'Chờ giao hàng')
-                                            <span class="status-badge badge-shipping">Chờ giao hàng</span>
+                                        <span class="status-badge badge-confirmed">Vận chuyển</span>
+                                        @elseif ($order->status == 'Đang vận chuyển')
+                                            <span class="status-badge badge-shipping">Đang vận chuyển</span>
+                                        @elseif ($order->status == 'Đã giao')
+                                        <span class="status-badge badge-shipping">Đã giao</span>
                                         @elseif ($order->status == 'Hoàn thành')
                                             <span class="status-badge badge-delivered">Hoàn thành</span>
                                         @else
@@ -202,7 +206,7 @@
                                 </div>
 
                                 <!-- Danh sách sản phẩm -->
-<div class="product-list">
+                                    <div class="product-list">
                                     <h5><strong>Sản phẩm:</strong></h5>
 
 
@@ -249,35 +253,67 @@
                                 @if (
                                     $order->status != 'Đã huỷ' &&
 
-                                        $order->status != 'Chờ giao hàng' &&
+                                        $order->status != 'Đang vận chuyển' &&
                                         $order->status != 'Hoàn thành' &&
-                                        $order->status != 'Vận chuyển')
+                                        $order->status != 'Vận chuyển' &&
+                                        $order->status != 'Đã xác nhận'&&
+                                        $order->status != 'Đã giao' )
+
                                     <div class="mt-4 text-center">
                                         <a href="{{ route('admin.order.update', $order->id) }}?status=Đã huỷ"
                                             onclick="return confirm('xác nhận')"> <button
                                                 class="btn btn-danger btn-cancel">Hủy đơn hàng</button></a>
-<a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển"
+                                        <a href="{{ route('admin.order.update', $order->id) }}?status=Đã xác nhận"
                                             onclick="return confirm('xác nhận')"><button
                                                 class="btn btn-success btn-confirm">Xác nhận đơn hàng</button></a>
                                     </div>
-                                @elseif($order->status == 'Chờ giao hàng')
+                                @elseif($order->status == 'Đang vận chuyển')
                                     <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
-                                        <a href="{{ route('admin.order.update', $order->id) }}?status=Hoàn thành"
+                                        {{-- <a href="{{ route('admin.order.update', $order->id) }}?status=Hoàn thành"
                                             onclick="return confirm('xác nhận')"><button
-                                                class="btn btn-success btn-confirm">Giao hàng</button></a>
+                                                class="btn btn-success btn-confirm">Giao hàng</button></a> --}}
+                                        <a href="{{ route('admin.orders.index') }}?status=Đang vận chuyển"><button
+                                            class="btn btn-success btn-confirm">Quay lại</button></a>
                                     </div>
+                                @elseif($order->status == 'Hoàn thành')
+                                <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
+                                    <a href="{{ route('admin.orders.index') }}?status=Hoàn thành"
+                                        ><button
+                                            class="btn btn-success btn-confirm">Quay lại</button></a>
+                                </div>
                                 @elseif($order->status == 'Vận chuyển')
                                     <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
-                                        <a href="{{ route('admin.order.update', $order->id) }}?status=Chờ giao hàng"
-                                            onclick="return confirm('xác nhận')"><button
-                                                class="btn btn-success btn-confirm">Chờ giao hàng</button></a>
+                                        <a href="{{ route('admin.orders.index') }}?status=Vận chuyển"><button
+                                                class="btn btn-success btn-confirm">Quay lại</button></a>
                                     </div>
                                 @elseif($order->status == 'Đã huỷ')
                                     <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
                                         <a href="{{ route('admin.orders.index') }}?status=Đã huỷ"
-                                            onclick="return confirm('xác nhận')"><button
+                                            ><button
                                                 class="btn btn-primary btn-confirm">Quay về trang hủy đơn</button></a>
                                     </div>
+                                @elseif($order->status == 'Đã giao')
+                                <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
+                                    <a href="{{ route('admin.order.update', $order->id) }}?status=Hoàn thành"
+                                        onclick="return confirm('xác nhận')"><button
+                                            class="btn btn-success btn-confirm">Hoàn thành</button></a>
+                                    </div>
+                                @elseif($order->status == 'Đã xác nhận')
+                                <div class="mt-4 text-center" style="margin-left: 15px; margin-bottom:10px">
+                                    <form action="{{ route('admin.orders.assign', $order->id) }}" method="POST">
+                                        @csrf
+                                        <label for="shipper_id">Chọn shipper:</label>
+                                        <select name="shipper_id" id="shipper_id" class="form-control">
+                                            @foreach ($shippers as $shipper)
+                                                <option value="{{ $shipper->id }}">{{ $shipper->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="submit" class="btn btn-success mt-3">Gán shipper</button>
+                                    </form>
+                                    {{-- <a href="{{ route('admin.orders.index') }}?status=Vận chuyển"
+                                        onclick="return confirm('xác nhận')"><button
+                                            class="btn btn-primary btn-confirm">Gán shipper</button></a> --}}
+                                </div>
                                 @endif
 
                             </div>
