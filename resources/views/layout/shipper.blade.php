@@ -176,7 +176,7 @@
         <div>
             <a href="{{route('shipper.orders.index2')}}">Trang Chủ</a>
             <a href="{{route('shipper.orders.index')}}">Đơn Hàng</a>
-            <a href="#">Thông Báo</a>
+            <a href="{{route('shipper.change-password')}}">Đổi mật khẩu</a>
             <a href="#">Cài Đặt</a>
         </div>
     </div>
