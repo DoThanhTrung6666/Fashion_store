@@ -132,7 +132,9 @@ Route::prefix('admin')
 
         // gán đơn hàng cho shipper
         Route::post('/orders/{id}/assign', [AdOrderController::class, 'assignShipper'])->name('orders.assign');
-
+        // dang ki shipper
+        Route::get('register/shipper',[ShipperController::class,'registerShowFormShipper'])->name('register.shipper');
+        Route::post('register/shipper',[ShipperController::class,'registerShipper'])->name('register.shipper.post');
     });
 
 
