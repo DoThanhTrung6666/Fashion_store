@@ -393,28 +393,38 @@ function drawTopProductsChart() {
                                 </div>
                                 <div id="top_products_chart" style="width: 100%; height: 400px;"></div>
                             </div>
+
+                            <div class="chart-box full-width">
+                                <div class="chart-title">
+                                    <i class="fas fa-warehouse mr-2"></i> Thống kê tồn kho sản phẩm
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Số lượng tồn kho</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($products as $index => $product)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>
+                                                    {{ $product->variants->sum('total_stock') ?? 0 }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                                <div class="d-flex justify-content-center mt-4">
+                                    {{ $products->links() }}
+                                </div>
+                            </div>
                         </div> 
-                        <h3 class="text-center">Thống kê tồn kho sản phẩm</h3>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Số lượng tồn kho</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($products as $index => $product)
-                                    <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>
-                                            {{ $product->variants->sum('total_stock') ?? 0 }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        
 
                     </div>
                 </div>
@@ -481,7 +491,7 @@ function drawTopProductsChart() {
 
             var options = {
                 pieHole: 0.4, // Biểu đồ dạng donut
-                colors: colors, // Gắn mảng màu vào biểu đồ
+                colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'], // Gắn mảng màu vào biểu đồ
                 legend: {
                     position: 'right'
                 },
