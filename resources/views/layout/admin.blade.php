@@ -385,6 +385,19 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="nav-icon fas fa-image"></i>
+                            <span>Đăng kí shipper</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="" class="fa fa-circle-o"></i>Danh
+                                    sách</a></li>
+                            <li><a href="{{route('admin.register.shipper')}}"><i class="fa fa-circle-o"></i>Thêm </a>
+                            </li>
+                        </ul>
+                    </li>
                     {{-- kết thúc quản lí banner  --}}
 
                 </ul>
