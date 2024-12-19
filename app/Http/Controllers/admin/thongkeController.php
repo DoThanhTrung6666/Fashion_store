@@ -18,90 +18,105 @@ class thongkeController extends Controller
     {
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
+        $endDateTime = date('Y-m-d 23:59:59', strtotime($endDate));
 
-         // Doanh thu trong ngày
-         $todayRevenue = Order::whereDate('created_at', today())
-         ->sum('total_amount');
+        // Doanh thu trong ngày
+        $todayRevenue = Order::whereDate('order_date', today())
+            ->sum('total_amount');
 
-     
-     
-     // Doanh thu theo tháng
-     $currentMonthRevenue = Order::whereYear('created_at', now()->year)
- ->whereMonth('created_at', now()->month)
- ->sum('total_amount');
+        // Doanh thu theo tháng 
+        $currentMonthRevenue = Order::whereYear('order_date', now()->year)
+            ->whereMonth('order_date', now()->month)
+            ->sum('total_amount');
 
-$formattedCurrentMonthRevenue = number_format($currentMonthRevenue, 0, ',', '.') . ' đ';
+        $formattedCurrentMonthRevenue = number_format($currentMonthRevenue, 0, ',', '.') . ' đ';
 
+        // Tổng đơn hàng trong tuần
+        $weeklyOrders = Order::whereBetween('order_date', [
+            now()->startOfWeek(),
+            now()->endOfWeek()
+        ])->count();
 
+        // Tổng đơn hàng
+        $totalOrders = Order::count();
 
-     // Tổng đơn hàng trong tuần
-     $weeklyOrders = Order::whereBetween('created_at', [
-         now()->startOfWeek(),
-         now()->endOfWeek()
-     ])->count();
+        // Tổng sản phẩm
+        $totalProducts = Product::count();
 
-     // Tổng đơn hàng
-    $totalOrders = Order::count();
+        // Tổng sản phẩm đã bán
+        $totalProductsSold = OrderItem::sum('quantity');
 
-    // Tổng sản phẩm
-    $totalProducts = Product::count();
+        // Tổng khách hàng đặt hàng
+        $totalCustomers = User::whereHas('orders')->count();
 
-    // Tổng sản phẩm đã bán
-    $totalProductsSold = OrderItem::sum('quantity');
+        // Tổng sản phẩm đang sale (ví dụ, nếu có cột 'is_on_sale')
+        $totalProductsOnSale = FlashSaleItem::distinct('product_id')->count('product_id');
 
-     // Tổng khách hàng đặt hàng
-     $totalCustomers = User::whereHas('orders')->count();
+        // Lấy danh sách sản phẩm và tổng tồn kho từ các biến thể
+        $products = Product::with(['variants' => function ($query) {
+            $query->select('product_id', DB::raw('SUM(stock_quantity) as total_stock'))
+                ->groupBy('product_id');
+        }])->get();
 
-     // Tổng sản phẩm đang sale (ví dụ, nếu có cột 'is_on_sale')
-     $totalProductsOnSale = FlashSaleItem::distinct('product_id')->count('product_id');
+        $orderStatuses = Order::select('status', DB::raw('COUNT(*) as total'))
+            ->groupBy('status')
+            ->get();
 
-        
+        $statusLabels = $orderStatuses->pluck('status');
+        $statusCounts = $orderStatuses->pluck('total');
+
         if ($startDate === $endDate) {
-            // Lọc trong cùng một ngày
-            $revenueData = Order::selectRaw('DATE(created_at) as date, SUM(total_amount) as revenue')
-                ->whereDate('created_at', $startDate) // Lọc theo ngày cụ thể
+            $revenueData = Order::selectRaw('DATE(order_date) as date, SUM(total_amount) as revenue')
+                ->whereDate('order_date', $startDate)
                 ->groupBy('date')
                 ->orderBy('date')
                 ->get();
-            
-            $topUsers = Order::select('user_id', \DB::raw('COUNT(*) as order_count'))
-                ->whereDate('created_at', $startDate)
+
+            $topUsers = Order::select('user_id', DB::raw('COUNT(*) as order_count'))
+                ->whereDate('order_date', $startDate)
                 ->groupBy('user_id')
                 ->orderByDesc('order_count')
                 ->take(5)
                 ->with(['user:id,name'])
                 ->get();
 
-            // Sản phẩm bán chạy nhất
-            $topProducts = OrderItem::select('products.id as product_id', 'products.name as product_name', \DB::raw('SUM(order_items.quantity) as total_sold'))
+            $topProducts = OrderItem::select(
+                    'products.id as product_id', 
+                    'products.name as product_name', 
+                    DB::raw('SUM(order_items.quantity) as total_sold')
+                )
+                ->join('orders', 'order_items.order_id', '=', 'orders.id')
                 ->join('product_variants', 'order_items.product_variant_id', '=', 'product_variants.id')
                 ->join('products', 'product_variants.product_id', '=', 'products.id')
-                ->whereDate('order_items.created_at', $startDate)
+                ->whereDate('orders.order_date', $startDate)
                 ->groupBy('products.id', 'products.name')
                 ->orderByDesc('total_sold')
                 ->take(5)
                 ->get();
-                
         } else {
-            // Lọc trong khoảng thời gian
-            $revenueData = Order::selectRaw('DATE(created_at) as date, SUM(total_amount) as revenue')
-                ->whereBetween('created_at', [$startDate, $endDate]) // Lọc theo khoảng ngày
+            $revenueData = Order::selectRaw('DATE(order_date) as date, SUM(total_amount) as revenue')
+                ->whereBetween('order_date', [$startDate.' 00:00:00', $endDateTime])
                 ->groupBy('date')
                 ->orderBy('date')
                 ->get();
-            
-            $topUsers = Order::select('user_id', \DB::raw('COUNT(*) as order_count'))
-                ->whereBetween('created_at', [$startDate, $endDate])
+
+            $topUsers = Order::select('user_id', DB::raw('COUNT(*) as order_count'))
+                ->whereBetween('order_date', [$startDate.' 00:00:00', $endDateTime])
                 ->groupBy('user_id')
                 ->orderByDesc('order_count')
                 ->take(5)
                 ->with(['user:id,name'])
                 ->get();
 
-            $topProducts = OrderItem::select('products.id as product_id', 'products.name as product_name', \DB::raw('SUM(order_items.quantity) as total_sold'))
+            $topProducts = OrderItem::select(
+                    'products.id as product_id', 
+                    'products.name as product_name', 
+                    DB::raw('SUM(order_items.quantity) as total_sold')
+                )
+                ->join('orders', 'order_items.order_id', '=', 'orders.id')
                 ->join('product_variants', 'order_items.product_variant_id', '=', 'product_variants.id')
                 ->join('products', 'product_variants.product_id', '=', 'products.id')
-                ->whereBetween('order_items.created_at', [$startDate, $endDate])
+                ->whereBetween('orders.order_date', [$startDate.' 00:00:00', $endDateTime])
                 ->groupBy('products.id', 'products.name')
                 ->orderByDesc('total_sold')
                 ->take(5)
@@ -124,7 +139,10 @@ $formattedCurrentMonthRevenue = number_format($currentMonthRevenue, 0, ',', '.')
             'totalProductsSold',
             'totalProducts',
             'totalProductsOnSale',
-            'totalOrders'
+            'totalOrders',
+            'products',
+            'statusLabels',
+            'statusCounts'
         ));
     }
 }

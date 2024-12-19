@@ -1,55 +1,83 @@
 @extends('layout.admin')
 
 @section('content')
- 
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-    .order-detail-wrapper {
-        margin: 30px auto;
-        padding: 30px;
-        background: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .order-title {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-    .order-info, .product-list {
-        margin-bottom: 30px;
-    }
-    .product-item {
-        border-bottom: 1px solid #ddd;
-        padding: 10px 0;
-    }
-    .product-item:last-child {
-        border-bottom: none;
-    }
-    .total-price {
-        font-size: 20px;
-        font-weight: bold;
-        color: #28a745;
-        text-align: right;
-    }
-    .status-badge {
-        font-size: 14px;
-        padding: 5px 10px;
-        border-radius: 20px;
-    }
-    .badge-pending { background-color: #ffc107; color: #212529; }
-    .badge-confirmed { background-color: #17a2b8; color: white; }
-    .badge-shipping { background-color: #6c757d; color: white; }
-    .badge-delivered { background-color: #28a745; color: white; }
-    .badge-cancelled { background-color: #dc3545; color: white; }
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-    .divider {
-    border: none;
-    border-top: 1px solid #ddd; /* Màu sắc đường gạch ngang */
-    margin: 10px 0;
-    }
+        .order-detail-wrapper {
+            margin: 30px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .order-info,
+        .product-list {
+            margin-bottom: 30px;
+        }
+
+        .product-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+        }
+
+        .total-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: right;
+        }
+
+        .status-badge {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .badge-pending {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .badge-confirmed {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .badge-shipping {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .badge-delivered {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .badge-cancelled {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #ddd;
+            /* Màu sắc đường gạch ngang */
+            margin: 10px 0;
+        }
 
 
         .order-title h1 {
@@ -129,7 +157,7 @@
         }
 
         .product-table th,
-.product-table td {
+        .product-table td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
@@ -202,7 +230,7 @@
                                 </div>
 
                                 <!-- Danh sách sản phẩm -->
-<div class="product-list">
+                                <div class="product-list">
                                     <h5><strong>Sản phẩm:</strong></h5>
 
 
@@ -248,7 +276,6 @@
 
                                 @if (
                                     $order->status != 'Đã huỷ' &&
-
                                         $order->status != 'Chờ giao hàng' &&
                                         $order->status != 'Hoàn thành' &&
                                         $order->status != 'Vận chuyển')
@@ -256,7 +283,7 @@
                                         <a href="{{ route('admin.order.update', $order->id) }}?status=Đã huỷ"
                                             onclick="return confirm('xác nhận')"> <button
                                                 class="btn btn-danger btn-cancel">Hủy đơn hàng</button></a>
-<a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển"
+                                        <a href="{{ route('admin.order.update', $order->id) }}?status=Vận chuyển"
                                             onclick="return confirm('xác nhận')"><button
                                                 class="btn btn-success btn-confirm">Xác nhận đơn hàng</button></a>
                                     </div>
