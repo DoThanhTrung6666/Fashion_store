@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Sửa danh mục
+                Sửa thương hiệu
             </h1>
         </section>
         <section class="content">

@@ -6,7 +6,7 @@
     <title>AdminLTE 2 | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
-    <link href="{{ asset('dist/css/SizeColorStatus.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('dist/css/SizeColorStatus.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
@@ -64,8 +64,8 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <div class="pull-left"> <img
-                                                src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image" />
+                                        <div class="pull-left"> <img src="dist/img/user3-128x128.jpg" class="img-circle"
+                                                alt="user image" />
                                         </div>
                                         <h4>
                                             AdminLTE Design Team
@@ -209,8 +209,8 @@
                                                 Some task I need to do
                                                 <small class="pull-right">60%</small>
                                             </h3>
-                                            <div class="progress xs"> <div
-                                                    class="progress-bar progress-bar-red" style="width: 60%"
+                                            <div class="progress xs">
+                                                <div class="progress-bar progress-bar-red" style="width: 60%"
                                                     role="progressbar" aria-valuenow="20" aria-valuemin="0"
                                                     aria-valuemax="100">
                                                     <span class="sr-only">60% Complete</span>
@@ -397,7 +397,7 @@
                     <li class="treeview">
                         <a href="{{ route('admin.brands.index') }}">
                             <i class="nav-icon fas fa-image"></i>
-                            <span>Brand</span>
+                            <span>Thương hiệu</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">

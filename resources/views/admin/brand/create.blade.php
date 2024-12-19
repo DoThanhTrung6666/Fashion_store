@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                Thêm mới brand
+                Thêm mới thương hiệu
             </h1>
         </section>
         <section class="content">
