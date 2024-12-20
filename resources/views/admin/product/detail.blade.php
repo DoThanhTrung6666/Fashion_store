@@ -59,7 +59,7 @@
                             </table>
                             <div style="display:flex">
                                     <a style="margin-bottom: 10px; margin-left:10px"  class="btn btn-success" href="{{ route('admin.products.variants.create', $product->id) }}"><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm biến thể mới</a>
-                                    <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-warning" href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a>
+                                    {{-- <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-warning" href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a> --}}
                                     <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-default" href="{{route('admin.products.index')}}" class="" style="color: black"><i class="fas fa-arrow-left"></i> Quay lại</a>
                             </div>
                                     @else
