@@ -63,9 +63,6 @@ Route::prefix('admin')
         Route::put('brands/{brand}/update-status', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
 
         Route::resource('categories', CategoryController::class);
-        Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
-        Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-
 
 
         Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
