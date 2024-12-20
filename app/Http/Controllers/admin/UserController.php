@@ -61,7 +61,11 @@ class UserController extends Controller
         $model = User::query()->findOrFail($id);
         return view('admin.users.detail', compact('model'));
     }
-
+    public function profile(string $id)
+    {
+        $model = User::query()->findOrFail($id);
+        return view('admin.profile', compact('model'));
+    }
     /**
      * Show the form for editing the specified resource.
      */
