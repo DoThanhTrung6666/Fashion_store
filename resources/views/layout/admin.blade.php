@@ -275,7 +275,7 @@
                     </div>
                     <div class="pull-left info">
                         <p>{{ Auth::user()->name }}</p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <a href="{{route('admin.profile',Auth::user()->id)}}"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
                 {{-- <form action="#" method="get" class="sidebar-form">
