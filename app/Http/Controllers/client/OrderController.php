@@ -302,6 +302,12 @@ class OrderController extends Controller
 
         // Lưu các sản phẩm trong đơn hàng và cập nhật tồn kho
         foreach ($selectedCartItems as $item) {
+            $product = $item->productVariant->product;
+            $productVariant = $item->productVariant;
+            if ($productVariant->stock_quantity < $item->quantity) {
+                return redirect()->route('cart.load')
+                    ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+            }
             $finalPrice = $item->productVariant->product->price;
 
             // Tạo sản phẩm trong đơn hàng
@@ -317,15 +323,15 @@ class OrderController extends Controller
         }
 
         // Lưu thông tin sử dụng voucher nếu có
-        $voucherDiscount = session()->get('voucher_discount');
-        if ($voucherDiscount) {
-            DB::table('voucher_uses')->insert([
-                'user_id' => $user->id,
-                'voucher_id' => $voucherDiscount['voucher_id'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        // $voucherDiscount = session()->get('voucher_discount');
+        // if ($voucherDiscount) {
+        //     DB::table('voucher_uses')->insert([
+        //         'user_id' => $user->id,
+        //         'voucher_id' => $voucherDiscount['voucher_id'],
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        // }
 
         // Xóa các sản phẩm đã chọn trong giỏ hàng
         $cart->cartItems()->whereIn('id', $orderData['selectedCartItemIds'])->delete();

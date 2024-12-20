@@ -155,18 +155,18 @@
                         @foreach ($cartItemsWithSaleInfo as $item)
                             {{-- Form giảm số lượng --}}
                             <form id="decrease-form-{{ $item['cartItem']->id }}"
-                                action="{{ route('cart.update', $item['cartItem']->id) }}" method="POST" style="display: none;">
+                                action="{{ route('cart.decrease', $item['cartItem']->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" name="quantity" value="{{ $item['cartItem']->quantity - 1 }}">
+                                {{-- <input type="hidden" name="quantity" value="{{ $item['cartItem']->quantity - 1 }}"> --}}
                             </form>
 
                             {{-- Form tăng số lượng --}}
                             <form id="increase-form-{{ $item['cartItem']->id }}"
-                                action="{{ route('cart.update', $item['cartItem']->id) }}" method="POST" style="display: none;">
+                                action="{{ route('cart.increase', $item['cartItem']->id) }}" method="POST" style="display: none;">
                                 @csrf
                                 @method('PUT')
-                                <input type="hidden" name="quantity" value="{{ $item['cartItem']->quantity + 1 }}">
+                                {{-- <input type="hidden" name="quantity" value="{{ $item['cartItem']->quantity + 1 }}"> --}}
                             </form>
                         @endforeach
                         {{-- form cập nhật số lượng  --}}

@@ -176,28 +176,75 @@ class CartController extends Controller
     }
 
     // cập nhật số lượng
-    public function updateQuantityCart(Request $request , $id){
-        $validated = $request->validate([
-            'quantity' => 'required|integer|min:1|max:10'
-        ]);
-        $cartItems = CartItem::findOrFail($id);
-        if($cartItems->cart->user_id !== auth()->id()){
-            return redirect()->back()->with('error','Không thể  cập nhật sản phẩm này');
-        }
-        $productVariant = ProductVariant::where('product_id',$cartItems->productVariant->product_id)
-            ->where('color_id',$cartItems->productVariant->color_id)
-            ->where('size_id',$cartItems->productVariant->size_id)
-            ->first();
-        // dd($cartItems->productVariant->product_id);
-        // dd($cartItems->productVariant->color_id);
-        if(!$productVariant){
-            return redirect()->back()->with('error','Không tìm thấy sản phẩm');
-        }
-        if($validated['quantity']>$productVariant->stock_quantity){
-            return redirect()->back()->with('error','Số lượng yêu cầu vượt quá tồn kho. Chỉ còn' .$productVariant->stock_quantity.'sản phẩm');
-        }
-        $cartItems->quantity = $validated['quantity'];
-        $cartItems->save();
-        return redirect()->back()->with('success','Cập nhật số lượng thành công');
+    // public function updateQuantityCart(Request $request , $id){
+    //     $validated = $request->validate([
+    //         'quantity' => 'required|integer|min:1|max:10'
+    //     ]);
+    //     $cartItems = CartItem::findOrFail($id);
+    //     if($cartItems->cart->user_id !== auth()->id()){
+    //         return redirect()->back()->with('error','Không thể  cập nhật sản phẩm này');
+    //     }
+    //     $productVariant = ProductVariant::where('product_id',$cartItems->productVariant->product_id)
+    //         ->where('color_id',$cartItems->productVariant->color_id)
+    //         ->where('size_id',$cartItems->productVariant->size_id)
+    //         ->first();
+    //     // dd($cartItems->productVariant->product_id);
+    //     // dd($cartItems->productVariant->color_id);
+    //     if(!$productVariant){
+    //         return redirect()->back()->with('error','Không tìm thấy sản phẩm');
+    //     }
+    //     if($validated['quantity']>$productVariant->stock_quantity){
+    //         return redirect()->back()->with('error','Số lượng yêu cầu vượt quá tồn kho. Chỉ còn' .$productVariant->stock_quantity.'sản phẩm');
+    //     }
+    //     $cartItems->quantity = $validated['quantity'];
+    //     $cartItems->save();
+    //     return redirect()->back()->with('success','Cập nhật số lượng thành công');
+    // }
+
+    // xử lí mua hàng lại
+    public function increaseQuantity($id)
+{
+    $cartItem = CartItem::findOrFail($id);
+
+    // Kiểm tra quyền sở hữu giỏ hàng
+    if ($cartItem->cart->user_id !== auth()->id()) {
+        return redirect()->back()->with('error', 'Không thể cập nhật sản phẩm này.');
     }
+
+    // Kiểm tra tồn kho
+    $productVariant = ProductVariant::where('product_id', $cartItem->productVariant->product_id)
+        ->where('color_id', $cartItem->productVariant->color_id)
+        ->where('size_id', $cartItem->productVariant->size_id)
+        ->first();
+
+    if (!$productVariant || $cartItem->quantity + 1 > $productVariant->stock_quantity) {
+        return redirect()->back()->with('error', 'Số lượng yêu cầu vượt quá tồn kho.');
+    }
+
+    // Tăng số lượng
+    $cartItem->quantity++;
+    $cartItem->save();
+
+    return redirect()->back()->with('success', 'Cập nhật số lượng thành công.');
+}
+
+public function decreaseQuantity($id)
+{
+    $cartItem = CartItem::findOrFail($id);
+
+    // Kiểm tra quyền sở hữu giỏ hàng
+    if ($cartItem->cart->user_id !== auth()->id()) {
+        return redirect()->back()->with('error', 'Không thể cập nhật sản phẩm này.');
+    }
+
+    // Giảm số lượng (tối thiểu là 1)
+    if ($cartItem->quantity > 1) {
+        $cartItem->quantity--;
+        $cartItem->save();
+        return redirect()->back()->with('success', 'Cập nhật số lượng thành công.');
+    }
+
+    return redirect()->back()->with('error', 'Số lượng tối thiểu phải là 1.');
+}
+
 }
