@@ -275,7 +275,7 @@
                     </div>
                     <div class="pull-left info">
                         <p>{{ Auth::user()->name }}</p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        <a href="{{route('admin.profile',Auth::user()->id)}}"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
                 {{-- <form action="#" method="get" class="sidebar-form">
@@ -387,7 +387,7 @@
                     </li>
                     {{-- kết thúc quản lí brand  --}}
                     {{-- quản lí  sale --}}
-                    <li class="treeview">
+                    {{-- <li class="treeview">
                         <a href="{{ route('admin.sales.index') }}">
                             <i class="fas fa-percent"></i>
                             <span>Quản lí Sale(%)</span>
@@ -399,7 +399,7 @@
                             <li><a href="{{ route('admin.sales.create') }}"><i class="fa fa-circle-o"></i>Thêm</a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                     {{-- kết thúc quản lí  sale  --}}
                     {{-- quản lí flash sale --}}
                     <li class="treeview">

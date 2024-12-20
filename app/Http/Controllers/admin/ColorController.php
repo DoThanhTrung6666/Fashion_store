@@ -66,11 +66,14 @@ class ColorController extends Controller
     // Xóa size
     public function destroy(Color $color)
     {
+        if ($color->productVariants()->exists()) {
+            return back()->with('error', 'Không thể xóa danh mục đang có liên kết với sản phẩm');
+        }
         $color->delete();
         return redirect()->route('admin.colors.index')->with('success', 'color deleted successfully.');
     }
 
-    // xóa mềm 
+    // xóa mềm
     public function updateStatus($id){
         $color = Color::find($id);
         if($color){

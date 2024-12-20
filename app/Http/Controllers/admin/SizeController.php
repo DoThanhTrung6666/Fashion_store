@@ -64,6 +64,9 @@ class SizeController extends Controller
     // Xóa size
     public function destroy(Size $size)
     {
+        if ($size->productVariants()->exists()) {
+            return back()->with('error', 'Không thể xóa danh mục đang có liên kết với sản phẩm');
+        }
         $size->delete();
         return redirect()->route('admin.sizes.index')->with('success', 'Xóa thành công.');
     }

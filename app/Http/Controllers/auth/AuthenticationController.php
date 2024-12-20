@@ -42,7 +42,12 @@ class AuthenticationController extends Controller
 
         if (Auth::attempt($login)) {
             $request->session()->regenerate();
-            return redirect()->route('home');
+            if(Auth::user()->role_id ==1){
+                return redirect()->route( 'admin.statistics.index');
+            }else{
+                return redirect()->route('home');
+            }
+
         }
         return redirect()->back()->with('error','Sai thông tin tài khoản hoặc mật khẩu');
     }

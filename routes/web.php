@@ -133,6 +133,7 @@ Route::prefix('admin')
         Route::get('register/shipper',[ShipperController::class,'registerShowFormShipper'])->name('register.shipper');
         Route::post('register/shipper',[ShipperController::class,'registerShipper'])->name('register.shipper.post');
         Route::get('get/shipper',[ShipperController::class,'listShipper'])->name('register.shipper.list');
+        Route::get('profile/{id}',[UserController::class,'profile'])->name('profile');
     });
 
 
@@ -147,7 +148,9 @@ Route::prefix('admin')
         Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
 
         // cập nhật số lượng giỏ hàng
-        Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+        // Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+        Route::put('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('cart.increase');
+        Route::put('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease');
         Route::post('/orders/{id}/dagiao', [OrderController::class, 'dagiaoUser'])->name('dagiaoUser');
     });
 // bên client
@@ -239,7 +242,7 @@ Route::middleware(['shipper'])->group(function(){
     Route::post('/orders/{id}/shipper2', [ShipperController::class, 'update2'])->name('shipper.orders.update2');
     Route::get('/orders/{id}/detail/shipper', [ShipperController::class, 'show'])->name('shipper.orders.show');
 
-    // đổi mật khẩu 
+    // đổi mật khẩu
     Route::get('/shipper/change-password', [ShipperController::class, 'showChangePasswordForm'])->name('shipper.change-password');
 
     // Route để xử lý yêu cầu đổi mật khẩu

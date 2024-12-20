@@ -468,6 +468,12 @@ class OrderController extends Controller
 
         // Lưu các sản phẩm trong đơn hàng và cập nhật tồn kho
         foreach ($selectedCartItems as $item) {
+            $product = $item->productVariant->product;
+            $productVariant = $item->productVariant;
+            if ($productVariant->stock_quantity < $item->quantity) {
+                return redirect()->route('cart.load')
+                    ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+            }
             $finalPrice = $item->productVariant->product->price;
             $productVariant = $item->productVariant;
             $product = $item->productVariant->product;
@@ -488,15 +494,15 @@ class OrderController extends Controller
         }
 
         // Lưu thông tin sử dụng voucher nếu có
-        $voucherDiscount = session()->get('voucher_discount');
-        if ($voucherDiscount) {
-            DB::table('voucher_uses')->insert([
-                'user_id' => $user->id,
-                'voucher_id' => $voucherDiscount['voucher_id'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        // $voucherDiscount = session()->get('voucher_discount');
+        // if ($voucherDiscount) {
+        //     DB::table('voucher_uses')->insert([
+        //         'user_id' => $user->id,
+        //         'voucher_id' => $voucherDiscount['voucher_id'],
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ]);
+        // }
 
         // Xóa các sản phẩm đã chọn trong giỏ hàng
         $cart->cartItems()->whereIn('id', $orderData['selectedCartItemIds'])->delete();
@@ -718,6 +724,22 @@ class OrderController extends Controller
             if ($order->status == 'Hoàn thành') {
                 return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã hoàn thành .');
             }
+            if ($order->status == 'Đã huỷ') {
+                dd($order->status == 'Đã huỷ');
+                // foreach ($order->orderItems as $orderItem) {
+                //     $productVariant = $orderItem->productVariant;
+                //     if ($productVariant) {
+                //         // Cộng lại số lượng kho
+                //         $productVariant->stock_quantity += $orderItem->quantity;
+                //         $productVariant->save();
+                //     } else {
+                //         // Nếu không có productVariant, thông báo lỗi
+                //         return redirect()->route("orders.loadUser")->with('error', 'Không tìm thấy biến thể sản phẩm.');
+                //     }
+                // }
+                return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy và số lượng sản phẩm đã được hoàn lại.');
+            }
+
 
             $request->validate(
                 [
@@ -731,6 +753,7 @@ class OrderController extends Controller
             );
 
             $order->status = 'Đã huỷ';
+
             // user huỷ phải nhập
             $order->cancel_reason = $request->input('cancel_reason.' . $order->id); // Lấy lý do huỷ cho từng đơn hàng
             // $order->save();
@@ -848,21 +871,22 @@ class OrderController extends Controller
         }
 
         // Lấy kết quả đơn hàng
-        $orders = $ordersQuery->get();
+        $orders = $ordersQuery->orderBy('id','DESC')->get();
         $user = Auth::user();
         $orders_pending = Order::where('user_id', $user->id)
             ->where('status', 'Chờ xác nhận')
             ->with('orderItems.productVariant.product.flashSaleItems')  // Sửa lại đây
             ->orderBy('id', 'desc')
             ->get();
+            $orders_dangvanchuyen = Order::where('user_id', $user->id)->where('status', 'Đang vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_daxacnhan = Order::where('user_id', $user->id)->where('status', 'Đã xác nhận')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_vanchuyen = Order::where('user_id', $user->id)->where('status', 'Vận chuyển')->with('orderItems')->orderBy('id', 'desc')->get();
-        $orders_chogiaohang = Order::where('user_id', $user->id)->where('status', 'Chờ giao hàng')->with('orderItems')->orderBy('id', 'desc')->get();
+        $orders_dagiao = Order::where('user_id', $user->id)->where('status', 'Đã giao')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_hoanthanh = Order::where('user_id', $user->id)->where('status', 'Hoàn thành')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_dahuy = Order::where('user_id', $user->id)->where('status', 'Đã huỷ')->with('orderItems')->orderBy('id', 'desc')->get();
         $orders_danhan = Order::where('user_id', $user->id)->where('status', 'Đã nhận hàng')->with('orderItems')->orderBy('id', 'desc')->get();
         // Trả về view với danh sách đơn hàng và các tham số cần thiết
-        return view('client.order', compact('orders', 'orders_daxacnhan', 'orders_dahuy', 'orders_pending', 'orders_vanchuyen', 'orders_chogiaohang', 'orders_hoanthanh', 'orders_danhan'));
+        return view('client.order', compact('orders','orders_dagiao','orders_dangvanchuyen', 'orders_daxacnhan', 'orders_dahuy', 'orders_pending', 'orders_vanchuyen', 'orders_hoanthanh', 'orders_danhan'));
     }
 
     public function dagiaoUser($id)

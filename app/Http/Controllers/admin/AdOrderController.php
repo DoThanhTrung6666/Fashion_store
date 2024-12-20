@@ -34,7 +34,7 @@ class AdOrderController extends Controller
                 })
                 ->orWhere('name_order', 'LIKE', "%{$search}%");
             })
-            ->paginate()
+            ->paginate(10)
             ->appends(['status' => $status, 'search' => $search]); // Giữ các tham số tìm kiếm khi phân trang
 
         // Trả về view với dữ liệu đơn hàng
@@ -51,8 +51,16 @@ class AdOrderController extends Controller
 
 public function update(Order $order)
 {
+    // dd($order);
     $user = User::where('id', $order->user_id)->first();
     $status = request('status', 'Chờ xác nhận');
+
+
+    // $orders = Order::where('user_id',$user->id)->first();
+    // dd($orders);
+    if($order->status=='Đã huỷ'){
+        return redirect()->back()->with('error','Không thể xác nhận đơn hàng đã huỷ');
+    }
 
     if ($order->status != 'Hoàn thành') {
         // If order is being cancelled, restore product quantities
@@ -88,15 +96,15 @@ public function update(Order $order)
 public function show($id)
 {
     $order = Order::with([
-        'user', 
+        'user',
         'orderItems.productvariant.product',
         'orderItems.productvariant.size',
         'orderItems.productvariant.color',
-        
+
     ])->findOrFail($id);
-    
+
     $shippers = Shipper::all();
-    
+
     return view('admin.orders.show', compact('order', 'shippers'));
 
     }
