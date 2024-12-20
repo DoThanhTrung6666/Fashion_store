@@ -1,81 +1,142 @@
 @extends('layout.client')
 @section('content')
-<style>
-    .home-slider-desc {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff; /* Đảm bảo chữ có màu trắng hoặc màu dễ thấy */
-    z-index: 10; /* Đảm bảo phần tử nằm trên ảnh */
-}
-.home-slider-container {
-    position: relative;
-}
-.home-slider-desc {
-    z-index: 10;
-    position: absolute;
-}
-img {
-    z-index: 1;
-}
+    <style>
+        .home-slider-desc {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            /* Đảm bảo chữ có màu trắng hoặc màu dễ thấy */
+            z-index: 10;
+            /* Đảm bảo phần tử nằm trên ảnh */
+        }
 
-</style>
-<div class="home-slider margin-bottom-0">
+        .home-slider-container {
+            position: relative;
+        }
 
-    <!-- Slide -->
-    @foreach($sliderBanners as $sliderBanner)
-    <div class="home-slider-container" style="position: relative;">
-        <img src="{{ asset('storage/' . $sliderBanner->image_path) }}" alt="{{ $sliderBanner->title }}" width="1520px" height="745px">
-        <div class="home-slider-desc" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-            <div class="home-slider-title mb-4">
-                <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
-                <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+        .home-slider-desc {
+            z-index: 10;
+            position: absolute;
+        }
+
+        img {
+            z-index: 1;
+        }
+
+        /* Điều chỉnh kiểu phân trang */
+        /* Điều chỉnh kiểu phân trang */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            padding: 10px 0;
+            list-style-type: none;
+        }
+
+        /* Ẩn số trang và chỉ giữ lại "Previous" và "Next" */
+        .pagination .page-item {
+            margin: 0 10px;
+        }
+
+        /* Nút phân trang */
+        .pagination .page-link {
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            background-color: white;
+            color: #333;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Khi hover vào nút */
+        .pagination .page-link:hover {
+            background-color: #f0f0f0;
+            color: #555;
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        /* Khi nút bị disabled (không thể chọn) */
+        .pagination .page-item.disabled .page-link {
+            background-color: #f7f7f7;
+            color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Khi nút phân trang được chọn */
+        .pagination .page-item.active .page-link {
+            background-color: #ccc;
+            border-color: #ccc;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Xóa focus khi nhấn vào nút phân trang */
+        .pagination .page-link:focus {
+            outline: none;
+        }
+    </style>
+    <div class="home-slider margin-bottom-0">
+
+        <!-- Slide -->
+        @foreach ($sliderBanners as $sliderBanner)
+            <div class="home-slider-container" style="position: relative;">
+                <img src="{{ asset('storage/' . $sliderBanner->image_path) }}" alt="{{ $sliderBanner->title }}" width="1520px"
+                    height="745px">
+                <div class="home-slider-desc"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                    <div class="home-slider-title mb-4">
+                        <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
+                        <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
+                    </div>
+                    <a href="{{ route('danhmucsp') }}" class="btn stretched-link borders">Xem thêm<i
+                            class="lni lni-arrow-right ml-2"></i></a>
+                </div>
             </div>
-            <a href="{{route('danhmucsp')}}" class="btn stretched-link borders">Xem thêm<i class="lni lni-arrow-right ml-2"></i></a>
-        </div>
+        @endforeach
+
+
+
     </div>
-    
-    @endforeach
+    <!-- ============================ Hero Banner End ================================== -->
 
-   
-
-</div>
-<!-- ============================ Hero Banner End ================================== -->
-
-<!-- ======================= Flash sale ======================== -->
+    <!-- ======================= Flash sale ======================== -->
 
 
 
 
 
-<section class="middle gray" id="flash-sale-section" style="display:none;">
-    <div class="container">
+    <section class="middle gray" id="flash-sale-section" style="display:none;">
+        <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Chương trình flash sale</h2>
-                    <h3 class="ft-bold pt-3">Chương trình flash sale </h3>
-                    <div id="thoigian"></div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3 style="color: red"><span id="countdown"></span></h3>
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative text-center">
+                        <h2 class="off_title">Chương trình flash sale</h2>
+                        <h3 class="ft-bold pt-3">Chương trình flash sale </h3>
+                        <div id="thoigian"></div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="color: red"><span id="countdown"></span></h3>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div id="flash-sale" class="row align-items-center rows-products">
+            <div id="flash-sale" class="row align-items-center rows-products">
 
-        </div>
-
+            </div>
 
 
-{{-- Chương trình flash-sale cũ không dùng  --}}
-        <!-- row -->
-        {{-- <div class="row align-items-center rows-products">
+
+            {{-- Chương trình flash-sale cũ không dùng  --}}
+            <!-- row -->
+            {{-- <div class="row align-items-center rows-products">
 
             @foreach ($flashSales as $flashSale)
             @foreach ($flashSale->flashSaleItems as $item)
@@ -116,7 +177,7 @@ img {
             @endforeach
 
 
-            @foreach($flashSales as $flashSale) --}}
+            @foreach ($flashSales as $flashSale) --}}
             {{-- <script>
                 window.onload = function () {
                     // Lấy start_time và end_time của flashSale
@@ -159,349 +220,482 @@ img {
 
             {{-- @endforeach
         </div> --}}
-        <!-- row -->
-{{-- chương trình flash sale cũ không dùng  --}}
+            <!-- row -->
+            {{-- chương trình flash sale cũ không dùng  --}}
 
-    </div>
-</section>
+        </div>
+    </section>
 
 
-<!-- ======================= All  ======================== -->
-<section class="space min">
-
-</section>
-<!-- ======================= Products Lists ======================== -->
-<section class="space min pt-0">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Tất cả sản phẩm</h2>
-                    <h3 class="ft-bold pt-3">Tất cả sản phẩm</h3>
+    <section class="space min">
+        <div class="container">
+            <!-- Tiêu đề -->
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+                    <div class="sec_title position-relative">
+                        <h2 class="off_title">Voucher ưu đãi</h2>
+                        <h3 class="ft-bold pt-3">Voucher ưu đãi</h3>
+                    </div>
                 </div>
             </div>
+
+            <!-- Danh sách voucher với thanh cuộn ngang -->
+            <div class="row">
+                @foreach ($vouchers as $voucher)
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 mb-4"
+                        style="display: inline-block; width: 25%; padding: 0 10px;">
+                        <div class="card border shadow-sm">
+                            <!-- Thông tin voucher -->
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold">{{ $voucher->name }}</h5>
+                                <p class="fw-bold">
+                                    Giảm giá {{ $voucher->discount_percentage }}% cho đơn từ
+                                    {{ $voucher->min_order_value }}VNĐ, tối đa {{ $voucher->max_discount }}VNĐ
+                                </p>
+                                <p class="text-dark">
+                                    Hạn sử dụng: {{ $voucher->end_date }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Điều hướng phân trang -->
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                    <!-- Phân trang thủ công: chỉ hiển thị "Previous" và "Next" -->
+                    <ul class="pagination">
+                        <!-- Nút Previous -->
+                        @if ($vouchers->onFirstPage())
+                            <li class="page-item disabled"><a class="page-link" href="#">Quay lại</a></li>
+                        @else
+                            <li class="page-item"><a class="page-link" href="{{ $vouchers->previousPageUrl() }}">Quay
+                                    lại</a></li>
+                        @endif
+
+                        <!-- Nút Next -->
+                        @if ($vouchers->hasMorePages())
+                            <li class="page-item"><a class="page-link" href="{{ $vouchers->nextPageUrl() }}">Tiếp</a></li>
+                        @else
+                            <li class="page-item disabled"><a class="page-link" href="#">Tiếp</a></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+
         </div>
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+    </section>
 
-                <ul class="nav nav-tabs b-0 d-flex align-items-center justify-content-center simple_tab_links mb-4" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="all-tab" href="#all" data-toggle="tab" role="tab" aria-controls="all" aria-selected="true">All</a>
-                    </li>
-                    @foreach ($categories as $category)
+
+
+
+
+    <!-- ======================= Products Lists ======================== -->
+    <section class="space min pt-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative text-center">
+                        <h2 class="off_title">Tất cả sản phẩm</h2>
+                        <h3 class="ft-bold pt-3">Tất cả sản phẩm</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+
+                    <ul class="nav nav-tabs b-0 d-flex align-items-center justify-content-center simple_tab_links mb-4"
+                        id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="#{{$category->description}}" id="{{$category->description}}-tab" data-toggle="tab" role="tab" aria-controls="{{$category->description}}" aria-selected="false">{{$category->name}}</a>
+                            <a class="nav-link" id="all-tab" href="#all" data-toggle="tab" role="tab"
+                                aria-controls="all" aria-selected="true">All</a>
                         </li>
-                    @endforeach
+                        @foreach ($categories as $category)
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" href="#{{ $category->description }}"
+                                    id="{{ $category->description }}-tab" data-toggle="tab" role="tab"
+                                    aria-controls="{{ $category->description }}"
+                                    aria-selected="false">{{ $category->name }}</a>
+                            </li>
+                        @endforeach
 
-                </ul>
+                    </ul>
 
-                <div class="tab-content" id="myTabContent">
+                    <div class="tab-content" id="myTabContent">
 
-                    <!-- All Content -->
-                    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-                        <div class="tab_product">
-                            <div class="row rows-products">
+                        <!-- All Content -->
+                        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+                            <div class="tab_product">
+                                <div class="row rows-products">
 
-                                <!-- Single -->
-                                @foreach ($allProducts as $value)
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-6">
-                                    <div class="product_grid card b-0">
+                                    <!-- Single -->
+                                    @foreach ($allProducts as $value)
+                                        <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                                            <div class="product_grid card b-0">
 
-                                        {{-- @php
+                                                {{-- @php
                                             // Kiểm tra xem sản phẩm này có tham gia flash sale không
                                             $flashSale = $flashSales->firstWhere('flashSaleId', $value->id);
                                         @endphp --}}
 
-                                        @php
-                                            // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
-                                            $flashSaleItem = $value->flashSaleItems->firstWhere(function ($item) {
-                                                return $item->flashSale && $item->flashSale->status == 'Đang diễn ra'
-                                                    && $item->flashSale->start_time <= now()
-                                                    && $item->flashSale->end_time >= now();
-                                            });
-                                        @endphp
+                                                @php
+                                                    // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
+                                                    $flashSaleItem = $value->flashSaleItems->firstWhere(function (
+                                                        $item,
+                                                    ) {
+                                                        return $item->flashSale &&
+                                                            $item->flashSale->status == 'Đang diễn ra' &&
+                                                            $item->flashSale->start_time <= now() &&
+                                                            $item->flashSale->end_time >= now();
+                                                    });
+                                                @endphp
 
-                                        @if($flashSaleItem)
-                                            <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
-                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
-                                                {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
-                                            </div>
-                                        @else
-                                            <!-- Không có flash sale hoặc không đang diễn ra -->
-                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
-                                        @endif
-                                        <div class="card-body p-0">
-                                            <div class="shop_thumb position-relative">
-                                                <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $value->id) }}"><img class="card-img-top" src="{{Storage::url($value->image)}}" alt="..."></a>
-                                                <div class="product-left-hover-overlay">
-                                                    <ul class="left-over-buttons">
-                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
-                                                        <li>
+                                                @if ($flashSaleItem)
+                                                    <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
+                                                    <div
+                                                        class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                                        {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
+                                                    </div>
+                                                @else
+                                                    <!-- Không có flash sale hoặc không đang diễn ra -->
+                                                    <div
+                                                        class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                                    </div>
+                                                @endif
+                                                <div class="card-body p-0">
+                                                    <div class="shop_thumb position-relative">
+                                                        <a class="card-img-top d-block overflow-hidden"
+                                                            href="{{ route('detail.show', $value->id) }}"><img
+                                                                class="card-img-top"
+                                                                src="{{ Storage::url($value->image) }}"
+                                                                alt="..."></a>
+                                                        <div class="product-left-hover-overlay">
+                                                            <ul class="left-over-buttons">
+                                                                {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
+                                                                <li>
 
-                                                        </li>
-                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style=""  class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
-                                            <div class="text-left" >
-                                                <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0" style="display:flex;">
-                                                        {{-- <div class="text-right"> --}}
-                                                        <div class="text-right">
-                                                            @foreach ($value->variants as $color)
-                                                            <div class="form-check form-option form-check-inline mb-1" >
-                                                                <img src="{{Storage::url($color->image_variant)}}" alt="" style="width: 20px; height: 20px; border-radius: 50%;">
-                                                            </div>
-                                                            @endforeach
+                                                                </li>
+                                                                {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
+                                                            </ul>
                                                         </div>
-                                                        {{-- </div> --}}
-
                                                     </div>
+                                                </div>
+                                                <div style=""
+                                                    class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
+                                                    <div class="text-left">
+                                                        <div class="text-left">
+                                                            <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0"
+                                                                style="display:flex;">
+                                                                {{-- <div class="text-right"> --}}
+                                                                <div class="text-right">
+                                                                    @foreach ($value->variants as $color)
+                                                                        <div
+                                                                            class="form-check form-option form-check-inline mb-1">
+                                                                            <img src="{{ Storage::url($color->image_variant) }}"
+                                                                                alt=""
+                                                                                style="width: 20px; height: 20px; border-radius: 50%;">
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                                {{-- </div> --}}
 
-                                                    <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $value->id) }}">{{$value->name}}</a></h5>
+                                                            </div>
+
+                                                            <h5 class="fs-md mb-0 lh-1 mb-1"><a
+                                                                    href="{{ route('detail.show', $value->id) }}">{{ $value->name }}</a>
+                                                            </h5>
 
 
-                                                    @if($flashSaleItem)
-                                                    <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
-                                                    <div style="display:flex">
-                                                        <div style="text-decoration:line-through ; width:100%;"  class="elis_rty"><p style="color:red" >{{number_format($value->price)}}đ</p></div>
-                                                        <div style="margin-left: 10%"  class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($flashSaleItem->price)}}đ</span></div>
-                                                    </div>
-                                                    @else
-                                                        <!-- Không có flash sale hoặc không đang diễn ra -->
-                                                        <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($value->price)}}đ</span></div>
-                                                    @endif
+                                                            @if ($flashSaleItem)
+                                                                <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
+                                                                <div style="display:flex">
+                                                                    <div style="text-decoration:line-through ; width:100%;"
+                                                                        class="elis_rty">
+                                                                        <p style="color:red">
+                                                                            {{ number_format($value->price) }}đ</p>
+                                                                    </div>
+                                                                    <div style="margin-left: 10%" class="elis_rty"><span
+                                                                            class="ft-bold text-dark fs-sm">{{ number_format($flashSaleItem->price) }}đ</span>
+                                                                    </div>
+                                                                </div>
+                                                            @else
+                                                                <!-- Không có flash sale hoặc không đang diễn ra -->
+                                                                <div class="elis_rty"><span
+                                                                        class="ft-bold text-dark fs-sm">{{ number_format($value->price) }}đ</span>
+                                                                </div>
+                                                            @endif
 
-                                                    {{-- <a href="" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"> --}}
-                                                        {{-- <form class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist" action="{{route('favorites.add',$value->id)}}" method="POST">
+                                                            {{-- <a href="" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"> --}}
+                                                            {{-- <form class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist" action="{{route('favorites.add',$value->id)}}" method="POST">
                                                             @csrf
                                                             <button type="submit">Them vao yeu thich</button>
                                                         </form> --}}
-                                                    {{-- </a> --}}
-                                                </div>
+                                                            {{-- </a> --}}
+                                                        </div>
 
-                                            </div>
-                                            <div class="text-right">
-                                                <form  action="{{route('favorites.add',$value->id)}}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
-                                                    {{-- <button type="submit">Them vao yeu thich</button> --}}
-                                                </form>
+                                                    </div>
+                                                    <div class="text-right">
+                                                        <form action="{{ route('favorites.add', $value->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn auto btn_love snackbar-wishlist"><i
+                                                                    class="far fa-heart"></i></button>
+                                                            {{-- <button type="submit">Them vao yeu thich</button> --}}
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
+                                {{-- {{ $allProducts->links() }} --}}
                             </div>
-                            {{-- {{ $allProducts->links() }} --}}
                         </div>
-                    </div>
 
 
 
-                                @foreach ($categories as $category)
-                                <div class="tab-pane fade" id="{{$category->description}}" role="tabpanel" aria-labelledby="{{ $category->description }}-tab">
-                                    <div class="tab_product">
-                                        <div class="row rows-products">
+                        @foreach ($categories as $category)
+                            <div class="tab-pane fade" id="{{ $category->description }}" role="tabpanel"
+                                aria-labelledby="{{ $category->description }}-tab">
+                                <div class="tab_product">
+                                    <div class="row rows-products">
 
-                                            <!-- Single -->
-                                @foreach ($category->productHome as $product)
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-6">
-                                    <div class="product_grid card b-0">
-                                        @php
-                                            // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
-                                            $flashSaleItem = $product->flashSaleItems->firstWhere(function ($item) {
-                                                return $item->flashSale && $item->flashSale->status == 'Đang diễn ra'
-                                                    && $item->flashSale->start_time <= now()
-                                                    && $item->flashSale->end_time >= now();
-                                            });
-                                        @endphp
-                                        @if($flashSaleItem)
-                                            <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
-                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
-                                                {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
-                                            </div>
-                                        @else
-                                            <!-- Không có flash sale hoặc không đang diễn ra -->
-                                            <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
-                                        @endif
-                                        {{-- <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div> --}}
-                                        <div class="card-body p-0">
-                                            <div class="shop_thumb position-relative">
-                                                <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show', $product->id) }}"><img class="card-img-top" src="{{Storage::url($product->image)}}" alt="..."></a>
-                                                <div class="product-left-hover-overlay">
-                                                    <ul class="left-over-buttons">
-                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
-                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"><i class="far fa-heart position-absolute"></i></a></li> --}}
-                                                        {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="" class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
-                                            <div class="text-left">
-                                                <div class="text-left">
-                                                    <div class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
-                                                        <div class="text-right">
-                                                        <div class="text-right">
-                                                            @foreach ($product->variants as $color)
-                                                            <div class="form-check form-option form-check-inline mb-1" >
-                                                                <img src="{{Storage::url($color->image_variant)}}" alt="" style="width: 20px; height: 20px; border-radius: 50%;">
-                                                            </div>
-                                                            @endforeach
+                                        <!-- Single -->
+                                        @foreach ($category->productHome as $product)
+                                            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                                                <div class="product_grid card b-0">
+                                                    @php
+                                                        // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
+                                                        $flashSaleItem = $product->flashSaleItems->firstWhere(function (
+                                                            $item,
+                                                        ) {
+                                                            return $item->flashSale &&
+                                                                $item->flashSale->status == 'Đang diễn ra' &&
+                                                                $item->flashSale->start_time <= now() &&
+                                                                $item->flashSale->end_time >= now();
+                                                        });
+                                                    @endphp
+                                                    @if ($flashSaleItem)
+                                                        <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
+                                                        <div
+                                                            class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                                            {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
                                                         </div>
-                                                        </div>
-                                                    </div>
-                                                    <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show', $product->id) }}">{{$product->name}}</a></h5>
-                                                    {{-- <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($product->price)}}vnđ</span></div> --}}
-                                                    @if($flashSaleItem)
-                                                    <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
-                                                    <div style="display:flex">
-                                                        <div style="text-decoration:line-through ; width:100%;"  class="elis_rty"><p style="color:red" >{{number_format($product->price)}}đ</p></div>
-                                                        <div style="margin-left: 10%"  class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($flashSaleItem->price)}}đ</span></div>
-                                                    </div>
                                                     @else
                                                         <!-- Không có flash sale hoặc không đang diễn ra -->
-                                                        <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($product->price)}}đ</span></div>
+                                                        <div
+                                                            class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                                        </div>
                                                     @endif
+                                                    {{-- <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div> --}}
+                                                    <div class="card-body p-0">
+                                                        <div class="shop_thumb position-relative">
+                                                            <a class="card-img-top d-block overflow-hidden"
+                                                                href="{{ route('detail.show', $product->id) }}"><img
+                                                                    class="card-img-top"
+                                                                    src="{{ Storage::url($product->image) }}"
+                                                                    alt="..."></a>
+                                                            <div class="product-left-hover-overlay">
+                                                                <ul class="left-over-buttons">
+                                                                    {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center"><i class="fas fa-expand-arrows-alt position-absolute"></i></a></li> --}}
+                                                                    {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-wishlist"><i class="far fa-heart position-absolute"></i></a></li> --}}
+                                                                    {{-- <li><a href="javascript:void(0);" class="d-inline-flex circle align-items-center justify-content-center snackbar-addcart"><i class="fas fa-shopping-basket position-absolute"></i></a></li> --}}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div style=""
+                                                        class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
+                                                        <div class="text-left">
+                                                            <div class="text-left">
+                                                                <div
+                                                                    class="star-rating align-items-center d-flex justify-content-left mb-1 p-0">
+                                                                    <div class="text-right">
+                                                                        <div class="text-right">
+                                                                            @foreach ($product->variants as $color)
+                                                                                <div
+                                                                                    class="form-check form-option form-check-inline mb-1">
+                                                                                    <img src="{{ Storage::url($color->image_variant) }}"
+                                                                                        alt=""
+                                                                                        style="width: 20px; height: 20px; border-radius: 50%;">
+                                                                                </div>
+                                                                            @endforeach
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <h5 class="fs-md mb-0 lh-1 mb-1"><a
+                                                                        href="{{ route('detail.show', $product->id) }}">{{ $product->name }}</a>
+                                                                </h5>
+                                                                {{-- <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($product->price)}}vnđ</span></div> --}}
+                                                                @if ($flashSaleItem)
+                                                                    <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
+                                                                    <div style="display:flex">
+                                                                        <div style="text-decoration:line-through ; width:100%;"
+                                                                            class="elis_rty">
+                                                                            <p style="color:red">
+                                                                                {{ number_format($product->price) }}đ</p>
+                                                                        </div>
+                                                                        <div style="margin-left: 10%" class="elis_rty">
+                                                                            <span
+                                                                                class="ft-bold text-dark fs-sm">{{ number_format($flashSaleItem->price) }}đ</span>
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <!-- Không có flash sale hoặc không đang diễn ra -->
+                                                                    <div class="elis_rty"><span
+                                                                            class="ft-bold text-dark fs-sm">{{ number_format($product->price) }}đ</span>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
-                    </div>
-                    @endforeach
+                        @endforeach
 
+
+                    </div>
 
                 </div>
-
             </div>
+
         </div>
+    </section>
+    <!-- ======================= Products List ======================== -->
 
-    </div>
-</section>
-<!-- ======================= Products List ======================== -->
+    <!-- ======================= Product List ======================== -->
+    <section class="middle gray">
+        <div class="container">
 
-<!-- ======================= Product List ======================== -->
-<section class="middle gray">
-    <div class="container">
-
-        <div class="row justify-content-center">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="sec_title position-relative text-center">
-                    <h2 class="off_title">Sản phẩm thịnh hành</h2>
-                    <h3 class="ft-bold pt-3">Sản phẩm thịnh hành</h3>
+            <div class="row justify-content-center">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="sec_title position-relative text-center">
+                        <h2 class="off_title">Sản phẩm thịnh hành</h2>
+                        <h3 class="ft-bold pt-3">Sản phẩm thịnh hành</h3>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- row -->
-        <div class="row align-items-center rows-products">
+            <!-- row -->
+            <div class="row align-items-center rows-products">
 
-            @foreach ($trendingProducts as $trending)
-
-
-            <!-- Single -->
-            <div class="col-xl-3 col-lg-4 col-md-6 col-6">
-                <div class="product_grid card b-0">
-                    @php
-                        // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
-                        $flashSaleItem = $trending->flashSaleItems->firstWhere(function ($item) {
-                            return $item->flashSale && $item->flashSale->status == 'Đang diễn ra'
-                                && $item->flashSale->start_time <= now()
-                                && $item->flashSale->end_time >= now();
-                        });
-                    @endphp
-                    @if($flashSaleItem)
-                        <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
-                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
-                            {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
-                        </div>
-                    @else
-                        <!-- Không có flash sale hoặc không đang diễn ra -->
-                        <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper"></div>
-                    @endif
-                    {{-- <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div> --}}
-                    <div class="card-body p-0">
-                        <div class="shop_thumb position-relative">
-                            <a class="card-img-top d-block overflow-hidden" href="{{ route('detail.show',$trending->id)}}"><img class="card-img-top" src="{{Storage::url($trending->image)}}" alt="..."></a>
-                            <div class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
-                                <div class="edlio"><a href="{{ route('detail.show',$trending->id)}}" class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Xem chi tiết</a></div>
+                @foreach ($trendingProducts as $trending)
+                    <!-- Single -->
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                        <div class="product_grid card b-0">
+                            @php
+                                // Kiểm tra xem sản phẩm có tham gia flash sale không và flash sale có đang diễn ra
+                                $flashSaleItem = $trending->flashSaleItems->firstWhere(function ($item) {
+                                    return $item->flashSale &&
+                                        $item->flashSale->status == 'Đang diễn ra' &&
+                                        $item->flashSale->start_time <= now() &&
+                                        $item->flashSale->end_time >= now();
+                                });
+                            @endphp
+                            @if ($flashSaleItem)
+                                <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
+                                <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                    {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
+                                </div>
+                            @else
+                                <!-- Không có flash sale hoặc không đang diễn ra -->
+                                <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
+                                </div>
+                            @endif
+                            {{-- <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div> --}}
+                            <div class="card-body p-0">
+                                <div class="shop_thumb position-relative">
+                                    <a class="card-img-top d-block overflow-hidden"
+                                        href="{{ route('detail.show', $trending->id) }}"><img class="card-img-top"
+                                            src="{{ Storage::url($trending->image) }}" alt="..."></a>
+                                    <div
+                                        class="product-hover-overlay bg-dark d-flex align-items-center justify-content-center">
+                                        <div class="edlio"><a href="{{ route('detail.show', $trending->id) }}"
+                                                class="text-white fs-sm ft-medium"><i class="fas fa-eye mr-1"></i>Xem chi
+                                                tiết</a></div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card-footer b-0 p-0 pt-2">
-                        <div class="d-flex align-items-start justify-content-between">
-                            <div class="text-left">
-                                {{-- @foreach ($trending->variants as $color)
+                            <div class="card-footer b-0 p-0 pt-2">
+                                <div class="d-flex align-items-start justify-content-between">
+                                    <div class="text-left">
+                                        {{-- @foreach ($trending->variants as $color)
                                 <div class="form-check form-option form-check-inline mb-1">
                                     <input class="form-check-input" type="radio" name="color1" id="white" checked="">
                                     <label class="form-option-label small rounded-circle" for="white" style="background-color: {{$color->color->name}};">
                                         {{$color->color->name}}
                                     </label> --}}
-                                    {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
-                                {{-- </div>
+                                        {{-- <label class="color-radio" style="background-color: {{$color->name}};"></label> --}}
+                                        {{-- </div>
                                 @endforeach --}}
-                                <div class="form-check form-option form-check-inline mb-1">
-                                    <i class="fas fa-eye"></i> {{$trending->views}}
+                                        <div class="form-check form-option form-check-inline mb-1">
+                                            <i class="fas fa-eye"></i> {{ $trending->views }}
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <form action="{{ route('favorites.add', $trending->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn auto btn_love snackbar-wishlist"><i
+                                                    class="far fa-heart"></i></button>
+                                            {{-- <button type="submit">Them vao yeu thich</button> --}}
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="text-left">
+                                    <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a
+                                            href="{{ route('detail.show', $trending->id) }}">{{ $trending->name }}</a>
+                                    </h5>
+                                    @if ($flashSaleItem)
+                                        <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
+                                        <div style="display:flex">
+                                            <div style="text-decoration:line-through ; width:30%;" class="elis_rty">
+                                                <p style="color:red">{{ number_format($trending->price) }}đ</p>
+                                            </div>
+                                            <div class="elis_rty"><span
+                                                    class="ft-bold text-dark fs-sm">{{ number_format($flashSaleItem->price) }}đ</span>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <!-- Không có flash sale hoặc không đang diễn ra -->
+                                        <div class="elis_rty"><span
+                                                class="ft-bold text-dark fs-sm">{{ number_format($trending->price) }}đ</span>
+                                        </div>
+                                    @endif
+                                    {{-- <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($trending->price)}} vnđ</span></div> --}}
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <form  action="{{route('favorites.add',$trending->id)}}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn auto btn_love snackbar-wishlist"><i class="far fa-heart"></i></button>
-                                    {{-- <button type="submit">Them vao yeu thich</button> --}}
-                                </form>
-                            </div>
                         </div>
-                        <div class="text-left">
-                            <h5 class="fw-bolder fs-md mb-0 lh-1 mb-1"><a href="{{ route('detail.show',$trending->id)}}">{{$trending->name}}</a></h5>
-                            @if($flashSaleItem)
-                            <!-- Hiển thị badge giá giảm nếu có flash sale đang diễn ra -->
-                            <div style="display:flex">
-                                <div style="text-decoration:line-through ; width:30%;"  class="elis_rty"><p style="color:red" >{{number_format($trending->price)}}đ</p></div>
-                                <div  class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($flashSaleItem->price)}}đ</span></div>
-                            </div>
-                            @else
-                                <!-- Không có flash sale hoặc không đang diễn ra -->
-                                <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($trending->price)}}đ</span></div>
-                            @endif
-                            {{-- <div class="elis_rty"><span class="ft-bold text-dark fs-sm">{{number_format($trending->price)}} vnđ</span></div> --}}
-                        </div>
+
                     </div>
-                </div>
+                @endforeach
 
             </div>
+            {{-- {{ $trendingProducts->links() }} --}}
+            <!-- row -->
 
-            @endforeach
+
 
         </div>
-        {{-- {{ $trendingProducts->links() }} --}}
-        <!-- row -->
+    </section>
+    <!-- ======================= Product List ======================== -->
 
+    <!-- ======================= Blog Start ============================ -->
+    <section class="space min">
 
+    </section>
+    <!-- ======================= Blog Start ============================ -->
 
-    </div>
-</section>
-<!-- ======================= Product List ======================== -->
+    <!-- ======================= Instagram Start ============================ -->
+    <section class="p-0">
+        <div class="container-fluid p-0">
 
-<!-- ======================= Blog Start ============================ -->
-<section class="space min">
-
-</section>
-<!-- ======================= Blog Start ============================ -->
-
-<!-- ======================= Instagram Start ============================ -->
-<section class="p-0">
-    <div class="container-fluid p-0">
-
-        {{-- <div class="row no-gutters">
+            {{-- <div class="row no-gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center">
                     <h2 class="off_title">Instagram Gallery</h2>
@@ -511,7 +705,7 @@ img {
             </div>
         </div> --}}
 
-        {{-- <div class="row no-gutters">
+            {{-- <div class="row no-gutters">
 
             <div class="col">
                 <div class="_insta_wrap">
@@ -572,80 +766,80 @@ img {
 
         </div> --}}
 
-    </div>
-</section>
-<!-- ======================= Instagram Start ============================ -->
-
-<!-- ============================= Customer Features =============================== -->
-<section class="px-0 py-3 br-top">
-    <div class="container">
-        <div class="row">
-
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex align-items-center justify-content-start py-2">
-                    <div class="d_ico">
-                        <i class="fas fa-shopping-basket"></i>
-                    </div>
-                    <div class="d_capt">
-                        <h5 class="mb-0">Free Shipping</h5>
-                        <span class="text-muted">Capped at $10 per order</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex align-items-center justify-content-start py-2">
-                    <div class="d_ico">
-                        <i class="far fa-credit-card"></i>
-                    </div>
-                    <div class="d_capt">
-                        <h5 class="mb-0">Secure Payments</h5>
-                        <span class="text-muted">Up to 6 months installments</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex align-items-center justify-content-start py-2">
-                    <div class="d_ico">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="d_capt">
-                        <h5 class="mb-0">15-Days Returns</h5>
-                        <span class="text-muted">Shop with fully confidence</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex align-items-center justify-content-start py-2">
-                    <div class="d_ico">
-                        <i class="fas fa-headphones-alt"></i>
-                    </div>
-                    <div class="d_capt">
-                        <h5 class="mb-0">24x7 Fully Support</h5>
-                        <span class="text-muted">Get friendly support</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
-</section>
-<script>
-    function fetchServerData() {
-        fetch('/load-flash-sale')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                const section = document.getElementById('flash-sale-section');
-                const container = document.getElementById('flash-sale');
-                // const thoigian = document.getElementById('thoigian');
-                // thoigian.innerHTML = `<h4>Bắt đầu ${data.start_time}</h4>`;
-                container.innerHTML = '';
-                section.style.display = 'block';
-                        for(let i=0 ; i<data.flash_sale_items.length ;i++){
-                            container.innerHTML+=`
+    </section>
+    <!-- ======================= Instagram Start ============================ -->
+
+    <!-- ============================= Customer Features =============================== -->
+    <section class="px-0 py-3 br-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                    <div class="d-flex align-items-center justify-content-start py-2">
+                        <div class="d_ico">
+                            <i class="fas fa-shopping-basket"></i>
+                        </div>
+                        <div class="d_capt">
+                            <h5 class="mb-0">Free Shipping</h5>
+                            <span class="text-muted">Capped at $10 per order</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                    <div class="d-flex align-items-center justify-content-start py-2">
+                        <div class="d_ico">
+                            <i class="far fa-credit-card"></i>
+                        </div>
+                        <div class="d_capt">
+                            <h5 class="mb-0">Secure Payments</h5>
+                            <span class="text-muted">Up to 6 months installments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                    <div class="d-flex align-items-center justify-content-start py-2">
+                        <div class="d_ico">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="d_capt">
+                            <h5 class="mb-0">15-Days Returns</h5>
+                            <span class="text-muted">Shop with fully confidence</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+                    <div class="d-flex align-items-center justify-content-start py-2">
+                        <div class="d_ico">
+                            <i class="fas fa-headphones-alt"></i>
+                        </div>
+                        <div class="d_capt">
+                            <h5 class="mb-0">24x7 Fully Support</h5>
+                            <span class="text-muted">Get friendly support</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script>
+        function fetchServerData() {
+            fetch('/load-flash-sale')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const section = document.getElementById('flash-sale-section');
+                    const container = document.getElementById('flash-sale');
+                    // const thoigian = document.getElementById('thoigian');
+                    // thoigian.innerHTML = `<h4>Bắt đầu ${data.start_time}</h4>`;
+                    container.innerHTML = '';
+                    section.style.display = 'block';
+                    for (let i = 0; i < data.flash_sale_items.length; i++) {
+                        container.innerHTML += `
 
                             <div class="col-xl-3 col-lg-4 col-md-6 col-6">
                                 <div class="product_grid card b-0">
@@ -678,59 +872,56 @@ img {
                                 </div>
                             </div>
                         `;
+                    }
+                    // Tạo bộ đếm thời gian
+                    const countdown = document.getElementById('countdown');
+                    const endTime = new Date(data.end_time).getTime();
+
+                    const timer = setInterval(() => {
+                        const now = new Date().getTime();
+                        const distance = endTime - now;
+
+                        if (distance <= 0) {
+                            clearInterval(timer);
+                            countdown.innerHTML = "Flash Sale đã kết thúc!";
+                            section.style.display = 'none'; // Ẩn Flash Sale khi hết thời gian
+                        } else {
+                            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                            countdown.innerHTML = `Kết thúc trong: ${hours}h ${minutes}m ${seconds}s`;
                         }
-                        // Tạo bộ đếm thời gian
-                        const countdown = document.getElementById('countdown');
-                        const endTime = new Date(data.end_time).getTime();
+                    }, 1000);
 
-                        const timer = setInterval(() => {
-                            const now = new Date().getTime();
-                            const distance = endTime - now;
-
-                            if (distance <= 0) {
-                                clearInterval(timer);
-                                countdown.innerHTML = "Flash Sale đã kết thúc!";
-                                section.style.display = 'none'; // Ẩn Flash Sale khi hết thời gian
-                            } else {
-                                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                countdown.innerHTML = `Kết thúc trong: ${hours}h ${minutes}m ${seconds}s`;
-                            }
-                        }, 1000);
-
-            })
-            .catch(error => {
-                console.error('Lỗi khi gọi API:', error);
-                const section = document.getElementById('flash-sale-section');
-                section.style.display = 'none'; // Ẩn section nếu API lỗi
-            });
-    }
-    // Gọi API mỗi 1 phút (60 giây)
-    setInterval(fetchServerData,1000);
-    // setTimeout(fetchServerData, 60 * 100);
-    // Gọi API ngay khi trang vừa tải
-    fetchServerData();
-</script>
-<!-- ======================= Customer Features ======================== -->
+                })
+                .catch(error => {
+                    console.error('Lỗi khi gọi API:', error);
+                    const section = document.getElementById('flash-sale-section');
+                    section.style.display = 'none'; // Ẩn section nếu API lỗi
+                });
+        }
+        // Gọi API mỗi 1 phút (60 giây)
+        setInterval(fetchServerData, 1000);
+        // setTimeout(fetchServerData, 60 * 100);
+        // Gọi API ngay khi trang vừa tải
+        fetchServerData();
+    </script>
+    <!-- ======================= Customer Features ======================== -->
 @endsection
 <style>
     .detail-link {
-    display: inline-block;
-    margin-top: 5px;
-    color: #000000;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
+        display: inline-block;
+        margin-top: 5px;
+        color: #000000;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
 
-.detail-link:hover {
-    color: #000000;
-    text-decoration: underline;
-}
-
-
-
+    .detail-link:hover {
+        color: #000000;
+        text-decoration: underline;
+    }
 </style>

@@ -89,6 +89,10 @@ class OrderController extends Controller
 
         $discountAmount = ($totalPrice * $voucher->discount_percentage) / 100;
 
+        if ($totalPrice < $voucher->min_order_value) {
+            return redirect()->back()->with('error', 'Đơn hàng chưa đủ điều kiện, đơn phải lớn hơn ' . $voucher->min_order_value);
+        }
+
         if ($discountAmount > $voucher->max_discount) {
             $discountAmount = $voucher->max_discount;
         }
@@ -98,6 +102,7 @@ class OrderController extends Controller
         }
 
         session()->put('voucher_discount', [
+            'voucher_id' => $voucher->id,
             'voucher_code' => $voucher->name,
             'discount_percentage' => $voucher->discount_percentage,
             'min_order_value' => $voucher->min_order_value,
@@ -109,6 +114,168 @@ class OrderController extends Controller
         return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
     }
 
+
+
+    // public function createOrderOnline($cart, $orderData)
+    // {
+    //     $user = Auth::user();
+
+    //     // Lấy các sản phẩm đã chọn từ giỏ hàng
+    //     $selectedCartItems = $cart->cartItems->whereIn('id', $orderData['selectedCartItemIds']);
+
+    //     // Tính tổng tiền cho các sản phẩm đã chọn
+    //     $totalPrice = $selectedCartItems->sum(function ($item) {
+    //         $flashSaleItem = FlashSaleItem::where('product_id', $item->productVariant->product->id)
+    //             ->whereHas('flashSale', function ($query) {
+    //                 $query->where('start_time', '<=', now())
+    //                     ->where('end_time', '>=', now())
+    //                     ->where('status', 'Đang diễn ra');
+    //             })
+    //             ->first();
+
+    //         $finalPrice = $flashSaleItem ? $flashSaleItem->price : $item->productVariant->product->price;
+    //         return $finalPrice * $item->quantity;
+    //     });
+
+    //     // Lấy discountAmount từ session (nếu có)
+    //     $discountAmount = session()->get('voucher_discount')['discount_amount'] ?? 0;
+
+    //     // Tính tổng tiền sau khi trừ giảm giá và cộng phí giao hàng
+    //     $finalTotal = $totalPrice - $discountAmount + 30000;
+
+    //     // Tạo đơn hàng
+    //     $order = Order::create([
+    //         'user_id' => $user->id,
+    //         'payment' => 2,  // Thanh toán online
+    //         'order_date' => now(),
+    //         'status' => 'Chờ xác nhận',
+    //         'total_amount' => $finalTotal,
+    //         'name_order' => $orderData['name_order'],
+    //         'phone_order' => $orderData['phone_order'],
+    //         'address_order' => $orderData['address_order'],
+    //         'content_order' => $orderData['content_order'] ?? '',
+    //     ]);
+
+    //     // Lưu các sản phẩm trong đơn hàng và cập nhật tồn kho
+    //     foreach ($selectedCartItems as $item) {
+    //         $productVariant = $item->productVariant;
+    //         $product = $item->productVariant->product;
+    //         if ($productVariant->stock_quantity < $item->quantity) {
+    //             return redirect()->route('cart.load')
+    //                 ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+    //         }
+    //         $finalPrice = $item->productVariant->product->price;
+
+    //         // Tạo sản phẩm trong đơn hàng
+    //         OrderItem::create([
+    //             'order_id' => $order->id,
+    //             'product_variant_id' => $item->productVariant->id,
+    //             'quantity' => $item->quantity,
+    //             'price' => $finalPrice,
+    //         ]);
+
+    //         // Cập nhật tồn kho
+    //         $item->productVariant->decrement('stock_quantity', $item->quantity);
+    //     }
+
+    //     // Lưu thông tin sử dụng voucher nếu có
+    //     // $voucherDiscount = session()->get('voucher_discount');
+    //     // if ($voucherDiscount) {
+    //     //     DB::table('voucher_uses')->insert([
+    //     //         'user_id' => $user->id,
+    //     //         'voucher_id' => $voucherDiscount['voucher_id'],
+    //     //         'created_at' => now(),
+    //     //         'updated_at' => now(),
+    //     //     ]);
+    //     // }
+
+    //     // Xóa các sản phẩm đã chọn trong giỏ hàng
+    //     $cart->cartItems()->whereIn('id', $orderData['selectedCartItemIds'])->delete();
+
+    //     // Xóa voucher khỏi session sau khi hoàn thành
+    //     session()->forget('voucher_discount');
+
+    //     // Chuyển hướng đến trang cảm ơn
+    //     return redirect()->route('thankyou')->with('success', 'Đặt hàng thành công.');
+    // }
+    // public function applyVoucher(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $cart = Cart::with('cartItems.productVariant')->where('user_id', $user->id)->first();
+    //     $voucherCode = $request->input('voucher');
+    //     $selectedCartItemIds = $request->input('selectedCartItemIds', []);
+    //     $selectedCartItems = $cart->cartItems->whereIn('id', $selectedCartItemIds);
+
+    //     $voucher = Voucher::where('name', $voucherCode)->first();
+
+    //     // Kiểm tra trạng thái của voucher
+    //     if (!$voucher) {
+    //         return redirect()->back()->with('error', 'Mã giảm giá không tồn tại.');
+    //     } elseif ($voucher->status == 1) {
+    //         return redirect()->back()->with('error', 'Mã giảm giá chưa bắt đầu.');
+    //     } elseif (
+    //         $voucher->status == 3
+    //     ) {
+    //         return redirect()->back()->with('error', 'Mã giảm giá đã kết thúc.');
+    //     } elseif ($voucher->status != 2) {
+    //         return redirect()->back()->with('error', 'Mã giảm giá không khả dụng.');
+    //     }
+
+    //     // Kiểm tra xem có sản phẩm nào trong flash sale không
+    //     $hasFlashSaleItem = $selectedCartItems->contains(function ($cartItem) {
+    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+    //             ->whereHas('flashSale', function ($query) {
+    //                 $query->where('start_time', '<=', now())
+    //                     ->where('end_time', '>=', now())
+    //                     ->where('status', 'Đang diễn ra');
+    //             })
+    //             ->first();
+
+    //         return $flashSaleItem !== null;
+    //     });
+
+    //     if ($hasFlashSaleItem) {
+    //         return redirect()->back()->with('error', 'Không thể sử dụng mã giảm giá cho sản phẩm đang trong Flash Sale.');
+    //     }
+
+    //     // Tính tổng giá trị của các sản phẩm đã chọn
+    //     $totalPrice = $selectedCartItems->sum(function ($cartItem) {
+    //         $flashSaleItem = FlashSaleItem::where('product_id', $cartItem->productVariant->product->id)
+    //             ->whereHas('flashSale', function ($query) {
+    //                 $query->where('start_time', '<=', now())
+    //                     ->where('end_time', '>=', now())
+    //                     ->where('status', 'Đang diễn ra');
+    //             })
+    //             ->first();
+
+    //         $finalPrice = $flashSaleItem ? $flashSaleItem->price : $cartItem->productVariant->product->price;
+    //         return $finalPrice * $cartItem->quantity;
+    //     });
+
+    //     $discountAmount = ($totalPrice * $voucher->discount_percentage) / 100;
+
+    //     if (
+    //         $discountAmount > $voucher->max_discount
+    //     ) {
+    //         $discountAmount = $voucher->max_discount;
+    //     }
+
+    //     if ($totalPrice >= $voucher->min_order_value) {
+    //         $discountAmount = min($totalPrice, $discountAmount);
+    //     }
+
+    //     session()->put('voucher_discount', [
+    //         'voucher_code' => $voucher->name,
+    //         'voucher_id' => $voucher->id,
+    //         'discount_percentage' => $voucher->discount_percentage,
+    //         'min_order_value' => $voucher->min_order_value,
+    //         'max_discount' => $voucher->max_discount,
+    //         'status' => $voucher->status,
+    //         'discount_amount' => $discountAmount
+    //     ]);
+
+    //     return back()->with('success', 'Mã giảm giá đã được áp dụng. Giảm giá: ' . number_format($discountAmount) . ' VNĐ');
+    // }
     public function createOrder(Request $request)
     {
         $user = Auth::user();
@@ -259,7 +426,6 @@ class OrderController extends Controller
         // Gọi hàm để tạo đơn hàng sau khi thanh toán thành công
         return $this->createOrderOnline($cart, $orderData);
     }
-
     public function createOrderOnline($cart, $orderData)
     {
         $user = Auth::user();
@@ -303,7 +469,12 @@ class OrderController extends Controller
         // Lưu các sản phẩm trong đơn hàng và cập nhật tồn kho
         foreach ($selectedCartItems as $item) {
             $finalPrice = $item->productVariant->product->price;
-
+            $productVariant = $item->productVariant;
+            $product = $item->productVariant->product;
+            if ($productVariant->stock_quantity < $item->quantity) {
+                return redirect()->route('cart.load')
+                    ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+            }
             // Tạo sản phẩm trong đơn hàng
             OrderItem::create([
                 'order_id' => $order->id,
@@ -336,6 +507,7 @@ class OrderController extends Controller
         // Chuyển hướng đến trang cảm ơn
         return redirect()->route('thankyou')->with('success', 'Đặt hàng thành công.');
     }
+
 
 
 
