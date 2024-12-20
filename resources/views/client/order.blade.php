@@ -36,7 +36,7 @@
             <a href="?tab=dagiao" class="tab {{ request('tab') == 'dagiao' ? 'active' : '' }}">Đã giao</a>
             <a href="?tab=completed" class="tab {{ request('tab') == 'completed' ? 'active' : '' }}">Hoàn thành</a>
             <a href="?tab=cancelled" class="tab {{ request('tab') == 'cancelled' ? 'active' : '' }}">Đã hủy</a>
-            <a href="?tab=return" class="tab {{ request('tab') == 'return' ? 'active' : '' }}">Trả hàng/Hoàn tiền</a>
+            <a href="?tab=return" class="tab {{ request('tab') == 'return' ? 'active' : '' }}">Trả hàng</a>
         </div>
 
         <div class="search-bar">
@@ -83,35 +83,15 @@
                                         {{ $item->productVariant->size->name }}</p>
                                     <p class="product-quantity">Số lượng : {{ $item->quantity }}x</p>
                                 </div>
-                                @php
-                                    // Lấy tất cả các Flash Sale Items của sản phẩm
-                                    $flashSaleItems = $item->productVariant->product->flashSaleItems;
 
-                                    // Kiểm tra nếu có Flash Sale và sản phẩm tham gia vào Flash Sale tại thời điểm mua hàng
-                                    $flashSaleItem = $flashSaleItems->first(function($flashSale) use ($order) {
-                                        return $flashSale->start_time <= $order->order_date && $flashSale->end_time >= $order->order_date;
-                                    });
 
-                                    // Lấy giá gốc của sản phẩm
-                                    $originalPrice = $item->productVariant->product->price;
-
-                                    // Lấy giá Flash Sale nếu có
-                                    $flashSalePrice = $flashSaleItem ? $flashSaleItem->price : null;
-                                @endphp
-
-                                @if($flashSaleItem)
                                 <div class="product-price">
                                     <span
-                                        class="original-price">{{ number_format($flashSalePrice, 0, ',', '.') }}đ</span>
+                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
                                     <span
-                                        class="discounted-price">{{ number_format($originalPrice, 0, ',', '.') }}đ
+                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                     </span>
                                 </div>
-                                @else
-                                    <span
-                                        class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ
-                                    </span>
-                                @endif
                             </div>
                         @endforeach
 
@@ -246,35 +226,16 @@
                                                 {{ $item->productVariant->size->name }}</p>
                                             <p class="product-quantity">Số lượng : {{ $item->quantity }}x</p>
                                         </div>
-                                        @php
-                                            // Lấy tất cả các Flash Sale Items của sản phẩm
-                                            $flashSaleItems = $item->productVariant->product->flashSaleItems;
 
-                                            // Kiểm tra nếu có Flash Sale và sản phẩm tham gia vào Flash Sale tại thời điểm mua hàng
-                                            $flashSaleItem = $flashSaleItems->first(function($flashSale) use ($order) {
-                                                return $flashSale->start_time <= $order->order_date && $flashSale->end_time >= $order->order_date;
-                                            });
 
-                                            // Lấy giá gốc của sản phẩm
-                                            $originalPrice = $item->productVariant->product->price;
-
-                                            // Lấy giá Flash Sale nếu có
-                                            $flashSalePrice = $flashSaleItem ? $flashSaleItem->price : null;
-                                        @endphp
-
-                                        @if($flashSaleItem)
                                         <div class="product-price">
+                                            {{-- <span
+                                                class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                             <span
-                                                class="original-price">{{ number_format($flashSalePrice, 0, ',', '.') }}đ</span>
-                                            <span
-                                                class="discounted-price">{{ number_format($originalPrice, 0, ',', '.') }}đ
+                                                class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                             </span>
                                         </div>
-                                        @else
-                                            <span
-                                                class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ
-                                            </span>
-                                        @endif
+
                                     </div>
                                 @endforeach
 
@@ -409,10 +370,13 @@
                                                 <p class="product-quantity">x{{ $item->quantity }}</p>
                                             </div>
                                             <div class="product-price">
-                                                <span
-                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <div class="product-price">
+                                                    <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -457,10 +421,10 @@
                         @endforeach
                     @endif
                 @elseif (request('tab') === 'daxacnhan')
-                {{-- Hiển thị đơn hàng đang chờ xác nhận --}}
-                @if ($orders_pending->isEmpty())
-                    <p>Hiện tại không có đơn hàng nào đã xác nhận.</p>
-                @else
+                    {{-- Hiển thị đơn hàng đang chờ xác nhận --}}
+                    @if ($orders_pending->isEmpty())
+                        <p>Hiện tại không có đơn hàng nào đã xác nhận.</p>
+                    @else
                     @foreach ($orders_daxacnhan as $order)
                         <div class="order-wrapper" style="margin-top: 20px">
                             <div class="order-card">
@@ -486,10 +450,13 @@
                                             <p class="product-quantity">x{{ $item->quantity }}</p>
                                         </div>
                                         <div class="product-price">
-                                            <span
-                                                class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                            <span
-                                                class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                            <div class="product-price">
+                                                <span
+                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <span
+                                                    class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -537,10 +504,13 @@
                                                 <p class="product-quantity">x{{ $item->quantity }}</p>
                                             </div>
                                             <div class="product-price">
-                                                <span
-                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <div class="product-price">
+                                                    <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -591,10 +561,13 @@
                                                 <p class="product-quantity">x{{ $item->quantity }}</p>
                                             </div>
                                             <div class="product-price">
-                                                <span
-                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <div class="product-price">
+                                                    <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -645,10 +618,13 @@
                                                 <p class="product-quantity">x{{ $item->quantity }}</p>
                                             </div>
                                             <div class="product-price">
-                                                <span
-                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <div class="product-price">
+                                                    <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -700,10 +676,13 @@
                                                 <p class="product-quantity">x{{ $item->quantity }}</p>
                                             </div>
                                             <div class="product-price">
-                                                <span
-                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <div class="product-price">
+                                                    <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -784,10 +763,13 @@
                                                 <p class="product-quantity">x{{ $item->quantity }}</p>
                                             </div>
                                             <div class="product-price">
-                                                <span
-                                                    class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                                <span
-                                                    class="discounted-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                <div class="product-price">
+                                                    <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    <span
+                                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -817,7 +799,7 @@
                 @elseif (request('tab') == 'return')
                     {{-- Hiển thị đơn hàng trả lại hoặc hoàn tiền --}}
                     <div class="tab-content">
-                        <p>Nội dung cho "Trả hàng/Hoàn tiền".</p>
+                        <p>Nội dung cho "Trả hàng".</p>
                     </div>
                 @endif
             @endif

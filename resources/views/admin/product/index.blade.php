@@ -6,6 +6,11 @@
                 <h1 style="margin-bottom: 10px ; text-align:center">
                     <b>Danh sách sản phẩm</b>
                 </h1>
+                <span>
+                    @if(session('success'))
+                        <p style="color: green">{{session('success')}}</p>
+                    @endif
+                </span>
             </section>
             <section class="content">
                 <div class="row container-fluid">
@@ -37,12 +42,12 @@
                                             <tr style="text-align: center">
                                                 {{-- <td><input type="checkbox"></td> --}}
                                                 <td><p> {{$product->id}}</p></td>
-                                                <td><p class="custom-name">{{$product->name}}</p></td>
-                                                <td><p class="custom-badge">{{number_format($product->price)}}đ</p></td>
-                                                <td><p class="custom-name">{{$product->brand->name}}</p></td>
+                                                <td><p class="">{{$product->name}}</p></td>
+                                                <td><p class="">{{number_format($product->price)}}đ</p></td>
+                                                <td><p class="">{{$product->brand->name}}</p></td>
                                                 <td><img class="img-square" src="{{ asset('storage/' . $product->image) }}"
                                                     alt="" ></td>
-                                                <td><p class="custom-name">{{$product->category->name}}</p></td>
+                                                <td><p class="">{{$product->category->name}}</p></td>
                                                 <td>
                                                     {{-- <a href="{{route('admin.products.edit',$product->id)}}" class=""><i class="fas fa-edit"></i></a> --}}
                                                     <a href="{{route('admin.products.show', $product->id)}}" class="btn btn-info btn-sm" style="color: white;"><i class="fas fa-eye"></i></a>
@@ -63,8 +68,10 @@
                             <div style="text-align: center; ">{{ $products->links() }}</div>
 
                             <hr>
-                            <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-success btn-sm" style="color: white;" href=""><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm sản phẩm mới</a><br><br>
-                            <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-warning btn-sm" style="color: white;" href="{{route('admin.listEndProduct')}}" ><i class="fas fa-list" style="color: rgb(157, 157, 2)"></i> Sản phẩm ngừng kinh doanh</a>
+                            <div style="display:flex">
+                                <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-success btn-sm" style="color: white;" href=""><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm sản phẩm mới</a><br><br>
+                                <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-warning btn-sm" style="color: white;" href="{{route('admin.listEndProduct')}}" ><i class="fas fa-list" style="color: rgb(157, 157, 2)"></i> Sản phẩm ngừng kinh doanh</a>
+                            </div>
                         </div>
                     </div>
                 </div>
