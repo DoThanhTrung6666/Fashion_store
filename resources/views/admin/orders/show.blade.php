@@ -216,7 +216,13 @@
                                     <p><strong>Ngày đặt:</strong> {{ $order->order_date }}</p>
                                     <p><strong>Trạng thái:</strong>
                                         @if ($order->status == 'Chờ xác nhận')
-                                            <span class="status-badge" style="background-color: #ffc107; color: #000;">Chờ xác nhận</span>
+                                        <span>
+                                            @if(session('error'))
+                                                <p style="color: red">{{session('error')}}</p>
+                                            @endif
+                                        </span>
+                                            <span class="status-badge badge-pending">Chờ xác nhận</span>
+
                                         @elseif ($order->status == 'Đã xác nhận')
                                             <span class="status-badge" style="background-color: #17a2b8; color: #fff;">Đã xác nhận</span>
                                         @elseif ($order->status == 'Vận chuyển')
@@ -235,6 +241,7 @@
                                     <p><strong>Khách hàng:</strong> {{ $order->user->name }}</p>
                                     <p><strong>Số điện thoại:</strong> {{ $order->phone_order }}</p>
                                     <p><strong>Địa chỉ:</strong> {{ $order->address_order }}</p>
+                                    <p><strong>Lí do huỷ:</strong> {{ $order->cancel_reason }}</p>
                                 </div>
 
                                 <!-- Danh sách sản phẩm -->
@@ -252,7 +259,7 @@
                                                 <th>Màu</th>
                                                 <th>Giá tiền</th>
                                                 <th>Số lượng</th>
-                                                
+
                                                 <th>Tổng tiền</th>
                                             </tr>
                                         </thead>
@@ -266,15 +273,15 @@
                                                     <td>{{ $item->productvariant->color->name }}</td>
                                                     <td>{{ number_format($item->price) }}</td>
                                                     <td>{{ $item->quantity }}</td>
-                                                   
+
                                                     <td>{{ number_format($item->price * $item->quantity) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    
+
                                     <div class="total-price">
-                                        
+
                                         <p>Tổng cộng: {{ number_format($order->total_amount ) }} VND</p>
                                         </div>
 

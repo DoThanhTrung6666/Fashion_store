@@ -51,9 +51,17 @@ class AdOrderController extends Controller
 
 public function update(Order $order)
 {
+    // dd($order);
     $user = User::where('id', $order->user_id)->first();
     $status = request('status', 'Chờ xác nhận');
-    
+
+
+    // $orders = Order::where('user_id',$user->id)->first();
+    // dd($orders);
+    if($order->status=='Đã huỷ'){
+        return redirect()->back()->with('error','Không thể xác nhận đơn hàng đã huỷ');
+    }
+
     if ($order->status != 'Hoàn thành') {
         // If order is being cancelled, restore product quantities
         if ($status === 'Đã huỷ') {
@@ -88,15 +96,15 @@ public function update(Order $order)
 public function show($id)
 {
     $order = Order::with([
-        'user', 
+        'user',
         'orderItems.productvariant.product',
         'orderItems.productvariant.size',
         'orderItems.productvariant.color',
-        
+
     ])->findOrFail($id);
-    
+
     $shippers = Shipper::all();
-    
+
     return view('admin.orders.show', compact('order', 'shippers'));
 
     }

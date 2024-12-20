@@ -251,15 +251,15 @@ function displayStockInfo() {
                                 {{-- <a href="" class="btn custom-height btn-default btn-block mb-2 text-dark">
                                     <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
                                 </a> --}}
-                                <button type="submit" name="action" value="buy_now" class="btn custom-height btn-default btn-block mb-2 text-dark">
+                                {{-- <button type="submit" name="action" value="buy_now" class="btn custom-height btn-default btn-block mb-2 text-dark">
                                     <i class="lni lni-shopping-basket mr-2"></i>Mua ngay
-                                </button>
+                                </button> --}}
 
                             </div>
                       </div>
                     </div>
 
-                    <div class="prt_06">
+                    {{-- <div class="prt_06">
                         <p class="mb-0 d-flex align-items-center">
                           <span class="mr-4">Share:</span>
                           <a class="d-inline-flex align-items-center justify-content-center p-3 gray circle fs-sm text-muted mr-2" href="#!">
@@ -272,7 +272,7 @@ function displayStockInfo() {
                             <i class="fab fa-pinterest-p position-absolute"></i>
                           </a>
                         </p>
-                    </div>
+                    </div> --}}
 
                 </div>
             </div>

@@ -20,7 +20,7 @@
                                 <th style="text-align: center" scope="col">Nội dung</th>
                                 <th style="text-align: center" scope="col">Ngày bình luận</th>
                                 <th style="text-align: center" scope="col">Sao</th> <!-- Thêm cột để hiển thị sao -->
-                                <th style="text-align: center" scope="col"></th>
+                                {{-- <th style="text-align: center" scope="col"></th> --}}
                             </tr>
 
                             @foreach ($comments as $comment)
@@ -31,14 +31,14 @@
                                     <td>{{ $comment->content }}</td>
                                     <td>{{ $comment->created_at }}</td>
                                     <td>{{ $comment->rating }}</td> <!-- Hiển thị số sao -->
-                                    <form action="{{ route('admin.comment.destroy', $comment->id) }}" method="POST">
+                                    {{-- <form action="{{ route('admin.comment.destroy', $comment->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <td>
                                             <button class="btn btn-danger"
                                                 onclick="return confirm('Bạn có muốn xóa không?')">Xóa</button>
                                         </td>
-                                    </form>
+                                    </form> --}}
                                 </tr>
                             @endforeach
                         </table>

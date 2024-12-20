@@ -552,6 +552,22 @@ class OrderController extends Controller
             if ($order->status == 'Hoàn thành') {
                 return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã hoàn thành .');
             }
+            if ($order->status == 'Đã huỷ') {
+                dd($order->status == 'Đã huỷ');
+                // foreach ($order->orderItems as $orderItem) {
+                //     $productVariant = $orderItem->productVariant;
+                //     if ($productVariant) {
+                //         // Cộng lại số lượng kho
+                //         $productVariant->stock_quantity += $orderItem->quantity;
+                //         $productVariant->save();
+                //     } else {
+                //         // Nếu không có productVariant, thông báo lỗi
+                //         return redirect()->route("orders.loadUser")->with('error', 'Không tìm thấy biến thể sản phẩm.');
+                //     }
+                // }
+                return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy và số lượng sản phẩm đã được hoàn lại.');
+            }
+
 
             $request->validate(
                 [
@@ -565,6 +581,7 @@ class OrderController extends Controller
             );
 
             $order->status = 'Đã huỷ';
+
             // user huỷ phải nhập
             $order->cancel_reason = $request->input('cancel_reason.' . $order->id); // Lấy lý do huỷ cho từng đơn hàng
             // $order->save();

@@ -14,7 +14,7 @@
             </section>
             <section class="content">
                 <div class="row container-fluid">
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="box box-primary">
 
                             <table class="table">
@@ -31,13 +31,13 @@
                                 {{-- <td style="text-align: center"><input type="checkbox"></td>
                                 <td style="text-align: center">{{$color->id}}</td> --}}
                                 <td style="text-align: center">{{$color->name}}</td>
-                                <td style="text-align: center;">
+                                {{-- <td style="text-align: center;">
                                     <form action="{{route('admin.colors.destroy',$color->id)}}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger" type="submit">Xoá</button>
                                     </form>
-                                </td>
+                                </td> --}}
                                 </tr>
                                @endforeach
                             </table>
