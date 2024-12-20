@@ -148,7 +148,9 @@ Route::prefix('admin')
         Route::post('/change-password',[AuthenticationController::class,'changePassWord'])->name('changePassWord');
 
         // cập nhật số lượng giỏ hàng
-        Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+        // Route::put('/cart/{id}', [CartController::class, 'updateQuantityCart'])->name('cart.update');
+        Route::put('/cart/increase/{id}', [CartController::class, 'increaseQuantity'])->name('cart.increase');
+        Route::put('/cart/decrease/{id}', [CartController::class, 'decreaseQuantity'])->name('cart.decrease');
         Route::post('/orders/{id}/dagiao', [OrderController::class, 'dagiaoUser'])->name('dagiaoUser');
     });
 // bên client

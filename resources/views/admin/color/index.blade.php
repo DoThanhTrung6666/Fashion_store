@@ -32,9 +32,10 @@
                                 <td style="text-align: center">{{$color->id}}</td> --}}
                                 <td style="text-align: center">{{$color->name}}</td>
                                 <td style="text-align: center;">
-                                    <form action="{{route('admin.color.update.status',$color->id)}}" method="POST">
+                                    <form action="{{route('admin.colors.destroy',$color->id)}}" method="POST">
                                         @csrf
-                                        {{-- <button class="btn btn-danger" type="submit">Ngừng hoạt động</button> --}}
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" type="submit">Xoá</button>
                                     </form>
                                 </td>
                                 </tr>

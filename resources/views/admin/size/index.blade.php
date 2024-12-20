@@ -34,9 +34,10 @@
                                 <td style="text-align: center">{{$size->name}}</td>
                                 <td style="text-align: center;">
 
-                                        <form action="{{route('admin.size.update.status',$size->id)}}" method="POST">
+                                        <form action="{{route('admin.sizes.destroy',$size->id)}}" method="POST">
                                             @csrf
-                                            {{-- <button class="btn btn-danger" type="submit">Ngừng hoạt động</button> --}}
+                                            @method('DELETE')
+                                            <button class="btn btn-danger" type="submit">Xoá</button>
                                         </form>
                                     </td>
                                 </tr>
