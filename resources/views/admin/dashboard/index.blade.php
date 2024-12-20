@@ -39,7 +39,9 @@
         /* Khoảng cách ngang */
         font-size: 14px;
         border-radius: 4px;
-        margin-top: 0px;
+    
+
+       margin-top: 0px;
         /* Đẩy nút xuống giữa dòng */
 
     }
@@ -81,7 +83,169 @@
         /* Cân chỉnh với flexbox */
         padding: 0;
     }
+    .chart-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+    padding: 15px;
+}
+
+.chart-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.chart-box.full-width {
+    flex: 0 0 100%;
+    width: 100%;
+}
+
+.chart-box.half-width {
+    flex: 0 0 calc(50% - 10px);
+    min-width: 400px;
+}
+
+.chart-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
 </style>
+
+
+<script>
+google.charts.load('current', {packages: ['corechart']});
+google.charts.setOnLoadCallback(drawCharts);
+
+function drawCharts() {
+    drawRevenueChart();
+    drawTopUsersChart();
+    drawTopProductsChart();
+    drawOrderStatusChart();
+}
+
+function drawRevenueChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Ngày', 'Doanh thu'],
+        @foreach ($revenueDates as $index => $date)
+            ['{{ $date }}', {{ $revenueValues[$index] }}],
+        @endforeach
+    ]);
+
+    var options = {
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        colors: ['#2ecc71'],
+        chartArea: {width: '90%', height: '80%'},
+        animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+        },
+        hAxis: {
+            title: 'Ngày',
+            titleTextStyle: {color: '#333'}
+        },
+        vAxis: {
+            title: 'Doanh thu (VNĐ)',
+            titleTextStyle: {color: '#333'}
+        }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('revenue_chart'));
+    chart.draw(data, options);
+}
+
+function drawTopUsersChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Tên người dùng', 'Số đơn hàng'],
+        @foreach ($topUsers as $order)
+            ['{{ $order->user->name }}', {{ $order->order_count }}],
+        @endforeach
+    ]);
+
+    var options = {
+        pieHole: 0.4,
+        colors: ['#3498db', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c'],
+        chartArea: {width: '90%', height: '80%'},
+        legend: {position: 'right'},
+        animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+        }
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('top_users_chart'));
+    chart.draw(data, options);
+}
+
+function drawOrderStatusChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Trạng thái', 'Số lượng'],
+        @foreach ($statusLabels as $index => $label)
+            ['{{ $label }}', {{ $statusCounts[$index] }}],
+        @endforeach
+    ]);
+
+    var options = {
+        pieHole: 0.4,
+        colors: ['#27ae60', '#e67e22', '#3498db', '#e74c3c', '#95a5a6'],
+        chartArea: {width: '90%', height: '80%'},
+        legend: {position: 'right'},
+        animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+        }
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('order_status_chart'));
+    chart.draw(data, options);
+}
+
+function drawTopProductsChart() {
+    var data = google.visualization.arrayToDataTable([
+        ['Sản phẩm', 'Số lượng bán'],
+        @foreach ($topProducts as $product)
+            ['{{ $product->product_name }}', {{ $product->total_sold }}],
+        @endforeach
+    ]);
+
+    var options = {
+        bars: 'horizontal',
+        colors: ['#3498db'],
+        chartArea: {width: '70%', height: '80%'},
+        animation: {
+            startup: true,
+            duration: 1000,
+            easing: 'out'
+        },
+        hAxis: {
+            title: 'Số lượng bán',
+            titleTextStyle: {color: '#333'}
+        }
+    };
+
+    var chart = new google.visualization.BarChart(document.getElementById('top_products_chart'));
+    chart.draw(data, options);
+}
+</script>
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
@@ -198,28 +362,69 @@
                             </div>
                         </div>
 
-
-                        <div class="row">
-                            <div class="col-md-12 mb-4">
-                                <h3 class="text-center">Doanh Thu Theo Ngày</h3>
+                        <div class="chart-container">
+                            <!-- Revenue Chart - Full Width -->
+                            <div class="chart-box full-width">
+                                <div class="chart-title">
+                                    <i class="fas fa-chart-line mr-2"></i> Doanh Thu Theo Ngày
+                                </div>
                                 <div id="revenue_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                            <div class="col-md-12 mb-4">
-                                <h3 class="text-center">Người dùng đặt hàng nhiều nhất</h3>
+                            
+                            <!-- Users and Order Status - Half Width Each -->
+                            <div class="chart-box half-width">
+                                <div class="chart-title">
+                                    <i class="fas fa-users mr-2"></i> Top Khách Hàng
+                                </div>
                                 <div id="top_users_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                        </div>
-
-
-
-
-                        <!-- Top sản phẩm -->
-                        <div class="row">
-                            <div class="card-body">
-                                <h3 class="text-center">Sản phẩm bán chạy nhất</h3>
-                                <div id="top_products_chart" style="height: 400px;"></div>
+                            
+                            <div class="chart-box half-width">
+                                <div class="chart-title">
+                                    <i class="fas fa-tasks mr-2"></i> Trạng Thái Đơn Hàng
+                                </div>
+                                <div id="order_status_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                        </div>
+                            
+                            <!-- Products Chart - Full Width -->
+                            <div class="chart-box full-width">
+                                <div class="chart-title">
+                                    <i class="fas fa-trophy mr-2"></i> Top Sản Phẩm Bán Chạy
+                                </div>
+                                <div id="top_products_chart" style="width: 100%; height: 400px;"></div>
+                            </div>
+
+                            <div class="chart-box full-width">
+                                <div class="chart-title">
+                                    <i class="fas fa-warehouse mr-2"></i> Thống kê tồn kho sản phẩm
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Số lượng tồn kho</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($products as $index => $product)
+                                            <tr>
+                                                <td>{{ $index + 1 }}</td>
+                                                <td>{{ $product->name }}</td>
+                                                <td>
+                                                    {{ $product->variants->sum('total_stock') ?? 0 }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                                <div class="d-flex justify-content-center mt-4">
+                                    {{ $products->links() }}
+                                </div>
+                            </div>
+                        </div> 
+                        
 
                     </div>
                 </div>
@@ -245,6 +450,7 @@
             drawRevenueChart();
             drawTopUsersChart();
             drawTopProductsChart();
+            drawOrderStatusChart(); // Thêm dòng này
         }
 
         function drawRevenueChart() {
@@ -285,7 +491,7 @@
 
             var options = {
                 pieHole: 0.4, // Biểu đồ dạng donut
-                colors: colors, // Gắn mảng màu vào biểu đồ
+                colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'], // Gắn mảng màu vào biểu đồ
                 legend: {
                     position: 'right'
                 },
@@ -330,5 +536,31 @@
             var chart = new google.visualization.BarChart(document.getElementById('top_products_chart'));
             chart.draw(data, options);
         }
+
+        // Thêm hàm vẽ biểu đồ trạng thái
+        function drawOrderStatusChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Trạng thái', 'Số lượng'],
+                @foreach ($statusLabels as $index => $label)
+                    ['{{ $label }}', {{ $statusCounts[$index] }}],
+                @endforeach
+            ]);
+
+            var options = {
+                pieHole: 0.4,
+                colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                legend: {
+                    position: 'right'
+                },
+                title: 'Phân bố trạng thái đơn hàng'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('order_status_chart'));
+            chart.draw(data, options);
+        }
     </script>
 @endsection
+
+
+
+

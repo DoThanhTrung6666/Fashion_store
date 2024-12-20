@@ -134,7 +134,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <button type="button" id="addVariantBtn" class="btn btn-secondary">Thêm biến thể</button>
+                            {{-- <button type="button" id="addVariantBtn" class="btn btn-secondary">Thêm biến thể</button> --}}
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>

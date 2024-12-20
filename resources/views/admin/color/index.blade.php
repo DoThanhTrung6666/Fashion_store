@@ -3,7 +3,7 @@
 @section('content')
 <div class="content-wrapper">
             <section class="content-header">
-                <h1 style="text-align:center">
+                <h1>
                     Danh sách màu sắc
                 </h1>
                 <span>
@@ -14,7 +14,7 @@
             </section>
             <section class="content">
                 <div class="row container-fluid">
-                    <div class="col-md-12">
+                    <div class="col-md-9">
                         <div class="box box-primary">
 
                             <table class="table">
@@ -22,7 +22,7 @@
                                     <th style="text-align: center" scope="col" style="">STT</th>
                                     {{-- <th style="text-align: center" scope="col" style="">id</th> --}}
                                     <th style="text-align: center" scope="col" style="">Màu sắc </th>
-                                    <th style="text-align: center" scope="col" style="">Thao tác </th>
+                                    {{-- <th style="text-align: center" scope="col" style="">Thao tác </th> --}}
                                 </tr>
 
                                @foreach ($colors as $key => $color)
@@ -34,13 +34,13 @@
                                 <td style="text-align: center;">
                                     <form action="{{route('admin.color.update.status',$color->id)}}" method="POST">
                                         @csrf
-                                        <button class="btn btn-danger" type="submit">Ngừng hoạt động</button>
+                                        {{-- <button class="btn btn-danger" type="submit">Ngừng hoạt động</button> --}}
                                     </form>
                                 </td>
                                 </tr>
                                @endforeach
                             </table>
-                            <a style="text-align: center" class="btn btn-success" href="{{route('admin.colors.create')}}">Thêm mới màu sắc</a>
+                            <a style="margin-bottom: 10px; margin-left:10px" style="text-align: center" class="btn btn-success" href="{{route('admin.colors.create')}}">Thêm mới màu sắc</a>
                         </div>
                     </div>
                 </div>

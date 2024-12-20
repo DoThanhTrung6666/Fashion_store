@@ -52,9 +52,9 @@
                                     @endforeach
 
                             </table>
-                                    <a class="" href="{{ route('admin.products.variants.create', $product->id) }}"><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm biến thể mới</a><br><br>
-                                    <a href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a><br><br>
-                                    <a href="{{route('admin.products.index')}}" class="" style="color: black"><i class="fas fa-arrow-left"></i> Quay lại</a>
+                                    <a style="margin-bottom: 10px; margin-left:10px"  class="" href="{{ route('admin.products.variants.create', $product->id) }}"><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm biến thể mới</a><br><br>
+                                    <a style="margin-bottom: 10px; margin-left:10px" href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a><br><br>
+                                    <a style="margin-bottom: 20px; margin-left:10px" href="{{route('admin.products.index')}}" class="" style="color: black"><i class="fas fa-arrow-left"></i> Quay lại</a>
                             @else
                                 <p>Sản phẩm không tồn tại.</p>
                             @endif

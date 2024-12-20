@@ -40,5 +40,10 @@ public function products()
     return $this->hasMany(Product::class); // Một đơn hàng có nhiều sản phẩm
 }
 
+public function voucher()
+{
+    return $this->belongsTo(Voucher::class);
+}
+
 
 }

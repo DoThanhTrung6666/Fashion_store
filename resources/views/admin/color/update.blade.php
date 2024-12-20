@@ -9,7 +9,7 @@
         </h1>
         <span>
             @if(session('success'))
-                <p style="color: red">{{session('success')}}</p>
+                <p style="color: green">{{session('success')}}</p>
             @endif
         </span>
       </section>

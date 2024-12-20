@@ -22,7 +22,7 @@
                                 <tr>
                                     <th style="text-align: center" scope="col" style=""></th>
                                     <th style="text-align: center" scope="col" style="">id</th>
-                                    <th style="text-align: center" scope="col" style="">Username</th>
+                                    <th style="text-align: center" scope="col" style="">Tên tài khoản</th>
                                     <th style="text-align: center" scope="col" style="">Email</th>
                                     <th style="text-align: center" scope="col" style="">Số điện thoại</th>
                                     <th style="text-align: center" scope="col" style="">Địa chỉ</th>
@@ -46,7 +46,7 @@
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                        <button type="submit" class="btn btn-danger">Khóa tài khoản</button>
                                     </form>
 
                                 </td>

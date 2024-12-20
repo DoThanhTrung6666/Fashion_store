@@ -1,47 +1,61 @@
 @extends('layout.admin')
-@section('content')
-    <section class="content-header">
-        <h1>
-            Danh sách danh mục
-        </h1>
-    </section>
-    <section class="content">
-        <div class="row container-fluid">
-            <div class="col-md-11">
-                <div class="box box-primary">
-                    <table class="table">
-                        <tr>
-                            <th scope="col" class="col-1"></th>
-                            <th scope="col" class="col-3">Tên:</th>
-                            <th scope="col" class="col-4">Mô tả:</th>
-                            <th scope="col" class="col-2">Thời gian thêm:</th>
-                            <th scope="col" class="col-2">Thời gian sửa:</th>
-                            <th scope="col" class="col-2">Thao tác</th>
-                        </tr>
 
-                        @foreach ($categories as $cate)
+@section('content')
+    <div class="content-wrapper">
+        <section class="content-header clearfix">
+            <h1 class="pull-left">
+                Danh sách danh mục
+            </h1>
+            <a href="{{ route('admin.categories.create') }}" class="btn btn-primary pull-right">
+                Thêm mới danh mục
+            </a>
+        </section>
+        <section class="content">
+            <div class="row container-fluid">
+                <div class="col-md-12">
+                    @if (session('success'))
+                  <div class="alert alert-success alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      {{ session('success') }}
+                  </div>
+                    @endif
+                    <div class="box box-primary">
+
+                        <table class="table">
                             <tr>
-                                <td>{{ $loop->iteration }}</td> <!-- Sử dụng $loop->iteration để tạo số thứ tự -->
-                                <td>{{$cate->name}}</td>
-                                <td>{{$cate->description}}</td>
-                                <td>{{$cate->created_at}}</td>
-                                <td>{{$cate->updated_at}}</td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="{{route('admin.categories.edit', $cate)}}" class="btn btn-success">Edit</a>
-                                        <form action="{{route('admin.categories.destroy', $cate)}}" method="post">
+                                <th style="text-align: center" scope="col" style=""></th>
+                                <th style="text-align: center" scope="col" style="">STT</th>
+                                <th style="text-align: center" scope="col" style="">Tên danh mục</th>
+                                <th style="text-align: center" scope="col" style="">Mô tả</th>
+                                <th style="text-align: center" scope="col" style="">Ngày tạo</th>
+                                <th style="text-align: center" scope="col" style="">Ngày cập nhật</th>
+                            </tr>
+                            @foreach ($categories as $category)
+                                <tr>
+                                    <td style="text-align: center"><input type="checkbox"></td>
+                                    <td style="text-align: center">{{ $category->id }}</td>
+                                    <td style="text-align: center">{{ $category->name }}</td>
+                                    <td style="text-align: center">{{ $category->description }}</td>
+                                    <td style="text-align: center">{{ $category->created_at }}</td>
+                                    <td style="text-align: center">{{ $category->updated_at }}</td>
+                                    <td style="text-align: center">
+                                        <a href="{{ route('admin.categories.edit', $category) }}"
+                                            class="btn btn-warning">Sửa</a>
+                                        <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Bạn muốn xóa không?')" class="btn btn-danger">Delete</button>
+                                            <button type="submit" class="btn btn-danger">Xóa</button>
                                         </form>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforeach
 
-                    </table>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 @endsection

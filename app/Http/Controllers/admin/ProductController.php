@@ -45,10 +45,10 @@ class ProductController extends Controller
     public function create()
     {
         //
-        $colors = Color::all();
-        $sizes = Size::all();
+        $colors = Color::where('status',1)->get();
+        $sizes = Size::where('status',1)->get();
         $categorys = Category::all();
-        $brands = Brand::all();
+        $brands = Brand::where('status',1)->get();
         return view('admin.product.create',compact('colors','sizes','categorys','brands'));
     }
 

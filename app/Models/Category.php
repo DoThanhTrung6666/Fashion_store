@@ -12,14 +12,6 @@ class Category extends Model
         'name',
         'description',
     ];
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($category) {
-            $category->description = Str::slug($category->name);
-        });
-    }
     public function productHome(){
         return $this->hasMany(Product::class);
     }

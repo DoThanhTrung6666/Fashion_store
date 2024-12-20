@@ -30,7 +30,7 @@
                                     <input type="text" class="form-control" placeholder="" disabled>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Username</label>
+                                    <label for="">Tên tài khoản</label>
                                     <input type="text" class="form-control" placeholder="name" name="name">
                                 </div>
                                 <div class="form-group">
@@ -42,11 +42,11 @@
                                     <input type="text" class="form-control" placeholder="Số điện thoại" name="phone">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Password</label>
+                                    <label for="">Mật khẩu</label>
                                     <input type="password" class="form-control" placeholder="Password" name="password">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Re-Password</label>
+                                    <label for="">Nhập lại mật khẩu</label>
                                     <input type="password" class="form-control" placeholder="Re-Password" name="password_confirmation">
                                 </div>
                                 <div class="form-group">

@@ -80,7 +80,7 @@ class AuthenticationController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/');
+        return redirect('login');
     }
 
     public function edit(){
@@ -210,10 +210,12 @@ class AuthenticationController extends Controller
             'current_password' => 'required', // mat khau cu
             'new_password' => 'required|min:8|confirmed' // mat khau moi toi thieu 8 ki tu dung voi xac nhan lai
         ],[
-            'current_password.required' => 'Khong duoc bo trong',
-            'new_password.required' => 'Khong duoc bo trong',
-            'new_password.min' => 'Toi thieu 8 ki tu',
-            'new_password.confirmed' => 'Mat khau chua khop',
+        'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+        'current_password.string' => 'Mật khẩu hiện tại phải là chuỗi ký tự.',
+        'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+        // 'new_password.string' => 'Mật khẩu mới phải là chuỗi ký tự.',
+        'new_password.min' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
+        'new_password.confirmed' => 'Mật khẩu mới và mật khẩu xác nhận không khớp.',
         ]);
 
         if(!Hash::check($request->current_password,Auth::user()->password)){
