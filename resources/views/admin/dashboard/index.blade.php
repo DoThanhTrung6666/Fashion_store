@@ -129,122 +129,7 @@
 
 
 <script>
-google.charts.load('current', {packages: ['corechart']});
-google.charts.setOnLoadCallback(drawCharts);
 
-function drawCharts() {
-    drawRevenueChart();
-    drawTopUsersChart();
-    drawTopProductsChart();
-    drawOrderStatusChart();
-}
-
-function drawRevenueChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Ngày', 'Doanh thu'],
-        @foreach ($revenueDates as $index => $date)
-            ['{{ $date }}', {{ $revenueValues[$index] }}],
-        @endforeach
-    ]);
-
-    var options = {
-        curveType: 'function',
-        legend: { position: 'bottom' },
-        colors: ['#2ecc71'],
-        chartArea: {width: '90%', height: '80%'},
-        animation: {
-            startup: true,
-            duration: 1000,
-            easing: 'out'
-        },
-        hAxis: {
-            title: 'Ngày',
-            titleTextStyle: {color: '#333'}
-        },
-        vAxis: {
-            title: 'Doanh thu (VNĐ)',
-            titleTextStyle: {color: '#333'}
-        }
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('revenue_chart'));
-    chart.draw(data, options);
-}
-
-function drawTopUsersChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Tên người dùng', 'Số đơn hàng'],
-        @foreach ($topUsers as $order)
-            ['{{ $order->user->name }}', {{ $order->order_count }}],
-        @endforeach
-    ]);
-
-    var options = {
-        pieHole: 0.4,
-        colors: ['#3498db', '#e74c3c', '#f1c40f', '#9b59b6', '#1abc9c'],
-        chartArea: {width: '90%', height: '80%'},
-        legend: {position: 'right'},
-        animation: {
-            startup: true,
-            duration: 1000,
-            easing: 'out'
-        }
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('top_users_chart'));
-    chart.draw(data, options);
-}
-
-function drawOrderStatusChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Trạng thái', 'Số lượng'],
-        @foreach ($statusLabels as $index => $label)
-            ['{{ $label }}', {{ $statusCounts[$index] }}],
-        @endforeach
-    ]);
-
-    var options = {
-        pieHole: 0.4,
-        colors: ['#27ae60', '#e67e22', '#3498db', '#e74c3c', '#95a5a6'],
-        chartArea: {width: '90%', height: '80%'},
-        legend: {position: 'right'},
-        animation: {
-            startup: true,
-            duration: 1000,
-            easing: 'out'
-        }
-    };
-
-    var chart = new google.visualization.PieChart(document.getElementById('order_status_chart'));
-    chart.draw(data, options);
-}
-
-function drawTopProductsChart() {
-    var data = google.visualization.arrayToDataTable([
-        ['Sản phẩm', 'Số lượng bán'],
-        @foreach ($topProducts as $product)
-            ['{{ $product->product_name }}', {{ $product->total_sold }}],
-        @endforeach
-    ]);
-
-    var options = {
-        bars: 'horizontal',
-        colors: ['#3498db'],
-        chartArea: {width: '70%', height: '80%'},
-        animation: {
-            startup: true,
-            duration: 1000,
-            easing: 'out'
-        },
-        hAxis: {
-            title: 'Số lượng bán',
-            titleTextStyle: {color: '#333'}
-        }
-    };
-
-    var chart = new google.visualization.BarChart(document.getElementById('top_products_chart'));
-    chart.draw(data, options);
-}
 </script>
 @section('content')
     <div class="content-wrapper">
@@ -366,7 +251,7 @@ function drawTopProductsChart() {
                             <!-- Revenue Chart - Full Width -->
                             <div class="chart-box full-width">
                                 <div class="chart-title">
-                                    <i class="fas fa-chart-line mr-2"></i> Doanh Thu Theo Ngày
+                                    <i class="fas fa-chart-line mr-2"></i> Biểu Đồ Doanh Thu 
                                 </div>
                                 <div id="revenue_chart" style="width: 100%; height: 400px;"></div>
                             </div>
@@ -393,6 +278,8 @@ function drawTopProductsChart() {
                                 </div>
                                 <div id="top_products_chart" style="width: 100%; height: 400px;"></div>
                             </div>
+
+                            
 
                             <div class="chart-box full-width">
                                 <div class="chart-title">
@@ -454,25 +341,83 @@ function drawTopProductsChart() {
         }
 
         function drawRevenueChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Ngày', 'Doanh thu'],
-                @foreach ($revenueDates as $index => $date)
-                    ['{{ $date }}', {{ $revenueValues[$index] }}],
-                @endforeach
-            ]);
+    var data = google.visualization.arrayToDataTable([
+        ['Ngày', 'Doanh thu'],
+        @foreach ($revenueDates as $index => $date)
+            ['{{ $date }}', {{ $revenueValues[$index] }}],
+        @endforeach
+    ]);
 
-            var options = {
-
-                curveType: 'function',
-                legend: {
-                    position: 'bottom'
-                },
-                colors: ['#FF3300']
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('revenue_chart'));
-            chart.draw(data, options);
+    var options = {
+        curveType: 'function',
+        chartArea: {
+            width: '85%',
+            height: '80%',
+            backgroundColor: {
+                gradient: {
+                    color1: '#ffffff',
+                    color2: '#f7f9fc',
+                    x1: '0%', y1: '0%',
+                    x2: '100%', y2: '100%'
+                }
+            }
+        },
+        colors: ['#2980b9'],
+        lineWidth: 3,
+        pointSize: 6,
+        pointShape: 'circle',
+        animation: {
+            startup: true,
+            duration: 1500,
+            easing: 'out'
+        },
+        legend: {
+            position: 'top',
+            alignment: 'center',
+            textStyle: {
+                fontSize: 14,
+                bold: true
+            }
+        },
+        hAxis: {
+            title: 'Ngày Tháng Năm',
+            titleTextStyle: {
+                color: '#2c3e50',
+                fontSize: 14,
+                bold: true
+            },
+            gridlines: {
+                color: '#ecf0f1'
+            }
+        },
+        vAxis: {
+            title: 'Doanh thu (VNĐ)',
+            titleTextStyle: {
+                color: '#2c3e50',
+                fontSize: 14,
+                bold: true
+            },
+            gridlines: {
+                color: '#ecf0f1'
+            },
+            format: 'short'
+        },
+        tooltip: {
+            textStyle: {
+                fontSize: 14
+            },
+            showColorCode: true
+        },
+        crosshair: {
+            color: '#2980b9',
+            trigger: 'selection'
         }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('revenue_chart'));
+    chart.draw(data, options);
+}
+
 
         function drawTopUsersChart() {
             // Dữ liệu từ backend
@@ -490,7 +435,7 @@ function drawTopProductsChart() {
             @endforeach
 
             var options = {
-                pieHole: 0.4, // Biểu đồ dạng donut
+                pieHole: 0.0, // Biểu đồ dạng donut
                 colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'], // Gắn mảng màu vào biểu đồ
                 legend: {
                     position: 'right'
@@ -506,7 +451,7 @@ function drawTopProductsChart() {
         function getRandomColor() {
             const letters = '0123456789ABCDEF';
             let color = '#';
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 8; i++) {
                 color += letters[Math.floor(Math.random() * 16)];
             }
             return color;
@@ -547,8 +492,9 @@ function drawTopProductsChart() {
             ]);
 
             var options = {
-                pieHole: 0.4,
-                colors: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+                pieHole: 0.0,
+                colors: ['#ffc107', '#17a2b8', '#e74c3c', '#007bff', '#20c997','#28a745','#6610f2'],
+                
                 legend: {
                     position: 'right'
                 },

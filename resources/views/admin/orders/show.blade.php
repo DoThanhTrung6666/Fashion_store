@@ -36,6 +36,7 @@
         }
 
         .total-price {
+            margin-top: 20px;
             font-size: 20px;
             font-weight: bold;
             color: #28a745;
@@ -189,6 +190,7 @@
         .order-total p {
             margin-top: 10px;
         }
+        
     </style>
     <div class="content-wrapper">
 
@@ -214,21 +216,22 @@
                                     <p><strong>Ngày đặt:</strong> {{ $order->order_date }}</p>
                                     <p><strong>Trạng thái:</strong>
                                         @if ($order->status == 'Chờ xác nhận')
-                                            <span class="status-badge badge-pending">Chờ xác nhận</span>
+                                            <span class="status-badge" style="background-color: #ffc107; color: #000;">Chờ xác nhận</span>
                                         @elseif ($order->status == 'Đã xác nhận')
-                                            <span class="status-badge badge-confirmed">Đã xác nhận</span>
+                                            <span class="status-badge" style="background-color: #17a2b8; color: #fff;">Đã xác nhận</span>
                                         @elseif ($order->status == 'Vận chuyển')
-                                            <span class="status-badge badge-confirmed">Vận chuyển</span>
+                                            <span class="status-badge" style="background-color: #007bff; color: #fff;">Vận chuyển</span>
                                         @elseif ($order->status == 'Đang vận chuyển')
-                                            <span class="status-badge badge-shipping">Đang vận chuyển</span>
+                                            <span class="status-badge" style="background-color: #6610f2; color: #fff;">Đang vận chuyển</span>
                                         @elseif ($order->status == 'Đã giao')
-                                            <span class="status-badge badge-shipping">Đã giao</span>
+                                            <span class="status-badge" style="background-color: #20c997; color: #fff;">Đã giao</span>
                                         @elseif ($order->status == 'Hoàn thành')
-                                            <span class="status-badge badge-delivered">Hoàn thành</span>
+                                            <span class="status-badge" style="background-color: #28a745; color: #fff;">Hoàn thành</span>
                                         @else
-                                            <span class="status-badge badge-cancelled">Đã hủy</span>
+                                            <span class="status-badge" style="background-color: #dc3545; color: #fff;">Đã hủy</span>
                                         @endif
                                     </p>
+                                    
                                     <p><strong>Khách hàng:</strong> {{ $order->user->name }}</p>
                                     <p><strong>Số điện thoại:</strong> {{ $order->phone_order }}</p>
                                     <p><strong>Địa chỉ:</strong> {{ $order->address_order }}</p>
@@ -333,7 +336,7 @@
                                                     <option value="{{ $shipper->id }}">{{ $shipper->name }}</option>
                                                 @endforeach
                                             </select>
-                                            <button type="submit" class="btn btn-success mt-3">Gán shipper</button>
+                                            <button type="submit" class="btn btn-success mt-3" style="margin-top:15px;">Gán shipper</button>
                                         </form>
                                         {{-- <a href="{{ route('admin.orders.index') }}?status=Vận chuyển"
                                         onclick="return confirm('xác nhận')"><button

@@ -169,23 +169,23 @@
                                 <tr>
                                     <td>#{{ $order->id }}</td>
                                     <td>{{ $order->user->name }}</td>
-                                    <td >{{ $order->total_amount }}</td>
+                                    <td >{{number_format($order->total_amount ) }}</td>
                                     <td>
                                         @if ($order->status == 'Chờ xác nhận')
-                                        <span class="status-badge badge-pending">Chờ xác nhận</span>
+                                            <span class="status-badge" style="background-color: #ffc107; color: #000;">Chờ xác nhận</span>
                                         @elseif ($order->status == 'Đã xác nhận')
-                                    <span class="status-badge badge-confirmed">Đã xác nhận</span>
-                                    @elseif ($order->status == 'Vận chuyển')
-                                    <span class="status-badge badge-confirmed">Vận chuyển</span>
-                                    @elseif ($order->status == 'Đang vận chuyển')
-                                    <span class="status-badge badge-shipping">Đang vận chuyển</span>
-                                    @elseif ($order->status == 'Hoàn thành')
-                                    <span class="status-badge badge-delivered">Hoàn thành</span>
-                                    @elseif ($order->status == 'Đã giao')
-                                    <span class="status-badge badge-delivered">Đã giao</span>
-                                    @else
-                                    <span class="status-badge badge-cancelled">Đã hủy</span>
-                                    @endif
+                                            <span class="status-badge" style="background-color: #17a2b8; color: #fff;">Đã xác nhận</span>
+                                        @elseif ($order->status == 'Vận chuyển')
+                                            <span class="status-badge" style="background-color: #007bff; color: #fff;">Vận chuyển</span>
+                                        @elseif ($order->status == 'Đang vận chuyển')
+                                            <span class="status-badge" style="background-color: #6610f2; color: #fff;">Đang vận chuyển</span>
+                                        @elseif ($order->status == 'Đã giao')
+                                            <span class="status-badge" style="background-color: #20c997; color: #fff;">Đã giao</span>
+                                        @elseif ($order->status == 'Hoàn thành')
+                                            <span class="status-badge" style="background-color: #28a745; color: #fff;">Hoàn thành</span>
+                                        @else
+                                            <span class="status-badge" style="background-color: #dc3545; color: #fff;">Đã hủy</span>
+                                        @endif
 
                                         </td>
                                     <td>
@@ -204,6 +204,9 @@
 
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-4">
+                {{ $orders->links() }}
+            </div>
         </div>
 
     </section>
