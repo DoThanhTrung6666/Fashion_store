@@ -23,16 +23,20 @@
                     <td>{{$order->name_order}}</td>
                     <td>{{$order->order_date}}</td>
                     <td>
-                        @if($order->status == "Đã giao" || $order->status == "Hoàn thành" )
+                        @if($order->status == "Đã giao" || $order->status == "Hoàn thành" ||$order->status == "Vận chuyển")
                             <span class="order-status completed">{{$order->status}}</span></td>
                         @else
                             <span class="order-status pending">{{$order->status}}</span></td>
                         @endif
                     <td><a href="{{route('shipper.orders.show',$order->id)}}" class="btn">Xem Chi Tiết</a></td>
                 </tr>
+                
             @endforeach
+           
         </tbody>
+       
     </table>
+   {{-- <div style="width:20px">{{$orders->links()}}</div>  --}}
 
     <!-- Phân Trang -->
     {{-- <div class="pagination">

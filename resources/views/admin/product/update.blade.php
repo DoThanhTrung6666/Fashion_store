@@ -86,9 +86,11 @@
 
 
                             <!-- Biến thể sản phẩm -->
-                            <h3>Biến thể sản phẩm</h3>
+                            <h3 style="text-align: center">Biến thể sản phẩm</h3>
                             <div id="variants">
                                 @foreach($product->variants as $index => $variant)
+                                <h4>Biến thể thứ {{$index +1}}</h4>
+
                                     <div class="variant-group" id="variant-group-{{ $index }}">
                                         <input type="hidden" name="variant[{{ $index }}][id]" value="{{ $variant->id }}">
                                         <!-- Màu sắc -->
@@ -130,7 +132,7 @@
                                             @endif
                                         </div>
 
-                                        <button type="button" class="btn btn-danger" onclick="removeVariant({{ $index }})">Xóa biến thể</button>
+                                        {{-- <button type="button" class="btn btn-danger" onclick="removeVariant({{ $index }})">Xóa biến thể</button> --}}
                                     </div>
                                 @endforeach
                             </div>
@@ -201,7 +203,7 @@ function addVariant(existingVariant = {}) {
                 ` : ''}
             </div>
 
-            <button type="button" class="btn btn-danger" onclick="removeVariant(${index})">Xóa biến thể</button>
+
         </div>
     `;
 

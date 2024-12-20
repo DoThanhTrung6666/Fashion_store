@@ -39,7 +39,7 @@
         /* Khoảng cách ngang */
         font-size: 14px;
         border-radius: 4px;
-    
+
 
        margin-top: 0px;
         /* Đẩy nút xuống giữa dòng */
@@ -255,7 +255,7 @@
                                 </div>
                                 <div id="revenue_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                            
+
                             <!-- Users and Order Status - Half Width Each -->
                             <div class="chart-box half-width">
                                 <div class="chart-title">
@@ -263,14 +263,14 @@
                                 </div>
                                 <div id="top_users_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                            
+
                             <div class="chart-box half-width">
                                 <div class="chart-title">
                                     <i class="fas fa-tasks mr-2"></i> Trạng Thái Đơn Hàng
                                 </div>
                                 <div id="order_status_chart" style="width: 100%; height: 400px;"></div>
                             </div>
-                            
+
                             <!-- Products Chart - Full Width -->
                             <div class="chart-box full-width">
                                 <div class="chart-title">
@@ -310,8 +310,8 @@
                                     {{ $products->links() }}
                                 </div>
                             </div>
-                        </div> 
-                        
+                        </div>
+
 
                     </div>
                 </div>

@@ -40,7 +40,7 @@
         </div>
         <div class="stats-card">
             <h4>Số Đơn Hoàn Thành</h4>
-            <p>87</p>
+            <p>{{$totalOrdersHoanthanh}}</p>
         </div>
         <div class="stats-card">
             <h4>Tổng Thu Nhập</h4>

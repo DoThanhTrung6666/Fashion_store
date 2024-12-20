@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -27,19 +29,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255', // Xác thực trường name
-            'description' => 'nullable|string',  // Xác thực trường description
-        ]);
+        $data = $request->validated();
+        $data['description'] = Str::slug($data['name']);
+        Category::query()->create($data);
 
-        // Laravel sẽ tự động thêm giá trị cho `created_at` và `updated_at`, nên không cần validate chúng.
-
-        Category::query()->create($data);  // Tạo một bản ghi mới với dữ liệu đã xác thực
-
-        return redirect()->route('admin.categories.index');  // Redirect về trang index của categories (nếu route có đúng tên)
-        // dd($request->all()); // Debug dữ liệu request nếu cần
+        return redirect()->route('admin.categories.index')->with('success', 'Thêm mới thành công');
     }
 
 
@@ -62,14 +58,12 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(CategoryRequest $request, category $category)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255', // Xác thực trường name
-            'description' => 'nullable|string', // Xác thực trường description
-        ]);
+        $data = $request->validated();
+        $data['description'] = Str::slug($data['name']);
         $category->update($data);
-        return redirect()->route('admin.categories.index');
+        return back()->with('success', 'Cập nhật thành công');
     }
 
     /**
@@ -77,10 +71,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-
-        // Xóa bản ghi category
+        if ($category->productHome()->exists()) {
+            return back()->with('error', 'Không thể xóa danh mục đang có liên kết với sản phẩm');
+        }
         $category->delete();
-
         return redirect()->route('admin.categories.index');
     }
 }

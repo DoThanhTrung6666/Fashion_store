@@ -42,7 +42,12 @@ class AuthenticationController extends Controller
 
         if (Auth::attempt($login)) {
             $request->session()->regenerate();
-            return redirect()->route('home');
+            if(Auth::user()->role_id ==1){
+                return redirect()->route( 'admin.statistics.index');
+            }else{
+                return redirect()->route('home');
+            }
+
         }
         return redirect()->back()->with('error','Sai thông tin tài khoản hoặc mật khẩu');
     }
@@ -210,10 +215,12 @@ class AuthenticationController extends Controller
             'current_password' => 'required', // mat khau cu
             'new_password' => 'required|min:8|confirmed' // mat khau moi toi thieu 8 ki tu dung voi xac nhan lai
         ],[
-            'current_password.required' => 'Khong duoc bo trong',
-            'new_password.required' => 'Khong duoc bo trong',
-            'new_password.min' => 'Toi thieu 8 ki tu',
-            'new_password.confirmed' => 'Mat khau chua khop',
+        'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+        'current_password.string' => 'Mật khẩu hiện tại phải là chuỗi ký tự.',
+        'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+        // 'new_password.string' => 'Mật khẩu mới phải là chuỗi ký tự.',
+        'new_password.min' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
+        'new_password.confirmed' => 'Mật khẩu mới và mật khẩu xác nhận không khớp.',
         ]);
 
         if(!Hash::check($request->current_password,Auth::user()->password)){

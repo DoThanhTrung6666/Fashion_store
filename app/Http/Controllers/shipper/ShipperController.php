@@ -21,8 +21,9 @@ class ShipperController extends Controller
     public function index()
     {
         //
-        $orders = Order::where('shipper_id',1)
-            ->whereIn('status',['Vận chuyển','Chờ giao hàng','Đã giao','Hoàn thành','Đã xác nhận'])
+        $shipperId = auth('shipper')->user()->id;
+        $orders = Order::where('shipper_id',$shipperId)
+            ->whereIn('status',['Vận chuyển','Đang vận chuyển','Đã giao','Hoàn thành'])
             ->get();
         return view('shipper.list',compact('orders'));
     }
@@ -33,10 +34,15 @@ class ShipperController extends Controller
             $shipperId = auth('shipper')->user()->id;
     
             // Đếm tổng số đơn hàng giao cho shipper này
-            $totalOrders = Order::where('shipper_id', $shipperId)->count();
-     
+            // $totalOrders = Order::where('shipper_id', $shipperId)->count();
+            $totalOrders  = Order::where('shipper_id', $shipperId)
+                                    ->whereIn('status',['Vận chuyển','Đang vận chuyển'])
+                                    ->count();
+            $totalOrdersHoanthanh  = Order::where('shipper_id', $shipperId)
+                                    ->where('status','Hoàn thành')
+                                    ->count();
             // Trả về kết quả (có thể là view hoặc API response)
-            return view('shipper.index', compact('totalOrders')); // Hoặc có thể return response dạng JSON nếu cần
+            return view('shipper.index', compact('totalOrders','totalOrdersHoanthanh')); // Hoặc có thể return response dạng JSON nếu cần
         } else {
             // Nếu shipper chưa đăng nhập, chuyển hướng đến trang đăng nhập
             return redirect()->route('shipper.login');
@@ -54,7 +60,7 @@ class ShipperController extends Controller
     public function show(string $id)
     {
         //
-        $detailOrder = Order::find($id);
+        $detailOrder = Order::with('orderItems.productVariant.product')->find($id);
         return view('shipper.detail',compact('detailOrder'));
     }
 
@@ -152,5 +158,42 @@ class ShipperController extends Controller
         // Nếu shipper chưa đăng nhập, chuyển hướng đến trang đăng nhập
         return redirect()->route('shipper.login');
     }
+}
+// Hiển thị form đổi mật khẩu
+public function showChangePasswordForm()
+{
+    return view('shipper.changepassword'); // Tạo view cho form đổi mật khẩu
+}
+
+// Xử lý đổi mật khẩu
+public function changePassword(Request $request)
+{
+    // Kiểm tra xác thực của shipper
+    $shipper = auth('shipper')->user();
+
+    // Validate dữ liệu
+    $request->validate([
+        'current_password' => 'required|string',
+        'new_password' => 'required|string|min:6|confirmed', // Confirmed giúp so sánh mật khẩu mới và xác nhận mật khẩu mới
+    ],[
+        'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+        'current_password.string' => 'Mật khẩu hiện tại phải là chuỗi ký tự.',
+        'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+        'new_password.string' => 'Mật khẩu mới phải là chuỗi ký tự.',
+        'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+        'new_password.confirmed' => 'Mật khẩu mới và mật khẩu xác nhận không khớp.',
+    ]);
+
+    // Kiểm tra mật khẩu hiện tại có đúng không
+    if (!Hash::check($request->current_password, $shipper->password)) {
+        return redirect()->back()->withErrors(['current_password' => 'Mật khẩu hiện tại không đúng.']);
+    }
+
+    // Cập nhật mật khẩu mới
+    $shipper->password = Hash::make($request->new_password);
+    $shipper->save();
+
+    // Quay lại với thông báo thành công
+    return redirect()->back()->with('success', 'Mật khẩu đã được thay đổi thành công!');
 }
 }

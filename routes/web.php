@@ -85,9 +85,6 @@ Route::prefix('admin')
         Route::put('brands/{brand}/update-status', [BrandController::class, 'updateStatus'])->name('brands.updateStatus');
 
         Route::resource('categories', CategoryController::class);
-        Route::post('/categories/create', [CategoryController::class, 'store'])->name('categories.store');
-        Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-
 
 
         Route::get('/orders', [AdOrderController::class, 'index'])->name('orders.index');
@@ -241,6 +238,12 @@ Route::middleware(['shipper'])->group(function(){
     Route::post('/orders/{id}/shipper', [ShipperController::class, 'update'])->name('shipper.orders.update');
     Route::post('/orders/{id}/shipper2', [ShipperController::class, 'update2'])->name('shipper.orders.update2');
     Route::get('/orders/{id}/detail/shipper', [ShipperController::class, 'show'])->name('shipper.orders.show');
+
+    // đổi mật khẩu 
+    Route::get('/shipper/change-password', [ShipperController::class, 'showChangePasswordForm'])->name('shipper.change-password');
+
+    // Route để xử lý yêu cầu đổi mật khẩu
+    Route::post('/shipper/change-password', [ShipperController::class, 'changePassword'])->name('changePassword');
 
 });
 

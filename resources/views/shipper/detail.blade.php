@@ -14,10 +14,18 @@
         <div class="details">
             <span><strong>Thời Gian Đặt Hàng:</strong> {{$detailOrder->order_date}}</span>
             {{-- @foreach ($detailOrder->orderItems as $orderItem) --}}
-                <span>
-                    <strong>
-                        Sản Phẩm:</strong> {{$detailOrder->orderItems->first()->productVariant->product->name}},
-                        Số lượng: {{$detailOrder->orderItems->first()->quantity}}
+                    <span>
+                    <strong> Sản Phẩm:</strong>
+                        <ul>
+                            @foreach ($detailOrder->orderItems as $orderItem)
+                                <li>
+                                    {{ $orderItem->productVariant->product->name }} 
+                                    - Số lượng: {{ $orderItem->quantity }} 
+                                    {{-- - Ảnh sản phẩmphẩm: {{ $orderItem->quantity }}  --}}
+                                    - Giá: {{ number_format($orderItem->price, 0, ',', '.') }}đ
+                                </li>
+                            @endforeach
+                        </ul>
                     </span>
             {{-- @endforeach --}}
             <span>
@@ -32,22 +40,26 @@
         <div class="order-status pending">
             <p>Trạng Thái: {{$detailOrder->status}}</p>
         </div>
-        @if($detailOrder->status == 'Vận chuyển'||$detailOrder->status == 'Đã xác nhận')
+        @if($detailOrder->status == 'Vận chuyển')
         <form action="{{route('shipper.orders.update',$detailOrder->id)}}" method="POST">
             @csrf
             <button type="submit" class="btn">Vận chuyển</button>
+            <a href="{{route('shipper.orders.index')}}" class="btn">Quay lại</a>
         </form>
-        @else
+        @elseif($detailOrder->status == 'Đang vận chuyển')
         <form action="{{route('shipper.orders.update2',$detailOrder->id)}}" method="POST">
             @csrf
             <button type="submit" class="btn">Giao hàng</button>
+            <a href="{{route('shipper.orders.index')}}" class="btn">Quay lại</a>
         </form>
+        @else
+            <a href="{{route('shipper.orders.index')}}" class="btn">Quay lại</a>
         @endif
         {{-- <a href="{{ route('shipper.orders.update', $detailOrder->id) }}?status=Chờ giao hàng"
             onclick="return confirm('xác nhận')"><button
                 class="btn btn-success btn-confirm">Vận chuyển</button></a> --}}
         {{-- <a href="{{route('shipper.orders.update',$detailOrder->id)}}" class="btn">Cập Nhật Trạng Thái</a> --}}
-        <a href="{{route('shipper.orders.index')}}" class="btn">Quay lại</a>
+       
     </div>
 
 
