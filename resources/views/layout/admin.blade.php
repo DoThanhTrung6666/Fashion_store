@@ -387,7 +387,7 @@
                     </li>
                     {{-- kết thúc quản lí brand  --}}
                     {{-- quản lí  sale --}}
-                    {{-- <li class="treeview">
+                    <li class="treeview">
                         <a href="{{ route('admin.sales.index') }}">
                             <i class="fas fa-percent"></i>
                             <span>Quản lí Sale(%)</span>
@@ -399,10 +399,10 @@
                             <li><a href="{{ route('admin.sales.create') }}"><i class="fa fa-circle-o"></i>Thêm</a>
                             </li>
                         </ul>
-                    </li> --}}
+                    </li>
                     {{-- kết thúc quản lí  sale  --}}
                     {{-- quản lí flash sale --}}
-                    {{-- <li class="treeview">
+                    <li class="treeview">
                         <a href="{{ route('admin.sales.index') }}">
                             <i class="fas fa-bolt"></i>
                             <span>Quản lí Flash-Sale</span>
@@ -414,7 +414,7 @@
                             <li><a href="{{ route('admin.createFlashSale') }}"><i class="fa fa-circle-o"></i>Tạo
                                     Flash-Sale</a></li>
                         </ul>
-                    </li> --}}
+                    </li>
                     {{-- kết thúc quản lí flash sale  --}}
 
                     {{-- quản lí voucher --}}
