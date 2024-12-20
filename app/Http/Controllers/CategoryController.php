@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -28,15 +29,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name', 
-        ]);
+        $data = $request->validated();
         $data['description'] = Str::slug($data['name']);
-        Category::query()->create($data); 
+        Category::query()->create($data);
 
-        return redirect()->route('admin.categories.index');  
+        return redirect()->route('admin.categories.index')->with('success', 'Thêm mới thành công');
     }
 
 
@@ -59,14 +58,12 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, category $category)
+    public function update(CategoryRequest $request, category $category)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $data = $request->validated();
         $data['description'] = Str::slug($data['name']);
         $category->update($data);
-        return redirect()->route('admin.categories.index');
+        return back()->with('success', 'Cập nhật thành công');
     }
 
     /**
@@ -74,7 +71,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if($category->productHome()->exists()){
+        if ($category->productHome()->exists()) {
             return back()->with('error', 'Không thể xóa danh mục đang có liên kết với sản phẩm');
         }
         $category->delete();
