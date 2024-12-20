@@ -129,6 +129,9 @@
         @endforeach
         </div>
     </div>
+    <div id="stock-info" style="margin-top: 15px; font-weight: bold; color: #333;">
+        <!-- Thông tin tồn kho sẽ hiển thị tại đây -->
+    </div>
     <span>
         @if(session('error'))
             <p style="color: red">{{session('error')}}</p>
@@ -139,51 +142,88 @@
             <p style="color: red">{{session('success')}}</p>
         @endif
     </span>
-    <p>Số lượng  </p>
+    {{-- <p>Số lượng  </p> --}}
     {{-- thêm product_id để so sánh  --}}
     <input type="hidden" name="product_id" value="{{ $detail->id }}">
 
-    <script>
-        const variants = @json($variants->toArray());
+<script>
+    const variants = @json($variants->toArray());
+
+let selectedColorId = null; // Lưu màu sắc được chọn
+let selectedSizeId = null;  // Lưu kích thước được chọn
 
 function updateSizes(colorId) {
+    selectedColorId = colorId; // Cập nhật màu được chọn
     const sizeOptions = document.querySelectorAll('#size-options .size-option');
     sizeOptions.forEach(option => {
         const input = option.querySelector('input');
-        input.checked = false;
-        option.classList.add('disabled'); // Thêm class màu tối
+        const stockLabel = option.querySelector('.stock-label');
+        input.checked = false; // Bỏ chọn tất cả
+        option.classList.add('disabled'); // Vô hiệu hóa tất cả
+        if (stockLabel) {
+            stockLabel.textContent = ''; // Xóa thông tin tồn kho
+        }
     });
 
-    // Lọc các kích thước phù hợp với màu đã chọn
-    const availableSizes = variants.filter(variant => variant.color_id === colorId && variant.stock_quantity > 0).map(variant => variant.size_id);
+    // Lọc các kích thước khả dụng cho màu đã chọn
+    const availableVariants = variants.filter(variant => variant.color_id === colorId && variant.stock_quantity > 0);
 
     sizeOptions.forEach(option => {
         const input = option.querySelector('input');
-        if (availableSizes.includes(parseInt(input.value))) {
-            option.classList.remove('disabled'); // Bỏ màu tối
+        const sizeId = parseInt(input.value);
+
+        if (availableVariants.some(v => v.size_id === sizeId)) {
+            option.classList.remove('disabled'); // Kích hoạt kích thước khả dụng
         }
     });
+
+    displayStockInfo(); // Kiểm tra và hiển thị tồn kho nếu đủ điều kiện
 }
 
 function updateColors(sizeId) {
+    selectedSizeId = sizeId; // Cập nhật kích thước được chọn
     const colorOptions = document.querySelectorAll('#color-options .color-option');
     colorOptions.forEach(option => {
         const input = option.querySelector('input');
-        input.checked = false;
-        option.classList.add('disabled'); // Thêm class màu tối
+        input.checked = false; // Bỏ chọn tất cả
+        option.classList.add('disabled'); // Vô hiệu hóa tất cả
     });
 
-    // Lọc các màu phù hợp với kích thước đã chọn
-    const availableColors = variants.filter(variant => variant.size_id === sizeId && variant.stock_quantity > 0).map(variant => variant.color_id);
+    // Lọc các màu khả dụng cho kích thước đã chọn
+    const availableVariants = variants.filter(variant => variant.size_id === sizeId && variant.stock_quantity > 0);
 
     colorOptions.forEach(option => {
         const input = option.querySelector('input');
-        if (availableColors.includes(parseInt(input.value))) {
-            option.classList.remove('disabled'); // Bỏ màu tối
+        const colorId = parseInt(input.value);
+
+        if (availableVariants.some(v => v.color_id === colorId)) {
+            option.classList.remove('disabled'); // Kích hoạt màu khả dụng
         }
     });
+
+    displayStockInfo(); // Kiểm tra và hiển thị tồn kho nếu đủ điều kiện
 }
-    </script>
+
+function displayStockInfo() {
+    const stockInfo = document.getElementById('stock-info'); // Phần tử hiển thị thông tin tồn kho
+
+    // Chỉ hiển thị khi cả màu sắc và kích thước đã được chọn
+    if (selectedColorId && selectedSizeId) {
+        const variant = variants.find(
+            v => v.color_id === selectedColorId && v.size_id === selectedSizeId
+        );
+
+        if (variant) {
+            stockInfo.textContent = `Số lượng còn lại: ${variant.stock_quantity}`;
+        } else {
+            stockInfo.textContent = '';
+        }
+    } else {
+        stockInfo.textContent = ''; // Xóa thông tin tồn kho nếu chưa đủ điều kiện
+    }
+}
+
+</script>
 </div>
 {{-- <input type="hidden" name="product_variant_id" id="product_variant_id"> --}}
 {{-- dành cho size và color  --}}

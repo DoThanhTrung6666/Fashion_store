@@ -6,6 +6,11 @@
                 <h1>
                     Danh sách biến thể sản phẩm
                 </h1>
+                <span>
+                    @if(session('success'))
+                        <p style="color: green">{{session('success')}}</p>
+                    @endif
+                </span>
             </section>
             <section class="content">
                 <div class="row container-fluid">
@@ -31,14 +36,14 @@
                                             <tr style="text-align: center">
                                                 {{-- <td><input type="checkbox"></td> --}}
                                                 {{-- <td>{{$product->id}}</td> --}}
-                                                <td><p class="custom-name">{{$product->name}}</p>
+                                                <td><p class="">{{$product->name}}</p>
                                                 </td>
                                                 <td><img class="img-square" src="{{Storage::url($variant->image_variant)}}" width="100" alt=""></td>
                                                 {{-- <td>{{$product->category->name}}</td> --}}
-                                                <td><p class="custom-name">{{$variant->color->name}}</p></td>
-                                                <td><p class="custom-name">{{$variant->size->name}}</p></td>
-                                                <td><p class="custom-name">{{number_format($variant->product->price)}}đ</p></td>
-                                                <td><p class="custom-name">{{$variant->stock_quantity}}</p></td>
+                                                <td><p class="">{{$variant->color->name}}</p></td>
+                                                <td><p class="">{{$variant->size->name}}</p></td>
+                                                <td><p class="">{{number_format($variant->product->price)}}đ</p></td>
+                                                <td><p class="">{{$variant->stock_quantity}}</p></td>
                                                 {{-- <td> --}}
                                                     {{-- <a href="{{route('admin.products.edit',$product->id)}}" class="btn btn-warning">Sửa</a> --}}
                                                     {{-- <form action="{{route('admin.variants.destroy',$variant->id)}}" method="POST">
@@ -52,10 +57,12 @@
                                     @endforeach
 
                             </table>
-                                    <a style="margin-bottom: 10px; margin-left:10px"  class="" href="{{ route('admin.products.variants.create', $product->id) }}"><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm biến thể mới</a><br><br>
-                                    <a style="margin-bottom: 10px; margin-left:10px" href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a><br><br>
-                                    <a style="margin-bottom: 20px; margin-left:10px" href="{{route('admin.products.index')}}" class="" style="color: black"><i class="fas fa-arrow-left"></i> Quay lại</a>
-                            @else
+                            <div style="display:flex">
+                                    <a style="margin-bottom: 10px; margin-left:10px"  class="btn btn-success" href="{{ route('admin.products.variants.create', $product->id) }}"><i class="fas fa-plus-circle" style="color: greenyellow"></i> Thêm biến thể mới</a>
+                                    <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-warning" href="{{route('admin.products.edit',$product->id)}}" class=""> <i class="fas fa-edit" style=" color: #dfe837;"></i> Sửa</a>
+                                    <a style="margin-bottom: 10px; margin-left:10px" class="btn btn-default" href="{{route('admin.products.index')}}" class="" style="color: black"><i class="fas fa-arrow-left"></i> Quay lại</a>
+                            </div>
+                                    @else
                                 <p>Sản phẩm không tồn tại.</p>
                             @endif
                         </div>
