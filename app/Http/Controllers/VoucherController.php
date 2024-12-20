@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Voucher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class VoucherController extends Controller
 {
@@ -20,8 +21,7 @@ class VoucherController extends Controller
 
     public function store(Request $request)
     {
-        // Validate dữ liệu nhập vào
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255', // Tên voucher
             'discount_percentage' => 'required|numeric|min:0|max:100', // Giảm giá %
             'max_discount' => 'required|numeric|min:0', // Giá giảm tối đa
@@ -50,11 +50,27 @@ class VoucherController extends Controller
             'start_date.required' => 'Vui lòng chọn ngày bắt đầu.',
             'start_date.date' => 'Ngày bắt đầu phải là một ngày hợp lệ.',
 
-            'end_date.required' => 'Vui lòng chọn ngày kết thúc là bắt buộc.',
+            'end_date.required' => 'Vui lòng chọn ngày kết thúc.',
             'end_date.date' => 'Ngày kết thúc phải là một ngày hợp lệ.',
             'end_date.after_or_equal' => 'Ngày kết thúc phải là ngày sau hoặc bằng ngày bắt đầu.',
         ]);
 
+        // Thêm logic tùy chỉnh để kiểm tra min_order_value > max_discount
+        $validator->after(function ($validator) use ($request) {
+            if ($request->has('max_discount') && $request->has('min_order_value')) {
+                if ($request->input('min_order_value') <= $request->input('max_discount')) {
+                    $validator->errors()->add('min_order_value', 'Giá trị đơn hàng tối thiểu phải lớn hơn giá giảm tối đa.');
+                }
+            }
+        });
+
+        // Kiểm tra lỗi xác thực
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $data = $request->all();
         // Lấy ngày hiện tại
         $currentDate = now();
 
@@ -98,7 +114,7 @@ class VoucherController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255', // Tên voucher
             'discount_percentage' => 'required|numeric|min:0|max:100', // Giảm giá %
             'max_discount' => 'required|numeric|min:0', // Giá giảm tối đa
@@ -127,11 +143,27 @@ class VoucherController extends Controller
             'start_date.required' => 'Vui lòng chọn ngày bắt đầu.',
             'start_date.date' => 'Ngày bắt đầu phải là một ngày hợp lệ.',
 
-            'end_date.required' => 'Vui lòng chọn ngày kết thúc là bắt buộc.',
+            'end_date.required' => 'Vui lòng chọn ngày kết thúc.',
             'end_date.date' => 'Ngày kết thúc phải là một ngày hợp lệ.',
             'end_date.after_or_equal' => 'Ngày kết thúc phải là ngày sau hoặc bằng ngày bắt đầu.',
         ]);
 
+        // Thêm logic tùy chỉnh để kiểm tra min_order_value > max_discount
+        $validator->after(function ($validator) use ($request) {
+            if ($request->has('max_discount') && $request->has('min_order_value')) {
+                if ($request->input('min_order_value') <= $request->input('max_discount')) {
+                    $validator->errors()->add('min_order_value', 'Giá trị đơn hàng tối thiểu phải lớn hơn giá giảm tối đa.');
+                }
+            }
+        });
+
+        // Kiểm tra lỗi xác thực
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $data = $request->all();
         $voucher = Voucher::findOrFail($id);
         $currentDate = now();
 

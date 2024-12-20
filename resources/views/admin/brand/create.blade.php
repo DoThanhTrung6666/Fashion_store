@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Thêm mới brand</button>
+                                <button type="submit" class="btn btn-primary">Thêm mới</button>
                             </div>
                         </form>
                     </div>
