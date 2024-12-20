@@ -188,6 +188,7 @@
                                         @endif
 
                                         </td>
+                                        
                                     <td>
                                         @if ($order->payment == 2)
                                         <span class="status-badge badge-vnpay">VNPAY</span>

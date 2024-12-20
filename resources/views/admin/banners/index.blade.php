@@ -46,8 +46,8 @@
                                             style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger"
-                                                onclick="return confirm('ban co chac muon xoa khong?')">Xóa</button>
+                                            {{-- <button type="submit" class="btn btn-danger"
+                                                onclick="return confirm('ban co chac muon xoa khong?')">Xóa</button> --}}
                                         </form>
                                     </td>
                                 </tr>

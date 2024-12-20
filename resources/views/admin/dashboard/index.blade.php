@@ -140,7 +140,7 @@
                 <div class="col-md-12">
                     <div class="box box-primary">
 
-                        <h1 class="mt-4">Thống kê</h1>
+                        <h1 class="mt-12">Thống kê</h1>
 
                         <!-- Form chọn khoảng thời gian -->
                         <form method="GET" action="{{ route('admin.statistics.index') }}" class="mb-4">
