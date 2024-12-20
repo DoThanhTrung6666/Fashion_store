@@ -37,12 +37,12 @@
                                         <td>
                                             <a href="{{ route('admin.vouchers.edit', $voucher->id) }}"
                                                 class="btn btn-warning">Sửa</a>
-                                            <form action="{{ route('admin.vouchers.destroy', $voucher->id) }}" method="POST"
+                                            {{-- <form action="{{ route('admin.vouchers.destroy', $voucher->id) }}" method="POST"
                                                 style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Xóa</button>
-                                            </form>
+                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach
