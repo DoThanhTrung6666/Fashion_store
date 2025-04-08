@@ -17,9 +17,10 @@ class SearchController extends Controller
             'keyword.required'=>'Hãy nhập từ khoá tìm kiếm'
         ]);
         $keyword = $request->input('keyword','');
+
         $products = Product::query()
-            ->where('name','LIKE',"%{$keyword}%");
-            // ->paginate(10); // phan trang
+            ->where('name','LIKE',"%{$keyword}%")
+             ->paginate(10); // phan trang
         return view('client.search',compact('products','keyword'));
     }
 }
