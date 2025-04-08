@@ -190,7 +190,7 @@
         .order-total p {
             margin-top: 10px;
         }
-        
+
     </style>
     <div class="content-wrapper">
 
@@ -237,7 +237,7 @@
                                             <span class="status-badge" style="background-color: #dc3545; color: #fff;">Đã hủy</span>
                                         @endif
                                     </p>
-                                    
+
                                     <p><strong>Khách hàng:</strong> {{ $order->user->name }}</p>
                                     <p><strong>Số điện thoại:</strong> {{ $order->phone_order }}</p>
                                     <p><strong>Địa chỉ:</strong> {{ $order->address_order }}</p>

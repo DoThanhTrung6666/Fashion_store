@@ -20,7 +20,7 @@
                                     <th>Ngày Bắt Đầu</th>
                                     <th>Ngày Kết Thúc</th>
                                     <th>Trạng Thái</th>
-                                    <th>Hành Động</th>
+                                    {{-- <th>Hành Động</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,16 +34,16 @@
                                         <td>{{ $voucher->end_date }}</td>
                                         <td>{{ $voucher->status == 1 ? 'Chưa bắt đầu' : ($voucher->status == 2 ? 'Đang diễn ra' : 'Đã hết hạn') }}
                                         </td>
-                                        <td>
-                                            <a href="{{ route('admin.vouchers.edit', $voucher->id) }}"
-                                                class="btn btn-warning">Sửa</a>
+                                        {{-- <td> --}}
+                                            {{-- <a href="{{ route('admin.vouchers.edit', $voucher->id) }}"
+                                                class="btn btn-warning">Sửa</a> --}}
                                             {{-- <form action="{{ route('admin.vouchers.destroy', $voucher->id) }}" method="POST"
                                                 style="display: inline-block;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger">Xóa</button>
                                             </form> --}}
-                                        </td>
+                                        {{-- </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -177,7 +177,14 @@
             <a href="{{route('shipper.orders.index2')}}">Trang Chủ</a>
             <a href="{{route('shipper.orders.index')}}">Đơn Hàng</a>
             <a href="{{route('shipper.change-password')}}">Đổi mật khẩu</a>
-            <a href="#">Cài Đặt</a>
+            {{-- <a href="{{route('shipper.logout')}}">Đăng xuất</a> --}}
+            <form id="logout-form" action="{{ route('shipper.logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+
+            <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Đăng xuất
+            </a>
         </div>
     </div>
 

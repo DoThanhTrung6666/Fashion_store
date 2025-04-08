@@ -21,7 +21,7 @@ class statuscancel extends Mailable
     {
         //
         $this->user = $user;
-        $this->order = $user;
+        $this->order = $order;
     }
 
     /**
@@ -30,7 +30,7 @@ class statuscancel extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Huỷ đơn hàng',
+            subject:  'Đơn hàng ' . $this->order->id . ' được huỷ',
         );
     }
 
