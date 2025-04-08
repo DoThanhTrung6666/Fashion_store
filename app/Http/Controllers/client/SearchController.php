@@ -18,7 +18,7 @@ class SearchController extends Controller
         ]);
         $keyword = $request->input('keyword','');
         $products = Product::query()
-            // ->where('name','LIKE',"%{$keyword}%")
+            ->where('name','LIKE',"%{$keyword}%")
             ->paginate(10); // phan trang
         return view('client.search',compact('products','keyword'));
     }
