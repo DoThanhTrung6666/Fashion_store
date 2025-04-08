@@ -36,12 +36,13 @@ class InventoryCheckJob implements ShouldQueue
 
         $productVariants = ProductVariant::with('product')
                                             ->whereIn('id',$this->productVariantIds)
-                                           ->where('stock_quantity','<=',5)
+                                           ->where('stock_quantity','<',5)
                                            ->get();
         Log::info($this->productVariantIds);
         Log::info($productVariants);
-        Mail::to('trungdtph40224@fpt.edu.vn')->send(new mailQuantity($productVariants));
-
+        if($productVariants){
+            Mail::to('trungdtph40224@fpt.edu.vn')->send(new mailQuantity($productVariants));
+        }
 
     }
 }

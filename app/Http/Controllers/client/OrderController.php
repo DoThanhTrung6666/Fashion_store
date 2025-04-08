@@ -426,6 +426,96 @@ class OrderController extends Controller
         // Gọi hàm để tạo đơn hàng sau khi thanh toán thành công
         return $this->createOrderOnline($cart, $orderData);
     }
+    // public function createOrderOnline($cart, $orderData)
+    // {
+    //     $user = Auth::user();
+
+    //     // Lấy các sản phẩm đã chọn từ giỏ hàng
+    //     $selectedCartItems = $cart->cartItems->whereIn('id', $orderData['selectedCartItemIds']);
+
+    //     // Tính tổng tiền cho các sản phẩm đã chọn
+    //     $totalPrice = $selectedCartItems->sum(function ($item) {
+    //         $flashSaleItem = FlashSaleItem::where('product_id', $item->productVariant->product->id)
+    //             ->whereHas('flashSale', function ($query) {
+    //                 $query->where('start_time', '<=', now())
+    //                     ->where('end_time', '>=', now())
+    //                     ->where('status', 'Đang diễn ra');
+    //             })
+    //             ->first();
+
+    //         $finalPrice = $flashSaleItem ? $flashSaleItem->price : $item->productVariant->product->price;
+    //         return $finalPrice * $item->quantity;
+    //     });
+
+    //     // Lấy discountAmount từ session (nếu có)
+    //     $discountAmount = session()->get('voucher_discount')['discount_amount'] ?? 0;
+
+    //     // Tính tổng tiền sau khi trừ giảm giá và cộng phí giao hàng
+    //     $finalTotal = $totalPrice - $discountAmount + 30000;
+
+    //     // Tạo đơn hàng
+    //     $order = Order::create([
+    //         'user_id' => $user->id,
+    //         'payment' => 2,  // Thanh toán online
+    //         'order_date' => now(),
+    //         'status' => 'Chờ xác nhận',
+    //         'total_amount' => $finalTotal,
+    //         'name_order' => $orderData['name_order'],
+    //         'phone_order' => $orderData['phone_order'],
+    //         'address_order' => $orderData['address_order'],
+    //         'content_order' => $orderData['content_order'] ?? '',
+    //     ]);
+    //     foreach ($selectedCartItems as $item) {
+    //         $product = $item->productVariant->product;
+    //         $productVariant = $item->productVariant;
+    //         if ($productVariant->stock_quantity < $item->quantity) {
+    //             return redirect()->route('cart.load')
+    //                 ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+    //         }
+    //         $finalPrice = $item->productVariant->product->price;
+    //         $productVariant = $item->productVariant;
+    //         $product = $item->productVariant->product;
+    //         if ($productVariant->stock_quantity < $item->quantity) {
+    //             return redirect()->route('cart.load')
+    //                 ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
+    //         }
+    //         // Tạo sản phẩm trong đơn hàng
+    //         OrderItem::create([
+    //             'order_id' => $order->id,
+    //             'product_variant_id' => $item->productVariant->id,
+    //             'quantity' => $item->quantity,
+    //             'price' => $finalPrice,
+    //         ]);
+
+    //         // Cập nhật tồn kho
+    //         $item->productVariant->decrement('stock_quantity', $item->quantity);
+    //     }
+    //     // Lưu các sản phẩm trong đơn hàng và cập nhật tồn kho
+
+
+    //     // Lưu thông tin sử dụng voucher nếu có
+    //     $voucherDiscount = session()->get('voucher_discount');
+    //     if ($voucherDiscount) {
+    //         DB::table('voucher_uses')->insert([
+    //             'user_id' => $user->id,
+    //             'voucher_id' => $voucherDiscount['voucher_id'],
+    //             'created_at' => now(),
+    //             'updated_at' => now(),
+    //         ]);
+    //     }
+
+    //     // Xóa các sản phẩm đã chọn trong giỏ hàng
+    //     $cart->cartItems()->whereIn('id', $orderData['selectedCartItemIds'])->delete();
+
+    //     // Xóa voucher khỏi session sau khi hoàn thành
+    //     session()->forget('voucher_discount');
+
+    //     // Chuyển hướng đến trang cảm ơn
+    //     return redirect()->route('thankyou')->with('success', 'Đặt hàng thành công.');
+    // }
+
+
+
     public function createOrderOnline($cart, $orderData)
     {
         $user = Auth::user();
@@ -453,7 +543,16 @@ class OrderController extends Controller
         // Tính tổng tiền sau khi trừ giảm giá và cộng phí giao hàng
         $finalTotal = $totalPrice - $discountAmount + 30000;
 
-        // Tạo đơn hàng
+        // **Bước 1: Kiểm tra tồn kho**
+        foreach ($selectedCartItems as $item) {
+            $productVariant = $item->productVariant;
+            if ($productVariant->stock_quantity < $item->quantity) {
+                return redirect()->route('cart.load')
+                    ->with('error', "{$item->productVariant->product->name} còn {$productVariant->stock_quantity} sản phẩm. Vui lòng kiểm tra lại giỏ hàng.");
+            }
+        }
+
+        // **Bước 2: Tạo đơn hàng**
         $order = Order::create([
             'user_id' => $user->id,
             'payment' => 2,  // Thanh toán online
@@ -466,45 +565,24 @@ class OrderController extends Controller
             'content_order' => $orderData['content_order'] ?? '',
         ]);
 
-        // Lưu các sản phẩm trong đơn hàng và cập nhật tồn kho
+        // **Bước 3: Lưu sản phẩm vào đơn hàng và cập nhật tồn kho**
         foreach ($selectedCartItems as $item) {
-            $product = $item->productVariant->product;
             $productVariant = $item->productVariant;
-            if ($productVariant->stock_quantity < $item->quantity) {
-                return redirect()->route('cart.load')
-                    ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
-            }
+
             $finalPrice = $item->productVariant->product->price;
-            $productVariant = $item->productVariant;
-            $product = $item->productVariant->product;
-            if ($productVariant->stock_quantity < $item->quantity) {
-                return redirect()->route('cart.load')
-                    ->with('error', "{$product->name} còn {$productVariant->stock_quantity} sản phẩm . Vui lòng kiểm tra lại giỏ hàng.");
-            }
+
             // Tạo sản phẩm trong đơn hàng
             OrderItem::create([
-                'order_id' => $order->id,
-                'product_variant_id' => $item->productVariant->id,
+                'order_id' => $order->id, // Sử dụng $order->id đã tạo ở trên
+                'product_variant_id' => $productVariant->id,
                 'quantity' => $item->quantity,
                 'price' => $finalPrice,
             ]);
 
             // Cập nhật tồn kho
-            $item->productVariant->decrement('stock_quantity', $item->quantity);
+            $productVariant->decrement('stock_quantity', $item->quantity);
         }
-
-        // Lưu thông tin sử dụng voucher nếu có
-        // $voucherDiscount = session()->get('voucher_discount');
-        // if ($voucherDiscount) {
-        //     DB::table('voucher_uses')->insert([
-        //         'user_id' => $user->id,
-        //         'voucher_id' => $voucherDiscount['voucher_id'],
-        //         'created_at' => now(),
-        //         'updated_at' => now(),
-        //     ]);
-        // }
-
-        // Xóa các sản phẩm đã chọn trong giỏ hàng
+// Xóa các sản phẩm đã chọn trong giỏ hàng
         $cart->cartItems()->whereIn('id', $orderData['selectedCartItemIds'])->delete();
 
         // Xóa voucher khỏi session sau khi hoàn thành
@@ -513,8 +591,6 @@ class OrderController extends Controller
         // Chuyển hướng đến trang cảm ơn
         return redirect()->route('thankyou')->with('success', 'Đặt hàng thành công.');
     }
-
-
 
 
 
@@ -718,26 +794,17 @@ class OrderController extends Controller
             if ($order->status == 'Vận chuyển') {
                 return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã vận chuyển .');
             }
-            if ($order->status == 'Chờ giao hàng') {
-                return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng chờ giao tới bạn .');
+            if ($order->status == 'Đang vận chuyển') {
+                return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đang vận chuyển .');
+            }
+            if ($order->status == 'Đã giao') {
+                return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã giao .');
+            }
+            if ($order->status == 'Đã xác nhận') {
+                return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã xác nhận .');
             }
             if ($order->status == 'Hoàn thành') {
                 return redirect()->route("orders.loadUser")->with('error_' . $order->id, 'Không thể huỷ đơn hàng đã hoàn thành .');
-            }
-            if ($order->status == 'Đã huỷ') {
-                dd($order->status == 'Đã huỷ');
-                // foreach ($order->orderItems as $orderItem) {
-                //     $productVariant = $orderItem->productVariant;
-                //     if ($productVariant) {
-                //         // Cộng lại số lượng kho
-                //         $productVariant->stock_quantity += $orderItem->quantity;
-                //         $productVariant->save();
-                //     } else {
-                //         // Nếu không có productVariant, thông báo lỗi
-                //         return redirect()->route("orders.loadUser")->with('error', 'Không tìm thấy biến thể sản phẩm.');
-                //     }
-                // }
-                return redirect()->route('admin.orders.index', ['status' => 'Đã huỷ'])->with('ok', 'Đơn hàng đã được hủy và số lượng sản phẩm đã được hoàn lại.');
             }
 
 
@@ -758,6 +825,20 @@ class OrderController extends Controller
             $order->cancel_reason = $request->input('cancel_reason.' . $order->id); // Lấy lý do huỷ cho từng đơn hàng
             // $order->save();
             // $order->cancel_reason = $request->cancel_reason;
+            // Duyệt qua tất cả các orderItems và cộng lại số lượng vào kho
+            foreach ($order->orderItems as $orderItem) {
+                $productVariant = $orderItem->productVariant;
+                if ($productVariant) {
+                    // Cộng lại số lượng vào kho của sản phẩm
+                    $productVariant->stock_quantity += $orderItem->quantity;
+
+                    // Lưu lại thay đổi
+                    $productVariant->save();
+                } else {
+                    // Nếu không tìm thấy productVariant, trả về lỗi
+                    return redirect()->route("orders.loadUser")->with('error', 'Không tìm thấy biến thể sản phẩm.');
+                }
+            }
             $order->status = 'Đã huỷ';
             $order->save();
 
@@ -805,41 +886,83 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Đơn hàng của bạn đã được khôi phục và đang chờ xác nhận.');
     }
 
+    // public function reorder($orderId)
+    // {
+    //     $order = Order::find($orderId);
+
+    //     // Kiểm tra nếu đơn hàng tồn tại
+    //     if ($order) {
+    //         // Tạo hoặc lấy giỏ hàng của người dùng
+    //         $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
+
+    //         // Lặp qua các sản phẩm trong đơn hàng và thêm chúng vào giỏ hàng
+    //         foreach ($order->orderItems as $item) {
+    //             // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
+    //             $existingItem = CartItem::where('cart_id', $cart->id)
+    //                 ->where('product_variant_id', $item->productVariant->id)
+    //                 ->first();
+
+    //             if ($existingItem) {
+    //                 // Nếu sản phẩm đã có trong giỏ hàng, chỉ cần tăng số lượng lên/-strong/-heart:>:o:-((:-h $existingItem->quantity += $item->quantity;
+    //                 $existingItem->save();
+    //             } else {
+    //                 // Nếu chưa có, tạo mới item trong giỏ hàng
+    //                 CartItem::create([
+    //                     'cart_id' => $cart->id,
+    //                     'product_variant_id' => $item->productVariant->id,
+    //                     'quantity' => $item->quantity,
+    //                     'price' => $item->productVariant->product->price,
+    //                 ]);
+    //             }
+    //         }
+
+    //         return redirect()->route('cart.load')->with('success', 'Đã thêm các sản phẩm vào giỏ hàng.');
+    //     }
+
+    //     return redirect()->route('orders.loadUser')->with('error', 'Đơn hàng không tồn tại.');
+    // }
     public function reorder($orderId)
-    {
-        $order = Order::find($orderId);
+{
+    // Lấy đơn hàng theo ID
+    $order = Order::find($orderId);
 
-        // Kiểm tra nếu đơn hàng tồn tại
-        if ($order) {
-            // Tạo hoặc lấy giỏ hàng của người dùng
-            $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
+    // Kiểm tra nếu đơn hàng tồn tại
+    if ($order) {
+        // Tạo hoặc lấy giỏ hàng của người dùng
+        $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
 
-            // Lặp qua các sản phẩm trong đơn hàng và thêm chúng vào giỏ hàng
-            foreach ($order->orderItems as $item) {
-                // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
-                $existingItem = CartItem::where('cart_id', $cart->id)
-                    ->where('product_variant_id', $item->productVariant->id)
-                    ->first();
+        // Lặp qua các sản phẩm trong đơn hàng và thêm chúng vào giỏ hàng
+        foreach ($order->orderItems as $item) {
+            // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
+            $existingItem = CartItem::where('cart_id', $cart->id)
+                ->where('product_variant_id', $item->productVariant->id)
+                ->first();
 
-                if ($existingItem) {
-                    // Nếu sản phẩm đã có trong giỏ hàng, chỉ cần tăng số lượng lên/-strong/-heart:>:o:-((:-h $existingItem->quantity += $item->quantity;
-                    $existingItem->save();
-                } else {
-                    // Nếu chưa có, tạo mới item trong giỏ hàng
-                    CartItem::create([
-                        'cart_id' => $cart->id,
-                        'product_variant_id' => $item->productVariant->id,
-                        'quantity' => $item->quantity,
-                        'price' => $item->productVariant->product->price,
-                    ]);
-                }
+            if ($existingItem) {
+                // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng lên
+                $existingItem->quantity += $item->quantity;
+
+                // Lưu lại sự thay đổi
+                $existingItem->save();
+            } else {
+                // Nếu chưa có, tạo mới item trong giỏ hàng
+                CartItem::create([
+                    'cart_id' => $cart->id,
+                    'product_variant_id' => $item->productVariant->id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->productVariant->product->price,
+                ]);
             }
-
-            return redirect()->route('cart.load')->with('success', 'Đã thêm các sản phẩm vào giỏ hàng.');
         }
 
-        return redirect()->route('orders.loadUser')->with('error', 'Đơn hàng không tồn tại.');
+        // Trả về thông báo thành công và chuyển hướng tới trang giỏ hàng
+        return redirect()->route('cart.load')->with('success', 'Đã thêm các sản phẩm vào giỏ hàng.');
     }
+
+    // Trả về thông báo lỗi nếu không tìm thấy đơn hàng
+    return redirect()->route('orders.loadUser')->with('error', 'Đơn hàng không tồn tại.');
+}
+
 
     // tìm kiếm đơn hàng
     public function search(Request $request)

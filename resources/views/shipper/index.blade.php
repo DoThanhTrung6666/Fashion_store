@@ -14,7 +14,7 @@
         <i class="fas fa-calendar-check"></i>
         <h3>Lịch Sử Giao Hàng</h3>
         <p>Xem lại tất cả lịch sử giao hàng của bạn, bao gồm thời gian và trạng thái hoàn thành.</p>
-        <a href="#" class="btn">Xem Lịch Sử</a>
+        <a href="{{route('shipper.listdonhoanthanh')}}" class="btn">Xem Lịch Sử</a>
     </div>
 
     {{-- <div class="icon-container">
@@ -44,7 +44,7 @@
         </div>
         <div class="stats-card">
             <h4>Tổng Thu Nhập</h4>
-            <p>1,200,000 VND</p>
+            <p>{{number_format($totalMoney)}} VND</p>
         </div>
     </div>
 

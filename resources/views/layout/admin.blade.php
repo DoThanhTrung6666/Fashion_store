@@ -402,7 +402,7 @@
                     </li> --}}
                     {{-- kết thúc quản lí  sale  --}}
                     {{-- quản lí flash sale --}}
-                    <li class="treeview">
+                    {{-- <li class="treeview">
                         <a href="{{ route('admin.sales.index') }}">
                             <i class="fas fa-bolt"></i>
                             <span>Quản lí Flash-Sale</span>
@@ -414,7 +414,7 @@
                             <li><a href="{{ route('admin.createFlashSale') }}"><i class="fa fa-circle-o"></i>Tạo
                                     Flash-Sale</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                     {{-- kết thúc quản lí flash sale  --}}
 
                     {{-- quản lí voucher --}}
@@ -458,7 +458,7 @@
                         </ul>
                     </li>
                     {{-- quản lí banner --}}
-                    <li class="treeview">
+                    {{-- <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-image"></i>
                             <span>Quản lí ảnh banner</span>
@@ -470,7 +470,7 @@
                             <li><a href="{{ route('admin.banners.create') }}"><i class="fa fa-circle-o"></i>Thêm </a>
                             </li>
                         </ul>
-                    </li>
+                    </li> --}}
                     <li class="treeview">
                         <a href="#">
                             <i class="nav-icon fas fa-image"></i>
@@ -502,11 +502,9 @@
         {{-- footer ở đây  --}}
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
+                <b></b>
             </div>
-            <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All
-            rights
-            reserved.
+            <strong>Fashion-Store &copy; 2024 <a href="http://almsaeedstudio.com"></a>.</strong>
         </footer>
 
     </div>

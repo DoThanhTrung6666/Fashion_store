@@ -36,7 +36,7 @@
             <a href="?tab=dagiao" class="tab {{ request('tab') == 'dagiao' ? 'active' : '' }}">Đã giao</a>
             <a href="?tab=completed" class="tab {{ request('tab') == 'completed' ? 'active' : '' }}">Hoàn thành</a>
             <a href="?tab=cancelled" class="tab {{ request('tab') == 'cancelled' ? 'active' : '' }}">Đã hủy</a>
-            <a href="?tab=return" class="tab {{ request('tab') == 'return' ? 'active' : '' }}">Trả hàng</a>
+            {{-- <a href="?tab=return" class="tab {{ request('tab') == 'return' ? 'active' : '' }}">Trả hàng</a> --}}
         </div>
 
         <div class="search-bar">
@@ -61,141 +61,155 @@
 
             {{-- Hiển thị thong tin tìm kiếm --}}
             @foreach ($orders as $order)
-                <div class="order-wrapper" style="margin-top: 20px">
-                    <div class="order-card">
-                        <div class="shop-info">
-                            <span class="shop-name">Mã đơn hàng : #{{ $order->id }}</span>
-                            <div class="shop-actions">
-                                {{-- <button class="chat-btn">Chat</button>
-                            <button class="view-shop-btn">Xem Shop</button> --}}
-                                <span class="discounted-price">Ngày đặt hàng :
-                                    {{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</span>
-                            </div>
-                        </div>
-
-                        @foreach ($order->orderItems as $item)
-                            <div class="order-info">
-                                <img src="{{ Storage::url($item->productVariant->image_variant) }}" alt="Bag Image" class="product-image">
-                                <div class="product-details">
-                                    <p class="product-name">{{ $item->productVariant->product->name }}</p>
-                                    <p class="product-variant">Phân loại hàng: Màu
-                                        {{ $item->productVariant->color->name }} , Kích cỡ
-                                        {{ $item->productVariant->size->name }}</p>
-                                    <p class="product-quantity">Số lượng : {{ $item->quantity }}x</p>
+                        <div class="order-wrapper" style="margin-top: 20px">
+                            <div class="order-card">
+                                <div class="shop-info">
+                                    <span class="shop-name">Mã đơn hàng : #{{ $order->id }}</span>
+                                    <div class="shop-actions">
+                                        {{-- <button class="chat-btn">Chat</button>
+                                    <button class="view-shop-btn">Xem Shop</button> --}}
+                                        <span class="discounted-price">Ngày đặt hàng :
+                                            {{ \Carbon\Carbon::parse($order->order_date)->format('d/m/Y') }}</span>
+                                    </div>
                                 </div>
 
+                                @foreach ($order->orderItems as $item)
+                                    <div class="order-info">
+                                        <img src="{{ Storage::url($item->productVariant->image_variant) }}" alt="Bag Image"
+                                            class="product-image">
+                                        <div class="product-details">
+                                            <p class="product-name">{{ $item->productVariant->product->name }}</p>
+                                            <p class="product-variant">Phân loại hàng: Màu
+                                                {{ $item->productVariant->color->name }} , Kích cỡ
+                                                {{ $item->productVariant->size->name }}</p>
+                                            <p class="product-quantity">Số lượng : {{ $item->quantity }}x</p>
+                                        </div>
 
-                                <div class="product-price">
-                                    <span
-                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
-                                    <span
-                                        class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
-                                    </span>
+
+                                        <div class="product-price">
+                                            {{-- <span
+                                                class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
+                                            <span
+                                                class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                @endforeach
+
+                                <div class="order-status">
+                                    {{-- <span class="status-label">Giao hàng thành công</span> --}}
+                                    <span class="status">Trang thái đơn hàng : {{ $order->status }}</span>
                                 </div>
-                            </div>
-                        @endforeach
+                                <div class="order-total">
+                                    <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>
+                                </div>
+                                <div class="order-actions">
+                                    @if ($order->status == 'Hoàn thành')
+                                        <span>
+                                            @if (session('error_' . $order->id))
+                                                <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                            @endif
+                                        </span>
 
-                        <div class="order-status">
-                            {{-- <span class="status-label">Giao hàng thành công</span> --}}
-                            <span class="status">Trang thái đơn hàng : {{ $order->status }}</span>
-                        </div>
-                        <div class="order-total">
-                            <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>
-                        </div>
-                        <div class="order-actions">
-                            @if ($order->status == 'Hoàn thành')
-                                <span>
-                                    @if (session('error_' . $order->id))
-                                        <p style="color: red">{{ session('error_' . $order->id) }}</p>
-                                    @endif
-                                </span>
-
-                                <form action="">
-                                    <button class="buy-again-btn" type="submit">Mua Lại</button>
-                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
-                                </form>
-                                <div class="dropdown">
-                                    <!-- Nút "Đánh giá Tất Cả" -->
-                                    <button class="btn btn-Light dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        bạn có hài lòng với sản phẩm?
-                                    </button>
-                                    @foreach ($order->orderItems as $item)
-                                        <!-- Menu dropdown sẽ hiển thị khi di chuột vào -->
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <form action="{{ route('orders.reorder', $order->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="buy-again-btn">Mua lại</button>
+                                        </form>
+                                        <div class="dropdown">
+                                            <!-- Nút "Đánh giá Tất Cả" -->
+                                            <button class="btn btn-Light dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                bạn có hài lòng với sản phẩm?
+                                            </button>
                                             @foreach ($order->orderItems as $item)
-                                                <li>
-                                                    <form
-                                                        action="{{ route('comment.form', ['productId' => $item->productVariant->product->id]) }}"
-                                                        method="GET">
-                                                        <button class="dropdown-item" type="submit">
-                                                            {{ $item->productVariant->product->name }}
-                                                        </button>
-                                                    </form>
-                                                </li>
+                                                <!-- Menu dropdown sẽ hiển thị khi di chuột vào -->
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    @foreach ($order->orderItems as $item)
+                                                        <li>
+                                                            <form
+                                                                action="{{ route('comment.form', ['productId' => $item->productVariant->product->id]) }}"
+                                                                method="GET">
+                                                                <button class="dropdown-item" type="submit">
+                                                                    {{ $item->productVariant->product->name }}
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
                                             @endforeach
-                                        </ul>
-                                    @endforeach
-                                </div>
+                                        </div>
 
-                            @elseif($order->status == 'Chờ xác nhận')
-                                {{-- <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
+                                @elseif($order->status == 'Chờ xác nhận')
+                                    {{-- <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
+                                        @csrf
+                                        <button class="buy-again-btn" type="submit">Huỷ đơn hàng</button>
+                                    </form> --}}
+                                    <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
+                                        @csrf
+                                        <select name="cancel_reason[{{ $order->id }}]" id="cancel_reason" style="height: 40px">
+                                            <option value="">Chọn lí do huỷ đơn</option>
+                                            <option value="Thay đổi phương thức thanh toán">Thay đổi phương thức thanh toán</option>
+                                            <option value="Thay đổi địa chỉ đặt hàng">Thay đổi địa chỉ đặt hàng</option>
+                                            <option value="Chọn nhầm sản phẩm">Chọn nhầm sản phẩm</option>
+                                            <option value="Không muốn mua nữa">Không muốn mua nữa</option>
+                                            <option value="Lý do khác">Lý do khác</option>
+                                        </select>
+                                        {{-- <input type="text" name="cancel_reason[{{ $order->id }}]" placeholder="Nhập lí do ở đây ..." style="border:none; height:35px" > --}}
+                                        <button class="buy-again-btn" type="submit">Huỷ đơn hàng</button>
+                                    </form>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button><br><br> --}}
+                                    {{-- @error('cancel_reason.' . $order->id)
+                                            <div class="text-danger">{{ $message }}</div>
+                                            <script>
+                                                alert('{{ $message }}');
+                                            </script>
+                                    @enderror --}}
+
+
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
+                                @elseif($order->status == 'Vận chuyển')
+                                    <span>
+                                        @if (session('error_' . $order->id))
+                                            <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                        @endif
+                                    </span>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
+                                @elseif($order->status == 'Đang vận chuyển')
+                                    <span>
+                                        @if (session('error_' . $order->id))
+                                            <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                        @endif
+                                    </span>
+                                @elseif($order->status == 'Đã giao')
+                                    <span>
+                                        @if (session('error_' . $order->id))
+                                            <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                        @endif
+                                    </span>
+                                @elseif($order->status == 'Đã xác nhận')
+                                    <span>
+                                        @if (session('error_' . $order->id))
+                                            <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                        @endif
+                                    </span>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
+                                @elseif($order->status == 'Đã huỷ')
+                                <span>
+                                    @if (session('success_' . $order->id))
+                                        <p style="color: green">{{ session('success_' . $order->id) }}</p>
+                                    @endif
+                                </span>
+                                <form action="{{ route('orders.reorder', $order->id) }}" method="POST">
                                     @csrf
-                                    <button class="buy-again-btn" type="submit">Huỷ đơn hàng</button>
-                                </form> --}}
-                                <form action="{{ route('orders.cancel', $order->id) }}" method="POST">
-                                    @csrf
-                                    <select name="cancel_reason[{{ $order->id }}]" id="cancel_reason" style="height: 40px">
-                                        <option value="">Chọn lí do huỷ đơn</option>
-                                        <option value="Thay đổi phương thức thanh toán">Thay đổi phương thức thanh toán</option>
-                                        <option value="Thay đổi địa chỉ đặt hàng">Thay đổi địa chỉ đặt hàng</option>
-                                        <option value="Chọn nhầm sản phẩm">Chọn nhầm sản phẩm</option>
-                                        <option value="Vấn đề thanh toán">Vấn đề thanh toán</option>
-                                        <option value="Lý do khác">Lý do khác</option>
-                                    </select>
-                                    {{-- <input type="text" name="cancel_reason[{{ $order->id }}]" placeholder="Nhập lí do ở đây ..." style="border:none; height:35px" > --}}
-                                    <button class="buy-again-btn" type="submit">Huỷ đơn hàng</button>
+                                    <button type="submit" class="buy-again-btn">Mua lại</button>
                                 </form>
-                                <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button><br><br>
-                                @error('cancel_reason.' . $order->id)
-                                        {{-- <div class="text-danger">{{ $message }}</div> --}}
-                                        <script>
-                                            alert('{{ $message }}');
-                                        </script>
-                                @enderror
-
-
-                            {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
-                            @elseif($order->status == 'Vận chuyển')
-                                <span>
-                                    @if (session('error_' . $order->id))
-                                        <p style="color: red">{{ session('error_' . $order->id) }}</p>
-                                    @endif
-                                </span>
-                                <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
-                            @elseif($order->status == 'Chờ giao hàng')
-                                <span>
-                                    @if (session('error_' . $order->id))
-                                        <p style="color: red">{{ session('error_' . $order->id) }}</p>
-                                    @endif
-                                </span>
-                                <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
-                            @elseif($order->status == 'Đã huỷ')
-                            <span>
-                                @if (session('success_' . $order->id))
-                                    <p style="color: red">{{ session('success_' . $order->id) }}</p>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                 @endif
-                            </span>
-                            <form action="{{ route('orders.reorder', $order->id) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="buy-again-btn">Mua lại</button>
-                            </form>
-                                <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
-                            @endif
-                    </div>
-                    </div>
-                </div>
-            @endforeach
+                        </div>
+                        </div>
+                        </div>
+                    @endforeach
 
 
             {{-- dành cho không tìm kiếm --}}
@@ -254,9 +268,9 @@
                                             @endif
                                         </span>
 
-                                        <form action="">
-                                            <button class="buy-again-btn" type="submit">Mua Lại</button>
-                                            <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                        <form action="{{ route('orders.reorder', $order->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="buy-again-btn">Mua lại</button>
                                         </form>
                                         <div class="dropdown">
                                             <!-- Nút "Đánh giá Tất Cả" -->
@@ -300,7 +314,7 @@
                                         {{-- <input type="text" name="cancel_reason[{{ $order->id }}]" placeholder="Nhập lí do ở đây ..." style="border:none; height:35px" > --}}
                                         <button class="buy-again-btn" type="submit">Huỷ đơn hàng</button>
                                     </form>
-                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button><br><br>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button><br><br> --}}
                                     @error('cancel_reason.' . $order->id)
                                             {{-- <div class="text-danger">{{ $message }}</div> --}}
                                             <script>
@@ -316,25 +330,37 @@
                                             <p style="color: red">{{ session('error_' . $order->id) }}</p>
                                         @endif
                                     </span>
-                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
-                                @elseif($order->status == 'Chờ giao hàng')
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
+                                @elseif($order->status == 'Đang vận chuyển')
                                     <span>
                                         @if (session('error_' . $order->id))
                                             <p style="color: red">{{ session('error_' . $order->id) }}</p>
                                         @endif
                                     </span>
-                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                @elseif($order->status == 'Đã giao')
+                                    <span>
+                                        @if (session('error_' . $order->id))
+                                            <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                        @endif
+                                    </span>
+                                @elseif($order->status == 'Đã xác nhận')
+                                    <span>
+                                        @if (session('error_' . $order->id))
+                                            <p style="color: red">{{ session('error_' . $order->id) }}</p>
+                                        @endif
+                                    </span>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                 @elseif($order->status == 'Đã huỷ')
                                 <span>
                                     @if (session('success_' . $order->id))
-                                        <p style="color: red">{{ session('success_' . $order->id) }}</p>
+                                        <p style="color: green">{{ session('success_' . $order->id) }}</p>
                                     @endif
                                 </span>
                                 <form action="{{ route('orders.reorder', $order->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="buy-again-btn">Mua lại</button>
                                 </form>
-                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                 @endif
                         </div>
                         </div>
@@ -371,8 +397,8 @@
                                             </div>
                                             <div class="product-price">
                                                 <div class="product-price">
-                                                    <span
-                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    {{-- <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                                     <span
                                                         class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                                     </span>
@@ -408,7 +434,7 @@
                                             {{-- <input type="text" name="cancel_reason[{{ $order->id }}]" placeholder="Nhập lí do ở đây ..." style="border:none; height:35px" > --}}
                                             <button class="buy-again-btn" type="submit">Huỷ đơn hàng</button>
                                         </form>
-                                        <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                        {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                         @error('cancel_reason.' . $order->id)
                                             {{-- <div class="text-danger">{{ $message }}</div> --}}
                                             <script>
@@ -469,7 +495,7 @@
                                     <span>Thành tiền: <b>{{ number_format($order->total_amount, 0, ',', '.') }}đ</b></span>
                                 </div>
                                 <div class="order-actions">
-                                    <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                    {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                 </div>
                             </div>
                         </div>
@@ -505,8 +531,8 @@
                                             </div>
                                             <div class="product-price">
                                                 <div class="product-price">
-                                                    <span
-                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    {{-- <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                                     <span
                                                         class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                                     </span>
@@ -525,7 +551,7 @@
                                     <div class="order-actions">
                                         <form action="">
                                             {{-- <button class="buy-again-btn" type="submit">Mua Lại</button> --}}
-                                            <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                            {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                         </form>
                                     </div>
                                 </div>
@@ -562,8 +588,8 @@
                                             </div>
                                             <div class="product-price">
                                                 <div class="product-price">
-                                                    <span
-                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    {{-- <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                                     <span
                                                         class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                                     </span>
@@ -582,7 +608,7 @@
                                     <div class="order-actions">
                                         <form action="">
                                             {{-- <button class="buy-again-btn" type="submit">Mua Lại</button> --}}
-                                            <button class="contact-seller-btn" type="submit">Liên hệ với người bán</button>
+                                            {{-- <button class="contact-seller-btn" type="submit">Liên hệ với người bán</button> --}}
                                         </form>
                                     </div>
                                 </div>
@@ -619,8 +645,8 @@
                                             </div>
                                             <div class="product-price">
                                                 <div class="product-price">
-                                                    <span
-                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    {{-- <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                                     <span
                                                         class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                                     </span>
@@ -677,8 +703,8 @@
                                             </div>
                                             <div class="product-price">
                                                 <div class="product-price">
-                                                    <span
-                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    {{-- <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                                     <span
                                                         class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                                     </span>
@@ -702,7 +728,7 @@
                                             @csrf
                                             <button type="submit" class="buy-again-btn">Mua lại</button>
                                         </form>
-                                        <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                        {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                         <div class="dropdown">
                                             <!-- Nút "Đánh giá Tất Cả" -->
                                             <button class="btn btn-Light dropdown-toggle" type="button"
@@ -764,8 +790,8 @@
                                             </div>
                                             <div class="product-price">
                                                 <div class="product-price">
-                                                    <span
-                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span>
+                                                    {{-- <span
+                                                        class="original-price">{{ number_format($item->productVariant->product->price, 0, ',', '.') }}đ</span> --}}
                                                     <span
                                                         class="discounted-price">{{ number_format($item->price, 0, ',', '.') }}đ
                                                     </span>
@@ -788,7 +814,7 @@
                                         </form>
                                         {{-- <form action="">
                                             <button class="buy-again-btn" type="submit">Mua Lại</button> --}}
-                                            <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button>
+                                            {{-- <button class="contact-seller-btn" type="submit">Liên Hệ Người Bán</button> --}}
                                         {{-- </form> --}}
 
                                     </div>
@@ -863,4 +889,23 @@
         }
     </style>
     </section>
+    <script>
+        @if (session('alert'))
+            Swal.fire({
+                title: 'Thông báo',
+                text: "{{ session('alert') }}",
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+        @endif
+
+        @if (session('success'))
+            Swal.fire({
+                title: 'Thành công',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
 @endsection

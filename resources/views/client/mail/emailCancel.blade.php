@@ -46,11 +46,11 @@
             <p><strong>Mã đơn hàng:</strong> {{ $order->id }}</p>
             <p><strong>Sản phẩm:</strong></p>
             <ul>
-                {{-- @foreach($order->orderItems as $item)
+                @foreach($order->orderItems as $item)
                     <li>
-                        {{ $item['orderItems']->productVariant->product->name }} (x{{ $item['orderItems']->quantity }}) - {{ number_format($item['orderItems']->price, 0) }} VND
+                        {{ $item->productVariant->product->name }} (x{{ $item->quantity }}) - {{ number_format($item->price, 0) }} VND
                     </li>
-                @endforeach --}}
+                @endforeach
             </ul>
             <p><strong>Tổng tiền:</strong> {{$order->total_amount }} VND</p>
             <p><strong>Địa chỉ giao hàng:</strong> {{$order->address_order }}</p>

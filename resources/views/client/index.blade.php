@@ -83,21 +83,80 @@
     <div class="home-slider margin-bottom-0">
 
         <!-- Slide -->
-        @foreach ($sliderBanners as $sliderBanner)
-            <div class="home-slider-container" style="position: relative;">
-                <img src="{{ asset('storage/' . $sliderBanner->image_path) }}" alt="{{ $sliderBanner->title }}" width="1520px"
-                    height="745px">
-                <div class="home-slider-desc"
-                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                    <div class="home-slider-title mb-4">
-                        <h5 class="theme-cl fs-sm ft-ragular mb-0">Bộ sưu tập mùa đông</h5>
-                        <h1 class="mb-1 ft-bold lg-heading">New Winter<br>Mùa đông 2024</h1>
-                    </div>
-                    <a href="{{ route('danhmucsp') }}" class="btn stretched-link borders">Xem thêm<i
-                            class="lni lni-arrow-right ml-2"></i></a>
-                </div>
-            </div>
-        @endforeach
+       <!-- Slide -->
+				<div data-background-image="{{ asset('assets/img/bannershop.jpg')}}" class="item">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="home-slider-container">
+
+									<!-- Slide Title -->
+									<div class="home-slider-desc">
+										{{-- <div class="home-slider-title mb-4">
+											<h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
+											<h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
+											<span class="trending">There's nothing like trend</span>
+										</div>
+
+										<a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a> --}}
+									</div>
+									<!-- Slide Title / End -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Slide -->
+				<div data-background-image="{{ asset('assets/img/bannershop1.jpg')}}" class="item">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="home-slider-container">
+
+									<!-- Slide Title -->
+									{{-- <div class="home-slider-desc">
+										<div class="home-slider-title mb-4">
+											<h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
+											<h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
+											<span class="trending">There's nothing like trend</span>
+										</div>
+
+										<a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+									</div> --}}
+									<!-- Slide Title / End -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Slide -->
+				<div data-background-image="{{ asset('assets/img/bannershop.jpg')}}" class="item">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="home-slider-container">
+
+									<!-- Slide Title -->
+									{{-- <div class="home-slider-desc">
+										<div class="home-slider-title mb-4">
+											<h5 class="theme-cl fs-sm ft-ragular mb-0">Winter Collection</h5>
+											<h1 class="mb-1 ft-bold lg-heading">New Winter<br>Collections 2021</h1>
+											<span class="trending">There's nothing like trend</span>
+										</div>
+
+										<a href="#" class="btn stretched-link borders">Shop Now<i class="lni lni-arrow-right ml-2"></i></a>
+									</div> --}}
+									<!-- Slide Title / End -->
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 
 
@@ -351,7 +410,7 @@
                                                     });
                                                 @endphp
 
-                                                @if ($flashSaleItem)
+                                                {{-- @if ($flashSaleItem)
                                                     <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
                                                     <div
                                                         class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
@@ -362,7 +421,7 @@
                                                     <div
                                                         class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
                                                     </div>
-                                                @endif
+                                                @endif --}}
                                                 <div class="card-body p-0">
                                                     <div class="shop_thumb position-relative">
                                                         <a class="card-img-top d-block overflow-hidden"
@@ -477,7 +536,7 @@
                                                                 $item->flashSale->end_time >= now();
                                                         });
                                                     @endphp
-                                                    @if ($flashSaleItem)
+                                                    {{-- @if ($flashSaleItem)
                                                         <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
                                                         <div
                                                             class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
@@ -488,7 +547,7 @@
                                                         <div
                                                             class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
                                                         </div>
-                                                    @endif
+                                                    @endif --}}
                                                     {{-- <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">Sale</div> --}}
                                                     <div class="card-body p-0">
                                                         <div class="shop_thumb position-relative">
@@ -598,7 +657,7 @@
                                         $item->flashSale->end_time >= now();
                                 });
                             @endphp
-                            @if ($flashSaleItem)
+                            {{-- @if ($flashSaleItem)
                                 <!-- Hiển thị badge giảm giá nếu có flash sale đang diễn ra -->
                                 <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
                                     {{ number_format($flashSaleItem->flashSale->sale->discount_percentage) }}%
@@ -607,7 +666,7 @@
                                 <!-- Không có flash sale hoặc không đang diễn ra -->
                                 <div class="badge bg-info text-white position-absolute ft-regular ab-left text-upper">
                                 </div>
-                            @endif
+                            @endif --}}
                             {{-- <div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper"></div> --}}
                             <div class="card-body p-0">
                                 <div class="shop_thumb position-relative">

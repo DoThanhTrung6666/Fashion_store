@@ -12,7 +12,7 @@
         <!-- Custom CSS -->
         <link href="{{ asset('assets/css/styles.css')}}" rel="stylesheet">
         <link href="{{ asset('dist/css/SizeColorStatus.css')}}" rel="stylesheet" type="text/css" />
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
     <body>
@@ -156,12 +156,12 @@
                                         </a>
                                         @endif
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a href="{{route('getFlashSaleHome')}}">
                                             <i class="fas fa-bolt" style="color: red;"></i>
-                                            {{-- <span class="dn-counter">2</span> --}}
+                                            <span class="dn-counter">2</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
                                         <a href="{{route('cart.load')}}">
@@ -302,12 +302,12 @@
 								</li>
                                 @endif
                                 {{-- flash-sale  --}}
-								<li>
+								{{-- <li>
 									<a href="{{route('getFlashSaleHome')}}">
 										<i class="fas fa-bolt" style="color: red;"></i>
-                                        {{-- <span class="dn-counter">2</span> --}}
+                                        <span class="dn-counter">2</span>
 									</a>
-								</li>
+								</li> --}}
                                 {{-- Giỏ hàng --}}
 								<li>
                                     {{-- <a href="{{route('cart.load')}}" onclick="openCart()"> --}}
@@ -344,15 +344,15 @@
 
 							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
 								<div class="footer_widget">
-									<img src="assets/img/logo-light.png" class="img-footer small mb-2" alt="" />
-
-									<div class="address mt-3">
+									{{-- <img src="assets/img/logo-light.png" class="img-footer small mb-2" alt="" /> --}}
+                                    FASHION-STORE
+									{{-- <div class="address mt-3">
 										3298 Grant Street Longview, TX<br>United Kingdom 75601
-									</div>
-									<div class="address mt-3">
+									</div> --}}
+									{{-- <div class="address mt-3">
 										1-202-555-0106<br>help@shopper.com
-									</div>
-									<div class="address mt-3">
+									</div> --}}
+									{{-- <div class="address mt-3">
 										<ul class="list-inline">
 											<li class="list-inline-item"><a href="#"><i class="lni lni-facebook-filled"></i></a></li>
 											<li class="list-inline-item"><a href="#"><i class="lni lni-twitter-filled"></i></a></li>
@@ -360,40 +360,40 @@
 											<li class="list-inline-item"><a href="#"><i class="lni lni-instagram-filled"></i></a></li>
 											<li class="list-inline-item"><a href="#"><i class="lni lni-linkedin-original"></i></a></li>
 										</ul>
-									</div>
+									</div> --}}
 								</div>
 							</div>
 
 							<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
 								<div class="footer_widget">
-									<h4 class="widget_title">Supports</h4>
+									<h4 class="widget_title">Danh mục</h4>
 									<ul class="footer-menu">
-										<li><a href="#">Contact Us</a></li>
-										<li><a href="#">About Page</a></li>
-										<li><a href="#">Size Guide</a></li>
-										<li><a href="#">Shipping & Returns</a></li>
-										<li><a href="#">FAQ's Page</a></li>
-										<li><a href="#">Privacy</a></li>
+										<li><a href="#">Quần âu</a></li>
+										<li><a href="#">Áo sơ mi</a></li>
+										<li><a href="#">Áo len</a></li>
+										<li><a href="#">Áo khoác</a></li>
+										<li><a href="#">Áo Polo</a></li>
+										{{-- <li><a href="#">Privacy</a></li> --}}
 									</ul>
 								</div>
 							</div>
 
 							<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
 								<div class="footer_widget">
-									<h4 class="widget_title">Shop</h4>
+									<h4 class="widget_title">Fashion Store</h4>
 									<ul class="footer-menu">
-										<li><a href="#">Men's Shopping</a></li>
-										<li><a href="#">Women's Shopping</a></li>
-										<li><a href="#">Kids's Shopping</a></li>
-										<li><a href="#">Furniture</a></li>
-										<li><a href="#">Discounts</a></li>
+										<li><a href="#">Thời trang xu hướng</a></li>
+										<li><a href="#">Sản phẩm hot tren</a></li>
+										<li><a href="#">Mẫu mới 2024</a></li>
+										<li><a href="#"></a></li>
+										<li><a href="#">P205</a></li>
 									</ul>
 								</div>
 							</div>
 
 							<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12">
 								<div class="footer_widget">
-									<h4 class="widget_title">Company</h4>
+									<h4 class="widget_title">FPOLY</h4>
 									<ul class="footer-menu">
 										<li><a href="#">About</a></li>
 										<li><a href="#">Blog</a></li>
@@ -430,7 +430,7 @@
 					<div class="container">
 						<div class="row align-items-center">
 							<div class="col-lg-12 col-md-12 text-center">
-								<p class="mb-0">© 2021 Kumo. Designd By <a href="https://themezhub.com/">ThemezHub</a>.</p>
+								<p class="mb-0">© 2024 Fashion-Store <a href="https://themezhub.com/"></a></p>
 							</div>
 						</div>
 					</div>
